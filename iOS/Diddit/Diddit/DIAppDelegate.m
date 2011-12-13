@@ -1,8 +1,8 @@
 //
 //  DIAppDelegate.m
-//  DidIt
+//  Diddit
 //
-//  Created by Matthew Holcombe on 12.12.11.
+//  Created by Matthew Holcombe on 12.13.11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -45,7 +45,7 @@
 	// Override point for customization after application launch.
 	return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
 	/*
@@ -103,7 +103,7 @@
 
 
 -(void)dealloc {
-
+	[super dealloc];
 }
 
 @end
