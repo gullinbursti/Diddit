@@ -21,8 +21,8 @@
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
-	NSString *testJobsPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testJobsPath] options:NSPropertyListImmutable format:nil error:nil];
+	NSString *testChoresPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoresPath] options:NSPropertyListImmutable format:nil error:nil];
 	
 	NSMutableArray *chores = [[NSMutableArray alloc] init];
 	for (NSDictionary *dict in plist)
@@ -43,8 +43,6 @@
 	[self.window setRootViewController:rootNavigationController];
 	[self.window makeKeyAndVisible];
 	
-	
-	// Override point for customization after application launch.
 	return YES;
 }
 
@@ -61,6 +59,11 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+}
+
+
+-(void)dealloc {
+	[super dealloc];
 }
 
 
@@ -83,8 +86,5 @@
 } 
 
 
--(void)dealloc {
-	[super dealloc];
-}
 
 @end

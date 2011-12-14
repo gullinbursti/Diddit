@@ -12,13 +12,10 @@
 
 + (DIChore *)choreWithDictionary:(NSDictionary *)dictionary;
 
--(NSString *)price;
-
 @property(nonatomic, retain) NSDictionary *dictionary;
-
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
-@property(nonatomic, retain) NSDecimalNumber *worth;
+@property(nonatomic) int points;
 @property (nonatomic, retain) NSString *icoPath;
 
 @end

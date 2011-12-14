@@ -13,7 +13,7 @@
 @synthesize dictionary;
 @synthesize title;
 @synthesize info;
-@synthesize worth;
+@synthesize points;
 @synthesize icoPath;
 
 
@@ -24,14 +24,10 @@
 	
 	chore.title = [dictionary objectForKey:@"title"];
 	chore.info = [dictionary objectForKey:@"info"];
-	chore.worth = [dictionary objectForKey:@"worth"];
+	chore.points = [[dictionary objectForKey:@"points"] intValue];
 	chore.icoPath = [dictionary objectForKey:@"icoPath"];
 	
 	return (chore);
-}
-
--(NSString *)price {
-	return (([self.worth integerValue] >= 0.0) ? [NSNumberFormatter localizedStringFromNumber:self.worth numberStyle:NSNumberFormatterCurrencyStyle] : @"Free");
 }
 
 @end

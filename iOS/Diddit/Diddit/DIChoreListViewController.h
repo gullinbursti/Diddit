@@ -12,6 +12,7 @@
 	
 	UITableView *_myChoresTableView;
 	NSMutableArray *_chores;
+	NSMutableArray *_choreTypes;
 	
 	UILabel *_headerLabel;
 	

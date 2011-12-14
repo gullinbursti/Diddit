@@ -11,8 +11,12 @@
 #import "DIChoreListViewController.h"
 
 #import "DIAddChoreViewController.h"
+#import "DICreditsViewController.h"
 #import "DISettingsViewController.h"
+#import "DIAchievementsViewController.h"
 #import "DIMyChoresViewCell.h"
+
+#import "DIChoreType.h"
 
 @implementation DIChoreListViewController
 
@@ -22,6 +26,7 @@
 	if ((self = [super init])) {
 		
 		_chores = [[NSMutableArray alloc] init];
+		_choreTypes = [[NSMutableArray alloc] init];
 		
 		_headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)];
 		_headerLabel.textAlignment = UITextAlignmentCenter;
@@ -34,15 +39,15 @@
 		self.navigationItem.titleView = _headerLabel;
 		
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		backButton.frame = CGRectMake(0, 0, 60.0, 30);
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
-		backButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
-		//backButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-		[backButton setTitle:@"" forState:UIControlStateNormal];
-		//[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		UIButton *achievementsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		achievementsButton.frame = CGRectMake(0, 0, 60.0, 30);
+		[achievementsButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
+		[achievementsButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
+		achievementsButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
+		//achievementsButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
+		[achievementsButton setTitle:@"Achievements" forState:UIControlStateNormal];
+		[achievementsButton addTarget:self action:@selector(_goAchievements) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:achievementsButton] autorelease];
 		
 		
 		UIButton *allowanceButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -52,9 +57,8 @@
 		allowanceButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
 		//allowanceButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
 		[allowanceButton setTitle:@"$$" forState:UIControlStateNormal];
-		//[allowanceButton addTarget:self action:@selector(_goShare) forControlEvents:UIControlEventTouchUpInside];
+		[allowanceButton addTarget:self action:@selector(_goAllowance) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:allowanceButton] autorelease];
-		
 	}
 	
 	return (self);
@@ -152,13 +156,31 @@
 
 #pragma mark - Button Handlers
 
+-(void)_goAchievements {
+	NSString *testChoresPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoresPath] options:NSPropertyListImmutable format:nil error:nil];
+	
+	NSMutableArray *chores = [[NSMutableArray alloc] init];
+	for (NSDictionary *dict in plist)
+		[chores addObject:[DIChore choreWithDictionary:dict]];
+	
+	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithChores:chores] autorelease] animated:YES];
+}
+
 -(void)_goSettings {
 	[self.navigationController pushViewController:[[[DISettingsViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goAddChore {
 	
-	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] init] autorelease];
+	NSString *testChoreTypesPath = [[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoreTypesPath] options:NSPropertyListImmutable format:nil error:nil];
+	
+	NSMutableArray *choreTypes = [[NSMutableArray alloc] init];
+	for (NSDictionary *dict in plist)
+		[choreTypes addObject:[DIChoreType choreTypeWithDictionary:dict]];
+	
+	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] initWithChoreTypes:choreTypes] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
@@ -167,8 +189,19 @@
 	
 }
 
-#pragma mark - Table view data source
 
+-(void)_goAllowance {
+	NSString *testChoresPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoresPath] options:NSPropertyListImmutable format:nil error:nil];
+	
+	NSMutableArray *chores = [[NSMutableArray alloc] init];
+	for (NSDictionary *dict in plist)
+		[chores addObject:[DIChore choreWithDictionary:dict]];
+	
+	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithChores:chores] autorelease] animated:YES];
+}
+
+#pragma mark - TableView Data Source Delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return ([_chores count] + 1);
 }
@@ -194,7 +227,7 @@
 	return nil;
 }
 
-#pragma mark - Table view delegate
+#pragma mark - TableView Delegates
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	// Navigation logic may go here. Create and push another view controller.
 	

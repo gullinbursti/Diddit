@@ -11,12 +11,11 @@
 		<string>Wash Car</string>
 		<key>info</key>
 		<string></string>
-		<key>icoPath</key>
+		<key>imgPath</key>
 		<string>kanye_banner.png</string>
 		<key>points</key>
 		<integer>750</integer>
 	</dict>
-	
 	<dict>
 		<key>id</key>
 		<integer>2</integer>
@@ -26,12 +25,11 @@
 		<string>Wash Dishes</string>
 		<key>info</key>
 		<string></string>
-		<key>icoPath</key>
+		<key>imgPath</key>
 		<string>kanye_banner.png</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
-	
 	<dict>
 		<key>id</key>
 		<integer>3</integer>
@@ -41,12 +39,11 @@
 		<string>Clean Room</string>
 		<key>info</key>
 		<string></string>
-		<key>icoPath</key>
+		<key>imgPath</key>
 		<string>kanye_banner.png</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
-	
 	<dict>
 		<key>id</key>
 		<integer>4</integer>
@@ -56,12 +53,11 @@
 		<string>Mow Lawn</string>
 		<key>info</key>
 		<string></string>
-		<key>icoPath</key>
-		<string>kanye_banner.png</string>
+		<key>imgPath</key>
+		<string>type_mowlawn.jpg</string>
 		<key>points</key>
 		<integer>1000</integer>
 	</dict>
-	
 	<dict>
 		<key>id</key>
 		<integer>5</integer>
@@ -71,12 +67,11 @@
 		<string>Take Out Trash</string>
 		<key>info</key>
 		<string></string>
-		<key>icoPath</key>
+		<key>imgPath</key>
 		<string>kanye_banner.png</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
-	
 	<dict>
 		<key>id</key>
 		<integer>6</integer>
@@ -86,7 +81,7 @@
 		<string>Walk Dog</string>
 		<key>info</key>
 		<string></string>
-		<key>icoPath</key>
+		<key>imgPath</key>
 		<string>kanye_banner.png</string>
 		<key>points</key>
 		<integer>500</integer>

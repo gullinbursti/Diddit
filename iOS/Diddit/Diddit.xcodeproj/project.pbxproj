@@ -54,6 +54,14 @@
 		4CFE841F1497DA220032F12D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE841E1497DA220032F12D /* libxml2.dylib */; };
 		4CFE84261498373A0032F12D /* test_chores.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE84251498373A0032F12D /* test_chores.plist */; };
 		4CFE8428149838590032F12D /* test_choreTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE8427149838590032F12D /* test_choreTypes.plist */; };
+		4CFE842B14983ED60032F12D /* DIChoreType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE842A14983ED60032F12D /* DIChoreType.m */; };
+		4CFE842E149841F90032F12D /* DIChoreTypeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE842D149841F80032F12D /* DIChoreTypeViewCell.m */; };
+		4CFE84301498493A0032F12D /* type_mowlawn.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE842F1498493A0032F12D /* type_mowlawn.jpg */; };
+		4CFE843314984A4F0032F12D /* DIConfirmChoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE843214984A4E0032F12D /* DIConfirmChoreViewController.m */; };
+		4CFE843514984E7B0032F12D /* mowlawn.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE843414984E7B0032F12D /* mowlawn.jpg */; };
+		4CFE843814984F700032F12D /* DICreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE843714984F6F0032F12D /* DICreditsViewController.m */; };
+		4CFE843B149850CA0032F12D /* DICreditsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE843A149850C90032F12D /* DICreditsViewCell.m */; };
+		4CFE8446149873380032F12D /* DIAchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE8445149873380032F12D /* DIAchievementsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,6 +139,20 @@
 		4CFE841E1497DA220032F12D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		4CFE84251498373A0032F12D /* test_chores.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_chores.plist; sourceTree = "<group>"; };
 		4CFE8427149838590032F12D /* test_choreTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_choreTypes.plist; sourceTree = "<group>"; };
+		4CFE842914983ED60032F12D /* DIChoreType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreType.h; sourceTree = "<group>"; };
+		4CFE842A14983ED60032F12D /* DIChoreType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreType.m; sourceTree = "<group>"; };
+		4CFE842C149841F80032F12D /* DIChoreTypeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreTypeViewCell.h; sourceTree = "<group>"; };
+		4CFE842D149841F80032F12D /* DIChoreTypeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreTypeViewCell.m; sourceTree = "<group>"; };
+		4CFE842F1498493A0032F12D /* type_mowlawn.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = type_mowlawn.jpg; sourceTree = "<group>"; };
+		4CFE843114984A4E0032F12D /* DIConfirmChoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIConfirmChoreViewController.h; sourceTree = "<group>"; };
+		4CFE843214984A4E0032F12D /* DIConfirmChoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIConfirmChoreViewController.m; sourceTree = "<group>"; };
+		4CFE843414984E7B0032F12D /* mowlawn.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mowlawn.jpg; sourceTree = "<group>"; };
+		4CFE843614984F6F0032F12D /* DICreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DICreditsViewController.h; sourceTree = "<group>"; };
+		4CFE843714984F6F0032F12D /* DICreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DICreditsViewController.m; sourceTree = "<group>"; };
+		4CFE8439149850C90032F12D /* DICreditsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DICreditsViewCell.h; sourceTree = "<group>"; };
+		4CFE843A149850C90032F12D /* DICreditsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DICreditsViewCell.m; sourceTree = "<group>"; };
+		4CFE8444149873380032F12D /* DIAchievementsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievementsViewController.h; sourceTree = "<group>"; };
+		4CFE8445149873380032F12D /* DIAchievementsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievementsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,14 +219,26 @@
 				4CFE83A11497D87D0032F12D /* DIAppDelegate.m */,
 				4CFE84071497D9020032F12D /* DIChore.h */,
 				4CFE84081497D9020032F12D /* DIChore.m */,
+				4CFE842914983ED60032F12D /* DIChoreType.h */,
+				4CFE842A14983ED60032F12D /* DIChoreType.m */,
 				4CFE84091497D9020032F12D /* DIChoreListViewController.h */,
 				4CFE840A1497D9020032F12D /* DIChoreListViewController.m */,
-				4CFE840B1497D9020032F12D /* DIMyChoresViewCell.h */,
-				4CFE840C1497D9020032F12D /* DIMyChoresViewCell.m */,
+				4CFE843614984F6F0032F12D /* DICreditsViewController.h */,
+				4CFE843714984F6F0032F12D /* DICreditsViewController.m */,
 				4CFE84051497D9020032F12D /* DIAddChoreViewController.h */,
 				4CFE84061497D9020032F12D /* DIAddChoreViewController.m */,
+				4CFE843114984A4E0032F12D /* DIConfirmChoreViewController.h */,
+				4CFE843214984A4E0032F12D /* DIConfirmChoreViewController.m */,
+				4CFE8444149873380032F12D /* DIAchievementsViewController.h */,
+				4CFE8445149873380032F12D /* DIAchievementsViewController.m */,
 				4CFE840D1497D9020032F12D /* DISettingsViewController.h */,
 				4CFE840E1497D9020032F12D /* DISettingsViewController.m */,
+				4CFE840B1497D9020032F12D /* DIMyChoresViewCell.h */,
+				4CFE840C1497D9020032F12D /* DIMyChoresViewCell.m */,
+				4CFE842C149841F80032F12D /* DIChoreTypeViewCell.h */,
+				4CFE842D149841F80032F12D /* DIChoreTypeViewCell.m */,
+				4CFE8439149850C90032F12D /* DICreditsViewCell.h */,
+				4CFE843A149850C90032F12D /* DICreditsViewCell.m */,
 				4CFE83981497D87D0032F12D /* Supporting Files */,
 			);
 			path = Diddit;
@@ -309,6 +343,8 @@
 		4CFE83D81497D8DA0032F12D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4CFE843414984E7B0032F12D /* mowlawn.jpg */,
+				4CFE842F1498493A0032F12D /* type_mowlawn.jpg */,
 				4CFE8427149838590032F12D /* test_choreTypes.plist */,
 				4CFE84251498373A0032F12D /* test_chores.plist */,
 				4CFE83D91497D8DA0032F12D /* active_headerButton.png */,
@@ -356,6 +392,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Sparkle Mountain";
 			};
 			buildConfigurationList = 4CFE83871497D87D0032F12D /* Build configuration list for PBXProject "Diddit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -396,6 +433,8 @@
 				4CFE84041497D8DA0032F12D /* smallChevron@2x.png in Resources */,
 				4CFE84261498373A0032F12D /* test_chores.plist in Resources */,
 				4CFE8428149838590032F12D /* test_choreTypes.plist in Resources */,
+				4CFE84301498493A0032F12D /* type_mowlawn.jpg in Resources */,
+				4CFE843514984E7B0032F12D /* mowlawn.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +466,12 @@
 				4CFE84111497D9020032F12D /* DIChoreListViewController.m in Sources */,
 				4CFE84121497D9020032F12D /* DIMyChoresViewCell.m in Sources */,
 				4CFE84131497D9020032F12D /* DISettingsViewController.m in Sources */,
+				4CFE842B14983ED60032F12D /* DIChoreType.m in Sources */,
+				4CFE842E149841F90032F12D /* DIChoreTypeViewCell.m in Sources */,
+				4CFE843314984A4F0032F12D /* DIConfirmChoreViewController.m in Sources */,
+				4CFE843814984F700032F12D /* DICreditsViewController.m in Sources */,
+				4CFE843B149850CA0032F12D /* DICreditsViewCell.m in Sources */,
+				4CFE8446149873380032F12D /* DIAchievementsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,7 +494,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthew Holcombe (RTUXT9B8RZ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -464,6 +509,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "100C2687-7776-4E3D-A43E-536EA99BCA24";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -474,7 +520,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthew Holcombe (RTUXT9B8RZ)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -483,6 +529,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "100C2687-7776-4E3D-A43E-536EA99BCA24";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIFormDataRequest.h"
 
-@interface DIAddChoreViewController : UIViewController
+@interface DIAddChoreViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+	NSMutableArray *_choreTypes;
+	UITableView *_myChoresTableView;
+}
+
+-(id)initWithChoreTypes:(NSMutableArray *)choreTypes;
 
 @end

@@ -1,16 +1,15 @@
 //
-//  DIMyChoresViewCell.m
-//  DidIt
+//  DICreditsViewCell.m
+//  Diddit
 //
-//  Created by Matthew Holcombe on 12.12.11.
+//  Created by Matthew Holcombe on 12.13.11.
 //  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import "DICreditsViewCell.h"
 
-#import "DIMyChoresViewCell.h"
-
-@implementation DIMyChoresViewCell
+@implementation DICreditsViewCell
 
 @synthesize chore = _chore;
 @synthesize shouldDrawSeparator = _shouldDrawSeparator;
@@ -23,12 +22,12 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
-		_icoView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
-		_icoView.layer.cornerRadius = 8.0;
-		_icoView.clipsToBounds = YES;
-		_icoView.layer.borderColor = [[UIColor colorWithWhite:0.671 alpha:1.0] CGColor];
-		_icoView.layer.borderWidth = 1.0;
-		[self addSubview:_icoView];
+		_appIcoView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
+		_appIcoView.layer.cornerRadius = 8.0;
+		_appIcoView.clipsToBounds = YES;
+		_appIcoView.layer.borderColor = [[UIColor colorWithWhite:0.671 alpha:1.0] CGColor];
+		_appIcoView.layer.borderWidth = 1.0;
+		[self addSubview:_appIcoView];
 		
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, 230.0, 20)];
 		//_titleLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:11.0];
@@ -62,7 +61,7 @@
 	_chore = chore;
 	
 	_titleLabel.text = [NSString stringWithFormat:@"You can %@", _chore.title];		
-	_icoView.imageURL = [NSURL URLWithString:_chore.icoPath];
+	_appIcoView.imageURL = [NSURL URLWithString:_chore.icoPath];
 	_infoLabel.text = _chore.info;
 }
 
@@ -74,10 +73,9 @@
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+	[super setSelected:selected animated:animated];
+	
+	// Configure the view for the selected state
 }
-
 
 @end

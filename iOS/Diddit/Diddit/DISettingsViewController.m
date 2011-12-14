@@ -11,6 +11,22 @@
 @implementation DISettingsViewController
 
 #pragma mark - View lifecycle
+-(id)init {
+	if ((self = [super init])) {
+		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
+		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
+		headerLabel.textAlignment = UITextAlignmentCenter;
+		headerLabel.backgroundColor = [UIColor clearColor];
+		headerLabel.textColor = [UIColor whiteColor];
+		headerLabel.shadowColor = [UIColor colorWithWhite:0.25 alpha:1.0];
+		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+		headerLabel.text = @"Settings";
+		[headerLabel sizeToFit];
+		self.navigationItem.titleView = headerLabel;
+	}
+	
+	return (self);
+}
 
 - (void)loadView {
 	[super loadView];
