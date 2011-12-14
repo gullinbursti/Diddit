@@ -3,7 +3,7 @@
 //  DidIt
 //
 //  Created by Matthew Holcombe on 12.12.11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -23,6 +23,7 @@
 	return (NSStringFromClass(self));
 }
 
+#pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
 		_icoView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
@@ -54,6 +55,12 @@
 	return (self);
 }
 
+
+-(void)dealloc {
+	[super dealloc];
+}
+
+#pragma mark - Accessors
 - (void)setChore:(DIChore *)chore
 {
 	_chore = chore;
@@ -63,6 +70,8 @@
 	_infoLabel.text = _chore.info;
 }
 
+
+#pragma presentation
 - (void)setShouldDrawSeparator:(BOOL)shouldDrawSeparator
 {
 	_shouldDrawSeparator = shouldDrawSeparator;
@@ -76,8 +85,5 @@
     // Configure the view for the selected state
 }
 
--(void)dealloc {
-	[super dealloc];
-}
 
 @end

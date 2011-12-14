@@ -13,7 +13,6 @@
 		4CFE839C1497D87D0032F12D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE839A1497D87D0032F12D /* InfoPlist.strings */; };
 		4CFE839E1497D87D0032F12D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE839D1497D87D0032F12D /* main.m */; };
 		4CFE83A21497D87D0032F12D /* DIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE83A11497D87D0032F12D /* DIAppDelegate.m */; };
-		4CFE83A51497D87D0032F12D /* DIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE83A41497D87D0032F12D /* DIViewController.m */; };
 		4CFE83E81497D8DA0032F12D /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE83B31497D8DA0032F12D /* ASIAuthenticationDialog.m */; };
 		4CFE83E91497D8DA0032F12D /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE83B61497D8DA0032F12D /* ASIDataCompressor.m */; };
 		4CFE83EA1497D8DA0032F12D /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE83B81497D8DA0032F12D /* ASIDataDecompressor.m */; };
@@ -32,7 +31,6 @@
 		4CFE83F71497D8DA0032F12D /* active_headerButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83DA1497D8DA0032F12D /* active_headerButton@2x.png */; };
 		4CFE83F81497D8DA0032F12D /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83DB1497D8DA0032F12D /* bg.png */; };
 		4CFE83F91497D8DA0032F12D /* bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83DC1497D8DA0032F12D /* bg@2x.png */; };
-		4CFE83FA1497D8DA0032F12D /* chores.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83DD1497D8DA0032F12D /* chores.plist */; };
 		4CFE83FB1497D8DA0032F12D /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83DE1497D8DA0032F12D /* header.png */; };
 		4CFE83FC1497D8DA0032F12D /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83DF1497D8DA0032F12D /* header@2x.png */; };
 		4CFE83FD1497D8DA0032F12D /* largeBlueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE83E01497D8DA0032F12D /* largeBlueButton.png */; };
@@ -54,6 +52,8 @@
 		4CFE841B1497DA0C0032F12D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE841A1497DA0C0032F12D /* Security.framework */; };
 		4CFE841D1497DA180032F12D /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */; };
 		4CFE841F1497DA220032F12D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE841E1497DA220032F12D /* libxml2.dylib */; };
+		4CFE84261498373A0032F12D /* test_chores.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE84251498373A0032F12D /* test_chores.plist */; };
+		4CFE8428149838590032F12D /* test_choreTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE8427149838590032F12D /* test_choreTypes.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,8 +67,6 @@
 		4CFE839F1497D87D0032F12D /* Diddit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Diddit-Prefix.pch"; sourceTree = "<group>"; };
 		4CFE83A01497D87D0032F12D /* DIAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIAppDelegate.h; sourceTree = "<group>"; };
 		4CFE83A11497D87D0032F12D /* DIAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIAppDelegate.m; sourceTree = "<group>"; };
-		4CFE83A31497D87D0032F12D /* DIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIViewController.h; sourceTree = "<group>"; };
-		4CFE83A41497D87D0032F12D /* DIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIViewController.m; sourceTree = "<group>"; };
 		4CFE83B21497D8DA0032F12D /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		4CFE83B31497D8DA0032F12D /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		4CFE83B41497D8DA0032F12D /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		4CFE83DA1497D8DA0032F12D /* active_headerButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "active_headerButton@2x.png"; sourceTree = "<group>"; };
 		4CFE83DB1497D8DA0032F12D /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		4CFE83DC1497D8DA0032F12D /* bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg@2x.png"; sourceTree = "<group>"; };
-		4CFE83DD1497D8DA0032F12D /* chores.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = chores.plist; sourceTree = "<group>"; };
 		4CFE83DE1497D8DA0032F12D /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		4CFE83DF1497D8DA0032F12D /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
 		4CFE83E01497D8DA0032F12D /* largeBlueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = largeBlueButton.png; sourceTree = "<group>"; };
@@ -132,6 +129,8 @@
 		4CFE841A1497DA0C0032F12D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		4CFE841E1497DA220032F12D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		4CFE84251498373A0032F12D /* test_chores.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_chores.plist; sourceTree = "<group>"; };
+		4CFE8427149838590032F12D /* test_choreTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_choreTypes.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,13 +179,13 @@
 			children = (
 				4CFE841E1497DA220032F12D /* libxml2.dylib */,
 				4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */,
-				4CFE84181497DA020032F12D /* MobileCoreServices.framework */,
-				4CFE84161497D9F60032F12D /* SystemConfiguration.framework */,
 				4CFE84141497D9ED0032F12D /* CFNetwork.framework */,
-				4CFE841A1497DA0C0032F12D /* Security.framework */,
-				4CFE83911497D87D0032F12D /* UIKit.framework */,
-				4CFE83931497D87D0032F12D /* Foundation.framework */,
 				4CFE83951497D87D0032F12D /* CoreGraphics.framework */,
+				4CFE83931497D87D0032F12D /* Foundation.framework */,
+				4CFE84181497DA020032F12D /* MobileCoreServices.framework */,
+				4CFE841A1497DA0C0032F12D /* Security.framework */,
+				4CFE84161497D9F60032F12D /* SystemConfiguration.framework */,
+				4CFE83911497D87D0032F12D /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -206,8 +205,6 @@
 				4CFE84061497D9020032F12D /* DIAddChoreViewController.m */,
 				4CFE840D1497D9020032F12D /* DISettingsViewController.h */,
 				4CFE840E1497D9020032F12D /* DISettingsViewController.m */,
-				4CFE83A31497D87D0032F12D /* DIViewController.h */,
-				4CFE83A41497D87D0032F12D /* DIViewController.m */,
 				4CFE83981497D87D0032F12D /* Supporting Files */,
 			);
 			path = Diddit;
@@ -312,11 +309,12 @@
 		4CFE83D81497D8DA0032F12D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4CFE8427149838590032F12D /* test_choreTypes.plist */,
+				4CFE84251498373A0032F12D /* test_chores.plist */,
 				4CFE83D91497D8DA0032F12D /* active_headerButton.png */,
 				4CFE83DA1497D8DA0032F12D /* active_headerButton@2x.png */,
 				4CFE83DB1497D8DA0032F12D /* bg.png */,
 				4CFE83DC1497D8DA0032F12D /* bg@2x.png */,
-				4CFE83DD1497D8DA0032F12D /* chores.plist */,
 				4CFE83DE1497D8DA0032F12D /* header.png */,
 				4CFE83DF1497D8DA0032F12D /* header@2x.png */,
 				4CFE83E01497D8DA0032F12D /* largeBlueButton.png */,
@@ -386,7 +384,6 @@
 				4CFE83F71497D8DA0032F12D /* active_headerButton@2x.png in Resources */,
 				4CFE83F81497D8DA0032F12D /* bg.png in Resources */,
 				4CFE83F91497D8DA0032F12D /* bg@2x.png in Resources */,
-				4CFE83FA1497D8DA0032F12D /* chores.plist in Resources */,
 				4CFE83FB1497D8DA0032F12D /* header.png in Resources */,
 				4CFE83FC1497D8DA0032F12D /* header@2x.png in Resources */,
 				4CFE83FD1497D8DA0032F12D /* largeBlueButton.png in Resources */,
@@ -397,6 +394,8 @@
 				4CFE84021497D8DA0032F12D /* non_Active_headerButton@2x.png in Resources */,
 				4CFE84031497D8DA0032F12D /* smallChevron.png in Resources */,
 				4CFE84041497D8DA0032F12D /* smallChevron@2x.png in Resources */,
+				4CFE84261498373A0032F12D /* test_chores.plist in Resources */,
+				4CFE8428149838590032F12D /* test_choreTypes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +408,6 @@
 			files = (
 				4CFE839E1497D87D0032F12D /* main.m in Sources */,
 				4CFE83A21497D87D0032F12D /* DIAppDelegate.m in Sources */,
-				4CFE83A51497D87D0032F12D /* DIViewController.m in Sources */,
 				4CFE83E81497D8DA0032F12D /* ASIAuthenticationDialog.m in Sources */,
 				4CFE83E91497D8DA0032F12D /* ASIDataCompressor.m in Sources */,
 				4CFE83EA1497D8DA0032F12D /* ASIDataDecompressor.m in Sources */,
@@ -532,6 +530,7 @@
 				4CFE83B01497D87D0032F12D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

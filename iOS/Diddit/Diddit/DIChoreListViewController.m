@@ -3,7 +3,7 @@
 //  DidIt
 //
 //  Created by Matthew Holcombe on 12.12.11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -61,7 +61,6 @@
 }
 
 
-
 -(id)initWithChores:(NSMutableArray *)chores {
 	if ((self = [self init])) {
 		_chores = chores;
@@ -91,6 +90,14 @@
 		emptyLabel.text = @"You don't have any chores yet!";
 		[self.view addSubview:emptyLabel];
 	}
+	
+	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+	_myChoresTableView.rowHeight = 54;
+	_myChoresTableView.delegate = self;
+	_myChoresTableView.dataSource = self;
+	_myChoresTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+	_myChoresTableView.layer.borderWidth = 1.0;
+	[self.view addSubview:_myChoresTableView];
 	
 	
 	_footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
@@ -130,59 +137,20 @@
 	[_addChoreButton setTitle:@"+" forState:UIControlStateNormal];
 	[_addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_addChoreButton];
-	
-	
-	_activeChoresButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_activeChoresButton.frame = CGRectMake(32, 16.0, 128, 32);
-	//_activeChoresButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	_activeChoresButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_activeChoresButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_activeChoresButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_activeChoresButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_activeChoresButton setTitle:@"Active" forState:UIControlStateNormal];
-	[_activeChoresButton addTarget:self action:@selector(_goActiveChores) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_activeChoresButton];
-	
-	_takenChoresButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_takenChoresButton.frame = CGRectMake(160, 16.0, 128, 32);
-	//_takenChoresButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	_takenChoresButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_takenChoresButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_takenChoresButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_takenChoresButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_takenChoresButton setTitle:@"Completed" forState:UIControlStateNormal];
-	[_takenChoresButton addTarget:self action:@selector(_goTakenChores) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_takenChoresButton];
-	
-	
-	_myChoresTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 64, 300, 270) style:UITableViewStylePlain];
-	_myChoresTableView.rowHeight = 54;
-	_myChoresTableView.delegate = self;
-	_myChoresTableView.dataSource = self;
-	
-	_myChoresTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-	_myChoresTableView.layer.borderWidth = 1.0;
-	
-	[self.view addSubview:_myChoresTableView];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+}
+
+
+-(void)dealloc {
+	[super dealloc];
 }
 
 
 
--(void)_goActiveChores {
-	
-}
-
--(void)_goTakenChores {
-	
-}
-
+#pragma mark - Button Handlers
 
 -(void)_goSettings {
 	[self.navigationController pushViewController:[[[DISettingsViewController alloc] init] autorelease] animated:YES];
@@ -193,9 +161,6 @@
 	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] init] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
-	
-	
-	//[self.navigationController pushViewController:[[[DIAddChoreViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goMyChores {
@@ -204,57 +169,29 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	return ([_chores count]);
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return ([_chores count] + 1);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	/*
-	UITableViewCell *cell = nil;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+	if (indexPath.row < [_chores count] - 1) {
+		DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
 		
-		switch (indexPath.row) {
-			case 0:
-				cell.textLabel.text = @"Notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
-				break;
-				
-			case 1:
-				cell.textLabel.text = @"Email Alerts";//[NSString stringWithFormat:@"%d", indexPath.row];
-				break;
-				
-			case 2:
-				cell.textLabel.text = @"Sign Out";//[NSString stringWithFormat:@"%d", indexPath.row];
-				break;
-				
-			case 3:
-				cell.textLabel.text = @"Need Help";//[NSString stringWithFormat:@"%d", indexPath.row];
-				break;
-				
-			case 4:
-				cell.textLabel.text = @"About Odd Job";//[NSString stringWithFormat:@"%d", indexPath.row];
-				break;
-		}
+		if (cell == nil)
+			cell = [[[DIMyChoresViewCell alloc] init] autorelease];
 		
+		cell.chore = [_chores objectAtIndex:indexPath.row];
+		cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
 		
-		UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(280.0, 23.0, 7, 10)];		
-		chevronView.image = [UIImage imageNamed:@"smallChevron.png"];
-		[cell addSubview:chevronView];
+		return cell;
+	
+	} else {
+		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];;
+		return cell;
 	}
-	*/
 	
-	DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
-	if (cell == nil)
-		cell = [[[DIMyChoresViewCell alloc] init] autorelease];
-	
-	cell.chore = [_chores objectAtIndex:indexPath.row];
-	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
-	
-	return cell;
+	return nil;
 }
 
 #pragma mark - Table view delegate
@@ -275,11 +212,6 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
 	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
 	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-}
-
-
--(void)dealloc {
-	[super dealloc];
 }
 
 @end

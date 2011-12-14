@@ -3,7 +3,7 @@
 //  DidIt
 //
 //  Created by Matthew Holcombe on 12.12.11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -43,32 +43,32 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]] autorelease];
-	[self.view addSubview:bgImgView];
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
+	[super loadView];
 	
-	//UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
+	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	
+	//	UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
 	//bgView.backgroundColor = [UIColor colorWithWhite:0.25 alpha:1.0];
 	//bgView.layer.borderColor = [[UIColor colorWithWhite:0.0 alpha:1.0] CGColor];
 	//[self.view addSubview:bgView];
+	
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)_goBack {
-	[self dismissViewControllerAnimated:YES completion:nil];	
 }
 
 -(void)dealloc {
 	[super dealloc];
 }
+
+#pragma mark - navigation
+- (void)_goBack {
+	[self dismissViewControllerAnimated:YES completion:nil];	
+}
+
 @end

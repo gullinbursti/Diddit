@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>id</key>
+		<integer>1</integer>
+		<key>freq_id</key>
+		<integer>1</integer>
+		<key>title</key>
+		<string>Wash Car</string>
+		<key>info</key>
+		<string></string>
+		<key>icoPath</key>
+		<string>kanye_banner.png</string>
+		<key>points</key>
+		<integer>750</integer>
+	</dict>
+	
+	<dict>
+		<key>id</key>
+		<integer>2</integer>
+		<key>freq_id</key>
+		<integer>1</integer>
+		<key>title</key>
+		<string>Wash Dishes</string>
+		<key>info</key>
+		<string></string>
+		<key>icoPath</key>
+		<string>kanye_banner.png</string>
+		<key>points</key>
+		<integer>250</integer>
+	</dict>
+	
+	<dict>
+		<key>id</key>
+		<integer>3</integer>
+		<key>freq_id</key>
+		<integer>1</integer>
+		<key>title</key>
+		<string>Clean Room</string>
+		<key>info</key>
+		<string></string>
+		<key>icoPath</key>
+		<string>kanye_banner.png</string>
+		<key>points</key>
+		<integer>250</integer>
+	</dict>
+	
+	<dict>
+		<key>id</key>
+		<integer>4</integer>
+		<key>freq_id</key>
+		<integer>1</integer>
+		<key>title</key>
+		<string>Mow Lawn</string>
+		<key>info</key>
+		<string></string>
+		<key>icoPath</key>
+		<string>kanye_banner.png</string>
+		<key>points</key>
+		<integer>1000</integer>
+	</dict>
+	
+	<dict>
+		<key>id</key>
+		<integer>5</integer>
+		<key>freq_id</key>
+		<integer>1</integer>
+		<key>title</key>
+		<string>Take Out Trash</string>
+		<key>info</key>
+		<string></string>
+		<key>icoPath</key>
+		<string>kanye_banner.png</string>
+		<key>points</key>
+		<integer>250</integer>
+	</dict>
+	
+	<dict>
+		<key>id</key>
+		<integer>6</integer>
+		<key>freq_id</key>
+		<integer>1</integer>
+		<key>title</key>
+		<string>Walk Dog</string>
+		<key>info</key>
+		<string></string>
+		<key>icoPath</key>
+		<string>kanye_banner.png</string>
+		<key>points</key>
+		<integer>500</integer>
+	</dict>
+</array>
+</plist>
