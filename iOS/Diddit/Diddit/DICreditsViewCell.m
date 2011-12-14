@@ -29,21 +29,28 @@
 		_appIcoView.layer.borderWidth = 1.0;
 		[self addSubview:_appIcoView];
 		
-		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, 230.0, 20)];
+		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, 200.0, 20)];
 		//_titleLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:11.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
 		_titleLabel.textColor = [UIColor colorWithRed:0.039 green:0.478 blue:0.938 alpha:1.0];
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		[self addSubview:_titleLabel];
 		
-		_infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 25, 230.0, 16)];
+		_infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 25, 200.0, 16)];
 		//_dateLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
 		_infoLabel.backgroundColor = [UIColor clearColor];
 		_infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 		_infoLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		[self addSubview:_infoLabel];
 		
-		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(276.0, 20.0, 9, 12)] autorelease];
+		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 10, 80.0, 16)];
+		//_pointsLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
+		_pointsLabel.backgroundColor = [UIColor clearColor];
+		_pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		[self addSubview:_pointsLabel];
+		
+		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(300.0, 20.0, 9, 12)] autorelease];
 		chevronView.image = [UIImage imageNamed:@"smallChevron.png"];
 		[self addSubview:chevronView];
 	}
@@ -63,6 +70,7 @@
 	_titleLabel.text = [NSString stringWithFormat:@"You can %@", _chore.title];		
 	_appIcoView.imageURL = [NSURL URLWithString:_chore.icoPath];
 	_infoLabel.text = _chore.info;
+	_pointsLabel.text = [NSString stringWithFormat:@"%dpts", _chore.points];
 }
 
 

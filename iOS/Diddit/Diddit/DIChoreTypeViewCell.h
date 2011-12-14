@@ -15,6 +15,7 @@
 	EGOImageView *_imgView;
 	UILabel *_titleLabel;
 	UILabel *_infoLabel;
+	UILabel *_pointsLabel;
 	
 	DIChoreType *_choreType;
 	

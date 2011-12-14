@@ -18,7 +18,7 @@
 	DIChoreType *choreType = [[DIChoreType alloc] init];
 	choreType.dictionary = dictionary;
 	
-	choreType.type_id = [[dictionary objectForKey:@"type_id"] intValue];
+	choreType.type_id = [[dictionary objectForKey:@"id"] intValue];
 	choreType.freq_id = [[dictionary objectForKey:@"freq)id"] intValue];
 	choreType.title = [dictionary objectForKey:@"title"];
 	choreType.info = [dictionary objectForKey:@"info"];

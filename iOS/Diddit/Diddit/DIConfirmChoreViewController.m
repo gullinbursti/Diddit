@@ -7,6 +7,7 @@
 //
 
 #import "DIConfirmChoreViewController.h"
+#import "DIChore.h"
 
 @implementation DIConfirmChoreViewController
 
@@ -53,7 +54,39 @@
 	
 	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mowlawn.jpg"]];
+	NSString *imgName = [[NSString alloc] init];
+	
+	switch (_choreType.type_id) {
+		case 1:
+			imgName = @"washcar.jpg";
+			break;
+			
+		case 2:
+			imgName = @"washdishes.jpg";
+			break;
+			
+		case 3:
+			imgName = @"cleanroom.jpg";
+			break;
+			
+		case 4:
+			imgName = @"mowlawn.jpg";
+			break;
+			
+		case 5:
+			imgName = @"taketrash.jpg";
+			break;
+			
+		case 6:
+			imgName = @"walkdog.jpg";
+			break;
+			
+		default:
+			imgName = @"mowlawn.jpg";
+	}
+	
+	
+	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
 	CGRect frame = bgImgView.frame;
 	frame.origin.x = 32;
 	frame.origin.y = 64;
@@ -91,7 +124,19 @@
 }
 
 - (void)_goAssign {
-	[self dismissViewControllerAnimated:YES completion:nil];	
+	
+	DIChore *chore = [[DIChore alloc] init];
+	chore.dictionary = _choreType.dictionary;
+	chore.title = _choreType.title;
+	chore.info = _choreType.info;
+	chore.icoPath = _choreType.imgPath;
+	chore.points = _choreType.points;
+	
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:chore];
+	[self dismissViewControllerAnimated:YES completion:^(void) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
+	}];	
 }
 
 @end

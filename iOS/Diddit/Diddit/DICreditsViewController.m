@@ -36,9 +36,10 @@
 	return (self);
 }
 
--(id)initWithChores:(NSMutableArray *)chores {
+
+-(id)initWithPoints:(int)points {
 	if ((self = [self init])) {
-		_chores = chores;
+		_points = points;
 	}
 	
 	return (self);
@@ -55,16 +56,20 @@
 	_creditsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	_creditsLabel.backgroundColor = [UIColor clearColor];
 	_creditsLabel.textAlignment = UITextAlignmentCenter;
-	_creditsLabel.text = [NSString stringWithFormat:@"You have %d credits!", (arc4random() % 10000) + (arc4random() % 5000)];
+	_creditsLabel.text = [NSString stringWithFormat:@"You have %d credits!", _points];
 	[self.view addSubview:_creditsLabel];
 	
-	_creditsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 320, self.view.bounds.size.height - 94) style:UITableViewStylePlain];
-	_creditsTableView.rowHeight = 54;
-	_creditsTableView.delegate = self;
-	_creditsTableView.dataSource = self;
-	_creditsTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-	_creditsTableView.layer.borderWidth = 1.0;
-	[self.view addSubview:_creditsTableView];
+	[self.view setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+	
+	if (_points > 0) {
+		_creditsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 320, self.view.bounds.size.height - 94) style:UITableViewStylePlain];
+		_creditsTableView.rowHeight = 54;
+		_creditsTableView.delegate = self;
+		_creditsTableView.dataSource = self;
+		_creditsTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+		_creditsTableView.layer.borderWidth = 1.0;
+		[self.view addSubview:_creditsTableView];
+	}
 }
 
 -(void)viewDidLoad {
@@ -86,7 +91,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-	return ([_chores count] * 0.5);
+	return ([_chores count]);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

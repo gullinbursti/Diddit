@@ -17,7 +17,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_ADD_CHORE" object:nil];
 		
 		_choreTypes = [[NSMutableArray alloc] init];
 		
@@ -87,6 +87,13 @@
 	[super dealloc];
 }
 
+
+#pragma mark - Notification handlers
+-(void)_dismissMe:(NSNotification *)notification {
+	NSLog(@"_dismissMe:");
+	[self dismissViewControllerAnimated:YES completion:nil];	
+}
+
 #pragma mark - navigation
 - (void)_goBack {
 	[self dismissViewControllerAnimated:YES completion:nil];	
@@ -98,7 +105,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	DIChoreTypeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIChoreTypeViewCell cellReuseIdentifier]];
 		
 	if (cell == nil)

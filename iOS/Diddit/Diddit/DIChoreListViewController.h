@@ -15,7 +15,7 @@
 	NSMutableArray *_choreTypes;
 	
 	UILabel *_headerLabel;
-	
+	UILabel *_emptyLabel;
 	
 	UIButton *_activeChoresButton;
 	UIButton *_takenChoresButton;

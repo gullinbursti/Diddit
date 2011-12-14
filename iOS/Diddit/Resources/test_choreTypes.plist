@@ -12,7 +12,7 @@
 		<key>info</key>
 		<string></string>
 		<key>imgPath</key>
-		<string>kanye_banner.png</string>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_washcar.jpg</string>
 		<key>points</key>
 		<integer>750</integer>
 	</dict>
@@ -26,7 +26,7 @@
 		<key>info</key>
 		<string></string>
 		<key>imgPath</key>
-		<string>kanye_banner.png</string>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_washdishes.jpg</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
@@ -40,7 +40,7 @@
 		<key>info</key>
 		<string></string>
 		<key>imgPath</key>
-		<string>kanye_banner.png</string>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_cleanroom.jpg</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
@@ -54,7 +54,7 @@
 		<key>info</key>
 		<string></string>
 		<key>imgPath</key>
-		<string>type_mowlawn.jpg</string>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_mowlawn.jpg</string>
 		<key>points</key>
 		<integer>1000</integer>
 	</dict>
@@ -68,7 +68,7 @@
 		<key>info</key>
 		<string></string>
 		<key>imgPath</key>
-		<string>kanye_banner.png</string>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_taketrash.jpg</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
@@ -82,7 +82,7 @@
 		<key>info</key>
 		<string></string>
 		<key>imgPath</key>
-		<string>kanye_banner.png</string>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_walkdog.jpg</string>
 		<key>points</key>
 		<integer>500</integer>
 	</dict>

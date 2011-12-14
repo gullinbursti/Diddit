@@ -15,6 +15,7 @@
 	EGOImageView *_appIcoView;
 	UILabel *_titleLabel;
 	UILabel *_infoLabel;
+	UILabel *_pointsLabel;
 	
 	DIChore *_chore;
 	

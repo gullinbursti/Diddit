@@ -25,6 +25,8 @@
 -(id)init {
 	if ((self = [super init])) {
 		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
+		
 		_chores = [[NSMutableArray alloc] init];
 		_choreTypes = [[NSMutableArray alloc] init];
 		
@@ -85,16 +87,6 @@
 	
 	[self.view setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
 	
-	if ([_chores count] == 0) {
-		UILabel *emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
-		//emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
-		emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		emptyLabel.backgroundColor = [UIColor clearColor];
-		emptyLabel.textAlignment = UITextAlignmentCenter;
-		emptyLabel.text = @"You don't have any chores yet!";
-		[self.view addSubview:emptyLabel];
-	}
-	
 	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
 	_myChoresTableView.rowHeight = 54;
 	_myChoresTableView.delegate = self;
@@ -102,7 +94,20 @@
 	_myChoresTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
 	_myChoresTableView.layer.borderWidth = 1.0;
 	[self.view addSubview:_myChoresTableView];
+	_myChoresTableView.hidden = YES;
 	
+	if ([_chores count] == 0) {
+		_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
+		//_emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+		_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		_emptyLabel.backgroundColor = [UIColor clearColor];
+		_emptyLabel.textAlignment = UITextAlignmentCenter;
+		_emptyLabel.text = @"You don't have any chores yet!";
+		[self.view addSubview:_emptyLabel];
+	
+	} else {
+		_myChoresTableView.hidden = NO;
+	}
 	
 	_footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
 	_footerView.backgroundColor = [UIColor colorWithWhite:0.33 alpha:1.0];
@@ -155,16 +160,14 @@
 
 
 #pragma mark - Button Handlers
-
 -(void)_goAchievements {
-	NSString *testChoresPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoresPath] options:NSPropertyListImmutable format:nil error:nil];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 	
 	NSMutableArray *chores = [[NSMutableArray alloc] init];
 	for (NSDictionary *dict in plist)
 		[chores addObject:[DIChore choreWithDictionary:dict]];
 	
-	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithChores:chores] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithChores:_chores] autorelease] animated:YES];
 }
 
 -(void)_goSettings {
@@ -172,9 +175,7 @@
 }
 
 -(void)_goAddChore {
-	
-	NSString *testChoreTypesPath = [[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"];
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoreTypesPath] options:NSPropertyListImmutable format:nil error:nil];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 	
 	NSMutableArray *choreTypes = [[NSMutableArray alloc] init];
 	for (NSDictionary *dict in plist)
@@ -189,42 +190,51 @@
 	
 }
 
-
 -(void)_goAllowance {
-	NSString *testChoresPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoresPath] options:NSPropertyListImmutable format:nil error:nil];
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 	
 	NSMutableArray *chores = [[NSMutableArray alloc] init];
 	for (NSDictionary *dict in plist)
 		[chores addObject:[DIChore choreWithDictionary:dict]];
 	
-	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithChores:chores] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithPoints:((arc4random() % 10000) + (arc4random() % 5000)) * (int)([_chores count] > 0)] autorelease] animated:YES];
+}
+
+
+#pragma mark - Notification Handlers
+-(void)_addChore:(NSNotification *)notification {
+	[_chores addObject:(DIChore *)[notification object]];
+	
+	_emptyLabel.hidden = YES;
+	_myChoresTableView.hidden = NO;
+	
+	//NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[_chores count] - 1 inSection:0]];
+	//[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationAutomatic];
+	[_myChoresTableView reloadData];	
 }
 
 #pragma mark - TableView Data Source Delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_chores count] + 1);
+	return ([_chores count]);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row < [_chores count] - 1) {
+	//if (indexPath.row < [_chores count] - 1 && [_chores count] > 0) {
 		DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
 		
 		if (cell == nil)
 			cell = [[[DIMyChoresViewCell alloc] init] autorelease];
 		
-		cell.chore = [_chores objectAtIndex:indexPath.row];
-		cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
-		
-		return cell;
+	cell.chore = [_chores objectAtIndex:indexPath.row];
+	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
 	
-	} else {
-		UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];;
-		return cell;
-	}
+		//} else {
+		//	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];;
+		//	return cell;
+		//}
 	
-	return nil;
+	return cell;
 }
 
 #pragma mark - TableView Delegates

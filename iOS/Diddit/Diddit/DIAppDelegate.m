@@ -21,12 +21,10 @@
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
-	NSString *testChoresPath = [[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"];
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:testChoresPath] options:NSPropertyListImmutable format:nil error:nil];
-	
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 	NSMutableArray *chores = [[NSMutableArray alloc] init];
-	for (NSDictionary *dict in plist)
-		[chores addObject:[DIChore choreWithDictionary:dict]];
+	//for (NSDictionary *dict in plist)
+	//	[chores addObject:[DIChore choreWithDictionary:dict]];
 	
 	
 	ASIFormDataRequest *asiFormRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/oddjob/services/Jobs.php"]] retain];

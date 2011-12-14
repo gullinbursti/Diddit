@@ -47,13 +47,26 @@
 - (void)loadView {
 	[super loadView];
 	
-	_achievementTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-	_achievementTable.rowHeight = 54;
-	_achievementTable.delegate = self;
-	_achievementTable.dataSource = self;
-	_achievementTable.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-	_achievementTable.layer.borderWidth = 1.0;
-	[self.view addSubview:_achievementTable];
+	[self.view setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+	
+	if ([_chores count] == 0) {
+		UILabel *emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
+		//emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+		emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		emptyLabel.backgroundColor = [UIColor clearColor];
+		emptyLabel.textAlignment = UITextAlignmentCenter;
+		emptyLabel.text = @"No achievements yet!";
+		[self.view addSubview:emptyLabel];
+	
+	} else {
+		_achievementTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+		_achievementTable.rowHeight = 54;
+		_achievementTable.delegate = self;
+		_achievementTable.dataSource = self;
+		_achievementTable.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+		_achievementTable.layer.borderWidth = 1.0;
+		[self.view addSubview:_achievementTable];
+	}
 }
 
 
@@ -76,7 +89,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
 		
 	if (cell == nil)
@@ -90,7 +102,6 @@
 
 #pragma mark - TableView Delegates
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	// Navigation logic may go here. Create and push another view controller.
 	
 	//	OJCheckinViewController *checkinJobController = [[[OJCheckinViewController alloc] initWithJob:[_jobs objectAtIndex:indexPath.row] fromMyJobs:YES] autorelease];
 	//	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:checkinJobController] autorelease];

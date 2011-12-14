@@ -15,10 +15,12 @@
 	UITableView *_creditsTableView;
 	NSArray *_sectionTitles;
 	
+	int _points;
 	NSMutableArray *_chores;
 	
 	UILabel *_creditsLabel;
 }
 
--(id)initWithChores:(NSMutableArray *)chores;
+-(id)initWithPoints:(int)points;
+
 @end
