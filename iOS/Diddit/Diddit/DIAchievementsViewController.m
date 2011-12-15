@@ -65,6 +65,7 @@
 		_achievementTable.dataSource = self;
 		_achievementTable.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
 		_achievementTable.layer.borderWidth = 1.0;
+		_achievementTable.allowsSelection = NO;
 		[self.view addSubview:_achievementTable];
 	}
 }
@@ -96,18 +97,19 @@
 		
 	cell.chore = [_chores objectAtIndex:indexPath.row];
 	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
-		
+	[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+	[cell setUserInteractionEnabled:NO];
 	return cell;
 }
 
 #pragma mark - TableView Delegates
+
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
+	return (nil);
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	//	OJCheckinViewController *checkinJobController = [[[OJCheckinViewController alloc] initWithJob:[_jobs objectAtIndex:indexPath.row] fromMyJobs:YES] autorelease];
-	//	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:checkinJobController] autorelease];
-	//	[self.navigationController presentModalViewController:navigationController animated:YES];
-	
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:NO];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -11,6 +11,9 @@
 #import "DIChore.h"
 #import "DISettingsViewController.h"
 
+#import "UAirship.h"
+#import "UAPush.h"
+
 @implementation DIAppDelegate
 
 @synthesize window = _window;
@@ -18,6 +21,18 @@
 #pragma mark - App Lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	
+	//Init Airship launch options
+	NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
+	[takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+	
+	// Create Airship singleton that's used to talk to Urban Airhship servers.
+	// Please populate AirshipConfig.plist with your info from http://go.urbanairship.com
+	[UAirship takeOff:takeOffOptions];	
+	[[UAPush shared] resetBadge];//zero badge on startup
+	[[UAPush shared] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+																		  UIRemoteNotificationTypeSound |
+																		  UIRemoteNotificationTypeAlert)];
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
@@ -82,6 +97,94 @@
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	[pool release];
 } 
+
+
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+	UALOG(@"APN device token: %@", deviceToken);
+	// Updates the device token and registers the token with UA
+	[[UAPush shared] registerDeviceToken:deviceToken];
+	
+	
+	/*
+	 * Some example cases where user notifcation may be warranted
+	 *
+	 * This code will alert users who try to enable notifications
+	 * from the settings screen, but cannot do so because
+	 * notications are disabled in some capacity through the settings
+	 * app.
+	 * 
+	 */
+	
+	/*
+    
+    //Do something when notifications are disabled altogther
+    if ([application enabledRemoteNotificationTypes] == UIRemoteNotificationTypeNone) {
+	 UALOG(@"iOS Registered a device token, but nothing is enabled!");
+	 
+	 //only alert if this is the first registration, or if push has just been
+	 //re-enabled
+	 if ([UAirship shared].deviceToken != nil) { //already been set this session
+	 NSString* okStr = @"OK";
+	 NSString* errorMessage =
+	 @"Unable to turn on notifications. Use the \"Settings\" app to enable notifications.";
+	 NSString *errorTitle = @"Error";
+	 UIAlertView *someError = [[UIAlertView alloc] initWithTitle:errorTitle
+	 message:errorMessage
+	 delegate:nil
+	 cancelButtonTitle:okStr
+	 otherButtonTitles:nil];
+	 
+	 [someError show];
+	 [someError release];
+	 }
+	 
+    //Do something when some notification types are disabled
+    } else if ([application enabledRemoteNotificationTypes] != [UAPush shared].notificationTypes) {
+	 
+	 UALOG(@"Failed to register a device token with the requested services. Your notifications may be turned off.");
+	 
+	 //only alert if this is the first registration, or if push has just been
+	 //re-enabled
+	 if ([UAirship shared].deviceToken != nil) { //already been set this session
+	 
+	 UIRemoteNotificationType disabledTypes = [application enabledRemoteNotificationTypes] ^ [UAPush shared].notificationTypes;
+	 
+	 
+	 
+	 NSString* okStr = @"OK";
+	 NSString* errorMessage = [NSString stringWithFormat:@"Unable to turn on %@. Use the \"Settings\" app to enable these notifications.", [UAPush pushTypeString:disabledTypes]];
+	 NSString *errorTitle = @"Error";
+	 UIAlertView *someError = [[UIAlertView alloc] initWithTitle:errorTitle
+	 message:errorMessage
+	 delegate:nil
+	 cancelButtonTitle:okStr
+	 otherButtonTitles:nil];
+	 
+	 [someError show];
+	 [someError release];
+	 }
+    }
+	 
+	 */
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error {
+	UALOG(@"Failed To Register For Remote Notifications With Error: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+	UALOG(@"Received remote notification: %@", userInfo);
+	
+	// Get application state for iOS4.x+ devices, otherwise assume active
+	UIApplicationState appState = UIApplicationStateActive;
+	if ([application respondsToSelector:@selector(applicationState)]) {
+		appState = application.applicationState;
+	}
+	
+	[[UAPush shared] handleNotification:userInfo applicationState:appState];
+	[[UAPush shared] resetBadge]; // zero badge after push received
+}
 
 
 

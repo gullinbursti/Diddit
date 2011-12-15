@@ -18,6 +18,7 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_ADD_CHORE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeChoreType:) name:@"REMOVE_CHORE_TYPE" object:nil];
 		
 		_choreTypes = [[NSMutableArray alloc] init];
 		
@@ -91,8 +92,16 @@
 #pragma mark - Notification handlers
 -(void)_dismissMe:(NSNotification *)notification {
 	NSLog(@"_dismissMe:");
-	[self dismissViewControllerAnimated:YES completion:nil];	
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(void)_removeChoreType:(NSNotification *)notification {
+	
+	[_choreTypes removeObjectIdenticalTo:(DIChoreType *)[notification object]];
+	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+}
+
+
 
 #pragma mark - navigation
 - (void)_goBack {

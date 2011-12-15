@@ -9,6 +9,8 @@
 #import "DIConfirmChoreViewController.h"
 #import "DIChore.h"
 
+#import "DIPinCodeViewController.h"
+
 @implementation DIConfirmChoreViewController
 
 
@@ -16,6 +18,8 @@
 
 -(id)init {
 	if ((self = [super init])) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_CONFIRM_CHORE" object:nil];
+		
 		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
 		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
 		headerLabel.textAlignment = UITextAlignmentCenter;
@@ -117,13 +121,9 @@
 	[super dealloc];
 }
 
-
-#pragma mark - navigation
-- (void)_goBack {
-	[self dismissViewControllerAnimated:YES completion:nil];	
-}
-
-- (void)_goAssign {
+#pragma mark - Notification handlers
+-(void)_dismissMe:(NSNotification *)notification {
+	NSLog(@"_dismissMe:");
 	
 	DIChore *chore = [[DIChore alloc] init];
 	chore.dictionary = _choreType.dictionary;
@@ -132,11 +132,25 @@
 	chore.icoPath = _choreType.imgPath;
 	chore.points = _choreType.points;
 	
-	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:chore];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_CHORE_TYPE" object:_choreType];
+	
 	[self dismissViewControllerAnimated:YES completion:^(void) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
-	}];	
+	}];
+}
+
+
+#pragma mark - navigation
+- (void)_goBack {
+	[self dismissViewControllerAnimated:YES completion:nil];	
+}
+
+- (void)_goAssign {	
+	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000"] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:pinCodeViewController] autorelease];
+	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
+	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 @end

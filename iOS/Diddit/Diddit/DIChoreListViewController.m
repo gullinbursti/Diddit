@@ -26,9 +26,14 @@
 	if ((self = [super init])) {
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeChoreType:) name:@"REMOVE_CHORE_TYPE" object:nil];
 		
 		_chores = [[NSMutableArray alloc] init];
 		_choreTypes = [[NSMutableArray alloc] init];
+		
+		NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
+		for (NSDictionary *dict in plist)
+			[_choreTypes addObject:[DIChoreType choreTypeWithDictionary:dict]];
 		
 		_headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)];
 		_headerLabel.textAlignment = UITextAlignmentCenter;
@@ -175,13 +180,7 @@
 }
 
 -(void)_goAddChore {
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-	
-	NSMutableArray *choreTypes = [[NSMutableArray alloc] init];
-	for (NSDictionary *dict in plist)
-		[choreTypes addObject:[DIChoreType choreTypeWithDictionary:dict]];
-	
-	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] initWithChoreTypes:choreTypes] autorelease];
+	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] initWithChoreTypes:_choreTypes] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
@@ -211,6 +210,11 @@
 	//NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[_chores count] - 1 inSection:0]];
 	//[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationAutomatic];
 	[_myChoresTableView reloadData];	
+}
+
+
+-(void)_removeChoreType:(NSNotification *)notification {
+	[_choreTypes removeObjectIdenticalTo:(DIChore *)[notification object]];
 }
 
 #pragma mark - TableView Data Source Delegates
