@@ -19,11 +19,12 @@
 	UIButton *_submitButton;
 	
 	NSString *_pin;
-	
 	DIChore *_chore;
+	
+	BOOL _isNewChore;
 }
 
--(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore;
+-(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore fromAdd:(BOOL)isAdd;
 //-(void)animateViewUp:(BOOL)isUp;
 
 @end

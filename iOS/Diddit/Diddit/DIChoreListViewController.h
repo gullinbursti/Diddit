@@ -10,14 +10,16 @@
 
 @interface DIChoreListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	
-	UITableView *_myChoresTableView;
-	NSMutableArray *_chores;
-	NSMutableArray *_choreTypes;
-	
 	UILabel *_headerLabel;
 	UILabel *_emptyLabel;
 	
 	UIButton *_activeChoresButton;
+	UITableView *_myChoresTableView;
+	
+	NSMutableArray *_chores;
+	NSMutableArray *_availChores;
+	NSMutableArray *_finishedChores;
+	
 	UIButton *_takenChoresButton;
 	
 	UIView *_footerView;

@@ -39,10 +39,11 @@
 	return (self);
 }
 
--(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore {
+-(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore fromAdd:(BOOL)isAdd {
 	if ((self = [self init])) {
 		_pin = pin;
 		_chore = aChore;
+		_isNewChore = isAdd;
 	}
 	
 	return (self);
@@ -174,11 +175,14 @@
 	if ([enteredCode isEqualToString:_pin]) {
 		NSLog(@"CORRECT!!");
 		
-		[self.navigationController pushViewController:[[[DIChorePriceViewController alloc] initWithChore:_chore] autorelease] animated:YES];
+		if (_isNewChore)
+			[self.navigationController pushViewController:[[[DIChorePriceViewController alloc] initWithChore:_chore] autorelease] animated:YES];		
 		
-		//[self dismissViewControllerAnimated:YES completion:^(void) {
-		//	[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_CONFIRM_CHORE" object:nil];
-		//}];
+		else {
+			[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:_chore];
+			}];
+		}
 	
 	} else {
 		NSLog(@"WRONG (%@ [%@])", enteredCode, _pin);

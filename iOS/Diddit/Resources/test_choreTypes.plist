@@ -11,8 +11,10 @@
 		<string>Wash Car</string>
 		<key>info</key>
 		<string></string>
-		<key>imgPath</key>
+		<key>icoPath</key>
 		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_washcar.jpg</string>
+		<key>imgPath</key>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/washcar.jpg</string>
 		<key>points</key>
 		<integer>750</integer>
 	</dict>
@@ -25,8 +27,10 @@
 		<string>Wash Dishes</string>
 		<key>info</key>
 		<string></string>
-		<key>imgPath</key>
+		<key>icoPath</key>
 		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_washdishes.jpg</string>
+		<key>imgPath</key>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/washdishes.jpg</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
@@ -39,8 +43,10 @@
 		<string>Clean Room</string>
 		<key>info</key>
 		<string></string>
-		<key>imgPath</key>
+		<key>icoPath</key>
 		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_cleanroom.jpg</string>
+		<key>imgPath</key>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/cleanroom.jpg</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
@@ -53,8 +59,10 @@
 		<string>Mow Lawn</string>
 		<key>info</key>
 		<string></string>
-		<key>imgPath</key>
+		<key>icoPath</key>
 		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_mowlawn.jpg</string>
+		<key>imgPath</key>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/mowlawn.jpg</string>
 		<key>points</key>
 		<integer>1000</integer>
 	</dict>
@@ -67,8 +75,10 @@
 		<string>Take Out Trash</string>
 		<key>info</key>
 		<string></string>
-		<key>imgPath</key>
+		<key>icoPath</key>
 		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_taketrash.jpg</string>
+		<key>imgPath</key>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/taketrash.jpg</string>
 		<key>points</key>
 		<integer>250</integer>
 	</dict>
@@ -81,8 +91,10 @@
 		<string>Walk Dog</string>
 		<key>info</key>
 		<string></string>
-		<key>imgPath</key>
+		<key>icoPath</key>
 		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/type_walkdog.jpg</string>
+		<key>imgPath</key>
+		<string>http://dev.gullinbursti.cc/projs/diddit/app/images/walkdog.jpg</string>
 		<key>points</key>
 		<integer>500</integer>
 	</dict>

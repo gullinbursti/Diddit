@@ -9,8 +9,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DIAddChoreViewController.h"
 
-#import "DIChoreTypeViewCell.h"
+#import "DIMyChoresViewCell.h"
 #import "DIConfirmChoreViewController.h"
+
+#import "DIChore.h"
 
 @implementation DIAddChoreViewController
 
@@ -18,9 +20,9 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_ADD_CHORE" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeChoreType:) name:@"REMOVE_CHORE_TYPE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeAvailChore:) name:@"REMOVE_AVAIL_CHORE" object:nil];
 		
-		_choreTypes = [[NSMutableArray alloc] init];
+		_chores = [[NSMutableArray alloc] init];
 		
 		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
 		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
@@ -47,9 +49,9 @@
 	return (self);
 }
 
--(id)initWithChoreTypes:(NSMutableArray *)choreTypes {
+-(id)initWithChores:(NSMutableArray *)chores {
 	if ((self = [self init])) {
-		_choreTypes = choreTypes;
+		_chores = chores;
 	}
 	
 	return (self);
@@ -68,12 +70,6 @@
 	_myChoresTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
 	_myChoresTableView.layer.borderWidth = 1.0;
 	[self.view addSubview:_myChoresTableView];
-	
-	//	UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
-	//bgView.backgroundColor = [UIColor colorWithWhite:0.25 alpha:1.0];
-	//bgView.layer.borderColor = [[UIColor colorWithWhite:0.0 alpha:1.0] CGColor];
-	//[self.view addSubview:bgView];
-	
 }
 
 - (void)viewDidLoad {
@@ -95,12 +91,11 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)_removeChoreType:(NSNotification *)notification {
+-(void)_removeAvailChore:(NSNotification *)notification {
 	
-	[_choreTypes removeObjectIdenticalTo:(DIChoreType *)[notification object]];
+	[_chores removeObjectIdenticalTo:(DIChore *)[notification object]];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 }
-
 
 
 #pragma mark - navigation
@@ -110,36 +105,30 @@
 
 #pragma mark - TableView Data Source Delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_choreTypes count]);
+	return ([_chores count]);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	DIChoreTypeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIChoreTypeViewCell cellReuseIdentifier]];
-		
+	DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
+	
 	if (cell == nil)
-		cell = [[[DIChoreTypeViewCell alloc] init] autorelease];
-		
-	cell.choreType = [_choreTypes objectAtIndex:indexPath.row];
-	cell.shouldDrawSeparator = (indexPath.row == ([_choreTypes count] - 1));
-		
-	return cell;
+		cell = [[[DIMyChoresViewCell alloc] init] autorelease];
+	
+	cell.chore = [_chores objectAtIndex:indexPath.row];
+	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
+	
+	return (cell);
 }
 
 #pragma mark - TableView Delegates
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	DIConfirmChoreViewController *confirmChoreViewController = [[[DIConfirmChoreViewController alloc] initWithChoreType:[_choreTypes objectAtIndex:indexPath.row]] autorelease];
-	//UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:confirmChoreViewController] autorelease];
-	
-	[self.navigationController pushViewController:confirmChoreViewController animated:YES];
-	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
-	//[self.navigationController presentModalViewController:navigationController animated:YES];
-	
+	[self.navigationController pushViewController:[[[DIConfirmChoreViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 55;
+	return (55);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	

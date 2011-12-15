@@ -10,13 +10,12 @@
 
 #import "DIChoreListViewController.h"
 
+#import "DIChoreDetailsViewController.h"
 #import "DIAddChoreViewController.h"
 #import "DICreditsViewController.h"
 #import "DISettingsViewController.h"
 #import "DIAchievementsViewController.h"
 #import "DIMyChoresViewCell.h"
-
-#import "DIChoreType.h"
 
 @implementation DIChoreListViewController
 
@@ -26,14 +25,16 @@
 	if ((self = [super init])) {
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeChoreType:) name:@"REMOVE_CHORE_TYPE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeAvailChore:) name:@"REMOVE_AVAIL_CHORE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
 		
 		_chores = [[NSMutableArray alloc] init];
-		_choreTypes = [[NSMutableArray alloc] init];
+		_availChores = [[NSMutableArray alloc] init];
+		_finishedChores = [[NSMutableArray alloc] init];
 		
 		NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 		for (NSDictionary *dict in plist)
-			[_choreTypes addObject:[DIChoreType choreTypeWithDictionary:dict]];
+			[_availChores addObject:[DIChore choreWithDictionary:dict]];
 		
 		_headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)];
 		_headerLabel.textAlignment = UITextAlignmentCenter;
@@ -172,7 +173,7 @@
 	for (NSDictionary *dict in plist)
 		[chores addObject:[DIChore choreWithDictionary:dict]];
 	
-	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithChores:_chores] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithChores:_finishedChores] autorelease] animated:YES];
 }
 
 -(void)_goSettings {
@@ -180,7 +181,7 @@
 }
 
 -(void)_goAddChore {
-	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] initWithChoreTypes:_choreTypes] autorelease];
+	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] initWithChores:_availChores] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
@@ -196,7 +197,7 @@
 	for (NSDictionary *dict in plist)
 		[chores addObject:[DIChore choreWithDictionary:dict]];
 	
-	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithPoints:((arc4random() % 10000) + (arc4random() % 5000)) * (int)([_chores count] > 0)] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithPoints:((arc4random() % 10000) + (arc4random() % 5000)) * (int)([_finishedChores count] > 0)] autorelease] animated:YES];
 }
 
 
@@ -213,8 +214,18 @@
 }
 
 
--(void)_removeChoreType:(NSNotification *)notification {
-	[_choreTypes removeObjectIdenticalTo:(DIChore *)[notification object]];
+-(void)_removeAvailChore:(NSNotification *)notification {
+	[_availChores removeObjectIdenticalTo:(DIChore *)[notification object]];
+}
+
+-(void)_finishChore:(NSNotification *)notification {
+	DIChore *chore = (DIChore *)[notification object];
+	[_finishedChores addObject:chore];
+	
+	[_chores removeObjectIdenticalTo:chore];
+	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	
+	[_myChoresTableView reloadData];
 }
 
 #pragma mark - TableView Data Source Delegates
@@ -243,12 +254,8 @@
 
 #pragma mark - TableView Delegates
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	// Navigation logic may go here. Create and push another view controller.
 	
-	//	OJCheckinViewController *checkinJobController = [[[OJCheckinViewController alloc] initWithJob:[_jobs objectAtIndex:indexPath.row] fromMyJobs:YES] autorelease];
-	//	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:checkinJobController] autorelease];
-	//	[self.navigationController presentModalViewController:navigationController animated:YES];
-	
+	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -46,9 +46,10 @@
 	return (self);
 }
 
--(id)initWithChoreType:(DIChoreType *)choreType {
+
+-(id)initWithChore:(DIChore *)chore {
 	if ((self = [self init])) {
-		_choreType = choreType;	
+		_chore = chore;	
 	}
 	
 	return (self);
@@ -61,7 +62,7 @@
 	
 	NSString *imgName = [[NSString alloc] init];
 	
-	switch (_choreType.type_id) {
+	switch (_chore.type_id) {
 		case 1:
 			imgName = @"washcar.jpg";
 			break;
@@ -126,17 +127,8 @@
 -(void)_dismissMe:(NSNotification *)notification {
 	NSLog(@"_dismissMe:");
 	
-	DIChore *chore = [[DIChore alloc] init];
-	chore.dictionary = _choreType.dictionary;
-	chore.title = _choreType.title;
-	chore.info = _choreType.info;
-	chore.icoPath = _choreType.imgPath;
-	chore.points = _choreType.points;
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:chore];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_CHORE_TYPE" object:_choreType];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:_chore];
 	[self.navigationController popViewControllerAnimated:YES];
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
 	
 	//[self dismissViewControllerAnimated:YES completion:^(void) {
 	//	[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
@@ -151,14 +143,7 @@
 
 - (void)_goAssign {	
 	
-	DIChore *chore = [[DIChore alloc] init];
-	chore.dictionary = _choreType.dictionary;
-	chore.title = _choreType.title;
-	chore.info = _choreType.info;
-	chore.icoPath = _choreType.imgPath;
-	chore.points = _choreType.points;
-	
-	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000" chore:chore] autorelease];
+	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000" chore:_chore fromAdd:YES] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:pinCodeViewController] autorelease];
 	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
 	[self.navigationController presentModalViewController:navigationController animated:YES];

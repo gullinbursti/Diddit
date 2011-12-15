@@ -10,10 +10,11 @@
 #import "ASIFormDataRequest.h"
 
 @interface DIAddChoreViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
-	NSMutableArray *_choreTypes;
+	
+	NSMutableArray *_chores;
 	UITableView *_myChoresTableView;
 }
 
--(id)initWithChoreTypes:(NSMutableArray *)choreTypes;
+-(id)initWithChores:(NSMutableArray *)chores;
 
 @end

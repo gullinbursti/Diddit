@@ -10,7 +10,6 @@
 		4C09647114996065005723AD /* DIPinCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09647014996065005723AD /* DIPinCodeViewController.m */; };
 		4C0964A21499B1CE005723AD /* DIAddChoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */; };
 		4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */; };
-		4C0964A41499B1CE005723AD /* DIChoreTypeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648F1499B1CE005723AD /* DIChoreTypeViewCell.m */; };
 		4C0964A51499B1CE005723AD /* DIConfirmChoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964911499B1CE005723AD /* DIConfirmChoreViewController.m */; };
 		4C0964A61499B1CE005723AD /* DIAchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964941499B1CE005723AD /* DIAchievementsViewController.m */; };
 		4C0964A71499B1CE005723AD /* DICreditsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964961499B1CE005723AD /* DICreditsViewCell.m */; };
@@ -18,7 +17,7 @@
 		4C0964A91499B1CE005723AD /* DISettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649A1499B1CE005723AD /* DISettingsViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
-		4C0964AC1499B1CE005723AD /* DIChoreType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964A11499B1CE005723AD /* DIChoreType.m */; };
+		4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */; };
 		4CE25F2214988DFD00E367A2 /* washdishes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2114988DFD00E367A2 /* washdishes.jpg */; };
 		4CE25F2414988F6B00E367A2 /* washcar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2314988F6B00E367A2 /* washcar.jpg */; };
 		4CE25F261498902E00E367A2 /* cleanroom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F251498902E00E367A2 /* cleanroom.jpg */; };
@@ -184,8 +183,6 @@
 		4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAddChoreViewController.m; sourceTree = "<group>"; };
 		4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChorePriceViewController.h; sourceTree = "<group>"; };
 		4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChorePriceViewController.m; sourceTree = "<group>"; };
-		4C09648E1499B1CE005723AD /* DIChoreTypeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreTypeViewCell.h; sourceTree = "<group>"; };
-		4C09648F1499B1CE005723AD /* DIChoreTypeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreTypeViewCell.m; sourceTree = "<group>"; };
 		4C0964901499B1CE005723AD /* DIConfirmChoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIConfirmChoreViewController.h; sourceTree = "<group>"; };
 		4C0964911499B1CE005723AD /* DIConfirmChoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIConfirmChoreViewController.m; sourceTree = "<group>"; };
 		4C0964931499B1CE005723AD /* DIAchievementsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievementsViewController.h; sourceTree = "<group>"; };
@@ -200,8 +197,8 @@
 		4C09649D1499B1CE005723AD /* DIApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIApp.m; sourceTree = "<group>"; };
 		4C09649E1499B1CE005723AD /* DIChore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChore.h; sourceTree = "<group>"; };
 		4C09649F1499B1CE005723AD /* DIChore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChore.m; sourceTree = "<group>"; };
-		4C0964A01499B1CE005723AD /* DIChoreType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreType.h; sourceTree = "<group>"; };
-		4C0964A11499B1CE005723AD /* DIChoreType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreType.m; sourceTree = "<group>"; };
+		4C0964AE1499C47C005723AD /* DIChoreDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreDetailsViewController.h; sourceTree = "<group>"; };
+		4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreDetailsViewController.m; sourceTree = "<group>"; };
 		4CE25F2114988DFD00E367A2 /* washdishes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = washdishes.jpg; sourceTree = "<group>"; };
 		4CE25F2314988F6B00E367A2 /* washcar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = washcar.jpg; sourceTree = "<group>"; };
 		4CE25F251498902E00E367A2 /* cleanroom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cleanroom.jpg; sourceTree = "<group>"; };
@@ -524,8 +521,6 @@
 				4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */,
 				4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */,
 				4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */,
-				4C09648E1499B1CE005723AD /* DIChoreTypeViewCell.h */,
-				4C09648F1499B1CE005723AD /* DIChoreTypeViewCell.m */,
 				4C0964901499B1CE005723AD /* DIConfirmChoreViewController.h */,
 				4C0964911499B1CE005723AD /* DIConfirmChoreViewController.m */,
 			);
@@ -554,8 +549,6 @@
 				4C09649D1499B1CE005723AD /* DIApp.m */,
 				4C09649E1499B1CE005723AD /* DIChore.h */,
 				4C09649F1499B1CE005723AD /* DIChore.m */,
-				4C0964A01499B1CE005723AD /* DIChoreType.h */,
-				4C0964A11499B1CE005723AD /* DIChoreType.m */,
 			);
 			path = VO;
 			sourceTree = "<group>";
@@ -1131,6 +1124,8 @@
 				4CFE840C1497D9020032F12D /* DIMyChoresViewCell.m */,
 				4CFE84091497D9020032F12D /* DIChoreListViewController.h */,
 				4CFE840A1497D9020032F12D /* DIChoreListViewController.m */,
+				4C0964AE1499C47C005723AD /* DIChoreDetailsViewController.h */,
+				4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */,
 				4C09646F14996065005723AD /* DIPinCodeViewController.h */,
 				4C09647014996065005723AD /* DIPinCodeViewController.m */,
 				4C0964891499B1CE005723AD /* AddChore */,
@@ -1471,7 +1466,6 @@
 				4C09647114996065005723AD /* DIPinCodeViewController.m in Sources */,
 				4C0964A21499B1CE005723AD /* DIAddChoreViewController.m in Sources */,
 				4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */,
-				4C0964A41499B1CE005723AD /* DIChoreTypeViewCell.m in Sources */,
 				4C0964A51499B1CE005723AD /* DIConfirmChoreViewController.m in Sources */,
 				4C0964A61499B1CE005723AD /* DIAchievementsViewController.m in Sources */,
 				4C0964A71499B1CE005723AD /* DICreditsViewCell.m in Sources */,
@@ -1479,7 +1473,7 @@
 				4C0964A91499B1CE005723AD /* DISettingsViewController.m in Sources */,
 				4C0964AA1499B1CE005723AD /* DIApp.m in Sources */,
 				4C0964AB1499B1CE005723AD /* DIChore.m in Sources */,
-				4C0964AC1499B1CE005723AD /* DIChoreType.m in Sources */,
+				4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSString *info;
 @property (nonatomic) int points;
 @property (nonatomic, retain) NSString *icoPath;
+@property (nonatomic, retain) NSString *imgPath;
 
 @end

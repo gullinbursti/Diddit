@@ -161,10 +161,11 @@
 	
 	if (buttonIndex == 0) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:_chore];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_AVAIL_CHORE" object:_chore];
+		
 		[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:_chore];
 		}];
-	
 	}
 }
 

@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DIChoreType.h"
+#import "DIChore.h"
 
 @interface DIConfirmChoreViewController : UIViewController {
 	
-	DIChoreType *_choreType;
+	DIChore *_chore;
 	UIButton *_assignButton;
 }
 
--(id)initWithChoreType:(DIChoreType *)choreType;
+-(id)initWithChore:(DIChore *)chore;
 
 @end

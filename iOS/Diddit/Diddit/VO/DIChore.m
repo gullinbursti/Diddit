@@ -16,6 +16,7 @@
 @synthesize info;
 @synthesize points;
 @synthesize icoPath;
+@synthesize imgPath;
 
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
@@ -23,11 +24,12 @@
 	DIChore *chore = [[DIChore alloc] init];
 	chore.dictionary = dictionary;
 	
-	chore.type_id = [[dictionary objectForKey:@"type"] intValue];
+	chore.type_id = [[dictionary objectForKey:@"id"] intValue];
 	chore.title = [dictionary objectForKey:@"title"];
 	chore.info = [dictionary objectForKey:@"info"];
 	chore.points = [[dictionary objectForKey:@"points"] intValue];
 	chore.icoPath = [dictionary objectForKey:@"icoPath"];
+	chore.imgPath = [dictionary objectForKey:@"imgPath"];
 	
 	return (chore);
 }
