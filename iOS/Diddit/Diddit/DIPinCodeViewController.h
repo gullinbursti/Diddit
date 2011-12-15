@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "DIChore.h"
+
 @interface DIPinCodeViewController : UIViewController <UITextFieldDelegate> {
-	
-	UIView *_holderView;
 	
 	UITextField *_digit1TxtField;
 	UITextField *_digit2TxtField;
@@ -18,13 +18,12 @@
 	UITextField *_digit4TxtField;
 	UIButton *_submitButton;
 	
-	NSArray *_digits;
 	NSString *_pin;
 	
-	int _digitIndex;
+	DIChore *_chore;
 }
 
--(id)initWithPin:(NSString *)pin;
+-(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore;
 //-(void)animateViewUp:(BOOL)isUp;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "DIPinCodeViewController.h"
 
+#import "DIChorePriceViewController.h"
 @implementation DIPinCodeViewController
 
 #pragma mark - View lifecycle
@@ -38,9 +39,10 @@
 	return (self);
 }
 
--(id)initWithPin:(NSString *)pin {
+-(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore {
 	if ((self = [self init])) {
 		_pin = pin;
+		_chore = aChore;
 	}
 	
 	return (self);
@@ -68,6 +70,7 @@
 	[_digit1TxtField setSecureTextEntry:YES];	
 	_digit1TxtField.keyboardType = UIKeyboardTypeNumberPad;
 	_digit1TxtField.clearsOnBeginEditing = YES;
+	_digit1TxtField.tag = 0;
 	_digit1TxtField.delegate = self;
 	[self.view addSubview:_digit1TxtField];
 	
@@ -79,6 +82,7 @@
 	[_digit2TxtField setSecureTextEntry:YES];
 	_digit2TxtField.keyboardType = UIKeyboardTypeNumberPad;
 	_digit2TxtField.clearsOnBeginEditing = YES;
+	_digit2TxtField.tag = 1;
 	_digit2TxtField.delegate = self;
 	[self.view addSubview:_digit2TxtField];
 	
@@ -90,6 +94,7 @@
 	[_digit3TxtField setSecureTextEntry:YES];	
 	_digit3TxtField.keyboardType = UIKeyboardTypeNumberPad;
 	_digit3TxtField.clearsOnBeginEditing = YES;
+	_digit3TxtField.tag = 2;
 	_digit3TxtField.delegate = self;
 	[self.view addSubview:_digit3TxtField];
 	
@@ -101,11 +106,9 @@
 	[_digit4TxtField setSecureTextEntry:YES];	
 	_digit4TxtField.keyboardType = UIKeyboardTypeNumberPad;
 	_digit4TxtField.clearsOnBeginEditing = YES;
+	_digit4TxtField.tag = 3;
 	_digit4TxtField.delegate = self;
 	[self.view addSubview:_digit4TxtField];
-	
-	_digitIndex = 0;
-	_digits = [[NSArray alloc] initWithObjects:_digit1TxtField, _digit2TxtField, _digit3TxtField, _digit4TxtField, nil];
 	
 	[_digit1TxtField becomeFirstResponder];
 	
@@ -154,6 +157,10 @@
 	[UIView commitAnimations];
 }
 
+#pragma mark - Navigation
+- (void)_goBack {
+	[self dismissViewControllerAnimated:YES completion:nil];	
+}
 
 #pragma mark - Event Handlers
 -(void)_goSubmit {
@@ -167,9 +174,11 @@
 	if ([enteredCode isEqualToString:_pin]) {
 		NSLog(@"CORRECT!!");
 		
-		[self dismissViewControllerAnimated:YES completion:^(void) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_CONFIRM_CHORE" object:nil];
-		}];
+		[self.navigationController pushViewController:[[[DIChorePriceViewController alloc] initWithChore:_chore] autorelease] animated:YES];
+		
+		//[self dismissViewControllerAnimated:YES completion:^(void) {
+		//	[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_CONFIRM_CHORE" object:nil];
+		//}];
 	
 	} else {
 		NSLog(@"WRONG (%@ [%@])", enteredCode, _pin);
@@ -185,31 +194,95 @@
 
 
 #pragma mark - TextField Delegates
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	//NSLog(@"textFieldShouldBeginEditing");
+	
+	return (YES);
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+	NSLog(@"textFieldDidBeginEditing");
+	
+	//if (textField.tag == 0) {
+	//	[_digit1TxtField resignFirstResponder];
+	//	[_digit2TxtField becomeFirstResponder];
+	//}
+}
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+	//NSLog(@"textFieldShouldEndEditing");
+	
+	return (YES);
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+	NSLog(@"textFieldDidEndEditing [%@]", _digit1TxtField.text);
+}
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	
 	if ([textField.text length] >= 1 && ![string isEqualToString:@""]) {
 		textField.text = [textField.text substringToIndex:1];
 		
-		int oldIndex = _digitIndex;
+		/*
+		if ([textField.text length] == 1) {
+			if ([_digit1TxtField isFirstResponder]) {
+				[_digit1TxtField resignFirstResponder];
+				[_digit2TxtField becomeFirstResponder];
+			
+			} else if ([_digit2TxtField isFirstResponder]) {
+				[_digit2TxtField resignFirstResponder];
+				[_digit3TxtField becomeFirstResponder];
+				
+			} else if ([_digit3TxtField isFirstResponder]) {
+				[_digit3TxtField resignFirstResponder];
+				[_digit4TxtField becomeFirstResponder];
+				
+			} else if ([_digit4TxtField isFirstResponder]) {
+				[_digit4TxtField resignFirstResponder];
+				[_digit1TxtField becomeFirstResponder];	
+			}
+		}
+		*/
+		if (textField.tag == 0) {
+			[_digit1TxtField resignFirstResponder];
+			[_digit2TxtField becomeFirstResponder];
+		}
 		
-		if ([textField.text length] == 1)
-			_digitIndex++;
+		if (textField.tag == 1) {
+			[_digit2TxtField resignFirstResponder];
+			[_digit3TxtField becomeFirstResponder];
+		}
 		
-		if ([textField.text length] == 0)
-			_digitIndex--;
-		
-		if (_digitIndex < 0)
-			_digitIndex = 0;
-		
-		if (_digitIndex > 3)
-			_digitIndex = 3;
-		
-		
-		[(UITextField *)[_digits objectAtIndex:oldIndex] resignFirstResponder];
-		[(UITextField *)[_digits objectAtIndex:_digitIndex] becomeFirstResponder];
+		if (textField.tag == 2) {
+			[_digit3TxtField resignFirstResponder];
+			[_digit4TxtField becomeFirstResponder];
+		}
 		
 		return (NO);
 	}
+	
+	/*
+	if ([textField.text length] == 0) {
+		if ([_digit1TxtField isFirstResponder]) {
+			[_digit1TxtField resignFirstResponder];
+			[_digit4TxtField becomeFirstResponder];
+			
+		} else if ([_digit2TxtField isFirstResponder]) {
+			[_digit2TxtField resignFirstResponder];
+			[_digit1TxtField becomeFirstResponder];
+			
+		} else if ([_digit3TxtField isFirstResponder]) {
+			[_digit3TxtField resignFirstResponder];
+			[_digit2TxtField becomeFirstResponder];
+			
+		} else if ([_digit4TxtField isFirstResponder]) {
+			[_digit4TxtField resignFirstResponder];
+			[_digit3TxtField becomeFirstResponder];	
+		}
+	}
+	*/
 	
 	return (YES);
 }

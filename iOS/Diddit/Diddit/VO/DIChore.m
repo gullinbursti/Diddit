@@ -11,6 +11,7 @@
 @implementation DIChore
 
 @synthesize dictionary;
+@synthesize type_id;
 @synthesize title;
 @synthesize info;
 @synthesize points;
@@ -22,6 +23,7 @@
 	DIChore *chore = [[DIChore alloc] init];
 	chore.dictionary = dictionary;
 	
+	chore.type_id = [[dictionary objectForKey:@"type"] intValue];
 	chore.title = [dictionary objectForKey:@"title"];
 	chore.info = [dictionary objectForKey:@"info"];
 	chore.points = [[dictionary objectForKey:@"points"] intValue];

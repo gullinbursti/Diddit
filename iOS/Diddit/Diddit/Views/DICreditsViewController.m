@@ -10,6 +10,7 @@
 
 #import "DICreditsViewController.h"
 #import "DICreditsViewCell.h"
+#import "DIApp.h"
 
 @implementation DICreditsViewController
 
@@ -18,6 +19,26 @@
 	if ((self = [super init])) {
 		
 		_chores = [[NSMutableArray alloc] init];
+		_apps = [[NSMutableArray alloc] init];
+		
+		
+		NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_apps" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
+		
+		NSArray *freeAppsArray = [[NSArray alloc] initWithArray:[plist objectForKey:@"free"]];
+		NSArray *paidAppsArray = [[NSArray alloc] initWithArray:[plist objectForKey:@"paid"]];
+		
+		NSMutableArray *freeApps = [[NSMutableArray alloc] initWithCapacity:[freeAppsArray count]];
+		for (NSDictionary *dict in freeAppsArray)
+			[freeApps addObject:[DIApp appWithDictionary:dict]];
+		
+		NSMutableArray *paidApps = [[NSMutableArray alloc] initWithCapacity:[paidAppsArray count]];
+		for (NSDictionary *dict in paidAppsArray)
+			[paidApps addObject:[DIApp appWithDictionary:dict]];
+		
+		
+		[_apps addObject:freeApps];
+		[_apps addObject:paidApps];
+		
 		
 		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
 		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
@@ -61,15 +82,13 @@
 	
 	[self.view setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
 	
-	if (_points > 0) {
-		_creditsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 320, self.view.bounds.size.height - 94) style:UITableViewStylePlain];
-		_creditsTableView.rowHeight = 54;
-		_creditsTableView.delegate = self;
-		_creditsTableView.dataSource = self;
-		_creditsTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-		_creditsTableView.layer.borderWidth = 1.0;
-		[self.view addSubview:_creditsTableView];
-	}
+	_creditsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 320, self.view.bounds.size.height - 94) style:UITableViewStylePlain];
+	_creditsTableView.rowHeight = 54;
+	_creditsTableView.delegate = self;
+	_creditsTableView.dataSource = self;
+	_creditsTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+	_creditsTableView.layer.borderWidth = 1.0;
+	[self.view addSubview:_creditsTableView];
 }
 
 -(void)viewDidLoad {
@@ -90,8 +109,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	
-	return ([_chores count]);
+	return ([[_apps objectAtIndex:section] count]);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,9 +118,11 @@
 		
 	if (cell == nil)
 		cell = [[[DICreditsViewCell alloc] init] autorelease];
-		
-	cell.chore = [_chores objectAtIndex:indexPath.row];
-	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
+	
+	NSArray *array = [_apps objectAtIndex:indexPath.section];
+	
+	cell.app = [array objectAtIndex:indexPath.row];
+	cell.shouldDrawSeparator = (indexPath.row == ([array count] - 1));
 	
 	return cell;
 }

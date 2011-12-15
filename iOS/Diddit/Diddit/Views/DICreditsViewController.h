@@ -17,6 +17,7 @@
 	
 	int _points;
 	NSMutableArray *_chores;
+	NSMutableArray *_apps;
 	
 	UILabel *_creditsLabel;
 }

@@ -15,7 +15,6 @@
 
 
 #pragma mark - View lifecycle
-
 -(id)init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_CONFIRM_CHORE" object:nil];
@@ -31,6 +30,7 @@
 		[headerLabel sizeToFit];
 		self.navigationItem.titleView = headerLabel;
 		
+		/*
 		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		backButton.frame = CGRectMake(0, 0, 60.0, 30);
 		[backButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
@@ -40,6 +40,7 @@
 		[backButton setTitle:@"Back" forState:UIControlStateNormal];
 		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		*/
 	}
 	
 	return (self);
@@ -134,10 +135,12 @@
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:chore];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_CHORE_TYPE" object:_choreType];
+	[self.navigationController popViewControllerAnimated:YES];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
 	
-	[self dismissViewControllerAnimated:YES completion:^(void) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
-	}];
+	//[self dismissViewControllerAnimated:YES completion:^(void) {
+	//	[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
+	//}];
 }
 
 
@@ -147,7 +150,15 @@
 }
 
 - (void)_goAssign {	
-	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000"] autorelease];
+	
+	DIChore *chore = [[DIChore alloc] init];
+	chore.dictionary = _choreType.dictionary;
+	chore.title = _choreType.title;
+	chore.info = _choreType.info;
+	chore.icoPath = _choreType.imgPath;
+	chore.points = _choreType.points;
+	
+	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000" chore:chore] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:pinCodeViewController] autorelease];
 	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
 	[self.navigationController presentModalViewController:navigationController animated:YES];

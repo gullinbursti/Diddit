@@ -12,10 +12,11 @@
 
 + (DIChore *)choreWithDictionary:(NSDictionary *)dictionary;
 
-@property(nonatomic, retain) NSDictionary *dictionary;
+@property (nonatomic, retain) NSDictionary *dictionary;
+@property (nonatomic) int type_id;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
-@property(nonatomic) int points;
+@property (nonatomic) int points;
 @property (nonatomic, retain) NSString *icoPath;
 
 @end

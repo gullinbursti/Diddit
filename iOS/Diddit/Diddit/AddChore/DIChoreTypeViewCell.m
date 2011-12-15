@@ -1,19 +1,18 @@
 //
-//  DICreditsViewCell.m
+//  DIChoreTypeViewCell.m
 //  Diddit
 //
 //  Created by Matthew Holcombe on 12.13.11.
-//  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import "DIChoreTypeViewCell.h"
 #import <QuartzCore/QuartzCore.h>
-#import "DICreditsViewCell.h"
 
-@implementation DICreditsViewCell
+@implementation DIChoreTypeViewCell
 
-@synthesize chore = _chore;
+@synthesize choreType = _choreType;
 @synthesize shouldDrawSeparator = _shouldDrawSeparator;
-
 
 +(NSString *)cellReuseIdentifier {
 	return (NSStringFromClass(self));
@@ -22,12 +21,12 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
-		_appIcoView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
-		_appIcoView.layer.cornerRadius = 8.0;
-		_appIcoView.clipsToBounds = YES;
-		_appIcoView.layer.borderColor = [[UIColor colorWithWhite:0.671 alpha:1.0] CGColor];
-		_appIcoView.layer.borderWidth = 1.0;
-		[self addSubview:_appIcoView];
+		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
+		_imgView.layer.cornerRadius = 8.0;
+		_imgView.clipsToBounds = YES;
+		_imgView.layer.borderColor = [[UIColor colorWithWhite:0.671 alpha:1.0] CGColor];
+		_imgView.layer.borderWidth = 1.0;
+		[self addSubview:_imgView];
 		
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, 200.0, 20)];
 		//_titleLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:11.0];
@@ -64,13 +63,13 @@
 }
 
 #pragma mark - Accessors
-- (void)setChore:(DIChore *)chore {
-	_chore = chore;
+- (void)setChoreType:(DIChoreType *)choreType {
+	_choreType = choreType;
 	
-	_titleLabel.text = [NSString stringWithFormat:@"You can %@", _chore.title];		
-	_appIcoView.imageURL = [NSURL URLWithString:_chore.icoPath];
-	_infoLabel.text = _chore.info;
-	_pointsLabel.text = [NSString stringWithFormat:@"%dpts", _chore.points];
+	_titleLabel.text = _choreType.title;		
+	_imgView.imageURL = [NSURL URLWithString:_choreType.imgPath];
+	_infoLabel.text = _choreType.info;
+	_pointsLabel.text = [NSString stringWithFormat:@"%dpts", _choreType.points];
 }
 
 

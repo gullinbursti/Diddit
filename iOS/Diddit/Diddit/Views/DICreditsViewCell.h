@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DIChore.h"
+#import "DIApp.h"
 #import "EGOImageView.h"
 
 @interface DICreditsViewCell : UITableViewCell {
@@ -17,7 +17,7 @@
 	UILabel *_infoLabel;
 	UILabel *_pointsLabel;
 	
-	DIChore *_chore;
+	DIApp *_app;
 	
 	BOOL _shouldDrawSeparator;
 }
@@ -25,6 +25,6 @@
 +(NSString *)cellReuseIdentifier;
 
 @property(nonatomic) BOOL shouldDrawSeparator;
-@property(nonatomic, retain) DIChore *chore;
+@property(nonatomic, retain) DIApp *app;
 
 @end

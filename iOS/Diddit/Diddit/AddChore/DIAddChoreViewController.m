@@ -128,10 +128,12 @@
 #pragma mark - TableView Delegates
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	DIConfirmChoreViewController *confirmChoreType = [[[DIConfirmChoreViewController alloc] initWithChoreType:[_choreTypes objectAtIndex:indexPath.row]] autorelease];
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:confirmChoreType] autorelease];
+	DIConfirmChoreViewController *confirmChoreViewController = [[[DIConfirmChoreViewController alloc] initWithChoreType:[_choreTypes objectAtIndex:indexPath.row]] autorelease];
+	//UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:confirmChoreViewController] autorelease];
+	
+	[self.navigationController pushViewController:confirmChoreViewController animated:YES];
 	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
-	[self.navigationController presentModalViewController:navigationController animated:YES];
+	//[self.navigationController presentModalViewController:navigationController animated:YES];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
