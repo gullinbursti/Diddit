@@ -22,6 +22,12 @@
 		_apps = [[NSMutableArray alloc] init];
 		
 		
+		ASIFormDataRequest *appsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Apps.php"]] retain];
+		[appsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+		[appsRequest setDelegate:self];
+		[appsRequest startAsynchronous];
+		
+		/*
 		NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_apps" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 		
 		NSArray *freeAppsArray = [[NSArray alloc] initWithArray:[plist objectForKey:@"free"]];
@@ -38,6 +44,7 @@
 		
 		[_apps addObject:freeApps];
 		[_apps addObject:paidApps];
+		*/
 		
 		
 		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
@@ -85,7 +92,7 @@
 	_creditsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 320, self.view.bounds.size.height - 94) style:UITableViewStylePlain];
 	_creditsTableView.rowHeight = 54;
 	_creditsTableView.delegate = self;
-	_creditsTableView.dataSource = self;
+	_creditsTableView.dataSource = nil;
 	_creditsTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
 	_creditsTableView.layer.borderWidth = 1.0;
 	[self.view addSubview:_creditsTableView];
@@ -150,10 +157,46 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
-	[pool release];
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSArray *parsedApps = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			NSMutableArray *appList = [NSMutableArray array];
+			
+			NSArray *freeList = [[NSArray alloc] initWithArray:[[parsedApps objectAtIndex:0] objectForKey:@"free"]];
+			NSArray *paidList = [[NSArray alloc] initWithArray:[[parsedApps objectAtIndex:1] objectForKey:@"paid"]];
+			
+			NSMutableArray *freeApps = [[NSMutableArray alloc] init];
+			NSMutableArray *paidApps = [[NSMutableArray alloc] init];
+			
+			for (NSDictionary *dict in freeList) {
+				DIApp *app = [DIApp appWithDictionary:dict];
+				
+				if (app != nil)
+					[freeApps addObject:app];
+			}
+			
+			for (NSDictionary *dict in paidList) {
+				DIApp *app = [DIApp appWithDictionary:dict];
+				
+				if (app != nil)
+					[paidApps addObject:app];
+			}
+						
+			[appList addObject:freeApps];
+			[appList addObject:paidApps];
+
+			_apps = [appList retain];
+			_creditsTableView.dataSource = self;
+			[_creditsTableView reloadData];
+		}
+	}
 } 
 
 @end

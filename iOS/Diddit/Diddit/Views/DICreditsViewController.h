@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
 @interface DICreditsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
 	

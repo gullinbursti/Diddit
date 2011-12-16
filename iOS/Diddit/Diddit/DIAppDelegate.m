@@ -18,8 +18,11 @@
 
 @synthesize window = _window;
 
-#pragma mark - App Lifecycle
++ (DIAppDelegate *)sharedInstance {
+	return ((DIAppDelegate *)[UIApplication sharedApplication].delegate);
+}
 
+#pragma mark - App Lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	
 	//Init Airship launch options
@@ -34,26 +37,16 @@
 																		  UIRemoteNotificationTypeSound |
 																		  UIRemoteNotificationTypeAlert)];
 	
+	//NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
+	_chores = [[NSMutableArray alloc] init];
+	
+	ASIFormDataRequest *activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	[activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+	[activeChoresRequest setDelegate:self];
+	[activeChoresRequest startAsynchronous];
+	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-	
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-	NSMutableArray *chores = [[NSMutableArray alloc] init];
-	//for (NSDictionary *dict in plist)
-	//	[chores addObject:[DIChore choreWithDictionary:dict]];
-	
-	
-	ASIFormDataRequest *asiFormRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/oddjob/services/Jobs.php"]] retain];
-	[asiFormRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-	[asiFormRequest setPostValue:[NSString stringWithFormat:@"%d", 660042243] forKey:@"fbid"];
-	[asiFormRequest setDelegate:self];
-	[asiFormRequest startAsynchronous];
-	
-	
-	_choreListViewController = [[DIChoreListViewController alloc] initWithChores:chores];
-	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
-	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
-	
-	[self.window setRootViewController:rootNavigationController];
 	[self.window makeKeyAndVisible];
 	
 	return YES;
@@ -95,8 +88,42 @@
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		if (error != nil) {
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		}
+		else {
+			NSMutableArray *choreList = [NSMutableArray array];
+			
+			for (NSDictionary *serverChore in parsedChores) {
+				DIChore *chore = [DIChore choreWithDictionary:serverChore];
+				
+				if (chore != nil)
+					[choreList addObject:chore];
+			}
+			
+			_chores = [choreList retain];
+			
+			_choreListViewController = [[DIChoreListViewController alloc] initWithChores:_chores];
+			UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
+			[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
+			
+			[self.window setRootViewController:rootNavigationController];
+			
+			//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
+			
+		}
+	}
+	
 	[pool release];
-} 
+}
+
+
+- (void)requestFailed:(ASIHTTPRequest *)request {
+}
 
 
 

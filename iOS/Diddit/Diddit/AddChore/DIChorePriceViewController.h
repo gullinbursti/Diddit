@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ASIFormDataRequest.h"
 #import "DIChore.h"
 
-@interface DIChorePriceViewController : UIViewController <UIAlertViewDelegate> {
+
+@interface DIChorePriceViewController : UIViewController <UIAlertViewDelegate, ASIHTTPRequestDelegate> {
 	DIChore *_chore;
 	UIButton *_purchaseButton;
 	

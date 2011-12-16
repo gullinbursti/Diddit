@@ -18,6 +18,8 @@
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
 		4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */; };
+		4C0964B7149AC740005723AD /* DIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B6149AC740005723AD /* DIAchievement.m */; };
+		4C0964BA149AC8DA005723AD /* DIAchievementViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */; };
 		4CE25F2214988DFD00E367A2 /* washdishes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2114988DFD00E367A2 /* washdishes.jpg */; };
 		4CE25F2414988F6B00E367A2 /* washcar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2314988F6B00E367A2 /* washcar.jpg */; };
 		4CE25F261498902E00E367A2 /* cleanroom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F251498902E00E367A2 /* cleanroom.jpg */; };
@@ -199,6 +201,10 @@
 		4C09649F1499B1CE005723AD /* DIChore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChore.m; sourceTree = "<group>"; };
 		4C0964AE1499C47C005723AD /* DIChoreDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreDetailsViewController.h; sourceTree = "<group>"; };
 		4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreDetailsViewController.m; sourceTree = "<group>"; };
+		4C0964B5149AC740005723AD /* DIAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievement.h; sourceTree = "<group>"; };
+		4C0964B6149AC740005723AD /* DIAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievement.m; sourceTree = "<group>"; };
+		4C0964B8149AC8DA005723AD /* DIAchievementViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievementViewCell.h; sourceTree = "<group>"; };
+		4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievementViewCell.m; sourceTree = "<group>"; };
 		4CE25F2114988DFD00E367A2 /* washdishes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = washdishes.jpg; sourceTree = "<group>"; };
 		4CE25F2314988F6B00E367A2 /* washcar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = washcar.jpg; sourceTree = "<group>"; };
 		4CE25F251498902E00E367A2 /* cleanroom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cleanroom.jpg; sourceTree = "<group>"; };
@@ -532,10 +538,12 @@
 			children = (
 				4C0964931499B1CE005723AD /* DIAchievementsViewController.h */,
 				4C0964941499B1CE005723AD /* DIAchievementsViewController.m */,
-				4C0964951499B1CE005723AD /* DICreditsViewCell.h */,
-				4C0964961499B1CE005723AD /* DICreditsViewCell.m */,
+				4C0964B8149AC8DA005723AD /* DIAchievementViewCell.h */,
+				4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */,
 				4C0964971499B1CE005723AD /* DICreditsViewController.h */,
 				4C0964981499B1CE005723AD /* DICreditsViewController.m */,
+				4C0964951499B1CE005723AD /* DICreditsViewCell.h */,
+				4C0964961499B1CE005723AD /* DICreditsViewCell.m */,
 				4C0964991499B1CE005723AD /* DISettingsViewController.h */,
 				4C09649A1499B1CE005723AD /* DISettingsViewController.m */,
 			);
@@ -549,6 +557,8 @@
 				4C09649D1499B1CE005723AD /* DIApp.m */,
 				4C09649E1499B1CE005723AD /* DIChore.h */,
 				4C09649F1499B1CE005723AD /* DIChore.m */,
+				4C0964B5149AC740005723AD /* DIAchievement.h */,
+				4C0964B6149AC740005723AD /* DIAchievement.m */,
 			);
 			path = VO;
 			sourceTree = "<group>";
@@ -1097,20 +1107,20 @@
 		4CFE83901497D87D0032F12D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4CFE841E1497DA220032F12D /* libxml2.dylib */,
-				4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */,
-				4CE2609114993A0A00E367A2 /* libsqlite3.dylib */,
 				4CE2608D149939CF00E367A2 /* AudioToolbox.framework */,
-				4CE2608B149939CA00E367A2 /* CoreTelephony.framework */,
-				4CE26089149939C300E367A2 /* StoreKit.framework */,
-				4CE2608F149939D700E367A2 /* MessageUI.framework */,
 				4CFE84141497D9ED0032F12D /* CFNetwork.framework */,
 				4CFE83951497D87D0032F12D /* CoreGraphics.framework */,
+				4CE2608B149939CA00E367A2 /* CoreTelephony.framework */,
 				4CFE83931497D87D0032F12D /* Foundation.framework */,
+				4CE2608F149939D700E367A2 /* MessageUI.framework */,
 				4CFE84181497DA020032F12D /* MobileCoreServices.framework */,
 				4CFE841A1497DA0C0032F12D /* Security.framework */,
+				4CE26089149939C300E367A2 /* StoreKit.framework */,
 				4CFE84161497D9F60032F12D /* SystemConfiguration.framework */,
 				4CFE83911497D87D0032F12D /* UIKit.framework */,
+				4CE2609114993A0A00E367A2 /* libsqlite3.dylib */,
+				4CFE841E1497DA220032F12D /* libxml2.dylib */,
+				4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1474,6 +1484,8 @@
 				4C0964AA1499B1CE005723AD /* DIApp.m in Sources */,
 				4C0964AB1499B1CE005723AD /* DIChore.m in Sources */,
 				4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */,
+				4C0964B7149AC740005723AD /* DIAchievement.m in Sources */,
+				4C0964BA149AC8DA005723AD /* DIAchievementViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

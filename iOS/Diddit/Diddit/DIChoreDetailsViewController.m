@@ -58,7 +58,7 @@
 	
 	NSString *imgName = [[NSString alloc] init];
 	
-	switch (_chore.type_id) {
+	switch (_chore.chore_id) {
 		case 1:
 			imgName = @"washcar.jpg";
 			break;
@@ -125,7 +125,7 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)_goComplete {	
+- (void)_goComplete {
 	
 	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000" chore:_chore fromAdd:NO] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:pinCodeViewController] autorelease];
@@ -136,7 +136,52 @@
 
 #pragma mark - notication handlers
 -(void)_finishChore:(NSNotification *)notification {
+	
+	ASIFormDataRequest *finishChoreRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
+	[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+	[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
+	[finishChoreRequest setDelegate:self];
+	[finishChoreRequest startAsynchronous];
+	
+	
+	ASIFormDataRequest *updUserRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	[updUserRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
+	[updUserRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+	[updUserRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.cost * 100] forKey:@"points"];
+	[updUserRequest setDelegate:self];
+	[updUserRequest startAsynchronous];
+	
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+//	@autoreleasepool {
+//		NSError *error = nil;
+//		NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+//		
+//		if (error != nil)
+//			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+//		
+//		else {
+//			NSMutableArray *choreList = [NSMutableArray array];
+//			
+//			for (NSDictionary *serverChore in parsedChores) {
+//				DIChore *chore = [DIChore choreWithDictionary:serverChore];
+//				
+//				if (chore != nil)
+//					[choreList addObject:chore];
+//			}
+//			
+//		}
+//	}
+}
+
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
 }
 
 @end

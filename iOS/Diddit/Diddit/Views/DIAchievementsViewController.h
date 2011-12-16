@@ -10,12 +10,12 @@
 
 @interface DIAchievementsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	
-	NSMutableArray *_chores;
+	NSMutableArray *_achievements;
 	UITableView *_achievementTable;
 	
 }
 
 
--(id)initWithChores:(NSMutableArray *)chores;
+-(id)initWithAchievements:(NSMutableArray *)chores;
 
 @end

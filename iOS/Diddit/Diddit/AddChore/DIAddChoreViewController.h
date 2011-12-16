@@ -13,6 +13,8 @@
 	
 	NSMutableArray *_chores;
 	UITableView *_myChoresTableView;
+	
+	ASIFormDataRequest *_availChoresDataRequest;
 }
 
 -(id)initWithChores:(NSMutableArray *)chores;

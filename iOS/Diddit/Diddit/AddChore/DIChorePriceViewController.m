@@ -58,7 +58,7 @@
 	
 	NSString *imgName = [[NSString alloc] init];
 	
-	switch (_chore.type_id) {
+	switch (_chore.chore_id) {
 		case 1:
 			imgName = @"washcar.jpg";
 			break;
@@ -138,6 +138,7 @@
 - (void)_goPurchase {
 	
 	int price = (int)_slider.value;
+	_chore.cost = price;
 	
 	UIAlertView *purchaseAlert = [[UIAlertView alloc] initWithTitle:@"Coming Soon"
 																		 message:[NSString stringWithFormat:@"In-App purchase for $%d", price]
@@ -163,10 +164,54 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:_chore];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_AVAIL_CHORE" object:_chore];
 		
+		ASIFormDataRequest *addChoreRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
+		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
+		[addChoreRequest setDelegate:self];
+		[addChoreRequest startAsynchronous];
+		
+		ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Purchases.php"]] retain];
+		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
+		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.cost] forKey:@"price"];
+		[purchaseRequest setDelegate:self];
+		[purchaseRequest startAsynchronous];
+		
 		[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:_chore];
 		}];
 	}
+}
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	//	@autoreleasepool {
+	//		NSError *error = nil;
+	//		NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+	//		
+	//		if (error != nil)
+	//			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+	//		
+	//		else {
+	//			NSMutableArray *choreList = [NSMutableArray array];
+	//			
+	//			for (NSDictionary *serverChore in parsedChores) {
+	//				DIChore *chore = [DIChore choreWithDictionary:serverChore];
+	//				
+	//				if (chore != nil)
+	//					[choreList addObject:chore];
+	//			}
+	//			
+	//		}
+	//	}
+}
+
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
 }
 
 @end

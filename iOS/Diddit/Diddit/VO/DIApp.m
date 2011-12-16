@@ -11,11 +11,7 @@
 @implementation DIApp
 
 @synthesize dictionary;
-@synthesize ident;
-@synthesize title;
-@synthesize info;
-@synthesize points;
-@synthesize icoPath;
+@synthesize app_id, title, info, points, ico_url;
 
 
 +(DIApp *)appWithDictionary:(NSDictionary *)dictionary {
@@ -23,13 +19,22 @@
 	DIApp *app = [[DIApp alloc] init];
 	app.dictionary = dictionary;
 	
-	app.ident = [[dictionary objectForKey:@"id"] intValue];
+	app.app_id = [[dictionary objectForKey:@"id"] intValue];
 	app.title = [dictionary objectForKey:@"title"];
 	app.info = [dictionary objectForKey:@"info"];
 	app.points = [[dictionary objectForKey:@"points"] intValue];
-	app.icoPath = [dictionary objectForKey:@"icoPath"];
+	app.ico_url = [dictionary objectForKey:@"ico_url"];
 	
 	return (app);
+}
+
+-(void)dealloc {
+	self.dictionary = nil;
+	self.title = nil;
+	self.info = nil;
+	self.ico_url = nil;
+	
+	[super dealloc];
 }
 
 

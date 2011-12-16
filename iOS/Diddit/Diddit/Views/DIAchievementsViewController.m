@@ -10,14 +10,14 @@
 
 #import "DIAchievementsViewController.h"
 
-#import "DIMyChoresViewCell.h"
+#import "DIAchievementViewCell.h"
 
 @implementation DIAchievementsViewController
 
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		_chores = [[NSMutableArray alloc] init];
+		_achievements = [[NSMutableArray alloc] init];
 		
 		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
 		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
@@ -35,9 +35,9 @@
 }
 
 
--(id)initWithChores:(NSMutableArray *)chores {
+-(id)initWithAchievements:(NSMutableArray *)achievements {
 	if ((self = [self init])) {
-		_chores = chores;
+		_achievements = achievements;
 	}
 	
 	return (self);
@@ -49,7 +49,7 @@
 	
 	[self.view setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
 	
-	if ([_chores count] == 0) {
+	if ([_achievements count] == 0) {
 		UILabel *emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
 		//emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
 		emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
@@ -86,17 +86,17 @@
 
 #pragma mark - TableView Data Source Delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_chores count]);
+	return ([_achievements count]);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
+	DIAchievementViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIAchievementViewCell cellReuseIdentifier]];
 		
 	if (cell == nil)
-		cell = [[[DIMyChoresViewCell alloc] init] autorelease];
+		cell = [[[DIAchievementViewCell alloc] init] autorelease];
 		
-	cell.chore = [_chores objectAtIndex:indexPath.row];
-	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
+	cell.achievement = [_achievements objectAtIndex:indexPath.row];
+	cell.shouldDrawSeparator = (indexPath.row == ([_achievements count] - 1));
 	[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 	[cell setUserInteractionEnabled:NO];
 	return cell;

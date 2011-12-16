@@ -1,19 +1,18 @@
 //
-//  DICreditsViewCell.m
+//  DIAchievementViewCell.m
 //  Diddit
 //
-//  Created by Matthew Holcombe on 12.13.11.
+//  Created by Matthew Holcombe on 12.15.11.
 //  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "DICreditsViewCell.h"
+#import "DIAchievementViewCell.h"
 
-@implementation DICreditsViewCell
+@implementation DIAchievementViewCell
 
-@synthesize app = _app;
+@synthesize achievement = _achievement;
 @synthesize shouldDrawSeparator = _shouldDrawSeparator;
-
 
 +(NSString *)cellReuseIdentifier {
 	return (NSStringFromClass(self));
@@ -42,14 +41,7 @@
 		_infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 		_infoLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		[self addSubview:_infoLabel];
-		
-		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 10, 80.0, 16)];
-		//_pointsLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
-		_pointsLabel.backgroundColor = [UIColor clearColor];
-		_pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_pointsLabel];
-		
+				
 		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(300.0, 20.0, 9, 12)] autorelease];
 		chevronView.image = [UIImage imageNamed:@"smallChevron.png"];
 		[self addSubview:chevronView];
@@ -64,13 +56,12 @@
 }
 
 #pragma mark - Accessors
-- (void)setApp:(DIApp *)app {
-	_app = app;
+- (void)setAchievement:(DIAchievement *)achievement {
+	_achievement = achievement;
 	
-	_titleLabel.text = [NSString stringWithFormat:@"%@", _app.title];		
-	_appIcoView.imageURL = [NSURL URLWithString:_app.ico_url];
-	_infoLabel.text = _app.info;
-	_pointsLabel.text = [NSString stringWithFormat:@"%dpts", _app.points];
+	_titleLabel.text = [NSString stringWithFormat:@"%@", _achievement.title];		
+	_appIcoView.imageURL = [NSURL URLWithString:_achievement.icoPath];
+	_infoLabel.text = _achievement.info;
 }
 
 

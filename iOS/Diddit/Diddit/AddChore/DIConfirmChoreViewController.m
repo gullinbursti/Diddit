@@ -62,7 +62,7 @@
 	
 	NSString *imgName = [[NSString alloc] init];
 	
-	switch (_chore.type_id) {
+	switch (_chore.chore_id) {
 		case 1:
 			imgName = @"washcar.jpg";
 			break;

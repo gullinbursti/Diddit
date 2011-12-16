@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ASIFormDataRequest.h"
 #import "DIChore.h"
 
-@interface DIChoreDetailsViewController : UIViewController {// <UITableViewDelegate, UITableViewDataSource> {
+@interface DIChoreDetailsViewController : UIViewController <ASIHTTPRequestDelegate> {//<UITableViewDelegate, UITableViewDataSource> {
 
 	UITableView *_appsTableView;
 	UIImageView *_choreImgView;

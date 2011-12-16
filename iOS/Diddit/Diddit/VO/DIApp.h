@@ -10,13 +10,13 @@
 
 @interface DIApp : NSObject
 
-+ (DIApp *)appWithDictionary:(NSDictionary *)dictionary;
++(DIApp *)appWithDictionary:(NSDictionary *)dictionary;
 
 @property (nonatomic, retain) NSDictionary *dictionary;
-@property (nonatomic) int ident;
+@property (nonatomic) int app_id;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
 @property (nonatomic) int points;
-@property (nonatomic, retain) NSString *icoPath;
+@property (nonatomic, retain) NSString *ico_url;
 
 @end

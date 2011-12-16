@@ -71,7 +71,9 @@
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _chore.title];		
 	_icoView.imageURL = [NSURL URLWithString:_chore.icoPath];
 	_infoLabel.text = _chore.info;
-	_pointsLabel.text = [NSString stringWithFormat:@"%dpts", _chore.points];
+	
+	if (_chore.cost > 0)
+		_pointsLabel.text = _chore.price;
 }
 
 
