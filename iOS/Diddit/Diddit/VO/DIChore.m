@@ -19,6 +19,7 @@
 @synthesize icoPath;
 @synthesize imgPath;
 @synthesize isFinished;
+@synthesize isCustom;
 
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
@@ -34,6 +35,7 @@
 	chore.icoPath = [dictionary objectForKey:@"icoPath"];
 	chore.imgPath = [dictionary objectForKey:@"imgPath"];
 	chore.isFinished = (BOOL)([[dictionary objectForKey:@"finished"] isEqual:@"Y"]);
+	chore.isCustom = (BOOL)([[dictionary objectForKey:@"custom"] isEqual:@"Y"]);
 	
 	return (chore);
 }

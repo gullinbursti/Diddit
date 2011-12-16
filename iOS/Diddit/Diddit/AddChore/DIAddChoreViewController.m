@@ -10,6 +10,7 @@
 #import "DIAddChoreViewController.h"
 
 #import "DIMyChoresViewCell.h"
+#import "DIAddCustomChoreViewController.h"
 #import "DIConfirmChoreViewController.h"
 
 #import "DIChore.h"
@@ -21,6 +22,7 @@
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeAvailChore:) name:@"REMOVE_AVAIL_CHORE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addCustomChore:) name:@"ADD_CUSTOM_CHORE" object:nil];
 		
 		_chores = [[NSMutableArray alloc] init];
 		
@@ -44,6 +46,17 @@
 		[backButton setTitle:@"Back" forState:UIControlStateNormal];
 		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		
+		
+		UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		addButton.frame = CGRectMake(0, 0, 110.0, 30);
+		[addButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
+		[addButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
+		addButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
+		//backButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
+		[addButton setTitle:@"+ Custom" forState:UIControlStateNormal];
+		[addButton addTarget:self action:@selector(_goAddCustom) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:addButton] autorelease];
 	}
 	
 	return (self);
@@ -92,15 +105,32 @@
 }
 
 -(void)_removeAvailChore:(NSNotification *)notification {
+	DIChore *chore = (DIChore *)[notification object];
 	
-	[_chores removeObjectIdenticalTo:(DIChore *)[notification object]];
-	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	if (!chore.isCustom) {
+		[_chores removeObjectIdenticalTo:chore];
+		[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	}
+}
+
+-(void)_addCustomChore:(NSNotification *)notification {
+	DIChore *chore = (DIChore *)[notification object];
+	
+	[_chores addObject:chore];
+	[_myChoresTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[_chores count] - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 
 #pragma mark - navigation
 - (void)_goBack {
 	[self dismissViewControllerAnimated:YES completion:nil];	
+}
+
+
+- (void)_goAddCustom {
+	DIAddCustomChoreViewController *addCustomChoreViewController = [[[DIAddCustomChoreViewController alloc] init] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addCustomChoreViewController] autorelease];
+	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 #pragma mark - TableView Data Source Delegates

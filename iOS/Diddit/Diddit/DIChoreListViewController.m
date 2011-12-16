@@ -189,12 +189,6 @@
 
 #pragma mark - Button Handlers
 -(void)_goAchievements {
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-	
-	NSMutableArray *chores = [[NSMutableArray alloc] init];
-	for (NSDictionary *dict in plist)
-		[chores addObject:[DIChore choreWithDictionary:dict]];
-	
 	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithAchievements:_achievements] autorelease] animated:YES];
 }
 
@@ -238,14 +232,21 @@
 
 
 -(void)_removeAvailChore:(NSNotification *)notification {
-	[_availChores removeObjectIdenticalTo:(DIChore *)[notification object]];
+	DIChore *chore = (DIChore *)[notification object];
+	
+	if (!chore.isCustom)
+		[_availChores removeObjectIdenticalTo:chore];
+}
+
+-(void)_addCustomChore:(NSNotification *)notification {
+	[_availChores addObject:(DIChore *)[notification object]];
 }
 
 -(void)_finishChore:(NSNotification *)notification {
 	DIChore *chore = (DIChore *)[notification object];
 	[_finishedChores addObject:chore];
 	
-	_myPoints += (chore.cost * 1000);
+	_myPoints += (chore.cost * 100);
 	
 	[_chores removeObjectIdenticalTo:chore];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
@@ -320,10 +321,8 @@
 				_availChores = [choreList retain];
 			}
 		}
-	}
 	
-	
-	if ([request isEqual:_achievementsRequest]) {
+	} else if ([request isEqual:_achievementsRequest]) {
 		@autoreleasepool {
 			NSError *error = nil;
 			NSArray *parsedAchievements = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
@@ -344,10 +343,8 @@
 				_achievements = [achievementList retain];
 			}
 		}
-	}
 	
-	
-	if ([request isEqual:_userRequest]) {
+	} else if ([request isEqual:_userRequest]) {
 		@autoreleasepool {
 			NSError *error = nil;
 			NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];

@@ -206,7 +206,7 @@
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
-	NSLog(@"textFieldDidBeginEditing");
+	//NSLog(@"textFieldDidBeginEditing");
 	
 	//if (textField.tag == 0) {
 	//	[_digit1TxtField resignFirstResponder];
@@ -221,7 +221,7 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
-	NSLog(@"textFieldDidEndEditing [%@]", _digit1TxtField.text);
+	//NSLog(@"textFieldDidEndEditing [%@]", _digit1TxtField.text);
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

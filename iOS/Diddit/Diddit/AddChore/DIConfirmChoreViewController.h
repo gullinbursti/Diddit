@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 #import "DIChore.h"
+#import "EGOImageView.h"
 
 @interface DIConfirmChoreViewController : UIViewController {
 	
 	DIChore *_chore;
+	EGOImageView *_imgView;
 	UIButton *_assignButton;
 }
 

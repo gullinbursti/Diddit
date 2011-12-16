@@ -20,11 +20,6 @@
 		4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */; };
 		4C0964B7149AC740005723AD /* DIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B6149AC740005723AD /* DIAchievement.m */; };
 		4C0964BA149AC8DA005723AD /* DIAchievementViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */; };
-		4CE25F2214988DFD00E367A2 /* washdishes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2114988DFD00E367A2 /* washdishes.jpg */; };
-		4CE25F2414988F6B00E367A2 /* washcar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2314988F6B00E367A2 /* washcar.jpg */; };
-		4CE25F261498902E00E367A2 /* cleanroom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F251498902E00E367A2 /* cleanroom.jpg */; };
-		4CE25F28149890CC00E367A2 /* taketrash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F27149890CC00E367A2 /* taketrash.jpg */; };
-		4CE25F2A1498915100E367A2 /* walkdog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F291498915100E367A2 /* walkdog.jpg */; };
 		4CE25F2C1498961A00E367A2 /* test_apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2B1498961A00E367A2 /* test_apps.plist */; };
 		4CE260241499380200E367A2 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2E1499380200E367A2 /* AirshipConfig.plist */; };
 		4CE260251499380200E367A2 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2F1499380200E367A2 /* CHANGELOG */; };
@@ -175,7 +170,7 @@
 		4CFE841D1497DA180032F12D /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */; };
 		4CFE841F1497DA220032F12D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE841E1497DA220032F12D /* libxml2.dylib */; };
 		4CFE8428149838590032F12D /* test_choreTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE8427149838590032F12D /* test_choreTypes.plist */; };
-		4CFE843514984E7B0032F12D /* mowlawn.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE843414984E7B0032F12D /* mowlawn.jpg */; };
+		4CFEBC65149B1174004290DF /* DIAddCustomChoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFEBC64149B1174004290DF /* DIAddCustomChoreViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -205,11 +200,6 @@
 		4C0964B6149AC740005723AD /* DIAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievement.m; sourceTree = "<group>"; };
 		4C0964B8149AC8DA005723AD /* DIAchievementViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievementViewCell.h; sourceTree = "<group>"; };
 		4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievementViewCell.m; sourceTree = "<group>"; };
-		4CE25F2114988DFD00E367A2 /* washdishes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = washdishes.jpg; sourceTree = "<group>"; };
-		4CE25F2314988F6B00E367A2 /* washcar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = washcar.jpg; sourceTree = "<group>"; };
-		4CE25F251498902E00E367A2 /* cleanroom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cleanroom.jpg; sourceTree = "<group>"; };
-		4CE25F27149890CC00E367A2 /* taketrash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = taketrash.jpg; sourceTree = "<group>"; };
-		4CE25F291498915100E367A2 /* walkdog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walkdog.jpg; sourceTree = "<group>"; };
 		4CE25F2B1498961A00E367A2 /* test_apps.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_apps.plist; sourceTree = "<group>"; };
 		4CE25F2E1499380200E367A2 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		4CE25F2F1499380200E367A2 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
@@ -491,7 +481,8 @@
 		4CFE841C1497DA180032F12D /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		4CFE841E1497DA220032F12D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		4CFE8427149838590032F12D /* test_choreTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_choreTypes.plist; sourceTree = "<group>"; };
-		4CFE843414984E7B0032F12D /* mowlawn.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mowlawn.jpg; sourceTree = "<group>"; };
+		4CFEBC63149B1174004290DF /* DIAddCustomChoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAddCustomChoreViewController.h; sourceTree = "<group>"; };
+		4CFEBC64149B1174004290DF /* DIAddCustomChoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAddCustomChoreViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -525,10 +516,12 @@
 			children = (
 				4C09648A1499B1CE005723AD /* DIAddChoreViewController.h */,
 				4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */,
-				4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */,
-				4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */,
+				4CFEBC63149B1174004290DF /* DIAddCustomChoreViewController.h */,
+				4CFEBC64149B1174004290DF /* DIAddCustomChoreViewController.m */,
 				4C0964901499B1CE005723AD /* DIConfirmChoreViewController.h */,
 				4C0964911499B1CE005723AD /* DIConfirmChoreViewController.m */,
+				4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */,
+				4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */,
 			);
 			path = AddChore;
 			sourceTree = "<group>";
@@ -1245,12 +1238,6 @@
 		4CFE83D81497D8DA0032F12D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4CE25F291498915100E367A2 /* walkdog.jpg */,
-				4CE25F27149890CC00E367A2 /* taketrash.jpg */,
-				4CE25F251498902E00E367A2 /* cleanroom.jpg */,
-				4CE25F2314988F6B00E367A2 /* washcar.jpg */,
-				4CE25F2114988DFD00E367A2 /* washdishes.jpg */,
-				4CFE843414984E7B0032F12D /* mowlawn.jpg */,
 				4CE25F2B1498961A00E367A2 /* test_apps.plist */,
 				4CFE8427149838590032F12D /* test_choreTypes.plist */,
 				4CFE83D91497D8DA0032F12D /* active_headerButton.png */,
@@ -1338,12 +1325,6 @@
 				4CFE84031497D8DA0032F12D /* smallChevron.png in Resources */,
 				4CFE84041497D8DA0032F12D /* smallChevron@2x.png in Resources */,
 				4CFE8428149838590032F12D /* test_choreTypes.plist in Resources */,
-				4CFE843514984E7B0032F12D /* mowlawn.jpg in Resources */,
-				4CE25F2214988DFD00E367A2 /* washdishes.jpg in Resources */,
-				4CE25F2414988F6B00E367A2 /* washcar.jpg in Resources */,
-				4CE25F261498902E00E367A2 /* cleanroom.jpg in Resources */,
-				4CE25F28149890CC00E367A2 /* taketrash.jpg in Resources */,
-				4CE25F2A1498915100E367A2 /* walkdog.jpg in Resources */,
 				4CE25F2C1498961A00E367A2 /* test_apps.plist in Resources */,
 				4CE260241499380200E367A2 /* AirshipConfig.plist in Resources */,
 				4CE260251499380200E367A2 /* CHANGELOG in Resources */,
@@ -1486,6 +1467,7 @@
 				4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */,
 				4C0964B7149AC740005723AD /* DIAchievement.m in Sources */,
 				4C0964BA149AC8DA005723AD /* DIAchievementViewCell.m in Sources */,
+				4CFEBC65149B1174004290DF /* DIAddCustomChoreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

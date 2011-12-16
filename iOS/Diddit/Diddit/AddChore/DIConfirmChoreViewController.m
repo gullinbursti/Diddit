@@ -59,45 +59,10 @@
 	[super loadView];
 	
 	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
-	
-	NSString *imgName = [[NSString alloc] init];
-	
-	switch (_chore.chore_id) {
-		case 1:
-			imgName = @"washcar.jpg";
-			break;
-			
-		case 2:
-			imgName = @"washdishes.jpg";
-			break;
-			
-		case 3:
-			imgName = @"cleanroom.jpg";
-			break;
-			
-		case 4:
-			imgName = @"mowlawn.jpg";
-			break;
-			
-		case 5:
-			imgName = @"taketrash.jpg";
-			break;
-			
-		case 6:
-			imgName = @"walkdog.jpg";
-			break;
-			
-		default:
-			imgName = @"mowlawn.jpg";
-	}
-	
-	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
-	CGRect frame = bgImgView.frame;
-	frame.origin.x = 32;
-	frame.origin.y = 64;
-	bgImgView.frame = frame;
-	[self.view addSubview:bgImgView];
+
+	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(32, 64, 256, 256)];
+	_imgView.imageURL = [NSURL URLWithString:_chore.imgPath];
+	[self.view addSubview:_imgView];
 	
 	_assignButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_assignButton.frame = CGRectMake(32, 375, 256, 32);

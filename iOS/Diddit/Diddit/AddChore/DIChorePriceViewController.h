@@ -10,11 +10,13 @@
 
 #import "ASIFormDataRequest.h"
 #import "DIChore.h"
+#import "EGOImageView.h"
 
 
 @interface DIChorePriceViewController : UIViewController <UIAlertViewDelegate, ASIHTTPRequestDelegate> {
 	DIChore *_chore;
 	UIButton *_purchaseButton;
+	EGOImageView *_imgView;
 	
 	UILabel *_label;
 	UISlider *_slider;

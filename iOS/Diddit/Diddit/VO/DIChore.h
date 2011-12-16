@@ -22,5 +22,6 @@
 @property (nonatomic, retain) NSString *icoPath;
 @property (nonatomic, retain) NSString *imgPath;
 @property (nonatomic) BOOL isFinished;
+@property (nonatomic) BOOL isCustom;
 
 @end

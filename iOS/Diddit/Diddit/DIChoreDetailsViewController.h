@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #import "ASIFormDataRequest.h"
+#import "EGOImageView.h"
 #import "DIChore.h"
 
 @interface DIChoreDetailsViewController : UIViewController <ASIHTTPRequestDelegate> {//<UITableViewDelegate, UITableViewDataSource> {
 
 	UITableView *_appsTableView;
-	UIImageView *_choreImgView;
+	EGOImageView *_imgView;
 	UIButton *_completeButton;
 	
 	DIChore *_chore;
