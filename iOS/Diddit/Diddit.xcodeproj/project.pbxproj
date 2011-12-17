@@ -14,12 +14,16 @@
 		4C0964A61499B1CE005723AD /* DIAchievementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964941499B1CE005723AD /* DIAchievementsViewController.m */; };
 		4C0964A71499B1CE005723AD /* DICreditsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964961499B1CE005723AD /* DICreditsViewCell.m */; };
 		4C0964A81499B1CE005723AD /* DICreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964981499B1CE005723AD /* DICreditsViewController.m */; };
-		4C0964A91499B1CE005723AD /* DISettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649A1499B1CE005723AD /* DISettingsViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
 		4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964AF1499C47C005723AD /* DIChoreDetailsViewController.m */; };
 		4C0964B7149AC740005723AD /* DIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B6149AC740005723AD /* DIAchievement.m */; };
 		4C0964BA149AC8DA005723AD /* DIAchievementViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */; };
+		4C1DA818149BF44B0075B19D /* DIAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA815149BF44B0075B19D /* DIAboutViewController.m */; };
+		4C1DA819149BF44B0075B19D /* DISettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA817149BF44B0075B19D /* DISettingsViewController.m */; };
+		4C1DA81C149BF7850075B19D /* DIEmailSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */; };
+		4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */; };
+		4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */; };
 		4CE25F2C1498961A00E367A2 /* test_apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2B1498961A00E367A2 /* test_apps.plist */; };
 		4CE260241499380200E367A2 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2E1499380200E367A2 /* AirshipConfig.plist */; };
 		4CE260251499380200E367A2 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2F1499380200E367A2 /* CHANGELOG */; };
@@ -188,8 +192,6 @@
 		4C0964961499B1CE005723AD /* DICreditsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DICreditsViewCell.m; sourceTree = "<group>"; };
 		4C0964971499B1CE005723AD /* DICreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DICreditsViewController.h; sourceTree = "<group>"; };
 		4C0964981499B1CE005723AD /* DICreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DICreditsViewController.m; sourceTree = "<group>"; };
-		4C0964991499B1CE005723AD /* DISettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISettingsViewController.h; sourceTree = "<group>"; };
-		4C09649A1499B1CE005723AD /* DISettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISettingsViewController.m; sourceTree = "<group>"; };
 		4C09649C1499B1CE005723AD /* DIApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIApp.h; sourceTree = "<group>"; };
 		4C09649D1499B1CE005723AD /* DIApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIApp.m; sourceTree = "<group>"; };
 		4C09649E1499B1CE005723AD /* DIChore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChore.h; sourceTree = "<group>"; };
@@ -200,6 +202,16 @@
 		4C0964B6149AC740005723AD /* DIAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievement.m; sourceTree = "<group>"; };
 		4C0964B8149AC8DA005723AD /* DIAchievementViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievementViewCell.h; sourceTree = "<group>"; };
 		4C0964B9149AC8DA005723AD /* DIAchievementViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievementViewCell.m; sourceTree = "<group>"; };
+		4C1DA814149BF44B0075B19D /* DIAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAboutViewController.h; sourceTree = "<group>"; };
+		4C1DA815149BF44B0075B19D /* DIAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAboutViewController.m; sourceTree = "<group>"; };
+		4C1DA816149BF44B0075B19D /* DISettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISettingsViewController.h; sourceTree = "<group>"; };
+		4C1DA817149BF44B0075B19D /* DISettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISettingsViewController.m; sourceTree = "<group>"; };
+		4C1DA81A149BF7850075B19D /* DIEmailSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIEmailSettingsViewController.h; sourceTree = "<group>"; };
+		4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIEmailSettingsViewController.m; sourceTree = "<group>"; };
+		4C1DA81D149BF8060075B19D /* DIPinSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIPinSettingsViewController.h; sourceTree = "<group>"; };
+		4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIPinSettingsViewController.m; sourceTree = "<group>"; };
+		4C1DA821149C2A7E0075B19D /* DIStoreObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStoreObserver.h; sourceTree = "<group>"; };
+		4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIStoreObserver.m; sourceTree = "<group>"; };
 		4CE25F2B1498961A00E367A2 /* test_apps.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_apps.plist; sourceTree = "<group>"; };
 		4CE25F2E1499380200E367A2 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		4CE25F2F1499380200E367A2 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
@@ -537,8 +549,6 @@
 				4C0964981499B1CE005723AD /* DICreditsViewController.m */,
 				4C0964951499B1CE005723AD /* DICreditsViewCell.h */,
 				4C0964961499B1CE005723AD /* DICreditsViewCell.m */,
-				4C0964991499B1CE005723AD /* DISettingsViewController.h */,
-				4C09649A1499B1CE005723AD /* DISettingsViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -554,6 +564,37 @@
 				4C0964B6149AC740005723AD /* DIAchievement.m */,
 			);
 			path = VO;
+			sourceTree = "<group>";
+		};
+		4C1DA813149BF44B0075B19D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DA814149BF44B0075B19D /* DIAboutViewController.h */,
+				4C1DA815149BF44B0075B19D /* DIAboutViewController.m */,
+				4C1DA816149BF44B0075B19D /* DISettingsViewController.h */,
+				4C1DA817149BF44B0075B19D /* DISettingsViewController.m */,
+				4C1DA81A149BF7850075B19D /* DIEmailSettingsViewController.h */,
+				4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */,
+				4C1DA81D149BF8060075B19D /* DIPinSettingsViewController.h */,
+				4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		4C1DA820149C2A550075B19D /* StoreKit */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DA821149C2A7E0075B19D /* DIStoreObserver.h */,
+				4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */,
+			);
+			path = StoreKit;
+			sourceTree = "<group>";
+		};
+		4C1DA827149C33950075B19D /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		4CE25F2D1499380200E367A2 /* Airship */ = {
@@ -1132,6 +1173,9 @@
 				4C09646F14996065005723AD /* DIPinCodeViewController.h */,
 				4C09647014996065005723AD /* DIPinCodeViewController.m */,
 				4C0964891499B1CE005723AD /* AddChore */,
+				4C1DA813149BF44B0075B19D /* Settings */,
+				4C1DA827149C33950075B19D /* Splash */,
+				4C1DA820149C2A550075B19D /* StoreKit */,
 				4C0964921499B1CE005723AD /* Views */,
 				4C09649B1499B1CE005723AD /* VO */,
 				4CFE83981497D87D0032F12D /* Supporting Files */,
@@ -1461,13 +1505,17 @@
 				4C0964A61499B1CE005723AD /* DIAchievementsViewController.m in Sources */,
 				4C0964A71499B1CE005723AD /* DICreditsViewCell.m in Sources */,
 				4C0964A81499B1CE005723AD /* DICreditsViewController.m in Sources */,
-				4C0964A91499B1CE005723AD /* DISettingsViewController.m in Sources */,
 				4C0964AA1499B1CE005723AD /* DIApp.m in Sources */,
 				4C0964AB1499B1CE005723AD /* DIChore.m in Sources */,
 				4C0964B01499C47D005723AD /* DIChoreDetailsViewController.m in Sources */,
 				4C0964B7149AC740005723AD /* DIAchievement.m in Sources */,
 				4C0964BA149AC8DA005723AD /* DIAchievementViewCell.m in Sources */,
 				4CFEBC65149B1174004290DF /* DIAddCustomChoreViewController.m in Sources */,
+				4C1DA818149BF44B0075B19D /* DIAboutViewController.m in Sources */,
+				4C1DA819149BF44B0075B19D /* DISettingsViewController.m in Sources */,
+				4C1DA81C149BF7850075B19D /* DIEmailSettingsViewController.m in Sources */,
+				4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */,
+				4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,8 @@
 
 @implementation DIChorePriceViewController
 
+@synthesize productDetailsList, productIdentifierList;
+
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
@@ -58,7 +60,15 @@
 	
 	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(32, 32, 256, 256)];
 	_imgView.imageURL = [NSURL URLWithString:_chore.imgPath];
-	[self.view addSubview:_imgView];
+	//[self.view addSubview:_imgView];
+	
+	productDisplayTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+	productDisplayTableView.rowHeight = 54;
+	productDisplayTableView.delegate = self;
+	productDisplayTableView.dataSource = self;
+	productDisplayTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+	productDisplayTableView.layer.borderWidth = 1.0;
+	[self.view addSubview:productDisplayTableView];
 	
 	_label = [[UILabel alloc] initWithFrame:CGRectMake(128, 300, 64, 16)];
 	//_label.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
@@ -87,6 +97,29 @@
 }
 
 -(void)viewDidLoad {
+	
+	productDetailsList    = [[NSMutableArray alloc] init];  
+	productIdentifierList = [[NSMutableArray alloc] init];
+	
+	if ([SKPaymentQueue canMakePayments])
+		NSLog(@"PURCHASING ALLOWED DICKHEAD!");
+	
+	else
+		NSLog(@"CAN'T BUY SHIT!");
+	
+	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject: @"com.sparklemountain.diddit.00099"]];
+	
+	/*
+	for (int i=0; i<=9; i++) {
+		NSString *productIdent = [NSString stringWithFormat:@"com.sparklemountain.diddit.%03d99", i];
+		[productIdentifierList addObject:productIdent]; 
+		NSLog(@"PRODUCT: [%@]", productIdent);
+	}	
+	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifierList]];  
+	*/
+	request.delegate = self;
+	[request start];
+	
 	[super viewDidLoad];
 }
 
@@ -118,6 +151,26 @@
 #pragma mark - Event Handlers
 -(void)_goSliderChange:(id)sender {
 	_label.text = [NSString stringWithFormat:@"$%d", (int)_slider.value];
+}
+
+
+#pragma mark - TableView Delegates
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {  
+	return ([productDetailsList count]);
+}   
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath  {  
+	static NSString *GenericTableIdentifier = @"GenericTableIdentifier";  
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: GenericTableIdentifier];  
+	
+	if (cell == nil)
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier: GenericTableIdentifier] autorelease];  
+	
+	NSUInteger row = [indexPath row];  
+	SKProduct *thisProduct = [productDetailsList objectAtIndex:row];  
+	[cell.textLabel setText:[NSString stringWithFormat:@"%@ - %@", thisProduct.localizedTitle, thisProduct.price]];   
+	
+	return cell;  
 }
 
 
@@ -175,8 +228,36 @@
 	//	}
 }
 
-
 -(void)requestFailed:(ASIHTTPRequest *)request {
+}
+
+
+
+#pragma mark - StoreKit Delegates
+-(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+	NSLog(@"Product request OK: %@", response.products); 
+	
+	NSArray *myProduct = response.products;
+	
+	for (int i=0; i<[myProduct count]; i++) {
+		SKProduct *product = [myProduct objectAtIndex:i];
+		NSLog(@"Name: %@ - Price: %f", [product localizedTitle], [[product price] doubleValue]);
+		NSLog(@"Product identifier: %@", [product productIdentifier]);
+	}
+	
+	
+	
+	[productDetailsList addObjectsFromArray: response.products];  
+	[productDisplayTableView reloadData];
+}  
+
+-(void)requestDidFinish:(SKRequest *)request {
+	NSLog(@"Product request done");
+	[request release];  
+}  
+
+-(void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+	NSLog(@"Failed to connect with error: %@", [error localizedDescription]);  
 }
 
 @end

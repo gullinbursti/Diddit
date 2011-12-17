@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DISettingsViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface DISettingsViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
+	
+	UITableView *_settingsTableView;
+}
 
 @end

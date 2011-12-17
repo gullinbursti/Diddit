@@ -121,7 +121,7 @@
 }
 
 
-#pragma mark - navigation
+#pragma mark - Navigation
 - (void)_goBack {
 	[self dismissViewControllerAnimated:YES completion:nil];	
 }
