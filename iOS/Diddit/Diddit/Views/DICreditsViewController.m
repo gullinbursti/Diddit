@@ -9,6 +9,9 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "DICreditsViewController.h"
+
+#import "DIAppDelegate.h"
+#import "DIAppPurchaseViewController.h"
 #import "DICreditsViewCell.h"
 #import "DIApp.h"
 
@@ -17,6 +20,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_purchaseApp:) name:@"PURCHASE_APP" object:nil];
 		
 		_chores = [[NSMutableArray alloc] init];
 		_apps = [[NSMutableArray alloc] init];
@@ -106,6 +110,12 @@
     [super viewDidUnload];
 }
 
+#pragma mark - Notification Handlers
+-(void)_purchaseApp:(NSNotification *)notification {
+	_points = [DIAppDelegate userPoints];
+	_creditsLabel.text = [NSString stringWithFormat:@"You have %d credits!", _points];
+}
+
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return (2);
@@ -127,14 +137,30 @@
 		cell = [[[DICreditsViewCell alloc] init] autorelease];
 	
 	NSArray *array = [_apps objectAtIndex:indexPath.section];
+	DIApp *app = [array objectAtIndex:indexPath.row];
 	
-	cell.app = [array objectAtIndex:indexPath.row];
+	cell.app = app;
 	cell.shouldDrawSeparator = (indexPath.row == ([array count] - 1));
+	
+	if (_points < app.points) {
+		 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+		 [cell setUserInteractionEnabled:NO];
+	}
 	
 	return cell;
 }
 
 #pragma mark - TableView Delegates
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
+	
+	DIApp *app = [[_apps objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	if (_points < app.points)
+		return (nil);
+	
+	return (indexPath);
+}
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	//DIConfirmChoreViewController *confirmChoreType = [[[DIConfirmChoreViewController alloc] initWithChoreType:[_choreTypes objectAtIndex:indexPath.row]] autorelease];
@@ -143,6 +169,11 @@
 	//[self.navigationController presentModalViewController:navigationController animated:YES];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	
+	DIAppPurchaseViewController *appPurchaseViewController = [[[DIAppPurchaseViewController alloc] initWithApp:[[_apps objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:appPurchaseViewController] autorelease];
+	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

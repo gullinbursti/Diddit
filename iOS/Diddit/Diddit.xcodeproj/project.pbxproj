@@ -141,6 +141,8 @@
 		4CE2608E149939CF00E367A2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE2608D149939CF00E367A2 /* AudioToolbox.framework */; };
 		4CE26090149939D700E367A2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE2608F149939D700E367A2 /* MessageUI.framework */; };
 		4CE2609214993A0A00E367A2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE2609114993A0A00E367A2 /* libsqlite3.dylib */; };
+		4CF6BD2D149D3838002BC00B /* DIAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF6BD2C149D3838002BC00B /* DIAppPurchaseViewController.m */; };
+		4CF6BD36149D5605002BC00B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF6BD35149D5605002BC00B /* MBProgressHUD.m */; };
 		4CFE83921497D87D0032F12D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE83911497D87D0032F12D /* UIKit.framework */; };
 		4CFE83941497D87D0032F12D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE83931497D87D0032F12D /* Foundation.framework */; };
 		4CFE83961497D87D0032F12D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE83951497D87D0032F12D /* CoreGraphics.framework */; };
@@ -448,6 +450,10 @@
 		4CE2608D149939CF00E367A2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		4CE2608F149939D700E367A2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		4CE2609114993A0A00E367A2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		4CF6BD2B149D3838002BC00B /* DIAppPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAppPurchaseViewController.h; sourceTree = "<group>"; };
+		4CF6BD2C149D3838002BC00B /* DIAppPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAppPurchaseViewController.m; sourceTree = "<group>"; };
+		4CF6BD34149D5605002BC00B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		4CF6BD35149D5605002BC00B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		4CFE838D1497D87D0032F12D /* Diddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CFE83911497D87D0032F12D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4CFE83931497D87D0032F12D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -571,6 +577,8 @@
 				4C0964981499B1CE005723AD /* DICreditsViewController.m */,
 				4C0964951499B1CE005723AD /* DICreditsViewCell.h */,
 				4C0964961499B1CE005723AD /* DICreditsViewCell.m */,
+				4CF6BD2B149D3838002BC00B /* DIAppPurchaseViewController.h */,
+				4CF6BD2C149D3838002BC00B /* DIAppPurchaseViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1142,6 +1150,15 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		4CF6BD33149D5605002BC00B /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				4CF6BD34149D5605002BC00B /* MBProgressHUD.h */,
+				4CF6BD35149D5605002BC00B /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		4CFE83821497D87D0032F12D = {
 			isa = PBXGroup;
 			children = (
@@ -1152,6 +1169,7 @@
 				4CE25F2D1499380200E367A2 /* Airship */,
 				4CFE83B11497D8DA0032F12D /* ASI */,
 				4CFE83C61497D8DA0032F12D /* EGOImageLoading */,
+				4CF6BD33149D5605002BC00B /* MBProgressHUD */,
 				4CFE83D51497D8DA0032F12D /* Reachability */,
 				4CFE83901497D87D0032F12D /* Frameworks */,
 				4CFE838E1497D87D0032F12D /* Products */,
@@ -1560,6 +1578,8 @@
 				4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */,
 				4C1DA82A149C342D0075B19D /* DIWelcomeViewController.m in Sources */,
 				4C1DA82D149C34400075B19D /* DISignupViewController.m in Sources */,
+				4CF6BD2D149D3838002BC00B /* DIAppPurchaseViewController.m in Sources */,
+				4CF6BD36149D5605002BC00B /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

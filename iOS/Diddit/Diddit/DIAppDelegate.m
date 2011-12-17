@@ -152,7 +152,7 @@
 				[DIAppDelegate setUserProfile:parsedUser];
 				[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
 				
-				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}
 		}
 	}

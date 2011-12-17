@@ -137,6 +137,20 @@ class Apps {
 		$this->sendResponse(200, json_encode($result));
 		return (true);   
 	}
+	
+	function purchaseApp($user_id, $app_id, $points) {
+		$result = array();
+		
+		$query = 'SELECT `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
+		$row = mysql_fetch_row(mysql_query($query));
+		$points = $row[0] - $points;
+			
+		$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $user_id .';';
+		$result = mysql_query($query);
+		
+		$this->sendResponse(200, json_encode($result));
+		return (true); 
+	}
 }
 
 	
@@ -146,6 +160,11 @@ if (isset($_POST["action"])) {
 	switch ($_POST["action"]) {
 		case 0:
 			$apps_json = $apps->allApps();
+			break;
+			
+	    case 1:
+			if (isset($_POST['userID']) && isset($_POST['appID']) && isset($_POST['points']))
+			$apps_json = $apps->purchaseApp($_POST['userID'], $_POST['appID'], $_POST['points']);
 			break;
 	}
 }

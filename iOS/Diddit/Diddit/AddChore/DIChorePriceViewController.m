@@ -30,18 +30,6 @@
 		headerLabel.text = @"Purchase Chore";
 		[headerLabel sizeToFit];
 		self.navigationItem.titleView = headerLabel;
-		
-		/*
-		 UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		 backButton.frame = CGRectMake(0, 0, 60.0, 30);
-		 [backButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
-		 [backButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
-		 backButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
-		 //backButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-		 [backButton setTitle:@"Back" forState:UIControlStateNormal];
-		 [backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		 self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
-		 */
 	}
 	
 	return (self);
