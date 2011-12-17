@@ -139,8 +139,6 @@ class Apps {
 	}
 	
 	function purchaseApp($user_id, $app_id, $points) {
-		$result = array();
-		
 		$query = 'SELECT `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
 		$row = mysql_fetch_row(mysql_query($query));
 		$points = $row[0] - $points;
@@ -148,8 +146,14 @@ class Apps {
 		$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $user_id .';';
 		$result = mysql_query($query);
 		
+		
+		// Return data, as JSON
+		$result = array(
+			"success" => "true" 
+		);
+
 		$this->sendResponse(200, json_encode($result));
-		return (true); 
+		return (true);
 	}
 }
 

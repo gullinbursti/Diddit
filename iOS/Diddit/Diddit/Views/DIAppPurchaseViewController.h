@@ -19,6 +19,7 @@
 	
 	DIApp *_app;
 	EGOImageView *_icoImgView;
+	UILabel *_resultLabel;
 }
 
 

@@ -80,6 +80,15 @@
 	tradeLabel.numberOfLines = 0;
 	tradeLabel.text = [NSString stringWithFormat:@"Trade %d points for \n%@?", _app.points, _app.info];
 	[self.view addSubview:tradeLabel];
+	
+	
+	_resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 128, 260, 64)];
+	//_resultLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+	_resultLabel.textColor = [UIColor colorWithWhite:0.0 alpha:1.0];
+	_resultLabel.backgroundColor = [UIColor clearColor];
+	_resultLabel.numberOfLines = 0;
+	_resultLabel.text = @"";
+	[self.view addSubview:_resultLabel];
 
 	
 	UIButton *purchaseButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -122,6 +131,10 @@
 	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _app.points] forKey:@"points"];
 	[purchaseRequest setDelegate:self];
 	[purchaseRequest startAsynchronous];
+	
+	_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	_hud.labelText = @"Contacting app…";
+	[_hud hide:YES];
 }
 
 
@@ -129,24 +142,31 @@
 -(void)requestFinished:(ASIHTTPRequest *)request { 
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
-	_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	_hud.labelText = @"Contacting app…";
-	[_hud hide:YES];
-	
-	[self performSelector:@selector(_delay:) withObject:nil afterDelay:0.67];
-}
-
--(void)_delay:(id)sender {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	[_hud hide:YES];
 	_hud = nil;
 	
-	
-	[DIAppDelegate setUserPoints:[DIAppDelegate userPoints] - _app.points];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"PURCHASE_APP" object:nil];
-	[self dismissViewControllerAnimated:YES completion:nil];
+	@autoreleasepool {
+		NSError *error = nil;
+		NSDictionary *parsedResult = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			NSLog(@"SUCCESS?? (%@)", [parsedResult objectForKey:@"success"]);
+			BOOL isSuccess = (BOOL)([[parsedResult objectForKey:@"success"] isEqual:@"true"]);
+			
+			if (isSuccess) {
+				[DIAppDelegate setUserPoints:[DIAppDelegate userPoints] - _app.points];
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"PURCHASE_APP" object:nil];
+				[self dismissViewControllerAnimated:YES completion:nil];
+			
+			} else
+				_resultLabel.text = @"Failed… try again";
+		}
+	}
 }
-
 
 @end
