@@ -93,16 +93,16 @@
 		
 		
 		
-		function addNew($device_id) {
+		function addNew($device_id, $email, $pin) {
 
-			$query = 'SELECT `id` FROM `tblUsers` WHERE `device_id` = "'. $device_id .'";';
+			$query = 'SELECT `id`, `device_id`, `username`, `email`, `pin`, `points` FROM `tblUsers` WHERE `device_id` = "'. $device_id .'";';
 			$res = mysql_fetch_row(mysql_query($query));
 
 			// doesn't exists
 			if (!$res) {
 				$query = 'INSERT INTO `tblUsers` (';
 				$query .= '`id`, `device_id`, `username`, `email`, `pin`, `points`, `added`, `modified`) ';
-				$query .= 'VALUES (NULL, "'. $device_id .'", "", "", "0000", 0, NOW(), CURRENT_TIMESTAMP);';
+				$query .= 'VALUES (NULL, "'. $device_id .'", "", "'. $email .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
 				$result = mysql_query($query);
 			    $user_id = mysql_insert_id();
 			
@@ -119,14 +119,25 @@
 				
 				// Return data, as JSON
 				$result = array(
-					"id" => $user_id 
+					"id" => $user_id, 
+					"device_id" => $device_id, 
+					"username" => "",
+					"pin" => $pin,
+					"points" => 0 
 				);
 
 				$this->sendResponse(200, json_encode($result));
 				return (true);
 
 			} else {
-				$this->sendResponse(200, json_encode(array()));
+				$this->sendResponse(200, json_encode(array(
+					"id" => $res[0], 
+					"device_id" => $res[1], 
+					"username" => $res[2],
+					"email" => $res[3],
+					"pin" => $res[4],
+					"points" => $res[5]
+				)));
 				return (true);
 			}
 		}
@@ -210,8 +221,8 @@
 	if (isset($_POST['action'])) {
 		switch ($_POST['action']) {
 			case "0":
-				if (isset($_POST["deviceID"]))
-					$users->addNew($_POST['deviceID']);
+				if (isset($_POST["deviceID"]) && isset($_POST['email']) && isset($_POST['pin']))
+					$users->addNew($_POST['deviceID'], $_POST['email'], $_POST['pin']);
 				break;
 				
 			case "1":

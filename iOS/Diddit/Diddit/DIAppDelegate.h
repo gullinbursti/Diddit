@@ -16,14 +16,22 @@
 @interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate> {
 	
 	DIChoreListViewController *_choreListViewController;
-	NSMutableArray *_chores;
-	
-	ASIFormDataRequest *_activeChoresDataRequest;
+	ASIFormDataRequest *_userRequest;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 
 +(DIAppDelegate *)sharedInstance;
+
++(void)setUserProfile:(NSDictionary *)userInfo;
++(NSDictionary *)profileForUser;
+
++(void)setDeviceToken:(NSString *)token;
++(NSString *)deviceToken;
+
++(void)setUserPoints:(int)points;
++(int)userPoints;
+
 -(void)showSettingsScreen;
 
 @end

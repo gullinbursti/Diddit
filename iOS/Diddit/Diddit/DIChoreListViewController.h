@@ -24,7 +24,7 @@
 	NSMutableArray *_finishedChores;
 	NSMutableArray *_achievements;
 	
-	ASIFormDataRequest *_userRequest;
+	ASIFormDataRequest *_activeChoresRequest;
 	ASIFormDataRequest *_availChoresRequest;
 	ASIFormDataRequest *_achievementsRequest;
 	
@@ -35,10 +35,5 @@
 	UIButton *_addChoreButton;
 	UIButton *_settingsButton;
 }
-
-
--(id)initWithChores:(NSMutableArray *)chores;
-
-
 
 @end

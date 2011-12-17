@@ -24,6 +24,16 @@
 		4C1DA81C149BF7850075B19D /* DIEmailSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */; };
 		4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */; };
 		4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */; };
+		4C1DA82A149C342D0075B19D /* DIWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA829149C342D0075B19D /* DIWelcomeViewController.m */; };
+		4C1DA82D149C34400075B19D /* DISignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA82C149C34400075B19D /* DISignupViewController.m */; };
+		4C1DA838149C36990075B19D /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA832149C36990075B19D /* welcome01.jpg */; };
+		4C1DA839149C36990075B19D /* welcome01@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA833149C36990075B19D /* welcome01@2x.jpg */; };
+		4C1DA83A149C36990075B19D /* welcome02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA834149C36990075B19D /* welcome02.jpg */; };
+		4C1DA83B149C36990075B19D /* welcome02@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA835149C36990075B19D /* welcome02@2x.jpg */; };
+		4C1DA83C149C36990075B19D /* welcome03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA836149C36990075B19D /* welcome03.jpg */; };
+		4C1DA83D149C36990075B19D /* welcome03@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA837149C36990075B19D /* welcome03@2x.jpg */; };
+		4C1DA844149C7CD80075B19D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA842149C7CD70075B19D /* Default.png */; };
+		4C1DA845149C7CD80075B19D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C1DA843149C7CD70075B19D /* Default@2x.png */; };
 		4CE25F2C1498961A00E367A2 /* test_apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2B1498961A00E367A2 /* test_apps.plist */; };
 		4CE260241499380200E367A2 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2E1499380200E367A2 /* AirshipConfig.plist */; };
 		4CE260251499380200E367A2 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2F1499380200E367A2 /* CHANGELOG */; };
@@ -212,6 +222,18 @@
 		4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIPinSettingsViewController.m; sourceTree = "<group>"; };
 		4C1DA821149C2A7E0075B19D /* DIStoreObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStoreObserver.h; sourceTree = "<group>"; };
 		4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIStoreObserver.m; sourceTree = "<group>"; };
+		4C1DA828149C342D0075B19D /* DIWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIWelcomeViewController.h; sourceTree = "<group>"; };
+		4C1DA829149C342D0075B19D /* DIWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIWelcomeViewController.m; sourceTree = "<group>"; };
+		4C1DA82B149C34400075B19D /* DISignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISignupViewController.h; sourceTree = "<group>"; };
+		4C1DA82C149C34400075B19D /* DISignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISignupViewController.m; sourceTree = "<group>"; };
+		4C1DA832149C36990075B19D /* welcome01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome01.jpg; sourceTree = "<group>"; };
+		4C1DA833149C36990075B19D /* welcome01@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "welcome01@2x.jpg"; sourceTree = "<group>"; };
+		4C1DA834149C36990075B19D /* welcome02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome02.jpg; sourceTree = "<group>"; };
+		4C1DA835149C36990075B19D /* welcome02@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "welcome02@2x.jpg"; sourceTree = "<group>"; };
+		4C1DA836149C36990075B19D /* welcome03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome03.jpg; sourceTree = "<group>"; };
+		4C1DA837149C36990075B19D /* welcome03@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "welcome03@2x.jpg"; sourceTree = "<group>"; };
+		4C1DA842149C7CD70075B19D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		4C1DA843149C7CD70075B19D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		4CE25F2B1498961A00E367A2 /* test_apps.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_apps.plist; sourceTree = "<group>"; };
 		4CE25F2E1499380200E367A2 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		4CE25F2F1499380200E367A2 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
@@ -593,6 +615,10 @@
 		4C1DA827149C33950075B19D /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				4C1DA82B149C34400075B19D /* DISignupViewController.h */,
+				4C1DA82C149C34400075B19D /* DISignupViewController.m */,
+				4C1DA828149C342D0075B19D /* DIWelcomeViewController.h */,
+				4C1DA829149C342D0075B19D /* DIWelcomeViewController.m */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -1119,6 +1145,8 @@
 		4CFE83821497D87D0032F12D = {
 			isa = PBXGroup;
 			children = (
+				4C1DA842149C7CD70075B19D /* Default.png */,
+				4C1DA843149C7CD70075B19D /* Default@2x.png */,
 				4CFE83971497D87D0032F12D /* Diddit */,
 				4CFE83D81497D8DA0032F12D /* Resources */,
 				4CE25F2D1499380200E367A2 /* Airship */,
@@ -1282,6 +1310,12 @@
 		4CFE83D81497D8DA0032F12D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4C1DA832149C36990075B19D /* welcome01.jpg */,
+				4C1DA833149C36990075B19D /* welcome01@2x.jpg */,
+				4C1DA834149C36990075B19D /* welcome02.jpg */,
+				4C1DA835149C36990075B19D /* welcome02@2x.jpg */,
+				4C1DA836149C36990075B19D /* welcome03.jpg */,
+				4C1DA837149C36990075B19D /* welcome03@2x.jpg */,
 				4CE25F2B1498961A00E367A2 /* test_apps.plist */,
 				4CFE8427149838590032F12D /* test_choreTypes.plist */,
 				4CFE83D91497D8DA0032F12D /* active_headerButton.png */,
@@ -1432,6 +1466,14 @@
 				4CE260861499380200E367A2 /* UASubscriptionRootViewController.xib in Resources */,
 				4CE260871499380200E367A2 /* UASubscriptionSettingsViewController.xib in Resources */,
 				4CE260881499380200E367A2 /* UASubscriptionUserProductsViewController.xib in Resources */,
+				4C1DA838149C36990075B19D /* welcome01.jpg in Resources */,
+				4C1DA839149C36990075B19D /* welcome01@2x.jpg in Resources */,
+				4C1DA83A149C36990075B19D /* welcome02.jpg in Resources */,
+				4C1DA83B149C36990075B19D /* welcome02@2x.jpg in Resources */,
+				4C1DA83C149C36990075B19D /* welcome03.jpg in Resources */,
+				4C1DA83D149C36990075B19D /* welcome03@2x.jpg in Resources */,
+				4C1DA844149C7CD80075B19D /* Default.png in Resources */,
+				4C1DA845149C7CD80075B19D /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1516,6 +1558,8 @@
 				4C1DA81C149BF7850075B19D /* DIEmailSettingsViewController.m in Sources */,
 				4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */,
 				4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */,
+				4C1DA82A149C342D0075B19D /* DIWelcomeViewController.m in Sources */,
+				4C1DA82D149C34400075B19D /* DISignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

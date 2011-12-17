@@ -7,6 +7,7 @@
 //
 
 #import "DIAddCustomChoreViewController.h"
+#import "DIAppDelegate.h"
 #import "DIChore.h"
 
 @implementation DIAddCustomChoreViewController
@@ -129,7 +130,7 @@
 	if ([_titleTxtField.text length] > 0) {
 		ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 		[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
-		[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[dataRequest setPostValue:_titleTxtField.text forKey:@"choreTitle"];
 		[dataRequest setPostValue:@"" forKey:@"choreInfo"];
 		[dataRequest setPostValue:_icoTxtField.text forKey:@"icoURL"];

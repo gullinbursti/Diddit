@@ -1,0 +1,222 @@
+//
+//  DISignupViewController.m
+//  Diddit
+//
+//  Created by Matthew Holcombe on 12.16.11.
+//  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
+//
+
+#import "DISignupViewController.h"
+
+#import "DIAppDelegate.h"
+
+@implementation DISignupViewController
+
+#pragma mark - View lifecycle
+-(id)init {
+	if ((self = [super init])) {
+		
+	}
+	
+	return (self);
+}
+
+-(void)loadView {
+	[super loadView];
+	
+	[self.view setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+	
+	
+	
+	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 50, 70, 20)];
+	//emailLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+	emailLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+	emailLabel.backgroundColor = [UIColor clearColor];
+	emailLabel.text = @"Email:";
+	[self.view addSubview:emailLabel];
+	
+	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(100, 50, 200, 64)] autorelease];
+	[_emailTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_emailTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_emailTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_emailTxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	_emailTxtField.keyboardType = UIKeyboardTypeURL;
+	[self.view addSubview:_emailTxtField];
+	
+	UILabel *pinCodeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)];
+	//pinCodeLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+	pinCodeLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+	pinCodeLabel.backgroundColor = [UIColor clearColor];
+	pinCodeLabel.text = @"Pincode:";
+	[self.view addSubview:pinCodeLabel];
+	
+	_pinCode1TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(128, 80, 16, 64)] autorelease];
+	[_pinCode1TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_pinCode1TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_pinCode1TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_pinCode1TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	[_pinCode1TxtField setSecureTextEntry:YES];	
+	_pinCode1TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_pinCode1TxtField.clearsOnBeginEditing = YES;
+	_pinCode1TxtField.tag = 0;
+	_pinCode1TxtField.delegate = self;
+	[self.view addSubview:_pinCode1TxtField];
+	
+	_pinCode2TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(160, 80, 16, 64)] autorelease];
+	[_pinCode2TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_pinCode2TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_pinCode2TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_pinCode2TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	[_pinCode2TxtField setSecureTextEntry:YES];
+	_pinCode2TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_pinCode2TxtField.clearsOnBeginEditing = YES;
+	_pinCode2TxtField.tag = 1;
+	_pinCode2TxtField.delegate = self;
+	[self.view addSubview:_pinCode2TxtField];
+	
+	_pinCode3TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(192, 80, 16, 64)] autorelease];
+	[_pinCode3TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_pinCode3TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_pinCode3TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_pinCode3TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	[_pinCode3TxtField setSecureTextEntry:YES];	
+	_pinCode3TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_pinCode3TxtField.clearsOnBeginEditing = YES;
+	_pinCode3TxtField.tag = 2;
+	_pinCode3TxtField.delegate = self;
+	[self.view addSubview:_pinCode3TxtField];
+	
+	_pinCode4TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(224, 80, 16, 64)] autorelease];
+	[_pinCode4TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_pinCode4TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_pinCode4TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_pinCode4TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	[_pinCode4TxtField setSecureTextEntry:YES];	
+	_pinCode4TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_pinCode4TxtField.clearsOnBeginEditing = YES;
+	_pinCode4TxtField.tag = 3;
+	_pinCode4TxtField.delegate = self;
+	[self.view addSubview:_pinCode4TxtField];
+	
+	[_emailTxtField becomeFirstResponder];
+	
+	UIButton *submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	submitButton.frame = CGRectMake(32, 128, 256, 32);
+	//submitButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
+	submitButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
+	[submitButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[submitButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
+	[submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[submitButton setTitle:@"Submit" forState:UIControlStateNormal];
+	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:submitButton];
+}
+
+-(void)viewDidLoad {
+	[super viewDidLoad];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
+-(void)viewDidUnload {
+	[super viewDidUnload];
+}
+
+-(void)dealloc {
+	[super dealloc];
+}
+
+
+#pragma mark - Navigation
+- (void)_goSubmit {
+	
+	BOOL isSubmit = YES;
+	NSString *pinCode = [NSString stringWithFormat:@"%@%@%@%@", _pinCode1TxtField.text, _pinCode2TxtField.text, _pinCode3TxtField.text, _pinCode4TxtField.text];
+	
+	if (![DIAppDelegate deviceToken])
+		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];
+	
+	if ([_emailTxtField.text length] == 0)
+	isSubmit = NO;
+	
+	if ([pinCode length] != 4)
+		isSubmit = NO;
+	
+	if (isSubmit) {
+		NSLog(@"EMAIL:[%@]", _emailTxtField.text);
+		NSLog(@"PIN:[%@]", pinCode);
+		NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+		
+		ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+		[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+		[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"deviceID"];
+		[userRequest setPostValue:_emailTxtField.text forKey:@"email"];
+		[userRequest setPostValue:pinCode forKey:@"pin"];
+		[userRequest setDelegate:self];
+		[userRequest startAsynchronous];
+	}
+}
+
+
+#pragma mark - TextField Delegates
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	
+	if ([textField.text length] >= 1 && ![string isEqualToString:@""]) {
+		textField.text = [textField.text substringToIndex:1];
+		
+		if (textField.tag == 0) {
+			[_pinCode1TxtField resignFirstResponder];
+			[_pinCode2TxtField becomeFirstResponder];
+		}
+		
+		if (textField.tag == 1) {
+			[_pinCode2TxtField resignFirstResponder];
+			[_pinCode3TxtField becomeFirstResponder];
+		}
+		
+		if (textField.tag == 2) {
+			[_pinCode3TxtField resignFirstResponder];
+			[_pinCode4TxtField becomeFirstResponder];
+		}
+		
+		return (NO);
+	}
+	
+	return (YES);
+}
+
+
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			NSLog(@"NEW USER: %@", parsedUser);
+			[DIAppDelegate setUserProfile:parsedUser];
+			[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
+			
+			[self dismissViewControllerAnimated:YES completion:^(void) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
+			}];
+		}
+	}
+}
+
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
+		//[_delegates perform:@selector(jobList:didFailLoadWithError:) withObject:self withObject:request.error];
+		//MBL_RELEASE_SAFELY(_jobListRequest);
+}
+
+@end

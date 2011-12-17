@@ -18,6 +18,8 @@
 	EGOImageView *_imgView;
 	UIButton *_completeButton;
 	
+	ASIFormDataRequest *_updUserRequest;
+	
 	DIChore *_chore;
 }
 

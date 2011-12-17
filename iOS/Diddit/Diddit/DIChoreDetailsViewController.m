@@ -7,6 +7,8 @@
 //
 
 #import "DIChoreDetailsViewController.h"
+
+#import "DIAppDelegate.h"
 #import "DIPinCodeViewController.h"
 
 @implementation DIChoreDetailsViewController
@@ -101,28 +103,29 @@
 
 #pragma mark - notication handlers
 -(void)_finishChore:(NSNotification *)notification {
-	
-	ASIFormDataRequest *finishChoreRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-	[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
-	[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
-	[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
-	[finishChoreRequest setDelegate:self];
-	[finishChoreRequest startAsynchronous];
-	
-	
-	ASIFormDataRequest *updUserRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
-	[updUserRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
-	[updUserRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
-	[updUserRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.cost * 100] forKey:@"points"];
-	[updUserRequest setDelegate:self];
-	[updUserRequest startAsynchronous];
-	
+	/*
+	_updUserRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	[_updUserRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
+	[_updUserRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_updUserRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.cost * 100] forKey:@"points"];
+	[_updUserRequest setDelegate:self];
+	[_updUserRequest startAsynchronous];
+	*/
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	/*if ([request isEqual:_updUserRequest]) {
+		ASIFormDataRequest *finishChoreRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+		[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
+		[finishChoreRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
+		[finishChoreRequest setDelegate:self];
+		[finishChoreRequest startAsynchronous];
+	}*/
 	
 //	@autoreleasepool {
 //		NSError *error = nil;

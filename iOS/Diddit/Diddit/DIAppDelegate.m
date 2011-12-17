@@ -10,6 +10,7 @@
 
 #import "DIChore.h"
 #import "DISettingsViewController.h"
+#import "DIWelcomeViewController.h"
 
 #import "UAirship.h"
 #import "UAPush.h"
@@ -18,9 +19,44 @@
 
 @synthesize window = _window;
 
-+ (DIAppDelegate *)sharedInstance {
++(DIAppDelegate *)sharedInstance {
 	return ((DIAppDelegate *)[UIApplication sharedApplication].delegate);
 }
+
+//+(NSString *)deviceToken {
+//	return ([[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+//}
+
++(void)setUserProfile:(NSDictionary *)userInfo {
+	[[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"user_info"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSDictionary *)profileForUser {
+	return ([[NSUserDefaults standardUserDefaults] objectForKey:@"user_info"]);
+}
+
++(void)setUserPoints:(int)points {
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:points] forKey:@"user_points"];	
+}
+
++(int)userPoints {
+	return ([[[NSUserDefaults standardUserDefaults] objectForKey:@"user_points"] intValue]);
+}
+
+
++(void)setDeviceToken:(NSString *)token {
+	[[NSUserDefaults standardUserDefaults] setObject:token forKey:@"device_token"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSString *)deviceToken {
+	return ([[NSUserDefaults standardUserDefaults] objectForKey:@"device_token"]);
+}
+
+//+(NSString *)userPinCode {
+//	return ([[DIAppDelegate profileForUser] objectForKey:@"pin"]);
+//}
 
 #pragma mark - App Lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -38,16 +74,32 @@
 																		  UIRemoteNotificationTypeAlert)];
 	
 	//NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-	_chores = [[NSMutableArray alloc] init];
-	
-	ASIFormDataRequest *activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-	[activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-	[activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
-	[activeChoresRequest setDelegate:self];
-	[activeChoresRequest startAsynchronous];
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+	
+	//[DIAppDelegate setUserProfile:nil];
+	
+	_choreListViewController = [[DIChoreListViewController alloc] init];
+	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
+	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
+	
+	[self.window setRootViewController:rootNavigationController];
 	[self.window makeKeyAndVisible];
+	
+	// show welcome screen
+	if (![DIAppDelegate profileForUser]) {
+		DIWelcomeViewController *splash = [[[DIWelcomeViewController alloc] init] autorelease];
+		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
+		[splashNavigation setNavigationBarHidden:YES animated:NO];
+		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
+	
+	} else {
+		 _userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+		 [_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+		 [_userRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		 [_userRequest setDelegate:self];
+		 [_userRequest startAsynchronous];
+	}
 	
 	return YES;
 }
@@ -85,40 +137,25 @@
 
 #pragma mark - ASI Delegates
 - (void)requestFinished:(ASIHTTPRequest *)request { 
-	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
-	@autoreleasepool {
-		NSError *error = nil;
-		NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-		if (error != nil) {
-			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-		}
-		else {
-			NSMutableArray *choreList = [NSMutableArray array];
+	if ([request isEqual:_userRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
 			
-			for (NSDictionary *serverChore in parsedChores) {
-				DIChore *chore = [DIChore choreWithDictionary:serverChore];
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			else {
+				[DIAppDelegate setUserProfile:parsedUser];
+				[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
 				
-				if (chore != nil)
-					[choreList addObject:chore];
+				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}
-			
-			_chores = [choreList retain];
-			
-			_choreListViewController = [[DIChoreListViewController alloc] initWithChores:_chores];
-			UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
-			[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
-			
-			[self.window setRootViewController:rootNavigationController];
-			
-			//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
-			
 		}
 	}
-	
-	[pool release];
 }
 
 
@@ -132,7 +169,11 @@
 	// Updates the device token and registers the token with UA
 	[[UAPush shared] registerDeviceToken:deviceToken];
 	
-	
+	NSString *deviceID = [[deviceToken description] substringFromIndex:1];
+	deviceID = [deviceID substringToIndex:[deviceID length] - 1];
+	deviceID = [deviceID stringByReplacingOccurrencesOfString:@" " withString:@""];
+	[DIAppDelegate setDeviceToken:deviceID];
+
 	/*
 	 * Some example cases where user notifcation may be warranted
 	 *

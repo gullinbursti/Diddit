@@ -10,6 +10,7 @@
 
 #import "DIChoreListViewController.h"
 
+#import "DIAppDelegate.h"
 #import "DIChoreDetailsViewController.h"
 #import "DIAddChoreViewController.h"
 #import "DICreditsViewController.h"
@@ -23,7 +24,7 @@
 
 -(id)init {
 	if ((self = [super init])) {
-		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"DISMISS_WELCOME_SCREEN" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeAvailChore:) name:@"REMOVE_AVAIL_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
@@ -32,24 +33,23 @@
 		_availChores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
 		_achievements = [[NSMutableArray alloc] init];
-		_myPoints = 0;
+		_myPoints = [DIAppDelegate userPoints];
 		
-		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
-		[_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-		[_userRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
-		[_userRequest setDelegate:self];
-		[_userRequest startAsynchronous];
+		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_activeChoresRequest setDelegate:self];
+		[_activeChoresRequest startAsynchronous];
 		
 		_availChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 		[_availChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[_availChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[_availChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_availChoresRequest setDelegate:self];
 		[_availChoresRequest startAsynchronous];
 		
-		
 		_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
 		[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_achievementsRequest setDelegate:self];
 		[_achievementsRequest startAsynchronous];
 		
@@ -93,15 +93,6 @@
 	
 	return (self);
 }
-
-
--(id)initWithChores:(NSMutableArray *)chores {
-	if ((self = [self init])) {
-		_chores = chores;
-	}
-	
-	return (self);
-}
 	
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -124,18 +115,13 @@
 	[self.view addSubview:_myChoresTableView];
 	_myChoresTableView.hidden = YES;
 	
-	if ([_chores count] == 0) {
-		_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
-		//_emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
-		_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_emptyLabel.backgroundColor = [UIColor clearColor];
-		_emptyLabel.textAlignment = UITextAlignmentCenter;
-		_emptyLabel.text = @"You don't have any chores yet!";
-		[self.view addSubview:_emptyLabel];
-	
-	} else {
-		_myChoresTableView.hidden = NO;
-	}
+	_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
+	//_emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+	_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	_emptyLabel.backgroundColor = [UIColor clearColor];
+	_emptyLabel.textAlignment = UITextAlignmentCenter;
+	_emptyLabel.text = @"You don't have any chores!";
+	[self.view addSubview:_emptyLabel];
 	
 	_footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
 	_footerView.backgroundColor = [UIColor colorWithWhite:0.33 alpha:1.0];
@@ -185,8 +171,6 @@
 	[super dealloc];
 }
 
-
-
 #pragma mark - Button Handlers
 -(void)_goAchievements {
 	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithAchievements:_achievements] autorelease] animated:YES];
@@ -219,6 +203,30 @@
 
 
 #pragma mark - Notification Handlers
+-(void)_loadData:(NSNotification *)notification {
+	_myPoints = [DIAppDelegate userPoints];
+	
+	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_activeChoresRequest setDelegate:self];
+	[_activeChoresRequest startAsynchronous];
+	
+	
+	_availChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	[_availChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+	[_availChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_availChoresRequest setDelegate:self];
+	[_availChoresRequest startAsynchronous];
+	
+	
+	_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
+	[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+	[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_achievementsRequest setDelegate:self];
+	[_achievementsRequest startAsynchronous];
+}
+
 -(void)_addChore:(NSNotification *)notification {
 	[_chores addObject:(DIChore *)[notification object]];
 	
@@ -247,11 +255,17 @@
 	[_finishedChores addObject:chore];
 	
 	_myPoints += (chore.cost * 100);
+	[DIAppDelegate setUserPoints:_myPoints];
 	
 	[_chores removeObjectIdenticalTo:chore];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
 	[_myChoresTableView reloadData];
+	
+	if ([_chores count] == 0) {
+		_emptyLabel.hidden = NO;
+		_myChoresTableView.hidden = YES;
+	}
 }
 
 #pragma mark - TableView Data Source Delegates
@@ -297,10 +311,37 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
-	if ([request isEqual:_availChoresRequest]) {
+	if ([request isEqual:_activeChoresRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			if (error != nil) {
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			}
+			else {
+				NSMutableArray *choreList = [NSMutableArray array];
+				
+				for (NSDictionary *serverChore in parsedChores) {
+					DIChore *chore = [DIChore choreWithDictionary:serverChore];
+					
+					if (chore != nil)
+						[choreList addObject:chore];
+				}
+				
+				_chores = [choreList retain];
+				[_myChoresTableView reloadData];
+				
+				if ([_chores count] > 0) {
+					_myChoresTableView.hidden = NO;
+					_emptyLabel.hidden = YES;
+				}
+				
+				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
+			}
+		}
+	} else if ([request isEqual:_availChoresRequest]) {
 		@autoreleasepool {
 			NSError *error = nil;
 			NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
@@ -342,18 +383,6 @@
 				
 				_achievements = [achievementList retain];
 			}
-		}
-	
-	} else if ([request isEqual:_userRequest]) {
-		@autoreleasepool {
-			NSError *error = nil;
-			NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-			
-			if (error != nil)
-				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-			
-			else
-				_myPoints = [[parsedUser objectForKey:@"points"] intValue];
 		}
 	}
 }

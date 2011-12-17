@@ -7,6 +7,8 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+
+#import "DIAppDelegate.h"
 #import "DIChorePriceViewController.h"
 
 @implementation DIChorePriceViewController
@@ -60,7 +62,7 @@
 	
 	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(32, 32, 256, 256)];
 	_imgView.imageURL = [NSURL URLWithString:_chore.imgPath];
-	//[self.view addSubview:_imgView];
+	[self.view addSubview:_imgView];
 	
 	productDisplayTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
 	productDisplayTableView.rowHeight = 54;
@@ -68,7 +70,7 @@
 	productDisplayTableView.dataSource = self;
 	productDisplayTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
 	productDisplayTableView.layer.borderWidth = 1.0;
-	[self.view addSubview:productDisplayTableView];
+	//[self.view addSubview:productDisplayTableView];
 	
 	_label = [[UILabel alloc] initWithFrame:CGRectMake(128, 300, 64, 16)];
 	//_label.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
@@ -102,12 +104,12 @@
 	productIdentifierList = [[NSMutableArray alloc] init];
 	
 	if ([SKPaymentQueue canMakePayments])
-		NSLog(@"PURCHASING ALLOWED DICKHEAD!");
+		NSLog(@"PURCHASING ALLOWED!");
 	
 	else
-		NSLog(@"CAN'T BUY SHIT!");
+		NSLog(@"CAN'T BUY!");
 	
-	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject: @"com.sparklemountain.diddit.00099"]];
+	//SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject: @"com.sparklemountain.diddit.00099"]];
 	
 	/*
 	for (int i=0; i<=9; i++) {
@@ -117,8 +119,8 @@
 	}	
 	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifierList]];  
 	*/
-	request.delegate = self;
-	[request start];
+	//request.delegate = self;
+	//[request start];
 	
 	[super viewDidLoad];
 }
@@ -184,14 +186,14 @@
 		
 		ASIFormDataRequest *addChoreRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
-		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[addChoreRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
 		[addChoreRequest setDelegate:self];
 		[addChoreRequest startAsynchronous];
 		
 		ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Purchases.php"]] retain];
 		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"userID"];
+		[purchaseRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
 		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.cost] forKey:@"price"];
 		[purchaseRequest setDelegate:self];

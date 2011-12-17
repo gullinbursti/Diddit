@@ -3,12 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>services/Chores.php</string>
+	<string>services/Users.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>cms</string>
 			<key>regexFolderFilter</key>
@@ -17,8 +15,6 @@
 			<string>cms</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>harness</string>
 			<key>regexFolderFilter</key>
@@ -81,7 +77,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>258</integer>
+			<integer>251</integer>
 		</dict>
 		<key>services/Purchases.php</key>
 		<dict>
@@ -102,14 +98,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>11</integer>
 				<key>line</key>
-				<integer>189</integer>
+				<integer>136</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>162</integer>
+			<integer>175</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
