@@ -31,7 +31,6 @@
 	UIButton *_takenChoresButton;
 	
 	UIView *_footerView;
-	UIButton *_myChoresButton;
 	UIButton *_addChoreButton;
 	UIButton *_settingsButton;
 }

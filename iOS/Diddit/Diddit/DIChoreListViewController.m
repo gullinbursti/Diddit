@@ -15,7 +15,6 @@
 #import "DIAddChoreViewController.h"
 #import "DICreditsViewController.h"
 #import "DISettingsViewController.h"
-#import "DIAchievementsViewController.h"
 #import "DIMyChoresViewCell.h"
 
 @implementation DIChoreListViewController
@@ -41,23 +40,18 @@
 		[_activeChoresRequest setDelegate:self];
 		[_activeChoresRequest startAsynchronous];
 		
-		_availChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-		[_availChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[_availChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_availChoresRequest setDelegate:self];
-		[_availChoresRequest startAsynchronous];
-		
-		_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
-		[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_achievementsRequest setDelegate:self];
-		[_achievementsRequest startAsynchronous];
+		//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
+		//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+		//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		//[_achievementsRequest setDelegate:self];
+		//[_achievementsRequest startAsynchronous];
 		
 		
 		//NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 		//for (NSDictionary *dict in plist)
 		//	[_availChores addObject:[DIChore choreWithDictionary:dict]];
 		
+		/*
 		_headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)];
 		_headerLabel.textAlignment = UITextAlignmentCenter;
 		_headerLabel.backgroundColor = [UIColor clearColor];
@@ -67,28 +61,18 @@
 		_headerLabel.text = @"My Chores";
 		[_headerLabel sizeToFit];
 		self.navigationItem.titleView = _headerLabel;
+		*/
 		
-		
-		UIButton *achievementsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		achievementsButton.frame = CGRectMake(0, 0, 60.0, 30);
-		[achievementsButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
-		[achievementsButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
-		achievementsButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
-		//achievementsButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-		[achievementsButton setTitle:@"Achievements" forState:UIControlStateNormal];
-		[achievementsButton addTarget:self action:@selector(_goAchievements) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:achievementsButton] autorelease];
-		
-		
-		UIButton *allowanceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		allowanceButton.frame = CGRectMake(0, 0, 60.0, 30);
-		[allowanceButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
-		[allowanceButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
-		allowanceButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
-		//allowanceButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-		[allowanceButton setTitle:@"$$" forState:UIControlStateNormal];
-		[allowanceButton addTarget:self action:@selector(_goAllowance) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:allowanceButton] autorelease];
+		UIButton *offersButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		offersButton.frame = CGRectMake(0, 0, 80.0, 30);
+		[offersButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
+		[offersButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
+		offersButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		offersButton.titleLabel.shadowColor = [UIColor blackColor];
+		offersButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[offersButton setTitle:@"Earn Didds" forState:UIControlStateNormal];
+		[offersButton addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:offersButton] autorelease];
 	}
 	
 	return (self);
@@ -104,13 +88,16 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[self.view setBackgroundColor:[UIColor colorWithWhite:0.75 alpha:1.0]];
+	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	[self.view addSubview:bgImgView];
 	
 	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-	_myChoresTableView.rowHeight = 54;
+	_myChoresTableView.rowHeight = 80;
+	_myChoresTableView.backgroundColor = [UIColor clearColor];
+	_myChoresTableView.separatorColor = [UIColor clearColor];
 	_myChoresTableView.delegate = self;
 	_myChoresTableView.dataSource = self;
-	_myChoresTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
+	_myChoresTableView.layer.borderColor = [[UIColor clearColor] CGColor];
 	_myChoresTableView.layer.borderWidth = 1.0;
 	[self.view addSubview:_myChoresTableView];
 	_myChoresTableView.hidden = YES;
@@ -123,43 +110,45 @@
 	_emptyLabel.text = @"You don't have any chores!";
 	[self.view addSubview:_emptyLabel];
 	
-	_footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 366, 320, 50)];
-	_footerView.backgroundColor = [UIColor colorWithWhite:0.33 alpha:1.0];
-	_footerView.layer.borderColor = [[UIColor colorWithWhite:0.0 alpha:1.0] CGColor];
-	[self.view addSubview:_footerView];
+	UIImageView *footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hudFooterBG.png"]];
+	CGRect frame = footerImgView.frame;
+	frame.origin.y = 420 - (frame.size.height + 4);
+	footerImgView.frame = frame;
+	[self.view addSubview:footerImgView];
 	
-	_myChoresButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_myChoresButton.frame = CGRectMake(32, 375, 32, 32);
-	//_myChoresButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	_myChoresButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_myChoresButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_myChoresButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_myChoresButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_myChoresButton setTitle:@"My Chores" forState:UIControlStateNormal];
-	[_myChoresButton addTarget:self action:@selector(_goMyChores) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_myChoresButton];
+	UIButton *appBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
+	appBtn.frame = CGRectMake(32, 375, 34, 34);
+	appBtn.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
+	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[appBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:appBtn];
 	
 	_settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_settingsButton.frame = CGRectMake(256, 375, 32, 32);
-	//_settingsButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
+	_settingsButton.frame = CGRectMake(240, 385, 44, 14);
 	_settingsButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_settingsButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_settingsButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_settingsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_settingsButton setTitle:@"*" forState:UIControlStateNormal];
+	[_settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_settingsButton];
 	
 	_addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_addChoreButton.frame = CGRectMake(128, 340.0, 64, 64);
-	//_activeChoresButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
+	_addChoreButton.frame = CGRectMake(138, 350.0, 44, 44);
 	_addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-	[_addChoreButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_addChoreButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_addChoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_addChoreButton setTitle:@"+" forState:UIControlStateNormal];
+	[_addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_addChoreButton];
+	
+	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 395, 160, 20)];
+	addLabel.font = [UIFont fontWithName:@"Adelle-Bold" size:10]; //[[DIAppDelegate diAdelleFontBold] fontWithSize:12];
+	addLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+	addLabel.backgroundColor = [UIColor clearColor];
+	addLabel.textAlignment = UITextAlignmentCenter;
+	//addLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+	//addLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	addLabel.text = @"ADD CHORE";
+	[self.view addSubview:addLabel];
 }
 
 - (void)viewDidUnload {
@@ -172,26 +161,28 @@
 }
 
 #pragma mark - Button Handlers
--(void)_goAchievements {
-	[self.navigationController pushViewController:[[[DIAchievementsViewController alloc] initWithAchievements:_achievements] autorelease] animated:YES];
-}
-
 -(void)_goSettings {
 	[self.navigationController pushViewController:[[[DISettingsViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goAddChore {
 	
-	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] initWithChores:_availChores] autorelease];
+	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] init] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
--(void)_goMyChores {
+-(void)_goApps {
+	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 	
+	NSMutableArray *chores = [[NSMutableArray alloc] init];
+	for (NSDictionary *dict in plist)
+		[chores addObject:[DIChore choreWithDictionary:dict]];
+	
+	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithPoints:_myPoints] autorelease] animated:YES];
 }
 
--(void)_goAllowance {
+-(void)_goOffers {
 	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
 	
 	NSMutableArray *chores = [[NSMutableArray alloc] init];
@@ -213,18 +204,11 @@
 	[_activeChoresRequest startAsynchronous];
 	
 	
-	_availChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-	[_availChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-	[_availChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_availChoresRequest setDelegate:self];
-	[_availChoresRequest startAsynchronous];
-	
-	
-	_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
-	[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-	[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_achievementsRequest setDelegate:self];
-	[_achievementsRequest startAsynchronous];
+	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
+	//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+	//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	//[_achievementsRequest setDelegate:self];
+	//[_achievementsRequest startAsynchronous];
 }
 
 -(void)_addChore:(NSNotification *)notification {
@@ -240,10 +224,10 @@
 
 
 -(void)_removeAvailChore:(NSNotification *)notification {
-	DIChore *chore = (DIChore *)[notification object];
+	//DIChore *chore = (DIChore *)[notification object];
 	
-	if (!chore.isCustom)
-		[_availChores removeObjectIdenticalTo:chore];
+	//if (!chore.isCustom)
+	//	[_availChores removeObjectIdenticalTo:chore];
 }
 
 -(void)_addCustomChore:(NSNotification *)notification {
@@ -270,26 +254,24 @@
 
 #pragma mark - TableView Data Source Delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_chores count]);
+	return ([_chores count] + 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	//if (indexPath.row < [_chores count] - 1 && [_chores count] > 0) {
+	if (indexPath.row < [_chores count] - 1 && [_chores count] > 0) {
 		DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
 		
 		if (cell == nil)
 			cell = [[[DIMyChoresViewCell alloc] init] autorelease];
 		
-	cell.chore = [_chores objectAtIndex:indexPath.row];
-	cell.shouldDrawSeparator = (indexPath.row == ([_chores count] - 1));
+		cell.chore = [_chores objectAtIndex:indexPath.row];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+		
+		return (cell);
 	
-		//} else {
-		//	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];;
-		//	return cell;
-		//}
-	
-	return cell;
+	} else
+		return ([[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"]);
 }
 
 #pragma mark - TableView Delegates
@@ -300,7 +282,11 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 55;
+	if (indexPath.row < [_chores count] - 1)
+		return (95);
+	
+	else
+		return (80);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
@@ -311,7 +297,7 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	NSLog(@"ChoreListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
 	if ([request isEqual:_activeChoresRequest]) {
 		@autoreleasepool {
@@ -326,6 +312,8 @@
 				for (NSDictionary *serverChore in parsedChores) {
 					DIChore *chore = [DIChore choreWithDictionary:serverChore];
 					
+					NSLog(@"CHORE \"%@\" (%@)", chore.title, chore.expires);
+					
 					if (chore != nil)
 						[choreList addObject:chore];
 				}
@@ -339,27 +327,6 @@
 				}
 				
 				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
-			}
-		}
-	} else if ([request isEqual:_availChoresRequest]) {
-		@autoreleasepool {
-			NSError *error = nil;
-			NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-			
-			if (error != nil)
-				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-			
-			else {
-				NSMutableArray *choreList = [NSMutableArray array];
-				
-				for (NSDictionary *serverChore in parsedChores) {
-					DIChore *chore = [DIChore choreWithDictionary:serverChore];
-					
-					if (chore != nil)
-						[choreList addObject:chore];
-				}
-				
-				_availChores = [choreList retain];
 			}
 		}
 	

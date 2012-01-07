@@ -16,6 +16,28 @@
 -(id)init {
 	if ((self = [super init])) {
 		
+		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
+		headerLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
+		headerLabel.textAlignment = UITextAlignmentCenter;
+		headerLabel.backgroundColor = [UIColor clearColor];
+		headerLabel.textColor = [UIColor colorWithRed:0.1412 green:0.5255 blue:0.2627 alpha:1.0];
+		headerLabel.shadowColor = [UIColor whiteColor];
+		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+		headerLabel.text = @"sign up";
+		[headerLabel sizeToFit];
+		self.navigationItem.titleView = headerLabel;
+		
+		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		cancelButton.frame = CGRectMake(0, 0, 55.0, 34);
+		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
+		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
+		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		cancelButton.titleLabel.shadowColor = [UIColor blackColor];
+		cancelButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+		[cancelButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelButton] autorelease];
+		
 	}
 	
 	return (self);
@@ -24,25 +46,30 @@
 -(void)loadView {
 	[super loadView];
 	
-	[self.view setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+	[self.view setBackgroundColor:[UIColor blackColor]];
+	
+	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	[self.view addSubview:bgImgView];
 	
 	
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	CGRect frame = dividerImgView.frame;
+	frame.origin.y = 68;
+	dividerImgView.frame = frame;
+	[self.view addSubview:dividerImgView];
 	
-	UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 50, 70, 20)];
-	//emailLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
-	emailLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-	emailLabel.backgroundColor = [UIColor clearColor];
-	emailLabel.text = @"Email:";
-	[self.view addSubview:emailLabel];
-	
-	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(100, 50, 200, 64)] autorelease];
+	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 200, 64)] autorelease];
 	[_emailTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_emailTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_emailTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_emailTxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	[_emailTxtField setBackgroundColor:[UIColor clearColor]];
+	_emailTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
 	_emailTxtField.keyboardType = UIKeyboardTypeURL;
+	_emailTxtField.text = @"enter email address";
+	//_emailTxtField.clearsOnBeginEditing = YES;
 	[self.view addSubview:_emailTxtField];
 	
+	/*
 	UILabel *pinCodeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)];
 	//pinCodeLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
 	pinCodeLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
@@ -97,17 +124,18 @@
 	_pinCode4TxtField.tag = 3;
 	_pinCode4TxtField.delegate = self;
 	[self.view addSubview:_pinCode4TxtField];
+	*/
 	
 	[_emailTxtField becomeFirstResponder];
 	
 	UIButton *submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	submitButton.frame = CGRectMake(32, 128, 256, 32);
-	//submitButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	submitButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[submitButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[submitButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[submitButton setTitle:@"Submit" forState:UIControlStateNormal];
+	submitButton.frame = CGRectMake(97, 100, 126, 34);
+	submitButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+	[submitButton setBackgroundImage:[[UIImage imageNamed:@"genericButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[submitButton setBackgroundImage:[[UIImage imageNamed:@"genericButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[submitButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
+	[submitButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateSelected];
+	[submitButton setTitle:@"Sign up now" forState:UIControlStateNormal];
 	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:submitButton];
 }
@@ -130,10 +158,15 @@
 
 
 #pragma mark - Navigation
+- (void)_goBack {
+	[self dismissViewControllerAnimated:YES completion:nil];	
+}
+
 - (void)_goSubmit {
 	
 	BOOL isSubmit = YES;
-	NSString *pinCode = [NSString stringWithFormat:@"%@%@%@%@", _pinCode1TxtField.text, _pinCode2TxtField.text, _pinCode3TxtField.text, _pinCode4TxtField.text];
+	NSString *pinCode = [NSString stringWithString:@"0000"];
+	//NSString *pinCode = [NSString stringWithFormat:@"%@%@%@%@", _pinCode1TxtField.text, _pinCode2TxtField.text, _pinCode3TxtField.text, _pinCode4TxtField.text];
 	
 	if (![DIAppDelegate deviceToken])
 		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];

@@ -13,19 +13,15 @@
 
 @interface DIMyChoresViewCell : UITableViewCell {
 	
-	EGOImageView *_icoView;
+	EGOImageView *_imgView;
 	UILabel *_titleLabel;
-	UILabel *_infoLabel;
 	UILabel *_pointsLabel;
 	
 	DIChore *_chore;
-	
-	BOOL _shouldDrawSeparator;
 }
 
 +(NSString *)cellReuseIdentifier;
 
-@property(nonatomic) BOOL shouldDrawSeparator;
 @property(nonatomic, retain) DIChore *chore;
 
 @end

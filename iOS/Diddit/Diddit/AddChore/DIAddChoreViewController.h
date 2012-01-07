@@ -9,14 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
 
-@interface DIAddChoreViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+@interface DIAddChoreViewController : UIViewController <ASIHTTPRequestDelegate> {
 	
-	NSMutableArray *_chores;
-	UITableView *_myChoresTableView;
-	
-	ASIFormDataRequest *_availChoresDataRequest;
+	UITextField *_titleTxtField;
+	UITextField *_infoTxtField;
 }
-
--(id)initWithChores:(NSMutableArray *)chores;
 
 @end

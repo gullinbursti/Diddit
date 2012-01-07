@@ -54,6 +54,31 @@
 	return ([[NSUserDefaults standardUserDefaults] objectForKey:@"device_token"]);
 }
 
+
++(UIFont *)diAdelleFontRegular {
+	return [UIFont fontWithName:@"Adelle" size:12.0];
+}
+
++(UIFont *)diAdelleFontLight {
+	return [UIFont fontWithName:@"Adelle-Light" size:12.0];
+}
+
++(UIFont *)diAdelleFontSemibold {
+	return [UIFont fontWithName:@"Adelle-SemiBold" size:12.0];
+}
+
++(UIFont *)diAdelleFontBold {
+	return [UIFont fontWithName:@"Adelle-Bold" size:12.0];
+}
+
++(UIFont *)diAdelleFontBoldItalic {
+	return [UIFont fontWithName:@"Adelle-BoldItalic" size:12.0];
+}
+
++(UIFont *)diHelveticaNeueFontBold {
+	return [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0];
+}
+
 //+(NSString *)userPinCode {
 //	return ([[DIAppDelegate profileForUser] objectForKey:@"pin"]);
 //}
@@ -81,7 +106,13 @@
 	
 	_choreListViewController = [[DIChoreListViewController alloc] init];
 	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
-	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
+	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"headerBG.png"] forBarMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:14] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"headerBackButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:14] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"headerBackButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
+	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0], UITextAttributeFont, nil] forState:UIControlStateSelected];
 	
 	[self.window setRootViewController:rootNavigationController];
 	[self.window makeKeyAndVisible];
@@ -138,7 +169,7 @@
 #pragma mark - ASI Delegates
 - (void)requestFinished:(ASIHTTPRequest *)request { 
 	
-	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	NSLog(@"AppDelegate [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
 	if ([request isEqual:_userRequest]) {
 		@autoreleasepool {
@@ -152,7 +183,7 @@
 				[DIAppDelegate setUserProfile:parsedUser];
 				[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
 				
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
+				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}
 		}
 	}

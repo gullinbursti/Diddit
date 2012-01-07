@@ -8,12 +8,12 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "DIAppDelegate.h"
 #import "DIMyChoresViewCell.h"
 
 @implementation DIMyChoresViewCell
 
 @synthesize chore = _chore;
-@synthesize shouldDrawSeparator = _shouldDrawSeparator;
 
 
 +(NSString *)cellReuseIdentifier {
@@ -23,37 +23,39 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
-		_icoView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
-		_icoView.layer.cornerRadius = 8.0;
-		_icoView.clipsToBounds = YES;
-		_icoView.layer.borderColor = [[UIColor colorWithWhite:0.671 alpha:1.0] CGColor];
-		_icoView.layer.borderWidth = 1.0;
-		[self addSubview:_icoView];
 		
-		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, 200.0, 20)];
-		//_titleLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:11.0];
+		UIView *holderView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)];
+		holderView.backgroundColor = [UIColor colorWithRed:0.98034 green:0.9922 blue:0.7843 alpha:1.0];
+		holderView.layer.cornerRadius = 8.0;
+		holderView.clipsToBounds = YES;
+		holderView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		holderView.layer.borderWidth = 1.0;
+		[self addSubview:holderView];
+		
+		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+		[holderView addSubview:_imgView];
+		
+		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 200.0, 22)];
+		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:17.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
-		_titleLabel.textColor = [UIColor colorWithRed:0.039 green:0.478 blue:0.938 alpha:1.0];
+		_titleLabel.textColor = [UIColor blackColor];
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_titleLabel];
+		[holderView addSubview:_titleLabel];
 		
-		_infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 25, 200.0, 16)];
-		//_infoLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
-		_infoLabel.backgroundColor = [UIColor clearColor];
-		_infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_infoLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_infoLabel];
+		UIImageView *icoView = [[[UIImageView alloc] initWithFrame:CGRectMake(80, 43.0, 17, 17)] autorelease];
+		icoView.image = [UIImage imageNamed:@"piggyIcon.png"];
+		[holderView addSubview:icoView];
 		
-		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 10, 80.0, 16)];
-		//_pointsLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
+		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 45, 120.0, 16)];
+		_pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
 		_pointsLabel.backgroundColor = [UIColor clearColor];
 		_pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_pointsLabel];
+		[holderView addSubview:_pointsLabel];
 		
-		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(300.0, 20.0, 9, 12)] autorelease];
-		chevronView.image = [UIImage imageNamed:@"smallChevron.png"];
-		[self addSubview:chevronView];
+		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(270.0, 33.0, 14, 14)] autorelease];
+		chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
+		[holderView addSubview:chevronView];
 	}
 	
 	return (self);
@@ -69,17 +71,14 @@
 	_chore = chore;
 	
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _chore.title];		
-	_icoView.imageURL = [NSURL URLWithString:_chore.icoPath];
-	_infoLabel.text = _chore.info;
+	_imgView.imageURL = [NSURL URLWithString:_chore.icoPath];
 	
-	if (_chore.cost > 0)
-		_pointsLabel.text = _chore.price;
+	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
 }
 
 
 #pragma presentation
 - (void)setShouldDrawSeparator:(BOOL)shouldDrawSeparator {
-	_shouldDrawSeparator = shouldDrawSeparator;
 	[[self viewWithTag:1] setHidden:shouldDrawSeparator];
 }
 

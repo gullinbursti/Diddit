@@ -8,14 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIWelcomeViewController : UIViewController <UIScrollViewDelegate> {
-	
-	UIScrollView *_scrollView;
-	UIButton *_closeButton;
-	
-	int _totSlides;
-	int _curSlide;
-	NSMutableArray *_splashImages;
-}
+@interface DIWelcomeViewController : UIViewController
 
 @end

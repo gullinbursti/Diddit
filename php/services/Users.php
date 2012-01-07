@@ -91,8 +91,6 @@
 		}
 	
 		
-		
-		
 		function addNew($device_id, $email, $pin) {
 
 			$query = 'SELECT `id`, `device_id`, `username`, `email`, `pin`, `points` FROM `tblUsers` WHERE `device_id` = "'. $device_id .'";';
@@ -105,29 +103,18 @@
 				$query .= 'VALUES (NULL, "'. $device_id .'", "", "'. $email .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
 				$result = mysql_query($query);
 			    $user_id = mysql_insert_id();
-			
-				$query = 'SELECT * FROM `tblChores` ORDER BY `id`;';
-				$res = mysql_query($query);
-				
-				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-					$query = 'INSERT INTO `tblUsersChores` (';
-					$query .= '`user_id`, `chore_id`, `isCustom`, `status_id`, `added`) ';
-					$query .= 'VALUES ("'. $user_id .'", "'. $row['id'] .'", "N", "1", CURRENT_TIMESTAMP);';
-					$result = mysql_query($query);
-					$chore_id = mysql_insert_id();
-				}
 				
 				// Return data, as JSON
 				$result = array(
 					"id" => $user_id, 
 					"device_id" => $device_id, 
-					"username" => "",
+					"username" => "", 
+					"email" => $email, 
 					"pin" => $pin,
 					"points" => 0 
 				);
 
 				$this->sendResponse(200, json_encode($result));
-				return (true);
 
 			} else {
 				$this->sendResponse(200, json_encode(array(
@@ -138,8 +125,9 @@
 					"pin" => $res[4],
 					"points" => $res[5]
 				)));
-				return (true);
 			}
+			
+			return (true);
 		}
 		
 		
@@ -163,12 +151,11 @@
 				);
 
 				$this->sendResponse(200, json_encode($result));
-				return (true);
 
-			} else {
+			} else
 				$this->sendResponse(200, json_encode(array()));
-				return (true);
-			}
+			
+			return (true);
 		}
 
 

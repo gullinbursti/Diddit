@@ -12,16 +12,18 @@
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary;
 -(NSString *)price;
+-(NSString *)disp_points;
+-(NSString *)disp_expires;
 
 @property (nonatomic, retain) NSDictionary *dictionary;
 @property (nonatomic) int chore_id;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
-@property (nonatomic) int cost;
+@property (nonatomic) float cost;
 @property (nonatomic) int points;
 @property (nonatomic, retain) NSString *icoPath;
 @property (nonatomic, retain) NSString *imgPath;
 @property (nonatomic) BOOL isFinished;
-@property (nonatomic) BOOL isCustom;
+@property (nonatomic, retain) NSDate *expires;
 
 @end

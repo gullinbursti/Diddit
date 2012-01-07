@@ -6,19 +6,20 @@
 //  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "DIWelcomeViewController.h"
 
+#import "DIAppDelegate.h"
 #import "DISignupViewController.h"
+#import "DISplashVideoViewController.h"
 
 @implementation DIWelcomeViewController
 
 #pragma mark - View lifecycle
 -(id)init {
-	if ((self = [super init])) {
+	if ((self = [super init]))
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_WELCOME_SCREEN" object:nil];
-		
-		_totSlides = 3;
-	}
 	
 	return (self);
 }
@@ -26,42 +27,46 @@
 -(void)loadView {
 	[super loadView];
 	
-	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	_scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_scrollView.delegate = self;
-	_scrollView.opaque = NO;
-	_scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * _totSlides, self.view.bounds.size.height);
-	_scrollView.pagingEnabled = YES;
-	_scrollView.scrollsToTop = NO;
-	_scrollView.showsHorizontalScrollIndicator = YES;
-	_scrollView.showsVerticalScrollIndicator = NO;
-	_scrollView.alwaysBounceVertical = NO;
-	[self.view addSubview:_scrollView];
+	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background_logo.png"]];
+	bgImgView.layer.cornerRadius = 16.0;
+	bgImgView.layer.borderColor = [[UIColor blackColor] CGColor];
+	bgImgView.clipsToBounds = YES;
+	[self.view addSubview:bgImgView];
 	
 	
-	for (int i=1; i<=_totSlides; i++) {
-		NSLog(@"IMAGE:[%@]", [NSString stringWithFormat:@"welcome%02d.jpg", i]);
-		UIImageView *imgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"welcome%02d.jpg", i]]] autorelease];
-		CGRect frame = imgView.frame;
-		frame.origin.x = 24 + (self.view.bounds.size.width * (i - 1));
-		frame.origin.y = 120.0;
-		imgView.frame = frame;
-		[_scrollView addSubview:imgView];
-	}
+	UIImageView *footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"footerBG.png"]];
+	CGRect frame = footerImgView.frame;
+	frame.origin.y = 480 - (frame.size.height + 15);
+	footerImgView.frame = frame;
+	[self.view addSubview:footerImgView];
 	
-	_closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_closeButton.frame = CGRectMake(32, 375, 256, 32);
-	//_closeButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	_closeButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_closeButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_closeButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_closeButton setTitle:@"Sign Me Up!" forState:UIControlStateNormal];
-	[_closeButton addTarget:self action:@selector(_goSignup) forControlEvents:UIControlEventTouchUpInside];
-	_closeButton.hidden = YES;
-	[self.view addSubview:_closeButton];
+	UIButton *signupBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	signupBtn.frame = CGRectMake(46, 414, 110, 33);
+	signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
+	//signupBtn.titleEdgeInsets = UIEdgeInsetsMake(1, 0, -1, 0); //up
+	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[signupBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	signupBtn.titleLabel.shadowColor = [UIColor blackColor];
+	signupBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+	[signupBtn setTitle:@"Sign up" forState:UIControlStateNormal];
+	[signupBtn addTarget:self action:@selector(_goSignup) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:signupBtn];
+	
+	UIButton *videoBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	videoBtn.frame = CGRectMake(164, 414, 110, 33);
+	videoBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
+	//videoBtn.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0); //dn
+	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[videoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	videoBtn.titleLabel.shadowColor = [UIColor blackColor];
+	videoBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+	[videoBtn setTitle:@"Play video" forState:UIControlStateNormal];
+	[videoBtn addTarget:self action:@selector(_goVideo) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:videoBtn];
 }
 
 -(void)viewDidLoad {
@@ -95,23 +100,23 @@
 }
 
 
+- (void)_goVideo {
+	
+	DISplashVideoViewController *splashVideoViewController = [[[DISplashVideoViewController alloc] init] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:splashVideoViewController] autorelease];
+	[navigationController setNavigationBarHidden:YES];
+	[self.navigationController presentModalViewController:navigationController animated:YES];
+	
+	//UIAlertView *videoAlert = [[UIAlertView alloc] initWithTitle:@"Coming Soon" message:@"This feature isn't available yet" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
+	//[videoAlert show];
+	//[videoAlert release];
+}
+
+
 #pragma mark - Notification Handlers
 -(void)_dismissMe:(NSNotification *)notification {
 	[self _goBack];
 }
 
-
-
-#pragma mark - ScrollView Delegates
-- (void)scrollViewDidScroll:(UIScrollView *)sender {	
-	_curSlide = (_scrollView.contentOffset.x / _scrollView.bounds.size.width) + 1;
-	_closeButton.hidden = YES;
-}
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	NSLog(@"CURRENT SLIDE:%d", _curSlide);
-	
-	_closeButton.hidden = !(_curSlide == _totSlides);
-}
 
 @end

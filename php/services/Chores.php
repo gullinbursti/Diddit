@@ -89,13 +89,10 @@
 		}
 	
 		
-		/**
-		 * This service returns all jobs available
-		 * @returns recordset
-		 */
-		function availByUserID($user_id) {
+		
+		function activeByUserID($user_id) {
 
-			$query = 'SELECT * FROM `tblChores` INNER JOIN `tblUsersChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblUsersChores`.`status_id` = "1" AND `tblChores`.`isCustom` = "N" ORDER BY `tblUsersChores`.`added`;';
+			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblPackageTypes`.`points`, `tblPackageTypes`.`cost` FROM `tblChores` INNER JOIN `tblPackageTypes` ON `tblChores`.`package_id` = `tblPackageTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added`;';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON
@@ -106,67 +103,16 @@
 				
 				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
 					array_push($result, array(
-						"id" => $row['id'], 
-						"title" => $row['title'], 
-						"info" => $row['info'], 
-						"price" => 0, 
-						"icoPath" => $row['ico_path'], 
-						"imgPath" => $row['img_path'], 
-						"custom" => $row['isCustom'], 
-						"finished" => "N"
+						"id" => $row[0], 
+						"title" => $row[1], 
+						"info" => $row[2], 
+						"icoPath" => $row[3], 
+						"imgPath" => $row[4],
+						"expires" => $row[5], 
+						"points" => $row[6], 
+						"cost" => $row[7]
 					));
 				}
-			}
-			
-			$query = 'SELECT * FROM `tblChores` INNER JOIN `tblUsersChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblChores`.`isCustom` = "Y" ORDER BY `tblUsersChores`.`added`;';
-			$res = mysql_query($query);
-			
-			if (mysql_num_rows($res) > 0) {
-				
-				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-					array_push($result, array(
-						"id" => $row['id'], 
-						"title" => $row['title'], 
-						"info" => $row['info'], 
-						"price" => $row['info'], 
-						"icoPath" => $row['ico_path'], 
-						"imgPath" => $row['img_path'], 
-						"custom" => $row['isCustom'], 
-						"finished" => "N"
-					));
-				}
-			}
-			
-			$this->sendResponse(200, json_encode($result));
-			return (true);
-		}
-		
-		
-		function activeByUserID($user_id) {
-
-			$query = 'SELECT * FROM `tblChores` INNER JOIN `tblUsersChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblUsersChores`.`status_id` = "2" ORDER BY `tblUsersChores`.`added`;';
-			$res = mysql_query($query);
-			
-			// Return data, as JSON
-			$result = array(); 
-				
-			// error performing query
-			if (mysql_num_rows($res) > 0) {
-					
-				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-					$query = 'SELECT `price` FROM `tblPurchases` WHERE `user_id` = "'. $user_id .'" AND `chore_id` = "'. $row['id'] .'";';
-					$price_row = mysql_fetch_row(mysql_query($query));
-			
-					array_push($result, array(
-						"id" => $row['id'], 
-						"title" => $row['title'], 
-						"info" => $row['info'], 
-						"price" => $price_row[0],  
-						"icoPath" => $row['ico_path'], 
-						"imgPath" => $row['img_path'],
-						"finished" => "N"
-					));
-				}  
 			}
 			
 			$this->sendResponse(200, json_encode($result));
@@ -213,21 +159,11 @@
 		function addCustom($user_id, $chore_title, $chore_info, $ico_url, $img_url) {
 			
 			$query = 'INSERT INTO `tblChores` (';
-			$query .= '`id`, `title`, `info`, `ico_path`, `img_path`, `isCustom`, `added`, `modified`) ';
-			$query .= 'VALUES (NULL, "'. $chore_title .'", "'. $chore_info .'", "'. $ico_url . '", "'. $img_url .'", "Y", NOW(), CURRENT_TIMESTAMP);';
+			$query .= '`id`, `title`, `info`, `ico_path`, `img_path`, `added`, `modified`) ';
+			$query .= 'VALUES (NULL, "'. $chore_title .'", "'. $chore_info .'", "'. $ico_url . '", "'. $img_url .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
 			
-			
-			$query = 'INSERT INTO `tblUsersCustomChores` (';
-			$query .= '`user_id`, `chore_id`) ';
-			$query .= 'VALUES ("'. $user_id .'", "'. $chore_id .'";';
-			$result = mysql_query($query);
-			
-			$query = 'INSERT INTO `tblUsersChores` (';
-			$query .= '`user_id`, `chore_id`, `isCustom`, `status_id`, `added`) ';
-			$query .= 'VALUES ("'. $user_id .'", "'. $chore_id .'", "Y", "1", CURRENT_TIMESTAMP);';
-			$result = mysql_query($query);
 			
 			$this->sendResponse(200, json_encode(array(
 				"id" => $chore_id, 
@@ -251,11 +187,6 @@
 	
 	if (isset($_POST["action"])) {
 		switch ($_POST["action"]) {
-			case "0": 
-				if (isset($_POST["userID"]))
-					 $chores_json = $chores->availByUserID($_POST["userID"]);
-				break;
-				
 			case "1":
 				if (isset($_POST["userID"]))
 					 $chores_json = $chores->activeByUserID($_POST["userID"]);

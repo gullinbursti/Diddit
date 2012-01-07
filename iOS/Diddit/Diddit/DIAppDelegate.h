@@ -32,6 +32,14 @@
 +(void)setUserPoints:(int)points;
 +(int)userPoints;
 
+
++(UIFont *)diAdelleFontRegular;
++(UIFont *)diAdelleFontLight;
++(UIFont *)diAdelleFontSemibold;
++(UIFont *)diAdelleFontBold;
++(UIFont *)diAdelleFontBoldItalic;
++(UIFont *)diHelveticaNeueFontBold;
+
 -(void)showSettingsScreen;
 
 @end

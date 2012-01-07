@@ -43,5 +43,18 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Adelle_Reg.otf</string>
+		<string>Adelle_light.otf</string>
+		<string>Adelle_Semibold.otf</string>
+		<string>Adelle_Bold.otf</string>
+		<string>Adelle_BoldItalic.otf</string>
+		<string>HelveticaNeueLTPro Bd.otf</string>
+	</array>
+	<key>UIStatusBarHidden</key>
+	<false/>
 </dict>
 </plist>
