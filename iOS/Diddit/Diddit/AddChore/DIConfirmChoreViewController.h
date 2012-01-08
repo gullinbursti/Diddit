@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DIChore.h"
-#import "EGOImageView.h"
+#import "DIBasePushHeaderViewController.h"
 
-@interface DIConfirmChoreViewController : UIViewController {
+#import "DIChore.h"
+#import "ASIFormDataRequest.h"
+
+@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate> {
 	
 	DIChore *_chore;
-	EGOImageView *_imgView;
-	UIButton *_assignButton;
+	UIButton *_submitButton;
 }
 
 -(id)initWithChore:(DIChore *)chore;

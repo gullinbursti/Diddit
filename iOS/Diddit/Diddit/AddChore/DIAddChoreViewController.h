@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ASIFormDataRequest.h"
 
-@interface DIAddChoreViewController : UIViewController <ASIHTTPRequestDelegate> {
+@interface DIAddChoreViewController : UIViewController {
 	
 	UITextField *_titleTxtField;
 	UITextField *_infoTxtField;

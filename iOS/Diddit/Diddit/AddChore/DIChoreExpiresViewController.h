@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "DIChore.h"
+#import "DIBasePushHeaderViewController.h"
 
-@interface DIChoreExpiresViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource> {
+@interface DIChoreExpiresViewController : DIBasePushHeaderViewController <UIPickerViewDelegate, UIPickerViewDataSource> {
 	DIChore *_chore;
 	UILabel *_daysLabel;
 	

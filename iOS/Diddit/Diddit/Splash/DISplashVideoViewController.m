@@ -41,6 +41,9 @@
 	//[player setOrientation:UIDeviceOrientationPortrait animated:NO];
 	//[self.view addSubview:player.view];
 	[player play];
+	
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	[self.view addSubview:overlayImgView];
 }
 
 -(void)viewDidLoad {	

@@ -21,10 +21,6 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_ADD_CHORE" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_removeAvailChore:) name:@"REMOVE_AVAIL_CHORE" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addCustomChore:) name:@"ADD_CUSTOM_CHORE" object:nil];
-		
 		
 		UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 195, 40)];
 		
@@ -41,10 +37,10 @@
 		self.navigationItem.titleView = headerView;
 		
 		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		cancelButton.frame = CGRectMake(0, 0, 58.0, 34);
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
-		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.5];
+		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);
+		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 		cancelButton.titleLabel.shadowColor = [UIColor blackColor];
 		cancelButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 		[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
@@ -53,9 +49,9 @@
 		
 		
 		UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		nextButton.frame = CGRectMake(0, 0, 58.0, 34);
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+		nextButton.frame = CGRectMake(0, 0, 59.0, 34);
+		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 		nextButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 		nextButton.titleLabel.shadowColor = [UIColor blackColor];
 		nextButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
@@ -77,9 +73,10 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
+	CGRect frame;
 	
 	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
-	CGRect frame = dividerImgView.frame;
+	frame = dividerImgView.frame;
 	frame.origin.y = 68;
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
@@ -91,8 +88,7 @@
 	[_titleTxtField setBackgroundColor:[UIColor clearColor]];
 	_titleTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
 	_titleTxtField.keyboardType = UIKeyboardTypeDefault;
-	_titleTxtField.text = @"give your chore a title";
-	//_titleTxtField.clearsOnBeginEditing = YES;
+	_titleTxtField.placeholder = @"give your chore a title";
 	[self.view addSubview:_titleTxtField];
 	
 	_infoTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 75, 200, 64)] autorelease];
@@ -103,9 +99,14 @@
 	[_infoTxtField setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
 	_infoTxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	_infoTxtField.keyboardType = UIKeyboardTypeDefault;
-	_infoTxtField.text = @"additional note (optional)";
-	_infoTxtField.clearsOnBeginEditing = YES;
+	_infoTxtField.placeholder = @"additional note (optional)";
 	[self.view addSubview:_infoTxtField];
+	
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
 	
 	[_titleTxtField becomeFirstResponder];
 }
@@ -122,53 +123,17 @@
 	[super dealloc];
 }
 
+#pragma mark - Notification Handlers
+
 #pragma mark - Navigation
 -(void)_goBack {
 	[self dismissViewControllerAnimated:YES completion:nil];	
 }
 
 -(void)_goNext {
-	
 	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", _titleTxtField.text, @"title", _infoTxtField.text, @"info", @"", @"icoPath", @"", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", nil]];
 	[self.navigationController pushViewController:[[[DIChoreExpiresViewController alloc] initWithChore:chore] autorelease] animated:YES];
-	
-	//NSLog(@"CHORE: [%@]", chore.title);
-	
-	/*
-	if ([_titleTxtField.text length] > 0) {
-		ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-		[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
-		[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[dataRequest setPostValue:_titleTxtField.text forKey:@"choreTitle"];
-		[dataRequest setPostValue:@"" forKey:@"choreInfo"];
-		[dataRequest setPostValue:_icoTxtField.text forKey:@"icoURL"];
-		[dataRequest setPostValue:_imgTxtField.text forKey:@"imgURL"];
-		[dataRequest setDelegate:self];
-		[dataRequest startAsynchronous];
-	}
-	 */
 }
 
-
-
-#pragma mark - ASI Delegates
-- (void)requestFinished:(ASIHTTPRequest *)request { 	
-	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
-	
-	@autoreleasepool {
-		NSError *error = nil;
-		NSDictionary *parsedChore = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-		
-		if (error != nil)
-			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-		
-		else {
-			DIChore *chore = [DIChore choreWithDictionary:parsedChore];
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CUSTOM_CHORE" object:chore];
-		}
-	}
-	
-	[self _goBack];
-} 
 
 @end

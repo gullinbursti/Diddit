@@ -28,10 +28,10 @@
 		self.navigationItem.titleView = headerLabel;
 		
 		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		cancelButton.frame = CGRectMake(0, 0, 55.0, 34);
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
-		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);
+		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 		cancelButton.titleLabel.shadowColor = [UIColor blackColor];
 		cancelButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 		[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
@@ -65,8 +65,7 @@
 	[_emailTxtField setBackgroundColor:[UIColor clearColor]];
 	_emailTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
 	_emailTxtField.keyboardType = UIKeyboardTypeURL;
-	_emailTxtField.text = @"enter email address";
-	//_emailTxtField.clearsOnBeginEditing = YES;
+	_emailTxtField.placeholder = @"enter email address";
 	[self.view addSubview:_emailTxtField];
 	
 	/*

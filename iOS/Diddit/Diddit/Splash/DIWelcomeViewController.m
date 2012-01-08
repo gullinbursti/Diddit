@@ -35,19 +35,15 @@
 	bgImgView.clipsToBounds = YES;
 	[self.view addSubview:bgImgView];
 	
-	
-	UIImageView *footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"footerBG.png"]];
-	CGRect frame = footerImgView.frame;
-	frame.origin.y = 480 - (frame.size.height + 15);
-	footerImgView.frame = frame;
-	[self.view addSubview:footerImgView];
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	[self.view addSubview:overlayImgView];
 	
 	UIButton *signupBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	signupBtn.frame = CGRectMake(46, 414, 110, 33);
+	signupBtn.frame = CGRectMake(46, 412, 114, 34);
 	signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
 	//signupBtn.titleEdgeInsets = UIEdgeInsetsMake(1, 0, -1, 0); //up
-	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[signupBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	signupBtn.titleLabel.shadowColor = [UIColor blackColor];
 	signupBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
@@ -56,11 +52,11 @@
 	[self.view addSubview:signupBtn];
 	
 	UIButton *videoBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	videoBtn.frame = CGRectMake(164, 414, 110, 33);
+	videoBtn.frame = CGRectMake(164, 412, 114, 34);
 	videoBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
 	//videoBtn.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0); //dn
-	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[videoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	videoBtn.titleLabel.shadowColor = [UIColor blackColor];
 	videoBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);

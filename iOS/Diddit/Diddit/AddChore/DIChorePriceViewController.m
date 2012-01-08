@@ -11,25 +11,34 @@
 #import "DIAppDelegate.h"
 #import "DIChorePriceViewController.h"
 
-@implementation DIChorePriceViewController
+#import "DIReward.h"
+#import "DIRewardViewCell.h"
+#import "DIHowDiddsWorkViewController.h"
+#import "DIConfirmChoreViewController.h"
 
-@synthesize productDetailsList, productIdentifierList;
+@implementation DIChorePriceViewController
 
 #pragma mark - View lifecycle
 -(id)init {
-	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_CONFIRM_CHORE" object:nil];
+	if ((self = [super initWithTitle:@"add chore" header:@"how much is the chore worth?" backBtn:@"Back"])) {
 		
-		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
-		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
-		headerLabel.textAlignment = UITextAlignmentCenter;
-		headerLabel.backgroundColor = [UIColor clearColor];
-		headerLabel.textColor = [UIColor whiteColor];
-		headerLabel.shadowColor = [UIColor colorWithWhite:0.25 alpha:1.0];
-		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		headerLabel.text = @"Purchase Chore";
-		[headerLabel sizeToFit];
-		self.navigationItem.titleView = headerLabel;
+		UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		nextButton.frame = CGRectMake(0, 0, 59.0, 34);
+		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+		nextButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		nextButton.titleLabel.shadowColor = [UIColor blackColor];
+		nextButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[nextButton setTitle:@"Next" forState:UIControlStateNormal];
+		[nextButton addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextButton] autorelease];
+		
+		ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+		[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+		[rewardsRequest setDelegate:self];
+		[rewardsRequest startAsynchronous];
+		
+		_cells = [[NSMutableArray alloc] init];
 	}
 	
 	return (self);
@@ -37,7 +46,7 @@
 
 -(id)initWithChore:(DIChore *)chore {
 	if ((self = [self init])) {
-		_chore = chore;	
+		_chore = chore;
 	}
 	
 	return (self);
@@ -46,70 +55,32 @@
 -(void)loadView {
 	[super loadView];
 	
-	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
+	_rewardTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 48, self.view.bounds.size.width, self.view.bounds.size.height - 80) style:UITableViewStylePlain];
+	_rewardTableView.rowHeight = 80;
+	_rewardTableView.backgroundColor = [UIColor clearColor];
+	_rewardTableView.separatorColor = [UIColor clearColor];
+	_rewardTableView.rowHeight = 95;
+	_rewardTableView.delegate = self;
+	_rewardTableView.dataSource = self;
+	[self.view addSubview:_rewardTableView];
 	
-	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(32, 32, 256, 256)];
-	_imgView.imageURL = [NSURL URLWithString:_chore.imgPath];
-	[self.view addSubview:_imgView];
+	_howBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_howBtn.frame = CGRectMake(84, 30, 150, 28);
+	_howBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+	[_howBtn setBackgroundImage:[[UIImage imageNamed:@"genericButton_nonActive.png"] stretchableImageWithLeftCapWidth:17 topCapHeight:0] forState:UIControlStateNormal];
+	[_howBtn setBackgroundImage:[[UIImage imageNamed:@"genericButton_Active.png"] stretchableImageWithLeftCapWidth:17 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_howBtn setTitleColor:[UIColor colorWithWhite:0.5 alpha:1.0] forState:UIControlStateNormal];
+	[_howBtn setTitle:@"How do didds work?" forState:UIControlStateNormal];
+	[_howBtn addTarget:self action:@selector(_goHow) forControlEvents:UIControlEventTouchUpInside];
 	
-	productDisplayTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-	productDisplayTableView.rowHeight = 54;
-	productDisplayTableView.delegate = self;
-	productDisplayTableView.dataSource = self;
-	productDisplayTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-	productDisplayTableView.layer.borderWidth = 1.0;
-	//[self.view addSubview:productDisplayTableView];
-	
-	_label = [[UILabel alloc] initWithFrame:CGRectMake(128, 300, 64, 16)];
-	//_label.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
-	_label.backgroundColor = [UIColor clearColor];
-	_label.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-	_label.lineBreakMode = UILineBreakModeTailTruncation;
-	_label.textAlignment = UITextAlignmentCenter;
-	[self.view addSubview:_label];
-	
-	_slider = [[UISlider alloc] initWithFrame:CGRectMake(32, 320, 256, 32)];
-	[_slider addTarget:self action:@selector(_goSliderChange:) forControlEvents:UIControlEventValueChanged];
-	_slider.minimumValue = 1.0;
-	_slider.maximumValue = 10.0;
-	[self.view addSubview:_slider];
-	
-	_purchaseButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_purchaseButton.frame = CGRectMake(32, 375, 256, 32);
-	//_purchaseButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	_purchaseButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_purchaseButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_purchaseButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_purchaseButton setTitle:@"Purchase" forState:UIControlStateNormal];
-	[_purchaseButton addTarget:self action:@selector(_goPurchase) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_purchaseButton];
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	CGRect frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
 }
 
 -(void)viewDidLoad {
-	
-	productDetailsList    = [[NSMutableArray alloc] init];  
-	productIdentifierList = [[NSMutableArray alloc] init];
-	
-	if ([SKPaymentQueue canMakePayments])
-		NSLog(@"PURCHASING ALLOWED!");
-	
-	else
-		NSLog(@"CAN'T BUY!");
-	
-	//SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject: @"com.sparklemountain.diddit.00099"]];
-	
-	/*
-	for (int i=0; i<=9; i++) {
-		NSString *productIdent = [NSString stringWithFormat:@"com.sparklemountain.diddit.%03d99", i];
-		[productIdentifierList addObject:productIdent]; 
-		NSLog(@"PRODUCT: [%@]", productIdent);
-	}	
-	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifierList]];  
-	*/
-	//request.delegate = self;
-	//[request start];
-	
 	[super viewDidLoad];
 }
 
@@ -122,132 +93,118 @@
 }
 
 
-#pragma mark - navigation
-- (void)_goPurchase {
-	
-	int price = (int)_slider.value;
-	_chore.cost = price;
-	
-	UIAlertView *purchaseAlert = [[UIAlertView alloc] initWithTitle:@"Coming Soon"
-																		 message:[NSString stringWithFormat:@"In-App purchase for $%d", price]
-																		delegate:self
-															cancelButtonTitle:@"OK"
-															otherButtonTitles:@"Cancel", nil];
-	[purchaseAlert show];
-	[purchaseAlert release];
+#pragma mark - Navigation
+-(void)_goBack {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)_goNext {
+	[self.navigationController pushViewController:[[[DIConfirmChoreViewController alloc] initWithChore:_chore] autorelease] animated:YES];
 }
 
 
-#pragma mark - Event Handlers
--(void)_goSliderChange:(id)sender {
-	_label.text = [NSString stringWithFormat:@"$%d", (int)_slider.value];
+-(void)_goHow {
+	DIHowDiddsWorkViewController *howDiddsWorkViewController = [[[DIHowDiddsWorkViewController alloc] initWithTitle:@"what are dids?" header:@"didds are app currency for kids" closeLabel:@"Done"] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:howDiddsWorkViewController] autorelease];
+	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 
-#pragma mark - TableView Delegates
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {  
-	return ([productDetailsList count]);
-}   
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath  {  
-	static NSString *GenericTableIdentifier = @"GenericTableIdentifier";  
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: GenericTableIdentifier];  
-	
-	if (cell == nil)
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier: GenericTableIdentifier] autorelease];  
-	
-	NSUInteger row = [indexPath row];  
-	SKProduct *thisProduct = [productDetailsList objectAtIndex:row];  
-	[cell.textLabel setText:[NSString stringWithFormat:@"%@ - %@", thisProduct.localizedTitle, thisProduct.price]];   
-	
-	return cell;  
+#pragma mark - TableView Data Source Delegates
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return ([_rewards count] + 1);
 }
 
-
-#pragma mark - AlertView Delegates
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	NSLog(@"clickedButtonAtIndex: [%d]", buttonIndex);
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (buttonIndex == 0) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:_chore];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_AVAIL_CHORE" object:_chore];
+	if (indexPath.row < [_rewards count]) {
+		DIRewardViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIRewardViewCell cellReuseIdentifier]];
 		
-		ASIFormDataRequest *addChoreRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
-		[addChoreRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[addChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
-		[addChoreRequest setDelegate:self];
-		[addChoreRequest startAsynchronous];
+		if (cell == nil)
+			cell = [[[DIRewardViewCell alloc] init] autorelease];
 		
-		ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Purchases.php"]] retain];
-		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[purchaseRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
-		[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.cost] forKey:@"price"];
-		[purchaseRequest setDelegate:self];
-		[purchaseRequest startAsynchronous];
+		cell.reward = [_rewards objectAtIndex:indexPath.row];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+	
+		[_cells addObject:cell];
+			
+		return (cell);
 		
-		[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:_chore];
-		}];
+	} else {
+		UITableViewCell *cell = nil;
+		
+		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+		
+		if (cell == nil) {			
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
+			[cell addSubview:_howBtn];
+			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+		}
+		
+		return (cell);
 	}
 }
 
+#pragma mark - TableView Delegates
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if (indexPath.row < [_rewards count]) {
+	
+		DIRewardViewCell *cell;
+		for (int i=0; i<[_cells count]; i++) {
+			cell = (DIRewardViewCell *)[_cells objectAtIndex:i];
+			[cell toggleSelect:NO];
+		}
+	
+		cell = (DIRewardViewCell *)[_cells objectAtIndex:indexPath.row];
+		[cell toggleSelect:YES];
+		
+		_chore.points = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).points;
+		_chore.cost = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).cost;
+	}
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return (95);
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
+	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
+	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+}
+
+
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	//NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
-	//	@autoreleasepool {
-	//		NSError *error = nil;
-	//		NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-	//		
-	//		if (error != nil)
-	//			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-	//		
-	//		else {
-	//			NSMutableArray *choreList = [NSMutableArray array];
-	//			
-	//			for (NSDictionary *serverChore in parsedChores) {
-	//				DIChore *chore = [DIChore choreWithDictionary:serverChore];
-	//				
-	//				if (chore != nil)
-	//					[choreList addObject:chore];
-	//			}
-	//			
-	//		}
-	//	}
+	@autoreleasepool {
+		NSError *error = nil;
+		NSArray *parsedRewards = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			NSMutableArray *rewardList = [NSMutableArray array];
+			
+			for (NSDictionary *serverReward in parsedRewards) {
+				DIReward *reward = [DIReward rewardWithDictionary:serverReward];
+				
+				if (reward != nil)
+					[rewardList addObject:reward];
+			}
+			
+			_rewards = [rewardList retain];
+			[_rewardTableView reloadData];
+		}
+	}
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
 }
 
 
-
-#pragma mark - StoreKit Delegates
--(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-	NSLog(@"Product request OK: %@", response.products); 
-	
-	NSArray *myProduct = response.products;
-	
-	for (int i=0; i<[myProduct count]; i++) {
-		SKProduct *product = [myProduct objectAtIndex:i];
-		NSLog(@"Name: %@ - Price: %f", [product localizedTitle], [[product price] doubleValue]);
-		NSLog(@"Product identifier: %@", [product productIdentifier]);
-	}
-	
-	
-	
-	[productDetailsList addObjectsFromArray: response.products];  
-	[productDisplayTableView reloadData];
-}  
-
--(void)requestDidFinish:(SKRequest *)request {
-	NSLog(@"Product request done");
-	[request release];  
-}  
-
--(void)request:(SKRequest *)request didFailWithError:(NSError *)error {
-	NSLog(@"Failed to connect with error: %@", [error localizedDescription]);  
-}
 
 @end

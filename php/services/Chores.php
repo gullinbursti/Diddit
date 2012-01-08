@@ -92,7 +92,7 @@
 		
 		function activeByUserID($user_id) {
 
-			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblPackageTypes`.`points`, `tblPackageTypes`.`cost` FROM `tblChores` INNER JOIN `tblPackageTypes` ON `tblChores`.`package_id` = `tblPackageTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added`;';
+			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`reward_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added`;';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON
@@ -156,11 +156,24 @@
 		}
 		
 		
-		function addCustom($user_id, $chore_title, $chore_info, $ico_url, $img_url) {
+		function addNew($user_id, $chore_title, $chore_info, $cost, $expires) {
+			
+			$query = 'SELECT `id`, `points` FROM `tblRewardTypes` WHERE `cost` = "'. $cost .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+
+			// has entry
+			if ($row) {
+                $reward_id = $row[0];
+				$points = $row[1];
+			
+			} else {
+				$reward_id = 0;
+				$points = 0;
+			}
 			
 			$query = 'INSERT INTO `tblChores` (';
-			$query .= '`id`, `title`, `info`, `ico_path`, `img_path`, `added`, `modified`) ';
-			$query .= 'VALUES (NULL, "'. $chore_title .'", "'. $chore_info .'", "'. $ico_url . '", "'. $img_url .'", NOW(), CURRENT_TIMESTAMP);';
+			$query .= '`id`, `user_id`, `reward_id`, `title`, `info`, `ico_path`, `img_path`, `status_id`, `expires`, `added`, `modified`) ';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $reward_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
 			
@@ -169,11 +182,11 @@
 				"id" => $chore_id, 
 				"title" => $chore_title, 
 				"info" => $chore_info, 
-				"price" => 0, 
-				"icoPath" => $ico_url, 
-				"imgPath" => $img_url, 
-				"custom" => "Y", 
-				"finished" => "N"
+				"icoPath" => "", 
+				"imgPath" => "",
+				"expires" => $expires, 
+				"points" => $points, 
+				"cost" => $cost
 			)));
 			
 			return (true);
@@ -218,8 +231,8 @@
 				break;
 				
 		   case "7":
-				if (isset($_POST["userID"]) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['icoURL']) && isset($_POST['imgURL']))
-					 $chores_json = $chores->addCustom($_POST['userID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['icoURL'], $_POST['imgURL']);
+				if (isset($_POST["userID"]) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['cost']) && isset($_POST['expires']))
+					 $chores_json = $chores->addNew($_POST['userID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['cost'], $_POST['expires']);
 				break;
 		}
 	}   

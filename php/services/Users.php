@@ -186,13 +186,6 @@
 			$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $id .';';
 			$result = mysql_query($query);
 			
-			$query = 'SELECT `worth` FROM `tblUsers` WHERE `id` = "'. $id .'";';
-			$row = mysql_fetch_row(mysql_query($query));
-			$worth = $row[0] - ($amt * 0.01);
-			
-			$query = 'UPDATE `tblUsers` SET `worth` ='. $worth .' WHERE `id` ='. $id .';';
-			$result = mysql_query($query); 
-			
 			return (true);
 		}
 	}

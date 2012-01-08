@@ -7,29 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <StoreKit/StoreKit.h>
+
+#import "DIBasePushHeaderViewController.h"
 #import "ASIFormDataRequest.h"
 #import "DIChore.h"
-#import "EGOImageView.h"
 
 
 
-@interface DIChorePriceViewController : UIViewController <SKProductsRequestDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+@interface DIChorePriceViewController : DIBasePushHeaderViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
 	DIChore *_chore;
-	UIButton *_purchaseButton;
-	EGOImageView *_imgView;
 	
-	UILabel *_label;
-	UISlider *_slider;
+	UITableView *_rewardTableView;
+	NSMutableArray *_rewards;
+	NSMutableArray *_cells;
 	
+	UIButton *_howBtn;
 	
-	NSMutableArray *productIdentifierList;  
-	NSMutableArray *productDetailsList; 
-	UITableView *productDisplayTableView;
+	int _points;
+	float _cost;
 }
 
-@property(nonatomic, retain) NSMutableArray *productIdentifierList;  
-@property(nonatomic, retain) NSMutableArray *productDetailsList;
 
 -(id)initWithChore:(DIChore *)chore;
 

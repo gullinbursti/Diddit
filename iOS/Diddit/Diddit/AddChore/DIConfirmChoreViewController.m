@@ -7,6 +7,8 @@
 //
 
 #import "DIConfirmChoreViewController.h"
+
+#import "DIAppDelegate.h"
 #import "DIChore.h"
 
 #import "DIPinCodeViewController.h"
@@ -15,40 +17,8 @@
 
 
 #pragma mark - View lifecycle
--(id)init {
-	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_CONFIRM_CHORE" object:nil];
-		
-		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
-		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
-		headerLabel.textAlignment = UITextAlignmentCenter;
-		headerLabel.backgroundColor = [UIColor clearColor];
-		headerLabel.textColor = [UIColor whiteColor];
-		headerLabel.shadowColor = [UIColor colorWithWhite:0.25 alpha:1.0];
-		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		headerLabel.text = @"Assign Chore";
-		[headerLabel sizeToFit];
-		self.navigationItem.titleView = headerLabel;
-		
-		/*
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		backButton.frame = CGRectMake(0, 0, 60.0, 30);
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
-		backButton.titleEdgeInsets = UIEdgeInsetsMake(-1.0, 1.0, 1.0, -1.0);
-		//backButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-		[backButton setTitle:@"Back" forState:UIControlStateNormal];
-		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
-		*/
-	}
-	
-	return (self);
-}
-
-
 -(id)initWithChore:(DIChore *)chore {
-	if ((self = [self init])) {
+	if ((self = [super initWithTitle:@"add chore" header:@"review, approve, and submit" backBtn:@"Back"])) {
 		_chore = chore;	
 	}
 	
@@ -58,22 +28,106 @@
 -(void)loadView {
 	[super loadView];
 	
-	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
-
-	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(32, 64, 256, 256)];
-	_imgView.imageURL = [NSURL URLWithString:_chore.imgPath];
-	[self.view addSubview:_imgView];
+	UIImageView *choreImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreThumb.png"]];
+	CGRect frame = choreImgView.frame;
+	frame.origin.x = 10;
+	frame.origin.y = 55;
+	choreImgView.frame = frame;
+	[self.view addSubview:choreImgView];
 	
-	_assignButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_assignButton.frame = CGRectMake(32, 375, 256, 32);
-	//_assignButton.titleLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:12.0];
-	_assignButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_assignButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButton.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_assignButton setBackgroundImage:[[UIImage imageNamed:@"largeBlueButtonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:7] forState:UIControlStateHighlighted];
-	[_assignButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_assignButton setTitle:@"Assign It!" forState:UIControlStateNormal];
-	[_assignButton addTarget:self action:@selector(_goAssign) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_assignButton];
+	UILabel *choreTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 64, 200, 24)];
+	choreTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:20];
+	choreTitleLabel.textColor = [UIColor blackColor];
+	choreTitleLabel.backgroundColor = [UIColor clearColor];
+	choreTitleLabel.text = _chore.title;
+	[self.view addSubview:choreTitleLabel];
+	
+	UILabel *choreInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 85, 200, 16)];
+	choreInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+	choreInfoLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+	choreInfoLabel.backgroundColor = [UIColor clearColor];
+	choreInfoLabel.text = _chore.info;
+	[self.view addSubview:choreInfoLabel];
+	
+	UIImageView *divider2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	frame = divider2ImgView.frame;
+	frame.origin.y = 143;
+	divider2ImgView.frame = frame;
+	[self.view addSubview:divider2ImgView];
+	
+	UILabel *rewardLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, 120, 16)];
+	rewardLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+	rewardLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+	rewardLabel.backgroundColor = [UIColor clearColor];
+	rewardLabel.text = @"Reward";
+	[self.view addSubview:rewardLabel];
+	
+	UIImageView *rewardImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"package.png"]];
+	frame = rewardImgView.frame;
+	frame.origin.x = 75;
+	frame.origin.y = 158;
+	rewardImgView.frame = frame;
+	[self.view addSubview:rewardImgView];
+	
+	UILabel *rewardTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 172, 120, 20)];
+	rewardTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
+	rewardTitleLabel.textColor = [UIColor blackColor];
+	rewardTitleLabel.backgroundColor = [UIColor clearColor];
+	rewardTitleLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
+	[self.view addSubview:rewardTitleLabel];
+	
+	UILabel *rewardPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 190, 100, 16)];
+	rewardPriceLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+	rewardPriceLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
+	rewardPriceLabel.backgroundColor = [UIColor clearColor];
+	rewardPriceLabel.text = _chore.price;
+	[self.view addSubview:rewardPriceLabel];
+	
+	UIImageView *divider3ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	frame = divider3ImgView.frame;
+	frame.origin.y = 251;
+	divider3ImgView.frame = frame;
+	[self.view addSubview:divider3ImgView];
+	
+	UILabel *xtraLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 260, 300, 40)];
+	xtraLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	xtraLabel.textColor = [UIColor colorWithWhite:0.33 alpha:1.0];
+	xtraLabel.backgroundColor = [UIColor clearColor];
+	xtraLabel.numberOfLines = 0;
+	xtraLabel.text = @"Claritas est etiam processus dynamicus qui sequitur et quinta decima mutationem. Decima typi qui.";
+	[self.view addSubview:xtraLabel];
+	
+	UIImageView *calendarImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 300.0, 14, 14)] autorelease];
+	calendarImgView.image = [UIImage imageNamed:@"cal_Icon.png"];
+	[self.view addSubview:calendarImgView];
+	
+	UILabel *expiresLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 300, 200, 16)];
+	expiresLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	expiresLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+	expiresLabel.backgroundColor = [UIColor clearColor];
+	expiresLabel.text = [NSString stringWithFormat:@"Expires on %@", _chore.disp_expires];
+	[self.view addSubview:expiresLabel];
+	
+	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
+	[self.view addSubview:footerView];
+	
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
+		
+	_submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_submitButton.frame = CGRectMake(0, 350, 320, 60);
+	_submitButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
+	_submitButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	[_submitButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_submitButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[_submitButton setTitle:@"submit" forState:UIControlStateNormal];
+	[_submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_submitButton];
 }
 
 -(void)viewDidLoad {
@@ -88,30 +142,48 @@
 	[super dealloc];
 }
 
-#pragma mark - Notification handlers
--(void)_dismissMe:(NSNotification *)notification {
-	NSLog(@"_dismissMe:");
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:_chore];
-	[self.navigationController popViewControllerAnimated:YES];
-	
-	//[self dismissViewControllerAnimated:YES completion:^(void) {
-	//	[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_ADD_CHORE" object:chore];
-	//}];
-}
-
-
 #pragma mark - navigation
-- (void)_goBack {
-	[self dismissViewControllerAnimated:YES completion:nil];	
+-(void)_goBack {
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)_goAssign {	
+- (void)_goSubmit {
+	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
 	
-	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:@"0000" chore:_chore fromAdd:YES] autorelease];
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:pinCodeViewController] autorelease];
-	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
-	[self.navigationController presentModalViewController:navigationController animated:YES];
+	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
+	[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[dataRequest setPostValue:_chore.title forKey:@"choreTitle"];
+	[dataRequest setPostValue:_chore.info forKey:@"choreInfo"];
+	[dataRequest setPostValue:[NSNumber numberWithFloat:_chore.cost] forKey:@"cost"];
+	[dataRequest setPostValue:[dateFormat stringFromDate:_chore.expires] forKey:@"expires"];
+	[dataRequest setDelegate:self];
+	[dataRequest startAsynchronous];
+	
+	[dateFormat release];
+}
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSDictionary *parsedChore = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			[self dismissViewControllerAnimated:YES completion:^(void) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:[DIChore choreWithDictionary:parsedChore]];
+			}];
+		}
+	}
+}
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
 }
 
 @end
