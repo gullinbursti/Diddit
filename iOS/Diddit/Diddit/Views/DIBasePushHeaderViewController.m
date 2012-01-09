@@ -50,7 +50,7 @@
 
 #pragma mark - Navigation
 -(void)_goBack {
-	[self dismissModalViewControllerAnimated:YES];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 

@@ -11,8 +11,9 @@
 
 #import "DIAppDelegate.h"
 
-#import "DIAboutViewController.h"
-#import "DIEmailSettingsViewController.h"
+#import "DINavTitleView.h"
+#import "DISupportViewController.h"
+#import "DIStoreCreditsViewController.h"
 #import "DIPinSettingsViewController.h"
 
 @implementation DISettingsViewController
@@ -20,16 +21,14 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
-		//headerLabel.font = [[OJAppDelegate ojApplicationFontBold] fontWithSize:18.0];
-		headerLabel.textAlignment = UITextAlignmentCenter;
-		headerLabel.backgroundColor = [UIColor clearColor];
-		headerLabel.textColor = [UIColor whiteColor];
-		headerLabel.shadowColor = [UIColor colorWithWhite:0.25 alpha:1.0];
-		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		headerLabel.text = @"Settings";
-		[headerLabel sizeToFit];
-		self.navigationItem.titleView = headerLabel;
+		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"settings"];
+		
+		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		backButton.frame = CGRectMake(0, 0, 54.0, 34.0);
+		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
 	}
 	
 	return (self);
@@ -41,8 +40,8 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 5, self.view.bounds.size.width, 200) style:UITableViewStylePlain];
-	_settingsTableView.rowHeight = 54;
+	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, self.view.bounds.size.width, 227) style:UITableViewStylePlain];
+	_settingsTableView.rowHeight = 55;
 	_settingsTableView.delegate = self;
 	_settingsTableView.dataSource = self;
 	_settingsTableView.backgroundColor = [UIColor clearColor];
@@ -58,7 +57,7 @@
 }
 
 -(void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -66,13 +65,18 @@
 }
 
 -(void)viewDidUnload {
-    [super viewDidUnload];
+	[super viewDidUnload];
 }
 
 -(void)dealloc {
 	[super dealloc];
 }
 
+
+#pragma mark - navigation
+-(void)_goBack {
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -112,11 +116,17 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			[switchview release];
 			
-		/*} else {
-			UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(280.0, 23.0, 7, 10)];		
-			chevronView.image = [UIImage imageNamed:@"smallChevron.png"];
-			[cell addSubview:chevronView];*/
+			} else {
+			 UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(295.0, 23.0, 14, 14)];		
+			 chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
+			 [cell addSubview:chevronView];
 		}
+		
+		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+		CGRect frame = dividerImgView.frame;
+		frame.origin.y = 54;
+		dividerImgView.frame = frame;
+		[cell addSubview:dividerImgView];
 	}
 	
 	return cell;
@@ -129,23 +139,25 @@
 	if (indexPath.row == 1 || indexPath.row == 2)
 		return;
 	
-	UINavigationController *navigationController;
-	DIAboutViewController *aboutViewController = [[[DIAboutViewController alloc] init] autorelease];
-	DIEmailSettingsViewController *emailViewController = [[[DIEmailSettingsViewController alloc] init] autorelease];
+	//	UINavigationController *navigationController;
+	//	DISupportViewController *supportViewController = [[[DISupportViewController alloc] initWithTitle:@"support" header:@"diddit help" backBtn:@"Done"] autorelease];
+	// DIStoreCreditsViewController *storeCreditsViewController = [[[DIStoreCreditsViewController alloc] init] autorelease];
 	//DIPinSettingsViewController *pinViewController = [[[DIPinSettingsViewController alloc] init] autorelease];
 	
 	switch (indexPath.row) {
 		case 0:
-			navigationController = [[[UINavigationController alloc] initWithRootViewController:emailViewController] autorelease];
+			[self.navigationController pushViewController:[[[DIStoreCreditsViewController alloc] init] autorelease] animated:YES];
+			//navigationController = [[[UINavigationController alloc] initWithRootViewController:storeCreditsViewController] autorelease];
 			break;
-						
+			
 		case 3:
-			navigationController = [[[UINavigationController alloc] initWithRootViewController:aboutViewController] autorelease];
+			[self.navigationController pushViewController:[[[DISupportViewController alloc] initWithTitle:@"support" header:@"diddit help" backBtn:@"Done"] autorelease] animated:YES];
+			//navigationController = [[[UINavigationController alloc] initWithRootViewController:supportViewController] autorelease];
 			break;
 	}
 	
-	if (navigationController)
-		[self.navigationController presentModalViewController:navigationController animated:YES];
+	//if (navigationController)
+	//	[self.navigationController pushViewController:navigationController animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -153,7 +165,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
-	cell.textLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12.0];
+	cell.textLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16.0];
 	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 }
 

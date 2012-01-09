@@ -13,9 +13,6 @@
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
 		4C0964B7149AC740005723AD /* DIAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964B6149AC740005723AD /* DIAchievement.m */; };
-		4C1DA818149BF44B0075B19D /* DIAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA815149BF44B0075B19D /* DIAboutViewController.m */; };
-		4C1DA819149BF44B0075B19D /* DISettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA817149BF44B0075B19D /* DISettingsViewController.m */; };
-		4C1DA81C149BF7850075B19D /* DIEmailSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */; };
 		4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */; };
 		4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */; };
 		4C1DA82A149C342D0075B19D /* DIWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA829149C342D0075B19D /* DIWelcomeViewController.m */; };
@@ -241,6 +238,11 @@
 		4CE5FB2D14B7ED6B00847283 /* cal_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE5FB2B14B7ED6B00847283 /* cal_Icon.png */; };
 		4CE5FB2E14B7ED6B00847283 /* cal_Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CE5FB2C14B7ED6B00847283 /* cal_Icon@2x.png */; };
 		4CE5FB3414B8387200847283 /* DIChoreExpiresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE5FB3314B8387200847283 /* DIChoreExpiresViewController.m */; };
+		4CED7E2514BB7A1B00EF9B07 /* DIRedeemCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CED7E2414BB7A1B00EF9B07 /* DIRedeemCodeViewController.m */; };
+		4CED7E2814BB96B600EF9B07 /* DISettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CED7E2714BB96B600EF9B07 /* DISettingsViewController.m */; };
+		4CED7E3314BB9CD800EF9B07 /* DISupportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CED7E3114BB9CD800EF9B07 /* DISupportViewController.m */; };
+		4CED7E3914BBA66A00EF9B07 /* DINavTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CED7E3814BBA66A00EF9B07 /* DINavTitleView.m */; };
+		4CED7E3C14BBA7CE00EF9B07 /* DIStoreCreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CED7E3B14BBA7CE00EF9B07 /* DIStoreCreditsViewController.m */; };
 		4CF6BD36149D5605002BC00B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF6BD35149D5605002BC00B /* MBProgressHUD.m */; };
 		4CFE83921497D87D0032F12D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE83911497D87D0032F12D /* UIKit.framework */; };
 		4CFE83941497D87D0032F12D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE83931497D87D0032F12D /* Foundation.framework */; };
@@ -296,12 +298,6 @@
 		4C09649F1499B1CE005723AD /* DIChore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChore.m; sourceTree = "<group>"; };
 		4C0964B5149AC740005723AD /* DIAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAchievement.h; sourceTree = "<group>"; };
 		4C0964B6149AC740005723AD /* DIAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAchievement.m; sourceTree = "<group>"; };
-		4C1DA814149BF44B0075B19D /* DIAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAboutViewController.h; sourceTree = "<group>"; };
-		4C1DA815149BF44B0075B19D /* DIAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAboutViewController.m; sourceTree = "<group>"; };
-		4C1DA816149BF44B0075B19D /* DISettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISettingsViewController.h; sourceTree = "<group>"; };
-		4C1DA817149BF44B0075B19D /* DISettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISettingsViewController.m; sourceTree = "<group>"; };
-		4C1DA81A149BF7850075B19D /* DIEmailSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIEmailSettingsViewController.h; sourceTree = "<group>"; };
-		4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIEmailSettingsViewController.m; sourceTree = "<group>"; };
 		4C1DA81D149BF8060075B19D /* DIPinSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIPinSettingsViewController.h; sourceTree = "<group>"; };
 		4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIPinSettingsViewController.m; sourceTree = "<group>"; };
 		4C1DA821149C2A7E0075B19D /* DIStoreObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStoreObserver.h; sourceTree = "<group>"; };
@@ -666,6 +662,16 @@
 		4CE5FB2C14B7ED6B00847283 /* cal_Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cal_Icon@2x.png"; sourceTree = "<group>"; };
 		4CE5FB3214B8387200847283 /* DIChoreExpiresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChoreExpiresViewController.h; sourceTree = "<group>"; };
 		4CE5FB3314B8387200847283 /* DIChoreExpiresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChoreExpiresViewController.m; sourceTree = "<group>"; };
+		4CED7E2314BB7A1B00EF9B07 /* DIRedeemCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIRedeemCodeViewController.h; sourceTree = "<group>"; };
+		4CED7E2414BB7A1B00EF9B07 /* DIRedeemCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIRedeemCodeViewController.m; sourceTree = "<group>"; };
+		4CED7E2614BB96B600EF9B07 /* DISettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISettingsViewController.h; sourceTree = "<group>"; };
+		4CED7E2714BB96B600EF9B07 /* DISettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISettingsViewController.m; sourceTree = "<group>"; };
+		4CED7E3014BB9CD800EF9B07 /* DISupportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISupportViewController.h; sourceTree = "<group>"; };
+		4CED7E3114BB9CD800EF9B07 /* DISupportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISupportViewController.m; sourceTree = "<group>"; };
+		4CED7E3714BBA66A00EF9B07 /* DINavTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DINavTitleView.h; sourceTree = "<group>"; };
+		4CED7E3814BBA66A00EF9B07 /* DINavTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DINavTitleView.m; sourceTree = "<group>"; };
+		4CED7E3A14BBA7CE00EF9B07 /* DIStoreCreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStoreCreditsViewController.h; sourceTree = "<group>"; };
+		4CED7E3B14BBA7CE00EF9B07 /* DIStoreCreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIStoreCreditsViewController.m; sourceTree = "<group>"; };
 		4CF6BD34149D5605002BC00B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		4CF6BD35149D5605002BC00B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		4CFE838D1497D87D0032F12D /* Diddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -765,14 +771,14 @@
 				4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */,
 				4CE5FB3214B8387200847283 /* DIChoreExpiresViewController.h */,
 				4CE5FB3314B8387200847283 /* DIChoreExpiresViewController.m */,
+				4C3E292A14B8F86900D1D218 /* DIRewardViewCell.h */,
+				4C3E292B14B8F86A00D1D218 /* DIRewardViewCell.m */,
 				4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */,
 				4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */,
 				4C3E290E14B8E43A00D1D218 /* DIHowDiddsWorkViewController.h */,
 				4C3E290F14B8E43A00D1D218 /* DIHowDiddsWorkViewController.m */,
 				4C0964901499B1CE005723AD /* DIConfirmChoreViewController.h */,
 				4C0964911499B1CE005723AD /* DIConfirmChoreViewController.m */,
-				4C3E292A14B8F86900D1D218 /* DIRewardViewCell.h */,
-				4C3E292B14B8F86A00D1D218 /* DIRewardViewCell.m */,
 			);
 			path = AddChore;
 			sourceTree = "<group>";
@@ -780,6 +786,8 @@
 		4C0964921499B1CE005723AD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CED7E3714BBA66A00EF9B07 /* DINavTitleView.h */,
+				4CED7E3814BBA66A00EF9B07 /* DINavTitleView.m */,
 				4CD02D9A14B9775D00309AC0 /* DIBaseHeaderViewController.h */,
 				4CD02D9B14B9775D00309AC0 /* DIBaseHeaderViewController.m */,
 				4CD02D9714B94D9600309AC0 /* DIBaseModalHeaderViewController.h */,
@@ -814,12 +822,12 @@
 		4C1DA813149BF44B0075B19D /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				4C1DA816149BF44B0075B19D /* DISettingsViewController.h */,
-				4C1DA817149BF44B0075B19D /* DISettingsViewController.m */,
-				4C1DA814149BF44B0075B19D /* DIAboutViewController.h */,
-				4C1DA815149BF44B0075B19D /* DIAboutViewController.m */,
-				4C1DA81A149BF7850075B19D /* DIEmailSettingsViewController.h */,
-				4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */,
+				4CED7E2614BB96B600EF9B07 /* DISettingsViewController.h */,
+				4CED7E2714BB96B600EF9B07 /* DISettingsViewController.m */,
+				4CED7E3A14BBA7CE00EF9B07 /* DIStoreCreditsViewController.h */,
+				4CED7E3B14BBA7CE00EF9B07 /* DIStoreCreditsViewController.m */,
+				4CED7E3014BB9CD800EF9B07 /* DISupportViewController.h */,
+				4CED7E3114BB9CD800EF9B07 /* DISupportViewController.m */,
 				4C1DA81D149BF8060075B19D /* DIPinSettingsViewController.h */,
 				4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */,
 			);
@@ -851,10 +859,10 @@
 		4CD02D7614B9498800309AC0 /* ChoresList */ = {
 			isa = PBXGroup;
 			children = (
-				4CD02D7914B9498800309AC0 /* DIChoreListViewController.h */,
-				4CD02D7A14B9498800309AC0 /* DIChoreListViewController.m */,
 				4CD02D7B14B9498800309AC0 /* DIMyChoresViewCell.h */,
 				4CD02D7C14B9498800309AC0 /* DIMyChoresViewCell.m */,
+				4CD02D7914B9498800309AC0 /* DIChoreListViewController.h */,
+				4CD02D7A14B9498800309AC0 /* DIChoreListViewController.m */,
 				4CD02D7714B9498800309AC0 /* DIChoreDetailsViewController.h */,
 				4CD02D7814B9498800309AC0 /* DIChoreDetailsViewController.m */,
 				4CD02DA014B9801A00309AC0 /* DIChoreCompleteViewController.h */,
@@ -889,10 +897,12 @@
 				4CD02DCF14BA9BE200309AC0 /* DIAppListViewController.m */,
 				4CD02DCB14BA99D500309AC0 /* DIAppDetailsViewController.h */,
 				4CD02DCC14BA99D600309AC0 /* DIAppDetailsViewController.m */,
-				4CD02DAB14BA34D300309AC0 /* DIOfferListViewController.h */,
-				4CD02DAC14BA34D300309AC0 /* DIOfferListViewController.m */,
+				4CED7E2314BB7A1B00EF9B07 /* DIRedeemCodeViewController.h */,
+				4CED7E2414BB7A1B00EF9B07 /* DIRedeemCodeViewController.m */,
 				4CD02DB114BA37D100309AC0 /* DIOfferViewCell.h */,
 				4CD02DB214BA37D100309AC0 /* DIOfferViewCell.m */,
+				4CD02DAB14BA34D300309AC0 /* DIOfferListViewController.h */,
+				4CD02DAC14BA34D300309AC0 /* DIOfferListViewController.m */,
 				4CD02DBA14BA630D00309AC0 /* DIOfferDetailsViewController.h */,
 				4CD02DBB14BA630D00309AC0 /* DIOfferDetailsViewController.m */,
 				4CD02DB714BA53B900309AC0 /* DIOfferVideoViewController.h */,
@@ -2028,9 +2038,6 @@
 				4C0964AA1499B1CE005723AD /* DIApp.m in Sources */,
 				4C0964AB1499B1CE005723AD /* DIChore.m in Sources */,
 				4C0964B7149AC740005723AD /* DIAchievement.m in Sources */,
-				4C1DA818149BF44B0075B19D /* DIAboutViewController.m in Sources */,
-				4C1DA819149BF44B0075B19D /* DISettingsViewController.m in Sources */,
-				4C1DA81C149BF7850075B19D /* DIEmailSettingsViewController.m in Sources */,
 				4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */,
 				4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */,
 				4C1DA82A149C342D0075B19D /* DIWelcomeViewController.m in Sources */,
@@ -2064,6 +2071,11 @@
 				4CD02DC614BA7F6200309AC0 /* DIAppViewCell.m in Sources */,
 				4CD02DCD14BA99D700309AC0 /* DIAppDetailsViewController.m in Sources */,
 				4CD02DD014BA9BE200309AC0 /* DIAppListViewController.m in Sources */,
+				4CED7E2514BB7A1B00EF9B07 /* DIRedeemCodeViewController.m in Sources */,
+				4CED7E2814BB96B600EF9B07 /* DISettingsViewController.m in Sources */,
+				4CED7E3314BB9CD800EF9B07 /* DISupportViewController.m in Sources */,
+				4CED7E3914BBA66A00EF9B07 /* DINavTitleView.m in Sources */,
+				4CED7E3C14BBA7CE00EF9B07 /* DIStoreCreditsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

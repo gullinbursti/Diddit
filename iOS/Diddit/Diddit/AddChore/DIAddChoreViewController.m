@@ -10,6 +10,7 @@
 #import "DIAddChoreViewController.h"
 
 #import "DIAppDelegate.h"
+#import "DINavTitleView.h"
 #import "DIMyChoresViewCell.h"
 #import "DIChoreExpiresViewController.h"
 #import "DIConfirmChoreViewController.h"
@@ -21,20 +22,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		
-		UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 195, 40)];
-		
-		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(-10, 3, 195, 40)] autorelease];
-		headerLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-		headerLabel.textAlignment = UITextAlignmentCenter;
-		headerLabel.backgroundColor = [UIColor clearColor];
-		headerLabel.textColor = [UIColor colorWithRed:0.184313725490196 green:0.537254901960784 blue:0.298039215686275 alpha:1.0];
-		headerLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
-		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		headerLabel.text = @"add chore";
-		
-		[headerView addSubview:headerLabel];
-		self.navigationItem.titleView = headerView;
+		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"add chore"];
 		
 		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);

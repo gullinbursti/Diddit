@@ -6,6 +6,8 @@
 //  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
+#import <CommonCrypto/CommonDigest.h>
+
 #import "DIAppDelegate.h"
 
 #import "DIChore.h"
@@ -37,19 +39,21 @@
 }
 
 +(void)setUserPoints:(int)points {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:points] forKey:@"user_points"];	
+	[[DIAppDelegate profileForUser] setValue:[NSNumber numberWithInt:points] forKey:@"points"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(int)userPoints {
-	return ([[[NSUserDefaults standardUserDefaults] objectForKey:@"user_points"] intValue]);
+	return ([[[DIAppDelegate profileForUser] objectForKey:@"points"] intValue]);
 }
 
 +(void)setUserTotalFinshed:(int)total {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:total] forKey:@"user_total"];	
+	[[DIAppDelegate profileForUser] setValue:[NSNumber numberWithInt:total] forKey:@"finished"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(int)userTotalFinished {
-	return ([[[NSUserDefaults standardUserDefaults] objectForKey:@"user_total"] intValue]);
+	return ([[[DIAppDelegate profileForUser] objectForKey:@"finished"] intValue]);
 }
 
 +(void)setDeviceToken:(NSString *)token {
@@ -84,6 +88,21 @@
 
 +(UIFont *)diHelveticaNeueFontBold {
 	return [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0];
+}
+
++(NSString *)md5:(NSString *)input {
+	
+	const char *cStr = [input UTF8String];
+	unsigned char digest[16];
+	
+	CC_MD5(cStr, strlen(cStr), digest);
+	
+	NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+	
+	for(int i=0; i<CC_MD5_DIGEST_LENGTH; i++)
+		[output appendFormat:@"%02x", digest[i]];
+	
+	return (output);
 }
 
 //+(NSString *)userPinCode {
@@ -188,10 +207,7 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
-				[DIAppDelegate setUserProfile:parsedUser];
-				[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
-				[DIAppDelegate setUserTotalFinshed:[[parsedUser objectForKey:@"finished"] intValue]];
-				
+				[DIAppDelegate setUserProfile:parsedUser];				
 				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}
 		}

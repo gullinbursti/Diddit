@@ -35,6 +35,8 @@
 +(void)setUserTotalFinshed:(int)total;
 +(int)userTotalFinished;
 
++(NSString *)md5:(NSString *)input;
+
 
 +(UIFont *)diAdelleFontRegular;
 +(UIFont *)diAdelleFontLight;

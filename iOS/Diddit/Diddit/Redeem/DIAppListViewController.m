@@ -7,6 +7,7 @@
 //
 
 #import "DIAppDelegate.h"
+#import "DINavTitleView.h"
 #import "DIOffersHelpViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIAppListViewController.h"
@@ -20,18 +21,7 @@
 		_features = [[NSMutableArray alloc] init];
 		_apps = [[NSMutableArray alloc] init];
 		
-		UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 195, 40)];
-		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(40, 5, 195, 40)] autorelease];
-		headerLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-		headerLabel.textAlignment = UITextAlignmentCenter;
-		headerLabel.backgroundColor = [UIColor clearColor];
-		headerLabel.textColor = [UIColor colorWithRed:0.184313725490196 green:0.537254901960784 blue:0.298039215686275 alpha:1.0];
-		headerLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
-		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		headerLabel.text = @"earn didds";
-		[headerLabel sizeToFit];
-		[headerView addSubview:headerLabel];
-		self.navigationItem.titleView = headerView;
+		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"store"];
 		
 		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		backButton.frame = CGRectMake(0, 0, 54.0, 34.0);
@@ -188,9 +178,12 @@
 }
 
 -(void)_goOffers {
-	DIOffersHelpViewController *offersHelpViewController = [[[DIOffersHelpViewController alloc] initWithTitle:@"need help?" header:@"earning didds is easy and fun" closeLabel:@"Done"] autorelease];
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:offersHelpViewController] autorelease];
-	[self.navigationController presentModalViewController:navigationController animated:YES];
+	[self.navigationController popViewControllerAnimated:NO];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
+	
+	//	[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
+	//		[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
+	//	}];
 }
 
 #pragma mark - TableView Data Source Delegates
@@ -251,7 +244,7 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	NSLog(@"OfferListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	NSLog(@"AppListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
 	@autoreleasepool {
 		NSError *error = nil;

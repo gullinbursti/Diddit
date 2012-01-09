@@ -1,5 +1,5 @@
 //
-//  DIAboutViewController.h
+//  DISupportViewController.h
 //  Diddit
 //
 //  Created by Matthew Holcombe on 12.16.11.
@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIAboutViewController : UIViewController
+#import "DIBasePushHeaderViewController.h"
+
+@interface DISupportViewController : DIBasePushHeaderViewController {
+	
+}
 
 @end

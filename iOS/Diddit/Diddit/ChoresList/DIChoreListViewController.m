@@ -28,6 +28,8 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
 		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_pushOffers:) name:@"PUSH_OFFERS_SCREEN" object:nil];
+		
 		_chores = [[NSMutableArray alloc] init];
 		_availChores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
@@ -186,12 +188,6 @@
 }
 
 -(void)_goApps {
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-	
-	NSMutableArray *chores = [[NSMutableArray alloc] init];
-	for (NSDictionary *dict in plist)
-		[chores addObject:[DIChore choreWithDictionary:dict]];
-	
 	[self.navigationController pushViewController:[[[DIAppListViewController alloc] init] autorelease] animated:YES];
 }
 
@@ -252,6 +248,10 @@
 	DIChoreCompleteViewController *choreCompleteViewController = [[[DIChoreCompleteViewController alloc] initWithChore:chore] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:choreCompleteViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
+}
+
+-(void)_pushOffers:(NSNotification *)notification {
+	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
 #pragma mark - TableView Data Source Delegates

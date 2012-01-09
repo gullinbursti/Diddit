@@ -9,23 +9,14 @@
 #import "DISignupViewController.h"
 
 #import "DIAppDelegate.h"
+#import "DINavTitleView.h"
 
 @implementation DISignupViewController
 
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		
-		UILabel *headerLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)] autorelease];
-		headerLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-		headerLabel.textAlignment = UITextAlignmentCenter;
-		headerLabel.backgroundColor = [UIColor clearColor];
-		headerLabel.textColor = [UIColor colorWithRed:0.1412 green:0.5255 blue:0.2627 alpha:1.0];
-		headerLabel.shadowColor = [UIColor whiteColor];
-		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		headerLabel.text = @"sign up";
-		[headerLabel sizeToFit];
-		self.navigationItem.titleView = headerLabel;
+		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"sign up"];
 		
 		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);
