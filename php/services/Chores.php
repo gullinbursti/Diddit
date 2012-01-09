@@ -149,7 +149,7 @@
 		
 		function updStatusByUserID($user_id, $chore_id, $status_id) {
 			
-			$query = 'UPDATE `tblUsersChores` SET `status_id` ='. $status_id .' WHERE `user_id` = "'. $user_id .'" AND `chore_id` = "'. $chore_id .'";';
+			$query = 'UPDATE `tblChores` SET `status_id` ='. $status_id .' WHERE `user_id` = "'. $user_id .'" AND `id` = "'. $chore_id .'";';
 			$result = mysql_query($query);
 			
 			return (true);

@@ -111,19 +111,25 @@
 					"username" => "", 
 					"email" => $email, 
 					"pin" => $pin,
-					"points" => 0 
+					"points" => 0, 
+					"finished" => 0 
 				);
 
 				$this->sendResponse(200, json_encode($result));
 
 			} else {
+				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` = "4" ORDER BY `added`;';
+				$tot_res = mysql_query($query);				
+				$tot = mysql_num_rows($tot_res);
+				
 				$this->sendResponse(200, json_encode(array(
 					"id" => $res[0], 
 					"device_id" => $res[1], 
 					"username" => $res[2],
 					"email" => $res[3],
 					"pin" => $res[4],
-					"points" => $res[5]
+					"points" => $res[5], 
+					"finished" => $tot
 				)));
 			}
 			
@@ -139,6 +145,10 @@
 
 			// has user
 			if ($row) {
+                
+				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
+				$tot_res = mysql_query($query);				
+				$tot = mysql_num_rows($tot_res);
 
 				// Return data, as JSON
 				$result = array(
@@ -147,7 +157,8 @@
 					"username" => $row[2], 
 					"email" => $row[3], 
 					"pin" => $row[4], 
-					"points" => $row[5]
+					"points" => $row[5], 
+					"finished" => $tot
 				);
 
 				$this->sendResponse(200, json_encode($result));
@@ -185,6 +196,10 @@
 			
 			$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $id .';';
 			$result = mysql_query($query);
+			
+			$this->sendResponse(200, json_encode(array(
+				"points" => $points
+			)));
 			
 			return (true);
 		}

@@ -44,6 +44,13 @@
 	return ([[[NSUserDefaults standardUserDefaults] objectForKey:@"user_points"] intValue]);
 }
 
++(void)setUserTotalFinshed:(int)total {
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:total] forKey:@"user_total"];	
+}
+
++(int)userTotalFinished {
+	return ([[[NSUserDefaults standardUserDefaults] objectForKey:@"user_total"] intValue]);
+}
 
 +(void)setDeviceToken:(NSString *)token {
 	[[NSUserDefaults standardUserDefaults] setObject:token forKey:@"device_token"];
@@ -103,7 +110,8 @@
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
 	//[DIAppDelegate setUserProfile:nil];
-	
+	//[DIAppDelegate setUserTotalFinshed:0];
+	 
 	_choreListViewController = [[DIChoreListViewController alloc] init];
 	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
 	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"headerBG.png"] forBarMetrics:UIBarMetricsDefault];
@@ -182,6 +190,7 @@
 			else {
 				[DIAppDelegate setUserProfile:parsedUser];
 				[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
+				[DIAppDelegate setUserTotalFinshed:[[parsedUser objectForKey:@"finished"] intValue]];
 				
 				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}

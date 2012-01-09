@@ -61,6 +61,17 @@
 		4CD02DA814B9853400309AC0 /* hudHeaderBG_nonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD02DA414B9853400309AC0 /* hudHeaderBG_nonActive@2x.png */; };
 		4CD02DA914B9853400309AC0 /* hudHeaderBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD02DA514B9853400309AC0 /* hudHeaderBG.png */; };
 		4CD02DAA14B9853400309AC0 /* hudHeaderBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD02DA614B9853400309AC0 /* hudHeaderBG@2x.png */; };
+		4CD02DAD14BA34D300309AC0 /* DIOfferListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DAC14BA34D300309AC0 /* DIOfferListViewController.m */; };
+		4CD02DB014BA35D500309AC0 /* DIOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DAF14BA35D500309AC0 /* DIOffer.m */; };
+		4CD02DB314BA37D200309AC0 /* DIOfferViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DB214BA37D100309AC0 /* DIOfferViewCell.m */; };
+		4CD02DB614BA4A0200309AC0 /* DIOffersHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DB514BA4A0200309AC0 /* DIOffersHelpViewController.m */; };
+		4CD02DB914BA53BA00309AC0 /* DIOfferVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DB814BA53BA00309AC0 /* DIOfferVideoViewController.m */; };
+		4CD02DBC14BA630E00309AC0 /* DIOfferDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DBB14BA630D00309AC0 /* DIOfferDetailsViewController.m */; };
+		4CD02DC614BA7F6200309AC0 /* DIAppViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DC514BA7F6100309AC0 /* DIAppViewCell.m */; };
+		4CD02DC914BA8F1400309AC0 /* storeFeature.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD02DC714BA8F1400309AC0 /* storeFeature.png */; };
+		4CD02DCA14BA8F1400309AC0 /* storeFeature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD02DC814BA8F1400309AC0 /* storeFeature@2x.png */; };
+		4CD02DCD14BA99D700309AC0 /* DIAppDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DCC14BA99D600309AC0 /* DIAppDetailsViewController.m */; };
+		4CD02DD014BA9BE200309AC0 /* DIAppListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD02DCF14BA9BE200309AC0 /* DIAppListViewController.m */; };
 		4CE25F2C1498961A00E367A2 /* test_apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2B1498961A00E367A2 /* test_apps.plist */; };
 		4CE260241499380200E367A2 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2E1499380200E367A2 /* AirshipConfig.plist */; };
 		4CE260251499380200E367A2 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 4CE25F2F1499380200E367A2 /* CHANGELOG */; };
@@ -357,6 +368,26 @@
 		4CD02DA414B9853400309AC0 /* hudHeaderBG_nonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hudHeaderBG_nonActive@2x.png"; sourceTree = "<group>"; };
 		4CD02DA514B9853400309AC0 /* hudHeaderBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hudHeaderBG.png; sourceTree = "<group>"; };
 		4CD02DA614B9853400309AC0 /* hudHeaderBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hudHeaderBG@2x.png"; sourceTree = "<group>"; };
+		4CD02DAB14BA34D300309AC0 /* DIOfferListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIOfferListViewController.h; sourceTree = "<group>"; };
+		4CD02DAC14BA34D300309AC0 /* DIOfferListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIOfferListViewController.m; sourceTree = "<group>"; };
+		4CD02DAE14BA35D500309AC0 /* DIOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIOffer.h; sourceTree = "<group>"; };
+		4CD02DAF14BA35D500309AC0 /* DIOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIOffer.m; sourceTree = "<group>"; };
+		4CD02DB114BA37D100309AC0 /* DIOfferViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIOfferViewCell.h; sourceTree = "<group>"; };
+		4CD02DB214BA37D100309AC0 /* DIOfferViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIOfferViewCell.m; sourceTree = "<group>"; };
+		4CD02DB414BA4A0200309AC0 /* DIOffersHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIOffersHelpViewController.h; sourceTree = "<group>"; };
+		4CD02DB514BA4A0200309AC0 /* DIOffersHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIOffersHelpViewController.m; sourceTree = "<group>"; };
+		4CD02DB714BA53B900309AC0 /* DIOfferVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIOfferVideoViewController.h; sourceTree = "<group>"; };
+		4CD02DB814BA53BA00309AC0 /* DIOfferVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIOfferVideoViewController.m; sourceTree = "<group>"; };
+		4CD02DBA14BA630D00309AC0 /* DIOfferDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIOfferDetailsViewController.h; sourceTree = "<group>"; };
+		4CD02DBB14BA630D00309AC0 /* DIOfferDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIOfferDetailsViewController.m; sourceTree = "<group>"; };
+		4CD02DC414BA7F6100309AC0 /* DIAppViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAppViewCell.h; sourceTree = "<group>"; };
+		4CD02DC514BA7F6100309AC0 /* DIAppViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAppViewCell.m; sourceTree = "<group>"; };
+		4CD02DC714BA8F1400309AC0 /* storeFeature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storeFeature.png; sourceTree = "<group>"; };
+		4CD02DC814BA8F1400309AC0 /* storeFeature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storeFeature@2x.png"; sourceTree = "<group>"; };
+		4CD02DCB14BA99D500309AC0 /* DIAppDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAppDetailsViewController.h; sourceTree = "<group>"; };
+		4CD02DCC14BA99D600309AC0 /* DIAppDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAppDetailsViewController.m; sourceTree = "<group>"; };
+		4CD02DCE14BA9BE100309AC0 /* DIAppListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAppListViewController.h; sourceTree = "<group>"; };
+		4CD02DCF14BA9BE200309AC0 /* DIAppListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAppListViewController.m; sourceTree = "<group>"; };
 		4CE25F2B1498961A00E367A2 /* test_apps.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test_apps.plist; sourceTree = "<group>"; };
 		4CE25F2E1499380200E367A2 /* AirshipConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		4CE25F2F1499380200E367A2 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
@@ -774,6 +805,8 @@
 				4C0964B6149AC740005723AD /* DIAchievement.m */,
 				4C3E292D14B8F8B500D1D218 /* DIReward.h */,
 				4C3E292E14B8F8B500D1D218 /* DIReward.m */,
+				4CD02DAE14BA35D500309AC0 /* DIOffer.h */,
+				4CD02DAF14BA35D500309AC0 /* DIOffer.m */,
 			);
 			path = VO;
 			sourceTree = "<group>";
@@ -781,10 +814,10 @@
 		4C1DA813149BF44B0075B19D /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				4C1DA814149BF44B0075B19D /* DIAboutViewController.h */,
-				4C1DA815149BF44B0075B19D /* DIAboutViewController.m */,
 				4C1DA816149BF44B0075B19D /* DISettingsViewController.h */,
 				4C1DA817149BF44B0075B19D /* DISettingsViewController.m */,
+				4C1DA814149BF44B0075B19D /* DIAboutViewController.h */,
+				4C1DA815149BF44B0075B19D /* DIAboutViewController.m */,
 				4C1DA81A149BF7850075B19D /* DIEmailSettingsViewController.h */,
 				4C1DA81B149BF7850075B19D /* DIEmailSettingsViewController.m */,
 				4C1DA81D149BF8060075B19D /* DIPinSettingsViewController.h */,
@@ -850,6 +883,22 @@
 				4CD02D8B14B94A1900309AC0 /* DICreditsViewCell.m */,
 				4CD02D8C14B94A1900309AC0 /* DICreditsViewController.h */,
 				4CD02D8D14B94A1900309AC0 /* DICreditsViewController.m */,
+				4CD02DC414BA7F6100309AC0 /* DIAppViewCell.h */,
+				4CD02DC514BA7F6100309AC0 /* DIAppViewCell.m */,
+				4CD02DCE14BA9BE100309AC0 /* DIAppListViewController.h */,
+				4CD02DCF14BA9BE200309AC0 /* DIAppListViewController.m */,
+				4CD02DCB14BA99D500309AC0 /* DIAppDetailsViewController.h */,
+				4CD02DCC14BA99D600309AC0 /* DIAppDetailsViewController.m */,
+				4CD02DAB14BA34D300309AC0 /* DIOfferListViewController.h */,
+				4CD02DAC14BA34D300309AC0 /* DIOfferListViewController.m */,
+				4CD02DB114BA37D100309AC0 /* DIOfferViewCell.h */,
+				4CD02DB214BA37D100309AC0 /* DIOfferViewCell.m */,
+				4CD02DBA14BA630D00309AC0 /* DIOfferDetailsViewController.h */,
+				4CD02DBB14BA630D00309AC0 /* DIOfferDetailsViewController.m */,
+				4CD02DB714BA53B900309AC0 /* DIOfferVideoViewController.h */,
+				4CD02DB814BA53BA00309AC0 /* DIOfferVideoViewController.m */,
+				4CD02DB414BA4A0200309AC0 /* DIOffersHelpViewController.h */,
+				4CD02DB514BA4A0200309AC0 /* DIOffersHelpViewController.m */,
 			);
 			path = Redeem;
 			sourceTree = "<group>";
@@ -1494,6 +1543,8 @@
 		4CE5FB3114B7EEBB00847283 /* FPO */ = {
 			isa = PBXGroup;
 			children = (
+				4CD02DC714BA8F1400309AC0 /* storeFeature.png */,
+				4CD02DC814BA8F1400309AC0 /* storeFeature@2x.png */,
 				4CFE83D91497D8DA0032F12D /* active_headerButton.png */,
 				4CFE83DA1497D8DA0032F12D /* active_headerButton@2x.png */,
 				4CFE83DB1497D8DA0032F12D /* bg.png */,
@@ -1905,6 +1956,8 @@
 				4CD02DA814B9853400309AC0 /* hudHeaderBG_nonActive@2x.png in Resources */,
 				4CD02DA914B9853400309AC0 /* hudHeaderBG.png in Resources */,
 				4CD02DAA14B9853400309AC0 /* hudHeaderBG@2x.png in Resources */,
+				4CD02DC914BA8F1400309AC0 /* storeFeature.png in Resources */,
+				4CD02DCA14BA8F1400309AC0 /* storeFeature@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2002,6 +2055,15 @@
 				4CD02D9C14B9775D00309AC0 /* DIBaseHeaderViewController.m in Sources */,
 				4CD02D9F14B9792700309AC0 /* DIBasePushHeaderViewController.m in Sources */,
 				4CD02DA214B9801A00309AC0 /* DIChoreCompleteViewController.m in Sources */,
+				4CD02DAD14BA34D300309AC0 /* DIOfferListViewController.m in Sources */,
+				4CD02DB014BA35D500309AC0 /* DIOffer.m in Sources */,
+				4CD02DB314BA37D200309AC0 /* DIOfferViewCell.m in Sources */,
+				4CD02DB614BA4A0200309AC0 /* DIOffersHelpViewController.m in Sources */,
+				4CD02DB914BA53BA00309AC0 /* DIOfferVideoViewController.m in Sources */,
+				4CD02DBC14BA630E00309AC0 /* DIOfferDetailsViewController.m in Sources */,
+				4CD02DC614BA7F6200309AC0 /* DIAppViewCell.m in Sources */,
+				4CD02DCD14BA99D700309AC0 /* DIAppDetailsViewController.m in Sources */,
+				4CD02DD014BA9BE200309AC0 /* DIAppListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

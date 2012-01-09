@@ -11,7 +11,7 @@
 @implementation DIApp
 
 @synthesize dictionary;
-@synthesize app_id, title, info, points, ico_url;
+@synthesize app_id, title, info, points, ico_url, img_url;
 
 
 +(DIApp *)appWithDictionary:(NSDictionary *)dictionary {
@@ -24,8 +24,13 @@
 	app.info = [dictionary objectForKey:@"info"];
 	app.points = [[dictionary objectForKey:@"points"] intValue];
 	app.ico_url = [dictionary objectForKey:@"ico_url"];
+	app.img_url = [dictionary objectForKey:@"img_url"];
 	
 	return (app);
+}
+
+-(NSString *)disp_points {
+	return ([NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:self.points] numberStyle:NSNumberFormatterDecimalStyle]);
 }
 
 -(void)dealloc {
@@ -33,6 +38,7 @@
 	self.title = nil;
 	self.info = nil;
 	self.ico_url = nil;
+	self.img_url = nil;
 	
 	[super dealloc];
 }

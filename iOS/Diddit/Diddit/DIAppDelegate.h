@@ -32,6 +32,9 @@
 +(void)setUserPoints:(int)points;
 +(int)userPoints;
 
++(void)setUserTotalFinshed:(int)total;
++(int)userTotalFinished;
+
 
 +(UIFont *)diAdelleFontRegular;
 +(UIFont *)diAdelleFontLight;

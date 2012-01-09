@@ -13,6 +13,12 @@
 
 @interface DIChoreCompleteViewController : UIViewController <ASIHTTPRequestDelegate> {
 	DIChore *_chore;
+	
+	ASIFormDataRequest *_choreUpdRequest;
+	ASIFormDataRequest *_userUpdRequest;
+	
+	UIButton *_pointsButton;
+	UIButton *_finishedButton;
 }
 
 -(id)initWithChore:(DIChore *)chore;

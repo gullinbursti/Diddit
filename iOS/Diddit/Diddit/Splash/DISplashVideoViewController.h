@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface DISplashVideoViewController : UIViewController {
-	
+	MPMoviePlayerController *_player;
 	UIButton *_closeBtn;
 }
 

@@ -11,6 +11,7 @@
 @interface DIApp : NSObject
 
 +(DIApp *)appWithDictionary:(NSDictionary *)dictionary;
+-(NSString *)disp_points;
 
 @property (nonatomic, retain) NSDictionary *dictionary;
 @property (nonatomic) int app_id;
@@ -18,5 +19,6 @@
 @property (nonatomic, retain) NSString *info;
 @property (nonatomic) int points;
 @property (nonatomic, retain) NSString *ico_url;
+@property (nonatomic, retain) NSString *img_url;
 
 @end

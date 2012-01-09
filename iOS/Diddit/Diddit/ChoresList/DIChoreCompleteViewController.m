@@ -47,14 +47,19 @@
 	if ((self = [self init])) {
 		_chore = chore;
 		
-		ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
-		[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
-		[rewardsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.points] forKey:@"points"];
-		[rewardsRequest setDelegate:self];
-		[rewardsRequest startAsynchronous];
+		_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+		[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
+		[_userUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.points] forKey:@"points"];
+		[_userUpdRequest setDelegate:self];
+		[_userUpdRequest startAsynchronous];
 		
-		[DIAppDelegate setUserPoints:[DIAppDelegate userPoints] + _chore.points];
+		_choreUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+		[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
+		[_choreUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
+		[_choreUpdRequest setDelegate:self];
+		
 	}
 	
 	return (self);
@@ -73,15 +78,15 @@
 	diddsLabel.text = @"DIDDS";
 	[self.view addSubview:diddsLabel];
 	
-	UIButton *diddsBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	diddsBtn.frame = CGRectMake(50, 15, 59, 34);
-	diddsBtn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
+	_pointsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_pointsButton.frame = CGRectMake(50, 15, 59, 34);
+	_pointsButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
 	//diddsBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-	[diddsBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[diddsBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-	[diddsBtn setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-	[diddsBtn setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
-	[self.view addSubview:diddsBtn];
+	[_pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[_pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+	[_pointsButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+	[_pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+	[self.view addSubview:_pointsButton];
 	
 	UILabel *choresLabel = [[UILabel alloc] initWithFrame:CGRectMake(122, 20, 60, 26)];
 	choresLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
@@ -90,14 +95,14 @@
 	choresLabel.text = @"CHORES";
 	[self.view addSubview:choresLabel];
 	
-	UIButton *choresBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	choresBtn.frame = CGRectMake(170, 15, 38, 34);
-	choresBtn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
-	[choresBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[choresBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-	[choresBtn setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-	[choresBtn setTitle:@"5" forState:UIControlStateNormal];
-	[self.view addSubview:choresBtn];
+	_finishedButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_finishedButton.frame = CGRectMake(170, 15, 38, 34);
+	_finishedButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
+	[_finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[_finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+	[_finishedButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+	[_finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+	[self.view addSubview:_finishedButton];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	offersBtn.frame = CGRectMake(228, 15, 84, 34);
@@ -188,6 +193,39 @@
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	
+	if ([request isEqual:_userUpdRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSDictionary *parsedPoints = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+			else {
+				[DIAppDelegate setUserPoints:[[parsedPoints objectForKey:@"points"] intValue]];
+				[_pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+				[_choreUpdRequest startAsynchronous];
+			}
+		}
+		
+		
+		
+	} else if ([request isEqual:_choreUpdRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			//NSDictionary *parsedTotal = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			else {
+				[DIAppDelegate setUserTotalFinshed:[DIAppDelegate userTotalFinished] + 1];
+				[_finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+			}
+		}
+	}
 	
 //	@autoreleasepool {
 //		NSError *error = nil;

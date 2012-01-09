@@ -14,14 +14,14 @@
 #import "DIChoreDetailsViewController.h"
 #import "DIAddChoreViewController.h"
 #import "DIChoreCompleteViewController.h"
-#import "DICreditsViewController.h"
+#import "DIAppListViewController.h"
+#import "DIOfferListViewController.h"
 #import "DISettingsViewController.h"
 #import "DIMyChoresViewCell.h"
 
 @implementation DIChoreListViewController
 
 #pragma mark - View lifecycle
-
 -(id)init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"DISMISS_WELCOME_SCREEN" object:nil];
@@ -78,14 +78,11 @@
 	return (self);
 }
 	
-- (void)viewDidAppear:(BOOL)animated
-{
+-(void)viewDidAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 }
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+-(void)viewDidLoad {
 	[super viewDidLoad];
 	
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
@@ -103,7 +100,7 @@
 	_myChoresTableView.hidden = YES;
 	
 	_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
-	//_emptyLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
+	_emptyLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12];
 	_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	_emptyLabel.backgroundColor = [UIColor clearColor];
 	_emptyLabel.textAlignment = UITextAlignmentCenter;
@@ -168,7 +165,7 @@
 	[_addBtn addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)viewDidUnload {
+-(void)viewDidUnload {
     [super viewDidUnload];
 }
 
@@ -195,17 +192,11 @@
 	for (NSDictionary *dict in plist)
 		[chores addObject:[DIChore choreWithDictionary:dict]];
 	
-	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithPoints:_myPoints] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIAppListViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goOffers {
-	NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-	
-	NSMutableArray *chores = [[NSMutableArray alloc] init];
-	for (NSDictionary *dict in plist)
-		[chores addObject:[DIChore choreWithDictionary:dict]];
-	
-	[self.navigationController pushViewController:[[[DICreditsViewController alloc] initWithPoints:_myPoints] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
 
@@ -264,11 +255,11 @@
 }
 
 #pragma mark - TableView Data Source Delegates
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return ([_chores count] + 2);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if (indexPath.row < [_chores count]) {
 		DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
@@ -305,7 +296,7 @@
 }
 
 #pragma mark - TableView Delegates
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -319,7 +310,7 @@
 		return (100);
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
 	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
 	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 }

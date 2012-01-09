@@ -9,6 +9,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DISettingsViewController.h"
 
+#import "DIAppDelegate.h"
+
 #import "DIAboutViewController.h"
 #import "DIEmailSettingsViewController.h"
 #import "DIPinSettingsViewController.h"
@@ -36,16 +38,22 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]] autorelease];
+	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	_settingsTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 5, self.view.bounds.size.width, 200) style:UITableViewStylePlain];
 	_settingsTableView.rowHeight = 54;
 	_settingsTableView.delegate = self;
 	_settingsTableView.dataSource = self;
-	_settingsTableView.layer.borderColor = [[UIColor colorWithWhite:0.75 alpha:1.0] CGColor];
-	_settingsTableView.layer.borderWidth = 1.0;
+	_settingsTableView.backgroundColor = [UIColor clearColor];
+	_settingsTableView.separatorColor = [UIColor clearColor];
 	[self.view addSubview:_settingsTableView];
+	
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	CGRect frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
 	
 }
 
@@ -80,24 +88,24 @@
 		
 		switch (indexPath.row) {
 			case 0:
-				cell.textLabel.text = @"Notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"iTunes Credits";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 1:
-				cell.textLabel.text = @"Email Address";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"Passcode";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 2:
-				cell.textLabel.text = @"Pincode";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"Notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 3:
-				cell.textLabel.text = @"About Diddit";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"Support";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 		}
 		
 		
-		if (indexPath.row == 0) {
+		if (indexPath.row == 1 || indexPath.row == 2) {
 			UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
 			switchview.on = YES;
 			cell.accessoryView = switchview;
@@ -118,27 +126,26 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 	
+	if (indexPath.row == 1 || indexPath.row == 2)
+		return;
+	
 	UINavigationController *navigationController;
 	DIAboutViewController *aboutViewController = [[[DIAboutViewController alloc] init] autorelease];
 	DIEmailSettingsViewController *emailViewController = [[[DIEmailSettingsViewController alloc] init] autorelease];
-	DIPinSettingsViewController *pinViewController = [[[DIPinSettingsViewController alloc] init] autorelease];
+	//DIPinSettingsViewController *pinViewController = [[[DIPinSettingsViewController alloc] init] autorelease];
 	
 	switch (indexPath.row) {
-		case 1:
+		case 0:
 			navigationController = [[[UINavigationController alloc] initWithRootViewController:emailViewController] autorelease];
 			break;
-			
-		case 2:
-			navigationController = [[[UINavigationController alloc] initWithRootViewController:pinViewController] autorelease];
-			break;
-			
+						
 		case 3:
 			navigationController = [[[UINavigationController alloc] initWithRootViewController:aboutViewController] autorelease];
 			break;
 	}
 	
-	
-	[self.navigationController presentModalViewController:navigationController animated:YES];
+	if (navigationController)
+		[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -146,7 +153,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
-	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
+	cell.textLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12.0];
 	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 }
 

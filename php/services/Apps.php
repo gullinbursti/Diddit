@@ -87,9 +87,9 @@ class Apps {
 		echo $body;
 	}
 		
-	function allApps() {   
+	function partnerApps() {   
 		
-		$query = 'SELECT * FROM `tblAppOffers` WHERE `type_id` = 1 ORDER BY `points`;';
+		$query = 'SELECT * FROM `tblApps` ORDER BY `points`;';
 		$res = mysql_query($query);
 		
 		// Return data, as JSON
@@ -97,45 +97,49 @@ class Apps {
 			
 		// error performing query
 		if (mysql_num_rows($res) > 0) {
-			$free_arr = array();
 			
 			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-				array_push($free_arr, array(
+				array_push($result, array(
 					"id" => $row['id'], 
 					"title" => $row['title'], 
 					"info" => $row['info'], 
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
-					"ico_url" => $row['ico_url']
+					"ico_url" => $row['ico_url'], 
+					"img_url" => $row['img_url'], 
 				));
-			}
-		    
-			array_push($result, array("free" => $free_arr));
-			
-			$query = 'SELECT * FROM `tblAppOffers` WHERE `type_id` = 2 ORDER BY `points`;';
-			$res = mysql_query($query);
-		
-			// error performing query
-			if (mysql_num_rows($res) > 0) {
-				$paid_arr = array();
-				
-				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-					array_push($paid_arr, array(
-						"id" => $row['id'], 
-						"title" => $row['title'], 
-						"info" => $row['info'], 
-						"dev_id" => $row['dev_id'], 
-						"points" => $row['points'], 
-						"ico_url" => $row['ico_url']
-					));  
-				}
-				
-				array_push($result, array("paid" => $paid_arr));
 			}
 		}
 		
 		$this->sendResponse(200, json_encode($result));
 		return (true);   
+	}
+	
+	function featureApps($user_id) {
+		$query = 'SELECT * FROM `tblApps` ORDER BY `points`;';
+		$res = mysql_query($query);
+		
+		// Return data, as JSON
+		$result = array(); 
+			
+		// error performing query
+		if (mysql_num_rows($res) > 0) {
+			
+			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+				array_push($result, array(
+					"id" => $row['id'], 
+					"title" => $row['title'], 
+					"info" => $row['info'], 
+					"dev_id" => $row['dev_id'], 
+					"points" => $row['points'], 
+					"ico_url" => $row['ico_url'], 
+					"img_url" => $row['img_url'], 
+				));
+			}
+		}
+		
+		$this->sendResponse(200, json_encode($result));
+		return (true);
 	}
 	
 	function purchaseApp($user_id, $app_id, $points) {
@@ -163,10 +167,14 @@ $apps = new Apps;
 if (isset($_POST["action"])) {
 	switch ($_POST["action"]) {
 		case 0:
-			$apps_json = $apps->allApps();
+			$apps_json = $apps->partnerApps();
 			break;
-			
-	    case 1:
+		
+		case 1:
+			$apps_json = $apps->featureApps();
+			break;
+				
+	    case 2:
 			if (isset($_POST['userID']) && isset($_POST['appID']) && isset($_POST['points']))
 			$apps_json = $apps->purchaseApp($_POST['userID'], $_POST['appID'], $_POST['points']);
 			break;
