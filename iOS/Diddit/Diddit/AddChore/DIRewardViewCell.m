@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Sparkle Mountain. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "DIRewardViewCell.h"
 
 #import "DIAppDelegate.h"
@@ -25,8 +27,7 @@
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
 				
-		_imgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 16, 56, 56)] autorelease];
-		_imgView.image = [UIImage imageNamed:@"package.png"];
+		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 20, 59, 59)];
 		[self addSubview:_imgView];
 		
 		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 30, 200.0, 22)];
@@ -37,7 +38,7 @@
 		[self addSubview:_pointsLabel];
 		
 		_priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 50, 120.0, 22)];
-		_priceLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		_priceLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 		_priceLabel.backgroundColor = [UIColor clearColor];
 		_priceLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 		_priceLabel.lineBreakMode = UILineBreakModeTailTruncation;
@@ -77,7 +78,9 @@
 	_reward = reward;
 	
 	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _reward.disp_points];
-	_priceLabel.text = _reward.price;		
+	_priceLabel.text = _reward.price;
+	
+	_imgView.imageURL = [NSURL URLWithString:_reward.ico_url];
 }
 
 

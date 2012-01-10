@@ -108,7 +108,8 @@
 						"info" => $row['info'], 
 						"itunes_id" => $row['itunes_id'], 
 						"points" => $row['points'],
-						"price" => $row['cost']
+						"price" => $row['cost'], 
+						"ico_url" => $row['ico_url']
 					));
 				}
 			}

@@ -9,6 +9,7 @@
 #import "DIStoreCreditsViewController.h"
 
 #import "DIAppDelegate.h"
+#import "DINavBackBtnView.h"
 #import "DINavTitleView.h"
 
 @implementation DIStoreCreditsViewController
@@ -18,12 +19,9 @@
 	if ((self = [super init])) {
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"iTunes credits"];
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		backButton.frame = CGRectMake(0, 0, 54.0, 34.0);
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
 	
 	return (self);

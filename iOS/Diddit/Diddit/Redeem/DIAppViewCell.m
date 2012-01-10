@@ -30,7 +30,11 @@
 		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
 		[holderView addSubview:dividerImgView];
 		
-		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 11, 60, 60)];
+		_imgView.layer.cornerRadius = 8.0;
+		_imgView.clipsToBounds = YES;
+		_imgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_imgView.layer.borderWidth = 1.0;
 		[holderView addSubview:_imgView];
 		
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 25, 200.0, 22)];

@@ -188,7 +188,7 @@
 			return (true);
 		}
 		
-		function updatePoints($id, $amt) {
+		function addPoints($id, $amt) {
 			
 			$query = 'SELECT `points` FROM `tblUsers` WHERE `id` = "'. $id .'";';
 			$row = mysql_fetch_row(mysql_query($query));
@@ -197,9 +197,32 @@
 			$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $id .';';
 			$result = mysql_query($query);
 			
-			$this->sendResponse(200, json_encode(array(
-				"points" => $points
-			)));
+			
+			$query = 'SELECT * FROM `tblUsers` WHERE `id` = "'. $id .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+
+			// has user
+			if ($row) {
+                
+				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
+				$tot_res = mysql_query($query);				
+				$tot = mysql_num_rows($tot_res);
+
+				// Return data, as JSON
+				$result = array(
+					"id" => $row[0], 
+					"device_id" => $row[1], 
+					"username" => $row[2], 
+					"email" => $row[3], 
+					"pin" => $row[4], 
+					"points" => $row[5], 
+					"finished" => $tot + 1
+				);
+
+				$this->sendResponse(200, json_encode($result));
+
+			} else
+				$this->sendResponse(200, json_encode(array()));
 			
 			return (true);
 		}
@@ -237,7 +260,7 @@
 				
 			case "4":
 				if (isset($_POST["userID"]) && isset($_POST['points']))
-					$users->updatePoints($_POST["userID"], $_POST["points"]);
+					$users->addPoints($_POST["userID"], $_POST["points"]);
 				break; 
 		}
 	}

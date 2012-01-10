@@ -18,6 +18,7 @@
 @property (nonatomic) int reward_id;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
+@property (nonatomic, retain) NSString *ico_url;
 @property (nonatomic) int points;
 @property (nonatomic, ) float cost;
 

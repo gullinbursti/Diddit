@@ -7,6 +7,7 @@
 //
 
 #import "DIAppDelegate.h"
+#import "DINavRightBtnView.h"
 
 #import "DIBaseModalHeaderViewController.h"
 
@@ -17,16 +18,10 @@
 	_closeLbl = closeLbl;
 	
 	if ((self = [super initWithTitle:titleTxt header:headerTxt])) {
-		UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		closeButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[closeButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[closeButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		closeButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		closeButton.titleLabel.shadowColor = [UIColor blackColor];
-		closeButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[closeButton setTitle:_closeLbl forState:UIControlStateNormal];
-		[closeButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:closeButton] autorelease];
+		
+		DINavRightBtnView *closeBtnView = [[DINavRightBtnView alloc] initWithLabel:closeLbl];
+		[[closeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:closeBtnView] autorelease];
 	}
 	
 	return (self);

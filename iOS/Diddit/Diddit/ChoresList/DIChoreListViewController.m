@@ -31,10 +31,8 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_pushOffers:) name:@"PUSH_OFFERS_SCREEN" object:nil];
 		
 		_chores = [[NSMutableArray alloc] init];
-		_availChores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
 		_achievements = [[NSMutableArray alloc] init];
-		_myPoints = [DIAppDelegate userPoints];
 		
 		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -48,33 +46,20 @@
 		//[_achievementsRequest setDelegate:self];
 		//[_achievementsRequest startAsynchronous];
 		
+		UIButton *offersBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+		offersBtn.frame = CGRectMake(-4.0, 3.0, 84.0, 34.0);
+		[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
+		[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
+		offersBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		offersBtn.titleLabel.shadowColor = [UIColor blackColor];
+		offersBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[offersBtn setTitle:@"Earn Didds" forState:UIControlStateNormal];
+		[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 		
-		//NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_choreTypes" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
-		//for (NSDictionary *dict in plist)
-		//	[_availChores addObject:[DIChore choreWithDictionary:dict]];
+		UIView *rtBtnView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 84.0, 34.0)];
+		[rtBtnView addSubview:offersBtn];
 		
-		/*
-		_headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 195, 39)];
-		_headerLabel.textAlignment = UITextAlignmentCenter;
-		_headerLabel.backgroundColor = [UIColor clearColor];
-		_headerLabel.textColor = [UIColor whiteColor];
-		_headerLabel.shadowColor = [UIColor colorWithWhite:0.25 alpha:1.0];
-		_headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		_headerLabel.text = @"My Chores";
-		[_headerLabel sizeToFit];
-		self.navigationItem.titleView = _headerLabel;
-		*/
-		
-		UIButton *offersButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		offersButton.frame = CGRectMake(0, 0, 84.0, 34);
-		[offersButton setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[offersButton setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		offersButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		offersButton.titleLabel.shadowColor = [UIColor blackColor];
-		offersButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[offersButton setTitle:@"Earn Didds" forState:UIControlStateNormal];
-		[offersButton addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:offersButton] autorelease];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rtBtnView] autorelease];
 	}
 	
 	return (self);
@@ -123,28 +108,26 @@
 	[self.view addSubview:overlayImgView];
 	
 	UIButton *appBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
-	appBtn.frame = CGRectMake(32, 375, 34, 34);
-	appBtn.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
+	appBtn.frame = CGRectMake(26, 362, 54, 54);
 	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[appBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:appBtn];
 	
-	_settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_settingsButton.frame = CGRectMake(240, 385, 44, 14);
-	_settingsButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
-	[_settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[_settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[_settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_settingsButton];
+	UIButton *settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	settingsButton.frame = CGRectMake(235, 363, 54, 54);
+	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:settingsButton];
 	
-	_addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_addChoreButton.frame = CGRectMake(138, 350.0, 44, 44);
-	_addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-	[_addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[_addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[_addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:_addChoreButton];
+	UIButton *addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	addChoreButton.frame = CGRectMake(138, 350.0, 44, 44);
+	addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:addChoreButton];
 	
 	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 395, 160, 20)];
 	addLabel.font = [UIFont fontWithName:@"Adelle-Bold" size:10]; //[[DIAppDelegate diAdelleFontBold] fontWithSize:12];
@@ -198,8 +181,6 @@
 
 #pragma mark - Notification Handlers
 -(void)_loadData:(NSNotification *)notification {
-	_myPoints = [DIAppDelegate userPoints];
-	
 	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
@@ -231,9 +212,6 @@
 -(void)_finishChore:(NSNotification *)notification {
 	DIChore *chore = (DIChore *)[notification object];
 	[_finishedChores addObject:chore];
-	
-	_myPoints += (chore.cost * 100);
-	[DIAppDelegate setUserPoints:_myPoints];
 	
 	[_chores removeObjectIdenticalTo:chore];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
@@ -377,7 +355,7 @@
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	if (request == _availChoresRequest) {
+	if (request == _activeChoresRequest) {
 		//[_delegates perform:@selector(jobList:didFailLoadWithError:) withObject:self withObject:request.error];
 		//MBL_RELEASE_SAFELY(_jobListRequest);
 	}

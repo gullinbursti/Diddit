@@ -14,25 +14,18 @@
 	UILabel *_headerLabel;
 	UILabel *_emptyLabel;
 	
-	UIButton *_activeChoresButton;
 	UITableView *_myChoresTableView;
 	
-	int _myPoints;
-	
 	NSMutableArray *_chores;
-	NSMutableArray *_availChores;
 	NSMutableArray *_finishedChores;
 	NSMutableArray *_achievements;
 	
 	ASIFormDataRequest *_activeChoresRequest;
-	ASIFormDataRequest *_availChoresRequest;
 	ASIFormDataRequest *_achievementsRequest;
 	
-	UIButton *_takenChoresButton;
-	
-	UIView *_footerView;
-	UIButton *_addChoreButton;
-	UIButton *_settingsButton;
+	//UIView *_footerView;
+	//UIButton *_addChoreButton;
+	//UIButton *_settingsButton;
 	
 	UIButton *_addBtn;
 }

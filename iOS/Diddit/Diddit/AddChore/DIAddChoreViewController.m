@@ -11,6 +11,8 @@
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
+#import "DINavLeftBtnView.h"
+#import "DINavRightBtnView.h"
 #import "DIMyChoresViewCell.h"
 #import "DIChoreExpiresViewController.h"
 #import "DIConfirmChoreViewController.h"
@@ -24,28 +26,14 @@
 	if ((self = [super init])) {
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"add chore"];
 		
-		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		cancelButton.titleLabel.shadowColor = [UIColor blackColor];
-		cancelButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-		[cancelButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelButton] autorelease];
+		DINavLeftBtnView *cancelBtnView = [[DINavLeftBtnView alloc] initWithLabel:@"Cancel"];
+		[[cancelBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelBtnView] autorelease];
 		
 		
-		UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		nextButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		nextButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		nextButton.titleLabel.shadowColor = [UIColor blackColor];
-		nextButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[nextButton setTitle:@"Next" forState:UIControlStateNormal];
-		[nextButton addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextButton] autorelease];
+		DINavRightBtnView *nextBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Next"];
+		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 	}
 	
 	return (self);
@@ -79,7 +67,7 @@
 	_titleTxtField.placeholder = @"give your chore a title";
 	[self.view addSubview:_titleTxtField];
 	
-	_infoTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 75, 200, 64)] autorelease];
+	_infoTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 75, 300, 160)] autorelease];
 	[_infoTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_infoTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_infoTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];

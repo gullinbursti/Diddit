@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #import "DIReward.h"
+#import "EGOImageView.h"
 
 @interface DIRewardViewCell : UITableViewCell {
 	
 	DIReward *_reward;
 	
-	UIImageView *_imgView;
+	EGOImageView *_imgView;
 	UILabel *_pointsLabel;
 	UILabel *_priceLabel;
 	

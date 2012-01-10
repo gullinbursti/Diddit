@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "DIAppDelegate.h"
+#import "DINavRightBtnView.h"
 #import "DIChorePriceViewController.h"
 
 #import "DIReward.h"
@@ -22,16 +23,9 @@
 -(id)init {
 	if ((self = [super initWithTitle:@"add chore" header:@"how much is the chore worth?" backBtn:@"Back"])) {
 		
-		UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		nextButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		nextButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		nextButton.titleLabel.shadowColor = [UIColor blackColor];
-		nextButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[nextButton setTitle:@"Next" forState:UIControlStateNormal];
-		[nextButton addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextButton] autorelease];
+		DINavRightBtnView *nextBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Next"];
+		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 		
 		ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
 		[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -162,6 +156,7 @@
 		
 		_chore.points = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).points;
 		_chore.cost = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).cost;
+		_chore.icoPath = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).ico_url;
 	}
 }
 

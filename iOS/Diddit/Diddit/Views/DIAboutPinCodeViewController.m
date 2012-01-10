@@ -21,10 +21,10 @@
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
 	
-	UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"package.png"]];
+	UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"helpIcon.png"]];
 	frame = imgView.frame;
 	frame.origin.x = 10;
-	frame.origin.y = 64;
+	frame.origin.y = 66;
 	imgView.frame = frame;
 	[self.view addSubview:imgView];
 	

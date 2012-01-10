@@ -13,9 +13,8 @@
 @implementation DIPinCodeViewController
 
 #pragma mark - View lifecycle
--(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore fromSettings:(BOOL)isSettings {
+-(id)initWithChore:(DIChore *)aChore fromSettings:(BOOL)isSettings {
 	if ((self = [super initWithTitle:@"passcode" header:@"parents, please approve the chore" closeLabel:@"Cancel"])) {
-		_pin = pin;
 		_chore = aChore;
 		_isSettings = isSettings;
 	}
@@ -152,7 +151,7 @@
 	[_digit2TxtField endEditing:YES];
 	[_digit3TxtField endEditing:YES];
 	
-	if ([enteredCode isEqualToString:_pin]) {
+	if ([enteredCode isEqualToString:[[DIAppDelegate profileForUser] objectForKey:@"pin"]]) {
 		NSLog(@"CORRECT!!");
 		
 		if (_isSettings)
@@ -165,7 +164,7 @@
 		}
 	
 	} else {
-		NSLog(@"WRONG (%@ [%@])", enteredCode, _pin);
+		NSLog(@"WRONG (%@ [%@])", enteredCode, [[DIAppDelegate profileForUser] objectForKey:@"pin"]);
 		
 		_digit1TxtField.text = @"";
 		_digit2TxtField.text = @"";

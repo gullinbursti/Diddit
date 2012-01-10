@@ -10,6 +10,7 @@
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
+#import "DINavHomeIcoBtnView.h"
 #import "DIPinCodeViewController.h"
 
 @implementation DIChoreDetailsViewController
@@ -19,12 +20,9 @@
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
 		
-		 UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		 backButton.frame = CGRectMake(0, 0, 54.0, 34.0);
-		 [backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		 [backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		 [backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		 self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
+		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
 	}
 	
 	return (self);
@@ -118,7 +116,7 @@
 
 - (void)_goComplete {
 	
-	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithPin:[[DIAppDelegate profileForUser] objectForKey:@"pin"] chore:_chore fromSettings:NO] autorelease];
+	DIPinCodeViewController *pinCodeViewController = [[[DIPinCodeViewController alloc] initWithChore:_chore fromSettings:NO] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:pinCodeViewController] autorelease];
 	//[self.navigationController presentViewController:navigationController animated:YES completion:nil];
 	[self.navigationController presentModalViewController:navigationController animated:YES];

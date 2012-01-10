@@ -8,6 +8,7 @@
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
+#import "DINavHomeIcoBtnView.h"
 #import "DIOffersHelpViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIAppListViewController.h"
@@ -23,12 +24,9 @@
 		
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"store"];
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		backButton.frame = CGRectMake(0, 0, 54.0, 34.0);
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
+		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
 		
 		_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Apps.php"]] retain];
 		[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -112,7 +110,7 @@
 	_featuredScrollView.opaque = NO;
 	_featuredScrollView.contentSize = CGSizeMake(480, 100);
 	_featuredScrollView.scrollsToTop = NO;
-	_featuredScrollView.showsHorizontalScrollIndicator = YES;
+	_featuredScrollView.showsHorizontalScrollIndicator = NO;
 	_featuredScrollView.showsVerticalScrollIndicator = NO;
 	_featuredScrollView.alwaysBounceHorizontal = NO;
 	

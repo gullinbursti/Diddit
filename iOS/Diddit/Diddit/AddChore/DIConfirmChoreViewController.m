@@ -6,7 +6,10 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "DIConfirmChoreViewController.h"
+
 
 #import "DIAppDelegate.h"
 #import "DIChore.h"
@@ -27,6 +30,21 @@
 
 -(void)loadView {
 	[super loadView];
+	
+	
+	UIButton *thumbButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	thumbButton.frame = CGRectMake(10, 64, 58, 58);
+	thumbButton.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
+	thumbButton.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	thumbButton.layer.borderWidth = 1.0;
+	thumbButton.clipsToBounds = YES;
+	thumbButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
+	thumbButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	thumbButton.imageEdgeInsets = UIEdgeInsetsMake(15.0, 12.0, -15.0, -12.0);
+	[thumbButton setImage:[UIImage imageNamed:@"cameraIcon.png"] forState:UIControlStateNormal];
+	[thumbButton addTarget:self action:@selector(_goCamera) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:thumbButton];
+	
 	
 	UIImageView *choreImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreThumb.png"]];
 	CGRect frame = choreImgView.frame;
@@ -61,6 +79,10 @@
 	rewardLabel.backgroundColor = [UIColor clearColor];
 	rewardLabel.text = @"Reward";
 	[self.view addSubview:rewardLabel];
+	
+	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(74, 164, 59, 59)];
+	_imgView.imageURL = [NSURL URLWithString:_chore.icoPath];
+	[self.view addSubview:_imgView];
 	
 	UIImageView *rewardImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"package.png"]];
 	frame = rewardImgView.frame;
@@ -147,6 +169,22 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)_goCamera {
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		
+		UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+		imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
+		imagePicker.delegate = self;
+		//imagePicker.allowsImageEditing = NO;
+	
+		[self presentModalViewController:imagePicker animated:YES];
+	
+	} else {
+		UIAlertView *alertView;
+		alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera not aviable." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+	}
+}
+
 - (void)_goSubmit {
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
@@ -163,6 +201,30 @@
 	
 	[dateFormat release];
 }
+
+
+#pragma mark - ImagePicker Delegates
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+	
+	UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+	[picker release];
+}
+
+-(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+	UIAlertView *alert;
+	
+	if (error)
+		alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unable to save image to Photo Album." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+	
+	else 
+		alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Image saved to Photo Album." delegate:nil cancelButtonTitle:@"Ok"  otherButtonTitles:nil];
+	
+	[alert show];
+	[alert release];
+}
+
+
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 

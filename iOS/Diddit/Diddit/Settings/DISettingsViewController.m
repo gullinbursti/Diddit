@@ -12,6 +12,7 @@
 #import "DIAppDelegate.h"
 
 #import "DINavTitleView.h"
+#import "DINavHomeIcoBtnView.h"
 #import "DISupportViewController.h"
 #import "DIStoreCreditsViewController.h"
 #import "DIPinSettingsViewController.h"
@@ -23,12 +24,9 @@
 	if ((self = [super init])) {
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"settings"];
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		backButton.frame = CGRectMake(0, 0, 54.0, 34.0);
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"homeButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
+		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
 	}
 	
 	return (self);

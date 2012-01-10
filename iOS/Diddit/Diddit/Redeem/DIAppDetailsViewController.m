@@ -11,6 +11,7 @@
 
 #import "EGOImageView.h"
 #import "DIAppDelegate.h"
+#import "DINavBackBtnView.h"
 #import "DINavTitleView.h"
 #import "DIRedeemCodeViewController.h"
 
@@ -20,17 +21,9 @@
 	if ((self = [super init])) {
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:[_app.title lowercaseString]];
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		backButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"headerBackButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"headerBackButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		backButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		backButton.titleLabel.shadowColor = [UIColor blackColor];
-		backButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		backButton.titleEdgeInsets = UIEdgeInsetsMake(1, 4, -1, -4);
-		[backButton setTitle:@"Back" forState:UIControlStateNormal];
-		[backButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
 	
 	return (self);
@@ -161,16 +154,16 @@
 	appImgView.imageURL = [NSURL URLWithString:_app.img_url];
 	[scrollView addSubview:appImgView];
 	
+	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
+	[self.view addSubview:footerView];
+	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
-	
-	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
-	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
-	[self.view addSubview:footerView];
-	
+
 	UIButton *purchaseButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	purchaseButton.frame = CGRectMake(0, 350, 320, 60);
 	purchaseButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];

@@ -8,6 +8,7 @@
 
 #import "DIChoreExpiresViewController.h"
 #import "DIAppDelegate.h"
+#import "DINavRightBtnView.h"
 #import "DIChore.h"
 #import "DIChorePriceViewController.h"
 
@@ -17,16 +18,10 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super initWithTitle:@"add chore" header:@"when should the chore be done?" backBtn:@"Back"])) {
-		UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		nextButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[nextButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		nextButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		nextButton.titleLabel.shadowColor = [UIColor blackColor];
-		nextButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[nextButton setTitle:@"Next" forState:UIControlStateNormal];
-		[nextButton addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextButton] autorelease];
+		
+		DINavRightBtnView *nextBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Next"];
+		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 	
 		_hours = 0;
 		
@@ -75,7 +70,11 @@
 	_pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 235, 320, 216)];
 	_pickerView.dataSource = self;
 	_pickerView.delegate = self;
+	_pickerView.showsSelectionIndicator = YES;
+	[_pickerView selectRow:0 inComponent:0 animated:YES];
 	[self.view addSubview:_pickerView];
+	
+	_daysLabel.text = [_daysArray objectAtIndex:[_pickerView selectedRowInComponent:0]];
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	CGRect frame = overlayImgView.frame;

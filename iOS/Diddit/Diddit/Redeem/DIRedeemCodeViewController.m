@@ -19,7 +19,7 @@
 -(id)initWithApp:(DIApp *)app {
 	_app = app;
 	
-	if ((self = [self initWithTitle:@"thank you" header:@"iTunes Card redemption code" closeLabel:@"DONE"])) {
+	if ((self = [self initWithTitle:@"thank you" header:@"iTunes Card redemption code" closeLabel:@"Done"])) {
 		
 	}
 	

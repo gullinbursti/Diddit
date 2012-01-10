@@ -49,7 +49,7 @@
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 	
-	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 200, 64)] autorelease];
+	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 300, 64)] autorelease];
 	[_emailTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_emailTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_emailTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
@@ -227,7 +227,6 @@
 		else {
 			NSLog(@"NEW USER: %@", parsedUser);
 			[DIAppDelegate setUserProfile:parsedUser];
-			[DIAppDelegate setUserPoints:[[parsedUser objectForKey:@"points"] intValue]];
 			
 			[self dismissViewControllerAnimated:YES completion:^(void) {
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];

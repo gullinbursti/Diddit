@@ -32,8 +32,19 @@
 		holderView.layer.borderWidth = 1.0;
 		[self addSubview:holderView];
 		
-		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-		[holderView addSubview:_imgView];
+		UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 31.0, 24, 24)] autorelease];
+		cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
+		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
+		
+		UIView *imgView = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
+		imgView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
+		imgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		imgView.layer.borderWidth = 1.0;
+		imgView.clipsToBounds = YES;
+		[imgView addSubview:cameraImgView];
+		[imgView addSubview:_imgView];
+		
+		[holderView addSubview:imgView];
 		
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 200.0, 22)];
 		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:17.0];

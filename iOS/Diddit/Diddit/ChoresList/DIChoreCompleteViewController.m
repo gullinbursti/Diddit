@@ -187,13 +187,13 @@
 	if ([request isEqual:_userUpdRequest]) {
 		@autoreleasepool {
 			NSError *error = nil;
-			NSDictionary *parsedPoints = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
 		
 			if (error != nil)
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 		
 			else {
-				[DIAppDelegate setUserPoints:[[parsedPoints objectForKey:@"points"] intValue]];
+				[DIAppDelegate setUserProfile:parsedUser];
 				[_pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 				[_choreUpdRequest startAsynchronous];
 			}
@@ -210,7 +210,6 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
-				[DIAppDelegate setUserTotalFinshed:[DIAppDelegate userTotalFinished] + 1];
 				[_finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
 			}
 		}

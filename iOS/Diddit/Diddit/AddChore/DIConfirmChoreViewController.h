@@ -12,11 +12,13 @@
 
 #import "DIChore.h"
 #import "ASIFormDataRequest.h"
+#import "EGOImageView.h"
 
-@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate> {
+@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 	
 	DIChore *_chore;
 	UIButton *_submitButton;
+	EGOImageView *_imgView;
 }
 
 -(id)initWithChore:(DIChore *)chore;

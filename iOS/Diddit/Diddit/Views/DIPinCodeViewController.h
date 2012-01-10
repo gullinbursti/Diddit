@@ -19,13 +19,12 @@
 	UITextField *_digit3TxtField;
 	UIButton *_submitButton;
 	
-	NSString *_pin;
 	DIChore *_chore;
 	
 	BOOL _isSettings;
 }
 
--(id)initWithPin:(NSString *)pin chore:(DIChore *)aChore fromSettings:(BOOL)isSettings;
+-(id)initWithChore:(DIChore *)aChore fromSettings:(BOOL)isSettings;
 //-(void)animateViewUp:(BOOL)isUp;
 
 -(void)goSubmit;
