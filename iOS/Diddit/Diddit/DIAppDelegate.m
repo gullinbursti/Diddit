@@ -9,7 +9,6 @@
 #import <CommonCrypto/CommonDigest.h>
 
 #import "DIAppDelegate.h"
-
 #import "DIChore.h"
 #import "DISettingsViewController.h"
 #import "DIWelcomeViewController.h"
@@ -56,6 +55,22 @@
 	return ([[[DIAppDelegate profileForUser] objectForKey:@"finished"] intValue]);
 }
 
++(void)notificationsToggle:(BOOL)isOn {
+	NSString *bool_str = [[NSString alloc] init];
+	if (isOn)
+		bool_str = @"YES";
+	
+	else
+		bool_str = @"NO";
+	
+	[[NSUserDefaults standardUserDefaults] setObject:bool_str forKey:@"notifications"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL)notificationsEnabled {
+	return ([[[NSUserDefaults standardUserDefaults] objectForKey:@"notifications"] isEqualToString:@"YES"]);
+}
+
 +(void)setDeviceToken:(NSString *)token {
 	[[NSUserDefaults standardUserDefaults] setObject:token forKey:@"device_token"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -64,7 +79,6 @@
 +(NSString *)deviceToken {
 	return ([[NSUserDefaults standardUserDefaults] objectForKey:@"device_token"]);
 }
-
 
 +(UIFont *)diAdelleFontRegular {
 	return [UIFont fontWithName:@"Adelle" size:12.0];
@@ -112,25 +126,25 @@
 #pragma mark - App Lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	
-	//Init Airship launch options
-	NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
-	[takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+	//[DIAppDelegate setUserProfile:nil];
 	
-	// Create Airship singleton that's used to talk to Urban Airhship servers.
-	// Please populate AirshipConfig.plist with your info from http://go.urbanairship.com
-	[UAirship takeOff:takeOffOptions];	
-	[[UAPush shared] resetBadge];//zero badge on startup
-	[[UAPush shared] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-																		  UIRemoteNotificationTypeSound |
-																		  UIRemoteNotificationTypeAlert)];
 	
-	//NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test_chores" ofType:@"plist"]] options:NSPropertyListImmutable format:nil error:nil];
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"notifications"] || [DIAppDelegate notificationsEnabled]) {
+		[DIAppDelegate notificationsToggle:YES];
+		
+		// init Airship launch options
+		NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
+		[takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
+	
+		// create Airship singleton that's used to talk to Urban Airhship servers, populate AirshipConfig.plist with your info from http://go.urbanairship.com
+		[UAirship takeOff:takeOffOptions];	
+		[[UAPush shared] resetBadge];//zero badge on startup
+		[[UAPush shared] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	}
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
-	//[DIAppDelegate setUserProfile:nil];
-	//[DIAppDelegate setUserTotalFinshed:0];
-	 
+	_loadOverlayView = [[DILoadOverlayView alloc] init];
 	_choreListViewController = [[DIChoreListViewController alloc] init];
 	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
 	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"headerBG.png"] forBarMetrics:UIBarMetricsDefault];
@@ -144,6 +158,7 @@
 	[self.window setRootViewController:rootNavigationController];
 	[self.window makeKeyAndVisible];
 	
+	
 	// show welcome screen
 	if (![DIAppDelegate profileForUser]) {
 		DIWelcomeViewController *splash = [[[DIWelcomeViewController alloc] init] autorelease];
@@ -152,11 +167,13 @@
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
 	
 	} else {
-		 _userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
-		 [_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-		 [_userRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		 [_userRequest setDelegate:self];
-		 [_userRequest startAsynchronous];
+		[_loadOverlayView toggle:YES];
+		
+		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+		[_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+		[_userRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_userRequest setDelegate:self];
+		[_userRequest startAsynchronous];
 	}
 	
 	return YES;
@@ -212,10 +229,13 @@
 			}
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlayView toggle:NO];
 }
 
 

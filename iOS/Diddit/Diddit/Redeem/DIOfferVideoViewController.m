@@ -15,7 +15,7 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
-		[[[self parentViewController] navigationController] setNavigationBarHidden:NO animated:NO];
+		[[[[[[[[[self parentViewController] navigationController] parentViewController] navigationController] parentViewController] navigationController] parentViewController] navigationController] setNavigationBarHidden:YES animated:NO];
 		
 		//[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
 		
@@ -105,7 +105,7 @@
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	// Return YES for supported orientations
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 
 

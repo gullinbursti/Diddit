@@ -25,6 +25,8 @@
 		_chores = [[NSMutableArray alloc] init];
 		_apps = [[NSMutableArray alloc] init];
 		
+		_loadOverlayView = [[DILoadOverlayView alloc] init];
+		[_loadOverlayView toggle:YES];
 		
 		ASIFormDataRequest *appsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Apps.php"]] retain];
 		[appsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
@@ -228,6 +230,8 @@
 			[_creditsTableView reloadData];
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 } 
 
 @end

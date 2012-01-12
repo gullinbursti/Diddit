@@ -42,6 +42,8 @@
 		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
 		_titleLabel.textColor = [UIColor blackColor];
+		_titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+		_titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		[holderView addSubview:_titleLabel];
 		

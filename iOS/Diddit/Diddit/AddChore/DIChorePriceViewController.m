@@ -27,6 +27,9 @@
 		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 		
+		_loadOverlayView = [[DILoadOverlayView alloc] init];
+		[_loadOverlayView toggle:YES];
+		
 		ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
 		[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 		[rewardsRequest setDelegate:self];
@@ -98,7 +101,7 @@
 
 
 -(void)_goHow {
-	DIHowDiddsWorkViewController *howDiddsWorkViewController = [[[DIHowDiddsWorkViewController alloc] initWithTitle:@"what are dids?" header:@"didds are app currency for kids" closeLabel:@"Done"] autorelease];
+	DIHowDiddsWorkViewController *howDiddsWorkViewController = [[[DIHowDiddsWorkViewController alloc] initWithTitle:@"what are didds?" header:@"didds are app currency for kids" closeLabel:@"Done"] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:howDiddsWorkViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
@@ -195,9 +198,12 @@
 			[_rewardTableView reloadData];
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlayView toggle:NO];
 }
 
 

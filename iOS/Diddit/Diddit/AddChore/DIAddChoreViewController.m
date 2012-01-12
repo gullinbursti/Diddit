@@ -57,26 +57,42 @@
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 
-	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 200, 64)] autorelease];
+	_titleLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 200, 64)];
+	_titleLbl.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
+	_titleLbl.textColor = [UIColor blackColor];
+	_titleLbl.backgroundColor = [UIColor clearColor];
+	_titleLbl.shadowColor = [UIColor whiteColor];
+	_titleLbl.shadowOffset = CGSizeMake(1.0, 1.0);
+	_titleLbl.text = @"give your chore a title";
+	[self.view addSubview:_titleLbl];
+	
+	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 30, 200, 64)] autorelease];
 	[_titleTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_titleTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_titleTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
 	[_titleTxtField setBackgroundColor:[UIColor clearColor]];
 	_titleTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
 	_titleTxtField.keyboardType = UIKeyboardTypeDefault;
-	_titleTxtField.placeholder = @"give your chore a title";
+	_titleTxtField.delegate = self;
 	[self.view addSubview:_titleTxtField];
 	
-	_infoTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 75, 300, 160)] autorelease];
-	[_infoTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_infoTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_infoTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_infoTxtField setBackgroundColor:[UIColor clearColor]];
-	[_infoTxtField setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
-	_infoTxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
-	_infoTxtField.keyboardType = UIKeyboardTypeDefault;
-	_infoTxtField.placeholder = @"additional note (optional)";
-	[self.view addSubview:_infoTxtField];
+	_infoLbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 75, 160, 20)];
+	_infoLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_infoLbl.textColor = [UIColor lightGrayColor];
+	_infoLbl.backgroundColor = [UIColor clearColor];
+	_infoLbl.text = @"additional note (optional)";
+	[self.view addSubview:_infoLbl];
+	
+	_infoTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 70, 300, 160)] autorelease];
+	[_infoTxtView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_infoTxtView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_infoTxtView setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_infoTxtView setBackgroundColor:[UIColor clearColor]];
+	[_infoTxtView setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
+	_infoTxtView.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_infoTxtView.keyboardType = UIKeyboardTypeDefault;
+	_infoTxtView.delegate = self;
+	[self.view addSubview:_infoTxtView];
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	frame = overlayImgView.frame;
@@ -107,9 +123,33 @@
 }
 
 -(void)_goNext {
-	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", _titleTxtField.text, @"title", _infoTxtField.text, @"info", @"", @"icoPath", @"", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", nil]];
+	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", _titleTxtField.text, @"title", _infoTxtView.text, @"info", @"", @"icoPath", @"", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", nil]];
 	[self.navigationController pushViewController:[[[DIChoreExpiresViewController alloc] initWithChore:chore] autorelease] animated:YES];
 }
 
+#pragma mark - TextField Delegate
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	if ([textField.text length] == 0)
+		_titleLbl.hidden = YES;
+	
+	return (YES);
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+	
+	if ([textField.text length] == 0)
+		_titleLbl.hidden = NO;
+}
+
+#pragma mark - TextView Delegate
+-(void)textViewDidBeginEditing:(UITextView *)textView {
+	_infoLbl.hidden = YES;
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView {
+	
+	if ([textView.text length] == 0)
+		_infoLbl.hidden = NO;
+}
 
 @end

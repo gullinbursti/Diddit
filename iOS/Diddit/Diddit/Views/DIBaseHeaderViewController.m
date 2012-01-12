@@ -25,16 +25,27 @@
 	return (self);
 }
 
+-(void)loadBaseView {
+	[super loadView];
+}
+
 -(void)loadView {
 	[super loadView];
 	
 	[self.view setBackgroundColor:[UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0]];
+	
+	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)];
+	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
+	[self.view addSubview:headerView];
+	
 	CGRect frame;
 	
 	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
 	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
-	titleLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
+	titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
+	titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	titleLabel.text = _headerTxt;
 	titleLabel.textAlignment = UITextAlignmentCenter;
 	[self.view addSubview:titleLabel];

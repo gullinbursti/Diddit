@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #import "DIOffer.h"
+#import "DIPaginationView.h"
 
-@interface DIOfferDetailsViewController : UIViewController {
+@interface DIOfferDetailsViewController : UIViewController <UIScrollViewDelegate> {
 	DIOffer *_offer;
+	
+	DIPaginationView *_paginationView;
+	UIScrollView *_imgScrollView;
 }
 
 -(id)initWithOffer:(DIOffer *)offer;

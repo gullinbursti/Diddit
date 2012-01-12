@@ -25,6 +25,9 @@
 	return (self);
 }
 
+-(void)loadBaseView {
+	[super loadBaseView];
+}
 
 -(void)loadView {
 	[super loadView];

@@ -11,7 +11,7 @@
 @implementation DIApp
 
 @synthesize dictionary;
-@synthesize app_id, title, info, points, ico_url, img_url;
+@synthesize app_id, title, info, points, ico_url, img_url, app_info, images;
 
 
 +(DIApp *)appWithDictionary:(NSDictionary *)dictionary {
@@ -25,7 +25,9 @@
 	app.points = [[dictionary objectForKey:@"points"] intValue];
 	app.ico_url = [dictionary objectForKey:@"ico_url"];
 	app.img_url = [dictionary objectForKey:@"img_url"];
+	app.app_info = [dictionary objectForKey:@"description"];
 	
+	app.images = [dictionary objectForKey:@"images"];
 	return (app);
 }
 
@@ -39,6 +41,8 @@
 	self.info = nil;
 	self.ico_url = nil;
 	self.img_url = nil;
+	self.app_info = nil;
+	self.images = nil;
 	
 	[super dealloc];
 }

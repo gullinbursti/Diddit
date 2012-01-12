@@ -12,6 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "DIChore.h"
 
+@class DILoadOverlayView;
 
 
 @interface DIChorePriceViewController : DIBasePushHeaderViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
@@ -25,6 +26,8 @@
 	
 	int _points;
 	float _cost;
+	
+	DILoadOverlayView *_loadOverlayView;
 }
 
 

@@ -14,4 +14,5 @@
 }
 
 -(id)initWithTitle:(NSString *)titleTxt header:(NSString *)headerTxt;
+-(void)loadBaseView;
 @end

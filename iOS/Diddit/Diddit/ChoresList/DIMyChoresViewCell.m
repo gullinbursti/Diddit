@@ -46,11 +46,13 @@
 		
 		[holderView addSubview:imgView];
 		
-		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 200.0, 22)];
+		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 185.0, 22)];
 		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:17.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
 		_titleLabel.textColor = [UIColor blackColor];
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		_titleLabel.shadowColor = [UIColor whiteColor];
+		_titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		[holderView addSubview:_titleLabel];
 		
 		UIImageView *icoView = [[[UIImageView alloc] initWithFrame:CGRectMake(80, 43.0, 17, 17)] autorelease];

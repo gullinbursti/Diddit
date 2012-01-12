@@ -172,6 +172,9 @@
 		NSLog(@"PIN:[%@]", pinCode);
 		NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
 		
+		_loadOverlayView = [[DILoadOverlayView alloc] init];
+		[_loadOverlayView toggle:YES];
+		
 		ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 		[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"deviceID"];
@@ -233,10 +236,14 @@
 			}];
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlayView toggle:NO];
+	
 		//[_delegates perform:@selector(jobList:didFailLoadWithError:) withObject:self withObject:request.error];
 		//MBL_RELEASE_SAFELY(_jobListRequest);
 }

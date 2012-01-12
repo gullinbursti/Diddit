@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString *img_url;
 @property (nonatomic, retain) NSString *video_url;
 @property (nonatomic, retain) NSString *itunes_id;
+@property (nonatomic, retain) NSDictionary *images;
 
 
 @end

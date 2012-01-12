@@ -124,6 +124,9 @@
 - (void)_goPurchase {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	
+	_loadOverlayView = [[DILoadOverlayView alloc] init];
+	[_loadOverlayView toggle:YES];
+
 	ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Apps.php"]] retain];
 	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[purchaseRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
@@ -167,6 +170,8 @@
 				_resultLabel.text = @"Failed… try again";
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 @end

@@ -10,6 +10,8 @@
 
 #import "ASIFormDataRequest.h"
 
+@class DILoadOverlayView;
+
 @interface DICreditsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
 	
 	UITableView *_creditsTableView;
@@ -20,6 +22,8 @@
 	NSMutableArray *_apps;
 	
 	UILabel *_creditsLabel;
+	
+	DILoadOverlayView *_loadOverlayView;
 }
 
 -(id)initWithPoints:(int)points;

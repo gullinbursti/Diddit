@@ -102,6 +102,19 @@
 			if (mysql_num_rows($res) > 0) {
 				
 				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					
+					$query = 'SELECT `tblImages`.`type_id`, `tblImages`.`url` FROM `tblImages` INNER JOIN `tblOffersImages` ON `tblImages`.`id` = `tblOffersImages`.`image_id` WHERE `tblOffersImages`.`offer_id` ='. $row['id'] .';';
+					$img_res = mysql_query($query);
+					$img_result = array();
+			
+					while ($img_row = mysql_fetch_array($img_res, MYSQL_BOTH)) {
+						array_push($img_result, array(
+							"type" => $img_row[0],
+							"url" => $img_row[1]
+						));
+					}
+				
+				
 					array_push($result, array(
 						"id" => $row['id'], 
 						"title" => $row['title'],
@@ -111,7 +124,8 @@
 						"points" => $row['points'],
 						"ico_url" => $row['ico_url'], 
 						"img_url" => $row['img_url'], 
-						"video_url" => $row['video_url']
+						"video_url" => $row['video_url'],
+						"images" => $img_result
 					));
 				}
 			}

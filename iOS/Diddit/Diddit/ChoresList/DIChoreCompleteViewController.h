@@ -11,6 +11,8 @@
 #import "ASIFormDataRequest.h"
 #import "DIChore.h"
 
+@class DILoadOverlayView;
+
 @interface DIChoreCompleteViewController : UIViewController <ASIHTTPRequestDelegate> {
 	DIChore *_chore;
 	
@@ -19,6 +21,8 @@
 	
 	UIButton *_pointsButton;
 	UIButton *_finishedButton;
+	
+	DILoadOverlayView *_loadOverlayView;
 }
 
 -(id)initWithChore:(DIChore *)chore;

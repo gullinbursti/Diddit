@@ -12,6 +12,8 @@
 #import "EGOImageView.h"
 #import "DIApp.h"
 
+@class DILoadOverlayView;
+
 @class MBProgressHUD;
 
 @interface DIAppPurchaseViewController : UIViewController <ASIHTTPRequestDelegate> {
@@ -20,6 +22,8 @@
 	DIApp *_app;
 	EGOImageView *_icoImgView;
 	UILabel *_resultLabel;
+	
+	DILoadOverlayView *_loadOverlayView;
 }
 
 

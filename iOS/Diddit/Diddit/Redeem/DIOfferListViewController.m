@@ -11,6 +11,7 @@
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
 #import "DINavHomeIcoBtnView.h"
+#import "DIChoreStatsView.h"
 #import "DIOffer.h"
 #import "DIOfferViewCell.h"
 
@@ -28,6 +29,9 @@
 		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
 		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
+		
+		_loadOverlayView = [[DILoadOverlayView alloc] init];
+		[_loadOverlayView toggle:YES];
 		
 		_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Offers.php"]] retain];
 		[_offersDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -49,51 +53,20 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	UILabel *diddsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 60, 26)];
-	diddsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
-	diddsLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-	diddsLabel.backgroundColor = [UIColor clearColor];
-	diddsLabel.text = @"DIDDS";
-	[self.view addSubview:diddsLabel];
-	
-	_pointsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_pointsButton.frame = CGRectMake(50, 15, 59, 34);
-	_pointsButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
-	//diddsBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-	[_pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-	[_pointsButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-	[_pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
-	[self.view addSubview:_pointsButton];
-	
-	UILabel *choresLabel = [[UILabel alloc] initWithFrame:CGRectMake(122, 20, 60, 26)];
-	choresLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
-	choresLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-	choresLabel.backgroundColor = [UIColor clearColor];
-	choresLabel.text = @"CHORES";
-	[self.view addSubview:choresLabel];
-	
-	UIButton *finishedButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	finishedButton.frame = CGRectMake(170, 15, 38, 34);
-	finishedButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
-	[finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-	[finishedButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-	[finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
-	[self.view addSubview:finishedButton];
+	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	[self.view addSubview:choreStatsView];
 	
 	UIButton *helpBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	helpBtn.frame = CGRectMake(228, 15, 84, 34);
 	helpBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	[helpBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[helpBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+	[helpBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[helpBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[helpBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	helpBtn.titleLabel.shadowColor = [UIColor blackColor];
 	helpBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 	[helpBtn setTitle:@"Need Help" forState:UIControlStateNormal];
 	[helpBtn addTarget:self action:@selector(_goHelp) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:helpBtn];
-	
 	
 	_offersTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 56, self.view.bounds.size.width, self.view.bounds.size.height - 56) style:UITableViewStylePlain];
 	_offersTableView.rowHeight = 80;
@@ -110,6 +83,7 @@
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 	
+	/*
 	_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
 	_emptyLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12];
 	_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
@@ -117,6 +91,7 @@
 	_emptyLabel.textAlignment = UITextAlignmentCenter;
 	_emptyLabel.text = @"No offers found!";
 	[self.view addSubview:_emptyLabel];
+	*/
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	frame = overlayImgView.frame;
@@ -189,7 +164,7 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	NSLog(@"OfferListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	//NSLog(@"OfferListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
 	@autoreleasepool {
 		NSError *error = nil;
@@ -203,7 +178,7 @@
 			for (NSDictionary *serverOffer in parsedOffers) {
 				DIOffer *offer = [DIOffer offerWithDictionary:serverOffer];
 					
-				NSLog(@"OFFER \"%@\"", offer.title);
+				//NSLog(@"OFFER \"%@\"", offer.title);
 					
 				if (offer != nil)
 					[offerList addObject:offer];
@@ -220,10 +195,13 @@
 			//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlayView toggle:NO];
 }
 
 @end

@@ -27,9 +27,6 @@
 		UIView *holderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 80)];
 		[self addSubview:holderView];
 		
-		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
-		[holderView addSubview:dividerImgView];
-		
 		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 11, 60, 60)];
 		_imgView.layer.cornerRadius = 8.0;
 		_imgView.clipsToBounds = YES;
@@ -58,6 +55,12 @@
 		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		_pointsLabel.textAlignment = UITextAlignmentRight;
 		[holderView addSubview:_pointsLabel];
+		
+		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+		CGRect frame = dividerImgView.frame;
+		frame.origin.y = 78;
+		dividerImgView.frame = frame;
+		[holderView addSubview:dividerImgView];
 	}
 	
 	return (self);

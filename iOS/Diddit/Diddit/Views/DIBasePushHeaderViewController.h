@@ -16,5 +16,5 @@
 
 
 -(id)initWithTitle:(NSString *)titleTxt header:(NSString *)headerTxt backBtn:(NSString *)backTxt;
-
+-(void)loadBaseView;
 @end

@@ -6,6 +6,8 @@
 //  Copyright (c) 2011 Sparkle Mountain. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "DIChoreDetailsViewController.h"
 
 #import "DIAppDelegate.h"
@@ -43,49 +45,61 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
-	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
-	[self.view addSubview:footerView];
+	CGSize textSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(265.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
-	CGRect frame = overlayImgView.frame;
-	frame.origin.y = -44;
-	overlayImgView.frame = frame;
-	[self.view addSubview:overlayImgView];
+	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 392)];
+	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	scrollView.contentSize = CGSizeMake(320, 300 + textSize.height);
+	scrollView.opaque = NO;
+	scrollView.scrollsToTop = NO;
+	scrollView.showsHorizontalScrollIndicator = NO;
+	scrollView.showsVerticalScrollIndicator = YES;
+	scrollView.alwaysBounceVertical = NO;
+	[self.view addSubview:scrollView];
 	
-	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(58, 40, 205, 174)];
+	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(58, 35, 205, 174)];
+	_imgView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
+	_imgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	_imgView.layer.borderWidth = 1.0;
+	_imgView.clipsToBounds = YES;
 	_imgView.imageURL = [NSURL URLWithString:_chore.imgPath];
-	[self.view addSubview:_imgView];
+	[scrollView addSubview:_imgView];
 	
-	UILabel *pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 230, 320, 40)];
+	UILabel *pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 225, 320, 40)];
 	pointsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:30];
 	pointsLabel.textColor = [UIColor blackColor];
 	pointsLabel.backgroundColor = [UIColor clearColor];
 	pointsLabel.textAlignment = UITextAlignmentCenter;
+	pointsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	pointsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
-	[self.view addSubview:pointsLabel];
+	[scrollView addSubview:pointsLabel];
 	
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 260, 300, 40)];
-	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 265, 300, textSize.height)];
+	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	infoLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 	infoLabel.backgroundColor = [UIColor clearColor];
 	infoLabel.numberOfLines = 0;
 	infoLabel.text = _chore.info;
-	[self.view addSubview:infoLabel];
+	[scrollView addSubview:infoLabel];
 	
-	UIImageView *calendarImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 300.0, 14, 14)] autorelease];
+	UIImageView *calendarImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 275 + textSize.height, 14, 14)] autorelease];
 	calendarImgView.image = [UIImage imageNamed:@"cal_Icon.png"];
-	[self.view addSubview:calendarImgView];
+	[scrollView addSubview:calendarImgView];
 	
-	UILabel *expiresLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 300, 200, 16)];
+	UILabel *expiresLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 275 + textSize.height, 200, 16)];
 	expiresLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	expiresLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 	expiresLabel.backgroundColor = [UIColor clearColor];
 	expiresLabel.text = [NSString stringWithFormat:@"Expires on %@", _chore.disp_expires];
-	[self.view addSubview:expiresLabel];
+	[scrollView addSubview:expiresLabel];
+	
+	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
+	[self.view addSubview:footerView];
 	
 	_completeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_completeButton.frame = CGRectMake(0, 350, 320, 60);
+	_completeButton.frame = CGRectMake(0, 352, 320, 60);
 	_completeButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	_completeButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[_completeButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
@@ -94,6 +108,13 @@
 	[_completeButton setTitle:@"approve chore" forState:UIControlStateNormal];
 	[_completeButton addTarget:self action:@selector(_goComplete) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_completeButton];
+	
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	CGRect frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
+
 }
 
 -(void)viewDidLoad {
@@ -156,7 +177,9 @@
 		[finishChoreRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.chore_id] forKey:@"choreID"];
 		[finishChoreRequest setDelegate:self];
 		[finishChoreRequest startAsynchronous];
-	}
+	
+	} //else
+		//[_loadOverlayView toggle:NO];
 	
 //	@autoreleasepool {
 //		NSError *error = nil;
@@ -177,10 +200,12 @@
 //			
 //		}
 //	}
+	
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
+	//[_loadOverlayView toggle:NO];
 }
 
 @end

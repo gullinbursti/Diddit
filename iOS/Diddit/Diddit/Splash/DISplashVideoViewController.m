@@ -46,7 +46,6 @@
 	_closeBtn.alpha = 0.0;
 	[self.view addSubview:_closeBtn];
 	
-	
 	//[player setOrientation:UIDeviceOrientationPortrait animated:NO];
 	//[self.view addSubview:player.view];
 	[_player play];

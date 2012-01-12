@@ -11,6 +11,7 @@
 #import "DIChoreListViewController.h"
 
 #import "DIAppDelegate.h"
+#import "DIChoreStatsView.h"
 #import "DIChoreDetailsViewController.h"
 #import "DIAddChoreViewController.h"
 #import "DIChoreCompleteViewController.h"
@@ -34,6 +35,9 @@
 		_finishedChores = [[NSMutableArray alloc] init];
 		_achievements = [[NSMutableArray alloc] init];
 		
+		_loadOverlayView = [[DILoadOverlayView alloc] init];
+		[_loadOverlayView toggle:YES];
+		
 		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
@@ -45,6 +49,9 @@
 		//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		//[_achievementsRequest setDelegate:self];
 		//[_achievementsRequest startAsynchronous];
+		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)]] autorelease];
+		
 		
 		UIButton *offersBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 		offersBtn.frame = CGRectMake(-4.0, 3.0, 84.0, 34.0);
@@ -58,6 +65,7 @@
 		
 		UIView *rtBtnView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 84.0, 34.0)];
 		[rtBtnView addSubview:offersBtn];
+		
 		
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rtBtnView] autorelease];
 	}
@@ -86,6 +94,7 @@
 	[self.view addSubview:_myChoresTableView];
 	_myChoresTableView.hidden = YES;
 	
+	/*
 	_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
 	_emptyLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12];
 	_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
@@ -93,13 +102,28 @@
 	_emptyLabel.textAlignment = UITextAlignmentCenter;
 	_emptyLabel.text = @"You don't have any chores!";
 	[self.view addSubview:_emptyLabel];
+	*/
 	
 	CGRect frame;
-	UIImageView *footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hudFooterBG.png"]];
-	frame = footerImgView.frame;
+	_footer1ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_001.png"]];
+	frame = _footer1ImgView.frame;
 	frame.origin.y = 420 - (frame.size.height + 4);
-	footerImgView.frame = frame;
-	[self.view addSubview:footerImgView];
+	_footer1ImgView.frame = frame;
+	[self.view addSubview:_footer1ImgView];
+	
+	_footer2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_002.png"]];
+	frame = _footer2ImgView.frame;
+	frame.origin.y = 420 - (frame.size.height + 4);
+	_footer2ImgView.frame = frame;
+	_footer2ImgView.hidden = YES;
+	[self.view addSubview:_footer2ImgView];
+	
+	_footer3ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_003.png"]];
+	frame = _footer3ImgView.frame;
+	frame.origin.y = 420 - (frame.size.height + 4);
+	_footer3ImgView.frame = frame;
+	_footer3ImgView.hidden = YES;
+	[self.view addSubview:_footer3ImgView];
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	frame = overlayImgView.frame;
@@ -108,14 +132,14 @@
 	[self.view addSubview:overlayImgView];
 	
 	UIButton *appBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
-	appBtn.frame = CGRectMake(26, 362, 54, 54);
+	appBtn.frame = CGRectMake(26, 361, 54, 54);
 	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[appBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:appBtn];
 	
 	UIButton *settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	settingsButton.frame = CGRectMake(235, 363, 54, 54);
+	settingsButton.frame = CGRectMake(235, 361, 54, 54);
 	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
@@ -126,19 +150,9 @@
 	addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[addChoreButton addTarget:self action:@selector(_goFooterAnimation) forControlEvents:UIControlEventTouchDown];
 	[addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:addChoreButton];
-	
-	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 395, 160, 20)];
-	addLabel.font = [UIFont fontWithName:@"Adelle-Bold" size:10]; //[[DIAppDelegate diAdelleFontBold] fontWithSize:12];
-	addLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-	addLabel.backgroundColor = [UIColor clearColor];
-	addLabel.textAlignment = UITextAlignmentCenter;
-	//addLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-	//addLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	addLabel.text = @"ADD CHORE";
-	[self.view addSubview:addLabel];
-	
 	
 	_addBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_addBtn.frame = CGRectMake(100, 30, 115, 28);
@@ -164,7 +178,32 @@
 	[self.navigationController pushViewController:[[[DISettingsViewController alloc] init] autorelease] animated:YES];
 }
 
+-(void)_goFooterAnimation {
+	
+	[UIView animateWithDuration:0.15 animations:^{
+		_footer1ImgView.hidden = YES;
+		_footer2ImgView.hidden = NO;
+	
+	} completion:^(BOOL finished){
+		[UIView animateWithDuration:0.15 animations:^{
+			_footer2ImgView.hidden = YES;
+			_footer3ImgView.hidden = NO;
+		}];
+	}];
+}
+
 -(void)_goAddChore {
+	[UIView animateWithDuration:0.15 animations:^{
+		_footer3ImgView.hidden = YES;
+		_footer2ImgView.hidden = NO;
+	
+	} completion:^(BOOL finished){
+		[UIView animateWithDuration:0.15 animations:^{
+			_footer2ImgView.hidden = YES;
+			_footer1ImgView.hidden = NO;
+		}];
+	}];
+	
 	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] init] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
@@ -276,6 +315,9 @@
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	if (indexPath.row == [_chores count])
+		return;
+	
 	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -351,10 +393,14 @@
 			}
 		}
 	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlayView toggle:NO];
+	
 	if (request == _activeChoresRequest) {
 		//[_delegates perform:@selector(jobList:didFailLoadWithError:) withObject:self withObject:request.error];
 		//MBL_RELEASE_SAFELY(_jobListRequest);

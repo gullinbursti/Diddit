@@ -10,6 +10,8 @@
 
 #import "ASIFormDataRequest.h"
 
+@class DILoadOverlayView;
+
 @interface DIOfferListViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate> {
 	
 	UITableView *_offersTableView;
@@ -20,6 +22,7 @@
 	
 	ASIFormDataRequest *_offersDataRequest;
 	
+	DILoadOverlayView *_loadOverlayView;
 }
 
 @end

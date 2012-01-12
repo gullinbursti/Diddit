@@ -9,6 +9,8 @@
 #import "DIChoreCompleteViewController.h"
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
+#import "DINavRightBtnView.h"
+#import "DIChoreStatsView.h"
 
 @implementation DIChoreCompleteViewController
 
@@ -17,16 +19,9 @@
 	if ((self = [super init])) {		
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"job complete"];
 		
-		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		doneButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[doneButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[doneButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		doneButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		doneButton.titleLabel.shadowColor = [UIColor blackColor];
-		doneButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[doneButton setTitle:@"Done" forState:UIControlStateNormal];
-		[doneButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:doneButton] autorelease];
+		DINavRightBtnView *doneBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Done"];
+		[[doneBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:doneBtnView] autorelease];
 	}
 	
 	return (self);
@@ -35,6 +30,9 @@
 -(id)initWithChore:(DIChore *)chore {
 	if ((self = [self init])) {
 		_chore = chore;
+		
+		_loadOverlayView = [[DILoadOverlayView alloc] init];
+		[_loadOverlayView toggle:YES];
 		
 		_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
@@ -60,44 +58,14 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	UILabel *diddsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 60, 26)];
-	diddsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
-	diddsLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-	diddsLabel.backgroundColor = [UIColor clearColor];
-	diddsLabel.text = @"DIDDS";
-	[self.view addSubview:diddsLabel];
-	
-	_pointsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_pointsButton.frame = CGRectMake(50, 15, 59, 34);
-	_pointsButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
-	//diddsBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-	[_pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-	[_pointsButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-	[_pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
-	[self.view addSubview:_pointsButton];
-	
-	UILabel *choresLabel = [[UILabel alloc] initWithFrame:CGRectMake(122, 20, 60, 26)];
-	choresLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
-	choresLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-	choresLabel.backgroundColor = [UIColor clearColor];
-	choresLabel.text = @"CHORES";
-	[self.view addSubview:choresLabel];
-	
-	_finishedButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_finishedButton.frame = CGRectMake(170, 15, 38, 34);
-	_finishedButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10.0];
-	[_finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-	[_finishedButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-	[_finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
-	[self.view addSubview:_finishedButton];
+	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	[self.view addSubview:choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	offersBtn.frame = CGRectMake(228, 15, 84, 34);
 	offersBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[offersBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	offersBtn.titleLabel.shadowColor = [UIColor blackColor];
 	offersBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
@@ -116,6 +84,8 @@
 	titleLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
 	titleLabel.textAlignment = UITextAlignmentCenter;
+	titleLabel.shadowColor = [UIColor whiteColor];
+	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	titleLabel.text = @"Great Work!";
 	[self.view addSubview:titleLabel];
 	
@@ -134,7 +104,7 @@
 	[self.view addSubview:footerView];
 	
 	UIButton *storeBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	storeBtn.frame = CGRectMake(0, 350, 320, 60);
+	storeBtn.frame = CGRectMake(0, 352, 320, 60);
 	storeBtn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	storeBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[storeBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
@@ -236,9 +206,12 @@
 //			[_rewardTableView reloadData];
 //		}
 //	}
+	
+	[_loadOverlayView toggle:NO];
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlayView toggle:NO];
 }
 
 

@@ -35,6 +35,8 @@
 		_pointsLabel.backgroundColor = [UIColor clearColor];
 		_pointsLabel.textColor = [UIColor blackColor];
 		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		_pointsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+		_pointsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		[self addSubview:_pointsLabel];
 		
 		_priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 50, 120.0, 22)];
@@ -55,7 +57,7 @@
 		
 		_checkImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(283.0, 37.0, 24, 24)] autorelease];
 		_checkImgView.image = [UIImage imageNamed:@"checkMarkIcon.png"];
-		_checkImgView.hidden = YES;
+		_checkImgView.alpha = 0.0;
 		[self addSubview:_checkImgView];
 		
 		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
@@ -81,6 +83,7 @@
 	_priceLabel.text = _reward.price;
 	
 	_imgView.imageURL = [NSURL URLWithString:_reward.ico_url];
+	//_imgView.imageURL = [NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/app/images/pointPak_ico.png"];
 }
 
 
@@ -90,6 +93,14 @@
 	_circleOffImgView.hidden = isSelected;
 	_circleOnImgView.hidden = !isSelected;
 	_checkImgView.hidden = !isSelected;
+	
+	[UIView animateWithDuration:0.2 animations:^(void) {
+		self.alpha = 0.5 + ((int)isSelected * 0.5);
+		_checkImgView.alpha = (int)isSelected;
+	}];
+	
+	
+	[self drawRect:self.frame];
 	
 	//[UIView animateWithDuration:0.2 animations:^{
 	//	_checkImgView.alpha = (int)isSelected;

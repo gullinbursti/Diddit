@@ -55,6 +55,8 @@
 	inLabel.font = [[DIAppDelegate diAdelleFontBoldItalic] fontWithSize:16];
 	inLabel.textColor = [UIColor colorWithWhite:0.75 alpha:1.0];
 	inLabel.backgroundColor = [UIColor clearColor];
+	inLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	inLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	inLabel.text = @"in…";
 	[self.view addSubview:inLabel];
 	
@@ -64,6 +66,8 @@
 	_daysLabel.textColor = [UIColor blackColor];
 	_daysLabel.backgroundColor = [UIColor clearColor];
 	_daysLabel.textAlignment = UITextAlignmentCenter;
+	_daysLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	_daysLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	_daysLabel.text = @"";
 	[self.view addSubview:_daysLabel];
 	
@@ -156,7 +160,6 @@
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CUSTOM_CHORE" object:chore];
 		}
 	}
-	
 	[self _goBack];
 } 
 

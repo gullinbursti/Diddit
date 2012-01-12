@@ -13,10 +13,14 @@
 #import "DIChoreListViewController.h"
 #import "ASIFormDataRequest.h"
 
+#import "DILoadOverlayView.h"
+
 @interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate> {
 	
 	DIChoreListViewController *_choreListViewController;
 	ASIFormDataRequest *_userRequest;
+	
+	DILoadOverlayView *_loadOverlayView;
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -34,6 +38,9 @@
 
 +(void)setUserTotalFinshed:(int)total;
 +(int)userTotalFinished;
+
++(void)notificationsToggle:(BOOL)isOn;
++(BOOL)notificationsEnabled;
 
 +(NSString *)md5:(NSString *)input;
 

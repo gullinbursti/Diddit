@@ -21,8 +21,8 @@
 		[_label setFont:font];
 		_label.backgroundColor = [UIColor clearColor];
 		_label.textColor = [UIColor colorWithRed:0.184313725490196 green:0.537254901960784 blue:0.298039215686275 alpha:1.0];
-		_label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
-		_label.shadowOffset = CGSizeMake(0.0, 1.0);
+		_label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.33];
+		_label.shadowOffset = CGSizeMake(1.0, 1.0);
 		[_label setText:title];
 		
 		[self addSubview:_label];

@@ -11,7 +11,7 @@
 @implementation DIOffer
 
 @synthesize dictionary;
-@synthesize offer_id, title, app_name, info, points, ico_url, img_url, video_url, itunes_id;
+@synthesize offer_id, title, app_name, info, points, ico_url, img_url, video_url, itunes_id, images;
 
 
 +(DIOffer *)offerWithDictionary:(NSDictionary *)dictionary {
@@ -28,6 +28,7 @@
 	offer.img_url = [dictionary objectForKey:@"img_url"];
 	offer.video_url = [dictionary objectForKey:@"video_url"];
 	offer.itunes_id = [dictionary objectForKey:@"itunes_id"];
+	offer.images = [dictionary objectForKey:@"images"];
 	
 	return (offer);
 }
@@ -45,6 +46,7 @@
 	self.ico_url = nil;
 	self.video_url = nil;
 	self.itunes_id = nil;
+	self.images = nil;
 	
 	[super dealloc];
 }

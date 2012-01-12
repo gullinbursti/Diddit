@@ -99,6 +99,17 @@ class Apps {
 		if (mysql_num_rows($res) > 0) {
 			
 			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+				$query = 'SELECT `tblImages`.`type_id`, `tblImages`.`url` FROM `tblImages` INNER JOIN `tblAppsImages` ON `tblImages`.`id` = `tblAppsImages`.`image_id` WHERE `tblAppsImages`.`app_id` ='. $row['id'] .';';
+				$img_res = mysql_query($query);
+				$img_result = array();
+			
+				while ($img_row = mysql_fetch_array($img_res, MYSQL_BOTH)) {
+					array_push($img_result, array(
+						"type" => $img_row[0],
+						"url" => $img_row[1]
+					));
+				}
+				
 				array_push($result, array(
 					"id" => $row['id'], 
 					"title" => $row['title'], 
@@ -106,7 +117,9 @@ class Apps {
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'], 
-					"img_url" => $row['img_url'], 
+					"img_url" => $row['img_url'],
+					"description" => $row['description'],
+					"images" => $img_result
 				));
 			}
 		}
@@ -134,6 +147,7 @@ class Apps {
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'], 
 					"img_url" => $row['img_url'], 
+					"description" => $row['description']
 				));
 			}
 		}

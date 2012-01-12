@@ -108,13 +108,20 @@
 		
 		
 		if (indexPath.row == 1 || indexPath.row == 2) {
-			UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
-			switchview.on = YES;
-			cell.accessoryView = switchview;
+			UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
+			switchView.on = YES;
+			cell.accessoryView = switchView;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			[switchview release];
 			
-			} else {
+			if (indexPath.row == 2) {
+				if (![DIAppDelegate notificationsEnabled])
+					switchView.on = NO;
+				
+				[switchView addTarget:self action:@selector(_goNotificationsToggle:) forControlEvents:UIControlEventValueChanged];
+			}
+			[switchView release];
+			
+		} else {
 			 UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(295.0, 23.0, 14, 14)];		
 			 chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
 			 [cell addSubview:chevronView];
@@ -128,6 +135,16 @@
 	}
 	
 	return cell;
+}
+
+
+-(void)_goNotificationsToggle:(UISwitch *)switchView {
+
+	//UITableViewCell *cell = (UITableViewCell *)[switchView superview];
+	//UITableView *table = (UITableView *)[cell superview];
+	//NSIndexPath *switchViewIndexPath = [table indexPathForCell:cell];
+	
+	[DIAppDelegate notificationsToggle:switchView.on];
 }
 
 #pragma mark - TableView Delegates
@@ -148,6 +165,10 @@
 			//navigationController = [[[UINavigationController alloc] initWithRootViewController:storeCreditsViewController] autorelease];
 			break;
 			
+		case 2:
+			[DIAppDelegate notificationsToggle:![DIAppDelegate notificationsEnabled]];
+			break;
+			
 		case 3:
 			[self.navigationController pushViewController:[[[DISupportViewController alloc] initWithTitle:@"support" header:@"diddit help" backBtn:@"Done"] autorelease] animated:YES];
 			//navigationController = [[[UINavigationController alloc] initWithRootViewController:supportViewController] autorelease];
@@ -165,6 +186,8 @@
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
 	cell.textLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16.0];
 	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	cell.textLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	cell.textLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 }
 
 @end

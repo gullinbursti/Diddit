@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIAddChoreViewController : UIViewController {
+@interface DIAddChoreViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
 	
 	UITextField *_titleTxtField;
-	UITextField *_infoTxtField;
+	UITextView *_infoTxtView;
+	
+	UILabel *_titleLbl;
+	UILabel *_infoLbl;
 }
 
 @end

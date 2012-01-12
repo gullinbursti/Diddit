@@ -45,6 +45,7 @@
 	subTxtLabel.numberOfLines = 0;
 	[self.view addSubview:subTxtLabel];
 	
+	/*
 	UIButton *facebookBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	facebookBtn.frame = CGRectMake(54, 375, 98, 28);
 	facebookBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
@@ -64,6 +65,7 @@
 	[twitterBtn setTitle:@"Twitter" forState:UIControlStateNormal];
 	[twitterBtn addTarget:self action:@selector(_goTwitter) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:twitterBtn]; 
+	*/
 }
 
 -(void)viewDidLoad {
