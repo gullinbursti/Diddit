@@ -20,6 +20,8 @@
 #import "DISettingsViewController.h"
 #import "DIMyChoresViewCell.h"
 
+#import "MBProgressHUD.h"
+
 @implementation DIChoreListViewController
 
 #pragma mark - View lifecycle
@@ -34,22 +36,7 @@
 		_chores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
 		_achievements = [[NSMutableArray alloc] init];
-		
-		_loadOverlayView = [[DILoadOverlayView alloc] init];
-		[_loadOverlayView toggle:YES];
-		
-		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_activeChoresRequest setDelegate:self];
-		[_activeChoresRequest startAsynchronous];
-		
-		//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
-		//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		//[_achievementsRequest setDelegate:self];
-		//[_achievementsRequest startAsynchronous];
-		
+				
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)]] autorelease];
 		
 		
@@ -66,15 +53,27 @@
 		UIView *rtBtnView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 84.0, 34.0)];
 		[rtBtnView addSubview:offersBtn];
 		
-		
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rtBtnView] autorelease];
+		
+		_loadOverlay = [[DILoadOverlay alloc] init];
+		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_activeChoresRequest setDelegate:self];
+		[_activeChoresRequest startAsynchronous];
+		
+		//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
+		//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+		//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		//[_achievementsRequest setDelegate:self];
+		//[_achievementsRequest startAsynchronous];
 	}
 	
 	return (self);
 }
 	
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 }
 
 -(void)viewDidLoad {
@@ -105,6 +104,13 @@
 	*/
 	
 	CGRect frame;
+	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.jpg"]];
+	frame = _emptyListImgView.frame;
+	frame.origin.x = 5;
+	frame.origin.y = 5;
+	_emptyListImgView.frame = frame;
+	[self.view addSubview:_emptyListImgView];
+	
 	_footer1ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_001.png"]];
 	frame = _footer1ImgView.frame;
 	frame.origin.y = 420 - (frame.size.height + 4);
@@ -113,7 +119,7 @@
 	
 	_footer2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_002.png"]];
 	frame = _footer2ImgView.frame;
-	frame.origin.y = 420 - (frame.size.height + 4);
+	frame.origin.y = 420 - (frame.size.height + 15);
 	_footer2ImgView.frame = frame;
 	_footer2ImgView.hidden = YES;
 	[self.view addSubview:_footer2ImgView];
@@ -132,27 +138,38 @@
 	[self.view addSubview:overlayImgView];
 	
 	UIButton *appBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
-	appBtn.frame = CGRectMake(26, 361, 54, 54);
-	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	appBtn.frame = CGRectMake(15, 362, 79, 54);
+	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[appBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:appBtn];
 	
 	UIButton *settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	settingsButton.frame = CGRectMake(235, 361, 54, 54);
-	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"optionsIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	settingsButton.frame = CGRectMake(220, 364, 79, 54);
+	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"settingsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"settingsIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:settingsButton];
 	
 	UIButton *addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	addChoreButton.frame = CGRectMake(138, 350.0, 44, 44);
+	addChoreButton.frame = CGRectMake(132, 346.0, 56, 56);
 	addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[addChoreButton addTarget:self action:@selector(_goFooterAnimation) forControlEvents:UIControlEventTouchDown];
 	[addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:addChoreButton];
+	
+	
+	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(129, 395, 70, 26)];
+	addLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
+	addLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+	addLabel.backgroundColor = [UIColor clearColor];
+	addLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	addLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	addLabel.text = @"ADD CHORE";
+	[self.view addSubview:addLabel];
+	
 	
 	_addBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_addBtn.frame = CGRectMake(100, 30, 115, 28);
@@ -180,6 +197,7 @@
 
 -(void)_goFooterAnimation {
 	
+	/*
 	[UIView animateWithDuration:0.15 animations:^{
 		_footer1ImgView.hidden = YES;
 		_footer2ImgView.hidden = NO;
@@ -190,9 +208,12 @@
 			_footer3ImgView.hidden = NO;
 		}];
 	}];
+	*/
 }
 
 -(void)_goAddChore {
+	
+	/*
 	[UIView animateWithDuration:0.15 animations:^{
 		_footer3ImgView.hidden = YES;
 		_footer2ImgView.hidden = NO;
@@ -203,6 +224,7 @@
 			_footer1ImgView.hidden = NO;
 		}];
 	}];
+	*/
 	
 	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] init] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
@@ -220,6 +242,8 @@
 
 #pragma mark - Notification Handlers
 -(void)_loadData:(NSNotification *)notification {
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
 	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
@@ -235,15 +259,17 @@
 }
 
 -(void)_addChore:(NSNotification *)notification {
-	[_chores addObject:(DIChore *)[notification object]];
+	[_chores insertObject:(DIChore *)[notification object] atIndex:0];
 	
 	NSLog(@"ChoreListViewController - addChore:[]");
 	
-	_emptyLabel.hidden = YES;
+	_emptyListImgView.hidden = YES;
 	_myChoresTableView.hidden = NO;
+	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	
-	//NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[_chores count] - 1 inSection:0]];
-	//[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationAutomatic];
+	
+	NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
+	[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
 	[_myChoresTableView reloadData];	
 }
 
@@ -258,7 +284,7 @@
 	[_myChoresTableView reloadData];
 	
 	if ([_chores count] == 0) {
-		_emptyLabel.hidden = NO;
+		_emptyListImgView.hidden = NO;
 		_myChoresTableView.hidden = YES;
 	}
 	
@@ -364,7 +390,7 @@
 				
 				if ([_chores count] > 0) {
 					_myChoresTableView.hidden = NO;
-					_emptyLabel.hidden = YES;
+					_emptyListImgView.hidden = YES;
 				}
 				
 				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
@@ -394,17 +420,18 @@
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
-	
+
 	if (request == _activeChoresRequest) {
 		//[_delegates perform:@selector(jobList:didFailLoadWithError:) withObject:self withObject:request.error];
 		//MBL_RELEASE_SAFELY(_jobListRequest);
 	}
+	
+	[_loadOverlay remove];
 }
 
 @end

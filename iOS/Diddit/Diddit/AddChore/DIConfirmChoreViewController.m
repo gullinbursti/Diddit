@@ -23,6 +23,7 @@
 -(id)initWithChore:(DIChore *)chore {
 	if ((self = [super initWithTitle:@"add chore" header:@"review, approve, and submit" backBtn:@"Back"])) {
 		_chore = chore;	
+		_isCameraPic = NO;
 	}
 	
 	return (self);
@@ -34,24 +35,32 @@
 	[self.view setBackgroundColor:[UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0]];
 	CGRect frame;
 	
-	CGSize textSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
+	_textSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
 	
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 392)];
-	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	scrollView.contentSize = CGSizeMake(320, 300 + textSize.height);
-	scrollView.opaque = NO;
-	scrollView.scrollsToTop = NO;
-	scrollView.showsHorizontalScrollIndicator = NO;
-	scrollView.showsVerticalScrollIndicator = YES;
-	scrollView.alwaysBounceVertical = NO;
-	[self.view addSubview:scrollView];
+	UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 348.0) style:UITableViewStylePlain];
+	tableView.rowHeight = 305 + _textSize.height;
+	tableView.backgroundColor = [UIColor clearColor];
+	tableView.separatorColor = [UIColor clearColor];
+	tableView.delegate = self;
+	tableView.dataSource = self;
+	[self.view addSubview:tableView];
+	
+	_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 292.0)];
+	_scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_scrollView.contentSize = CGSizeMake(320, 310 + _textSize.height);
+	_scrollView.opaque = NO;
+	_scrollView.scrollsToTop = NO;
+	_scrollView.showsHorizontalScrollIndicator = NO;
+	_scrollView.showsVerticalScrollIndicator = YES;
+	_scrollView.alwaysBounceVertical = NO;
+	//[self.view addSubview:_scrollView];
 	
 	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)];
 	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
-	[scrollView addSubview:headerView];
+	[_scrollView addSubview:headerView];
 	
 	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
 	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
@@ -61,13 +70,13 @@
 	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	titleLabel.text = _headerTxt;
 	titleLabel.textAlignment = UITextAlignmentCenter;
-	[scrollView addSubview:titleLabel];
+	[_scrollView addSubview:titleLabel];
 	
 	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
 	frame = dividerImgView.frame;
 	frame.origin.y = 48;
 	dividerImgView.frame = frame;
-	[scrollView addSubview:dividerImgView];
+	[_scrollView addSubview:dividerImgView];
 	
 	_choreThumbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 	_choreThumbBtn.frame = CGRectMake(10, 64, 58, 58);
@@ -77,8 +86,8 @@
 	_choreThumbBtn.clipsToBounds = YES;
 	_choreThumbBtn.imageEdgeInsets = UIEdgeInsetsMake(15.0, 12.0, -15.0, -12.0);
 	[_choreThumbBtn setImage:[UIImage imageNamed:@"cameraIcon.png"] forState:UIControlStateNormal];
-	[_choreThumbBtn addTarget:self action:@selector(_goCamera) forControlEvents:UIControlEventTouchUpInside];
-	[scrollView addSubview:_choreThumbBtn];
+	[_choreThumbBtn addTarget:self action:@selector(_goActionSheet) forControlEvents:UIControlEventTouchUpInside];
+	[_scrollView addSubview:_choreThumbBtn];
 	
 	
 	UIImageView *choreImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreThumb.png"]];
@@ -86,7 +95,7 @@
 	frame.origin.x = 10;
 	frame.origin.y = 55;
 	choreImgView.frame = frame;
-	[scrollView addSubview:choreImgView];
+	[_scrollView addSubview:choreImgView];
 	
 	UILabel *choreTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 83, 200, 24)];
 	choreTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:20];
@@ -95,24 +104,24 @@
 	choreTitleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	choreTitleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	choreTitleLabel.text = _chore.title;
-	[scrollView addSubview:choreTitleLabel];
+	[_scrollView addSubview:choreTitleLabel];
 	
 	UIImageView *divider2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
 	frame = divider2ImgView.frame;
 	frame.origin.y = 143;
 	divider2ImgView.frame = frame;
-	[scrollView addSubview:divider2ImgView];
+	[_scrollView addSubview:divider2ImgView];
 	
 	UILabel *rewardLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, 120, 16)];
 	rewardLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	rewardLabel.textColor = [UIColor colorWithWhite:0.33 alpha:1.0];
 	rewardLabel.backgroundColor = [UIColor clearColor];
 	rewardLabel.text = @"Reward";
-	[scrollView addSubview:rewardLabel];
+	[_scrollView addSubview:rewardLabel];
 	
 	_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(74, 164, 59, 59)];
 	_imgView.imageURL = [NSURL URLWithString:_chore.icoPath];
-	[scrollView addSubview:_imgView];
+	[_scrollView addSubview:_imgView];
 	
 	UILabel *rewardTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(144, 172, 120, 20)];
 	rewardTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
@@ -121,42 +130,42 @@
 	rewardTitleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	rewardTitleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	rewardTitleLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
-	[scrollView addSubview:rewardTitleLabel];
+	[_scrollView addSubview:rewardTitleLabel];
 	
 	UILabel *rewardPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(144, 190, 100, 16)];
 	rewardPriceLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11];
 	rewardPriceLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
 	rewardPriceLabel.backgroundColor = [UIColor clearColor];
 	rewardPriceLabel.text = _chore.price;
-	[scrollView addSubview:rewardPriceLabel];
+	[_scrollView addSubview:rewardPriceLabel];
 	
-	UIImageView *divider3ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *divider3ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	frame = divider3ImgView.frame;
 	frame.origin.y = 251;
 	divider3ImgView.frame = frame;
-	[scrollView addSubview:divider3ImgView];
+	[_scrollView addSubview:divider3ImgView];
 	
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 267, 300, textSize.height)];
+	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 267, 300, _textSize.height)];
 	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	infoLabel.backgroundColor = [UIColor clearColor];
 	infoLabel.numberOfLines = 0;
 	infoLabel.text = _chore.info;
-	[scrollView addSubview:infoLabel];
+	[_scrollView addSubview:infoLabel];
 	
-	if (textSize.height == 0)
-		textSize.height = -10;
+	if (_textSize.height == 0)
+		_textSize.height = -10;
 	
-	UIImageView *calendarImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 282.0 + textSize.height, 14, 14)] autorelease];
+	UIImageView *calendarImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 282.0 + _textSize.height, 14, 14)] autorelease];
 	calendarImgView.image = [UIImage imageNamed:@"cal_Icon.png"];
-	[scrollView addSubview:calendarImgView];
+	[_scrollView addSubview:calendarImgView];
 	
-	UILabel *expiresLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 282 + textSize.height, 200, 16)];
+	UILabel *expiresLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 282 + _textSize.height, 200, 16)];
 	expiresLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	expiresLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 	expiresLabel.backgroundColor = [UIColor clearColor];
 	expiresLabel.text = [NSString stringWithFormat:@"Expires on %@", _chore.disp_expires];
-	[scrollView addSubview:expiresLabel];
+	[_scrollView addSubview:expiresLabel];
 	
 	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
 	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
@@ -197,29 +206,18 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)_goCamera {
-	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		
-		UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-		imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
-		imagePicker.delegate = self;
-		imagePicker.allowsEditing = YES;
-		//imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-	
-		[self presentModalViewController:imagePicker animated:YES];
-	
-	} else {
-		UIAlertView *alertView;
-		alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera not aviable." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-	}
+
+-(void)_goActionSheet {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"choose picture", @"take picture", nil];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
 }
 
 - (void)_goSubmit {
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
 	
-	_loadOverlayView = [[DILoadOverlayView alloc] init];
-	[_loadOverlayView toggle:YES];
+	_loadOverlay = [[DILoadOverlay alloc] init];
 	
 	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 	[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
@@ -228,10 +226,86 @@
 	[dataRequest setPostValue:_chore.info forKey:@"choreInfo"];
 	[dataRequest setPostValue:[NSNumber numberWithFloat:_chore.cost] forKey:@"cost"];
 	[dataRequest setPostValue:[dateFormat stringFromDate:_chore.expires] forKey:@"expires"];
+	[dataRequest setPostValue:_chore.imgPath forKey:@"image"];
 	[dataRequest setDelegate:self];
 	[dataRequest startAsynchronous];
 	
 	[dateFormat release];
+}
+
+
+#pragma mark - TableView Data Source Delegates
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return (1);
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+		UITableViewCell *cell = nil;
+		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+		
+		if (cell == nil) {			
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
+			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+			[cell addSubview:_scrollView];
+		}
+		
+		return (cell);		
+}
+
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];		
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return (310 + _textSize.height);
+}
+
+
+#pragma mark - ActionSheet Delegates
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+	switch(buttonIndex) {
+		case 0:
+			if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+				_isCameraPic = NO;
+				
+				UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+				imagePicker.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
+				imagePicker.delegate = self;
+				imagePicker.allowsEditing = YES;
+				//imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
+				
+				[self presentModalViewController:imagePicker animated:YES];
+				
+			} else {
+				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera not aviable." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+				[alertView release];
+			}
+			
+			break;
+			
+		case 1:
+			if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+				_isCameraPic = YES;
+				
+				UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+				imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
+				imagePicker.delegate = self;
+				imagePicker.allowsEditing = YES;
+				//imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
+				
+				[self presentModalViewController:imagePicker animated:YES];
+				
+			} else {
+				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Camera not aviable." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+				[alertView release];
+			}
+			
+			break;
+	}
 }
 
 
@@ -244,28 +318,55 @@
 	//NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
 	[self dismissModalViewControllerAnimated:YES];
 	
-	//if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyyMMddHHmmss"];
+	_chore.imgPath = [dateFormat stringFromDate:[NSDate date]];
+	[dateFormat release];
+	
+	if (_isCameraPic) {
 		UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-		[_choreThumbBtn setImage:image forState:UIControlStateNormal];
+		//CGRect imageRect = CGRectMake(0.0, 0.0, 206.0, 174.0);
+		CGRect imageRect = CGRectMake(0.0, 0.0, 174.0, 206.0);
+		
+		NSLog(@"%f, %f", image.size.width, image.size.height);
+		
+		UIGraphicsBeginImageContextWithOptions(imageRect.size, NO, [UIScreen mainScreen].scale);
+		[image drawInRect:imageRect];
+		UIImage *resizedImg = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		UIImageWriteToSavedPhotosAlbum(resizedImg, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+		
+		[_choreThumbBtn setImage:resizedImg forState:UIControlStateNormal];
 		_choreThumbBtn.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
 	
-		UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-		
-	//if (newMedia)
-	//UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
+		NSData *imageData = UIImagePNGRepresentation(resizedImg); 
+		[[NSUserDefaults standardUserDefaults] setObject:imageData forKey:_chore.imgPath];
 	
-	//} else if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
-	//}
+	} else {
+		UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+		NSLog(@"%f, %f", image.size.width, image.size.height);
+		
+		[_choreThumbBtn setImage:[info objectForKey:UIImagePickerControllerOriginalImage] forState:UIControlStateNormal];
+		_choreThumbBtn.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+		
+		NSData *imageData = UIImagePNGRepresentation(image); 
+		[[NSUserDefaults standardUserDefaults] setObject:imageData forKey:_chore.imgPath];
+	}
+	
+	NSLog(@"IMG:[%@]", _chore.imgPath);
 }
 
 -(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
 	UIAlertView *alert;
 	
-	if (error)
-		alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unable to save image to Photo Album." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+	if (_isCameraPic) {
+		if (error)
+			alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unable to save image to Photo Album." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
 	
-	else 
-		alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Image saved to Photo Album." delegate:nil cancelButtonTitle:@"Ok"  otherButtonTitles:nil];
+		else
+			alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Image saved to Photo Album." delegate:nil cancelButtonTitle:@"Ok"  otherButtonTitles:nil];
+	}
 	
 	[alert show];
 	[alert release];
@@ -278,7 +379,7 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	//NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
 	@autoreleasepool {
 		NSError *error = nil;
@@ -294,11 +395,11 @@
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 @end

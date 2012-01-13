@@ -17,7 +17,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"iTunes credits"];
+		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"credits"];
 		
 		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];

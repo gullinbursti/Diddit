@@ -23,6 +23,7 @@
 	UIImageView *_circleOnImgView;
 	UIImageView *_checkImgView;
 	
+	UIImageView *_dividerImgView;
 }
 
 +(NSString *)cellReuseIdentifier;

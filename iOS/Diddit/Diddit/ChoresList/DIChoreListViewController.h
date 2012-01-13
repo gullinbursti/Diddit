@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
-
-@class DILoadOverlayView;
+#import "DILoadOverlay.h"
 
 @interface DIChoreListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
 	
@@ -25,6 +24,7 @@
 	ASIFormDataRequest *_activeChoresRequest;
 	ASIFormDataRequest *_achievementsRequest;
 	
+	UIImageView *_emptyListImgView;
 	UIImageView *_footer1ImgView;
 	UIImageView *_footer2ImgView;
 	UIImageView *_footer3ImgView;
@@ -36,7 +36,7 @@
 	
 	UIButton *_addBtn;
 	
-	DILoadOverlayView *_loadOverlayView;
+	DILoadOverlay *_loadOverlay;
 }
 
 @end

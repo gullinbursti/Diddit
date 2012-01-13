@@ -11,6 +11,7 @@
 #import "DINavTitleView.h"
 #import "DINavRightBtnView.h"
 #import "DIChoreStatsView.h"
+#import "DIOfferListViewController.h"
 
 @implementation DIChoreCompleteViewController
 
@@ -31,8 +32,7 @@
 	if ((self = [self init])) {
 		_chore = chore;
 		
-		_loadOverlayView = [[DILoadOverlayView alloc] init];
-		[_loadOverlayView toggle:YES];
+		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
@@ -141,7 +141,9 @@
 }
 
 -(void)_goOffers {
-	[self dismissModalViewControllerAnimated:YES];
+	//[self dismissModalViewControllerAnimated:YES];
+	
+	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goStore {
@@ -181,6 +183,7 @@
 			
 			else {
 				[_finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+				[[NSUserDefaults standardUserDefaults] setObject:nil forKey:_chore.imgPath];
 			}
 		}
 	}
@@ -207,11 +210,11 @@
 //		}
 //	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 

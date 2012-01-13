@@ -43,7 +43,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 }
 
 -(void)loadView {
@@ -79,7 +79,7 @@
 	[helpBtn addTarget:self action:@selector(_goHelp) forControlEvents:UIControlEventTouchUpInside];
 	[scrollView addSubview:helpBtn];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;

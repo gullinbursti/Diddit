@@ -14,6 +14,9 @@
 #import "DINavBackBtnView.h"
 #import "DINavTitleView.h"
 #import "DIChoreStatsView.h"
+#import "DIAppRatingStarsView.h"
+#import "DIAppStatsView.h"
+#import "DIOfferListViewController.h"
 #import "DIRedeemCodeViewController.h"
 
 @implementation DIAppDetailsViewController
@@ -41,7 +44,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 }
 
 -(void)loadView {
@@ -78,50 +81,15 @@
 	[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 	[scrollView addSubview:offersBtn];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
 	[scrollView addSubview:dividerImgView];
 	
-	EGOImageView *icoImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 71, 60, 60)];
-	icoImgView.imageURL = [NSURL URLWithString:_app.ico_url];
-	icoImgView.layer.cornerRadius = 8.0;
-	icoImgView.clipsToBounds = YES;
-	icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
-	icoImgView.layer.borderWidth = 1.0;
-	[scrollView addSubview:icoImgView];
-	
-	UILabel *appTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(76, 76, 180.0, 22)];
-	appTitleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-	appTitleLabel.backgroundColor = [UIColor clearColor];
-	appTitleLabel.textColor = [UIColor colorWithRed:0.208 green:0.682 blue:0.369 alpha:1.0];
-	appTitleLabel.text = _app.title;
-	[scrollView addSubview:appTitleLabel];
-	
-	UIView *ptsView = [[[UIView alloc] initWithFrame:CGRectMake(257, 85.0, 52, 25)] autorelease];
-	ptsView.backgroundColor = [UIColor colorWithRed:0.976 green:0.976 blue:0.929 alpha:1.0];
-	ptsView.layer.cornerRadius = 6.0;
-	ptsView.clipsToBounds = YES;
-	ptsView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
-	ptsView.layer.borderWidth = 2.0;
-	[scrollView addSubview:ptsView];
-	
-	UILabel *pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 3, 52, 20)];
-	pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-	pointsLabel.backgroundColor = [UIColor clearColor];
-	pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-	pointsLabel.text = [NSString stringWithFormat:@"%@ D", _app.disp_points];
-	pointsLabel.textAlignment = UITextAlignmentCenter;
-	[ptsView addSubview:pointsLabel];
-	
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(76, 95, 300.0, 16)];
-	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14];
-	infoLabel.textColor = [UIColor blackColor];
-	infoLabel.backgroundColor = [UIColor clearColor];
-	infoLabel.text = _app.info;
-	[scrollView addSubview:infoLabel];
-	
+	DIAppStatsView *appStatsView = [[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 71.0) appVO:_app];
+	[scrollView addSubview:appStatsView];
+		
 	UILabel *storeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 145, 300, textSize.height)];
 	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	storeInfoLabel.backgroundColor = [UIColor clearColor];
@@ -130,16 +98,17 @@
 	storeInfoLabel.text = _app.app_info;
 	[scrollView addSubview:storeInfoLabel];
 	
-	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160 + textSize.height, 320, 420)];
+	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160 + textSize.height, 320, 300)];
 	_imgScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_imgScrollView.opaque = NO;
-	_imgScrollView.contentSize = CGSizeMake(320 * [_app.images count], 420);
+	_imgScrollView.contentSize = CGSizeMake(320 * [_app.images count], 240);
 	_imgScrollView.scrollsToTop = NO;
 	_imgScrollView.pagingEnabled = YES;
 	_imgScrollView.delegate = self;
 	_imgScrollView.showsHorizontalScrollIndicator = NO;
 	_imgScrollView.showsVerticalScrollIndicator = NO;
 	_imgScrollView.alwaysBounceVertical = NO;
+	_imgScrollView.bounces = NO;
 	[scrollView addSubview:_imgScrollView];
 	
 	int xOffset = 10;
@@ -238,8 +207,10 @@
 }
 
 -(void)_goOffers {
-	[self.navigationController popToRootViewControllerAnimated:NO];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
+	//[self.navigationController popToRootViewControllerAnimated:NO];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
+	
+	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goPurchase {

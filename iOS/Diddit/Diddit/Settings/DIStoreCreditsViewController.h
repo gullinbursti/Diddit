@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIStoreCreditsViewController : UIViewController
+@interface DIStoreCreditsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+	UITableView *_creditsTableView;
+}
 
 @end

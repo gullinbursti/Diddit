@@ -51,19 +51,19 @@
 	
 	CGRect frame;
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	frame = dividerImgView.frame;
 	frame.origin.y = 68;
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 
-	_titleLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 200, 64)];
-	_titleLbl.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
+	_titleLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 8, 200, 64)];
+	_titleLbl.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
 	_titleLbl.textColor = [UIColor blackColor];
 	_titleLbl.backgroundColor = [UIColor clearColor];
 	_titleLbl.shadowColor = [UIColor whiteColor];
 	_titleLbl.shadowOffset = CGSizeMake(1.0, 1.0);
-	_titleLbl.text = @"give your chore a title";
+	_titleLbl.text = @"Give your chore or task a title";
 	[self.view addSubview:_titleLbl];
 	
 	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 30, 200, 64)] autorelease];
@@ -71,13 +71,13 @@
 	[_titleTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_titleTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
 	[_titleTxtField setBackgroundColor:[UIColor clearColor]];
-	_titleTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
+	_titleTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
 	_titleTxtField.keyboardType = UIKeyboardTypeDefault;
 	_titleTxtField.delegate = self;
 	[self.view addSubview:_titleTxtField];
 	
 	_infoLbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 75, 160, 20)];
-	_infoLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_infoLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13];
 	_infoLbl.textColor = [UIColor lightGrayColor];
 	_infoLbl.backgroundColor = [UIColor clearColor];
 	_infoLbl.text = @"additional note (optional)";
@@ -99,12 +99,12 @@
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
-	
-	[_titleTxtField becomeFirstResponder];
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
+	[_titleTxtField becomeFirstResponder];
 }
 
 - (void)viewDidUnload {

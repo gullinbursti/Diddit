@@ -156,7 +156,7 @@
 		}
 		
 		
-		function addNew($user_id, $chore_title, $chore_info, $cost, $expires) {
+		function addNew($user_id, $chore_title, $chore_info, $cost, $expires, $image) {
 			
 			$query = 'SELECT `id`, `points` FROM `tblRewardTypes` WHERE `cost` = "'. $cost .'";';
 			$row = mysql_fetch_row(mysql_query($query));
@@ -173,7 +173,7 @@
 			
 			$query = 'INSERT INTO `tblChores` (';
 			$query .= '`id`, `user_id`, `reward_id`, `title`, `info`, `ico_path`, `img_path`, `status_id`, `expires`, `added`, `modified`) ';
-			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $reward_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $reward_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
 			
@@ -183,7 +183,7 @@
 				"title" => $chore_title, 
 				"info" => $chore_info, 
 				"icoPath" => "", 
-				"imgPath" => "",
+				"imgPath" => $image,
 				"expires" => $expires, 
 				"points" => $points, 
 				"cost" => $cost
@@ -231,8 +231,8 @@
 				break;
 				
 		   case "7":
-				if (isset($_POST["userID"]) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['cost']) && isset($_POST['expires']))
-					 $chores_json = $chores->addNew($_POST['userID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['cost'], $_POST['expires']);
+				if (isset($_POST["userID"]) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['cost']) && isset($_POST['expires']) && isset($_POST['image']))
+					 $chores_json = $chores->addNew($_POST['userID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['cost'], $_POST['expires'], $_POST['image']);
 				break;
 		}
 	}   

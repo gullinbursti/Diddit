@@ -10,7 +10,7 @@
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
-#import "DINavHomeIcoBtnView.h"
+#import "DINavBackBtnView.h"
 #import "DIChoreStatsView.h"
 #import "DIOffer.h"
 #import "DIOfferViewCell.h"
@@ -26,25 +26,12 @@
 		_offers = [[NSMutableArray alloc] init];
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"earn didds"];
 		
-		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
-		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
-		
-		_loadOverlayView = [[DILoadOverlayView alloc] init];
-		[_loadOverlayView toggle:YES];
-		
-		_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Offers.php"]] retain];
-		[_offersDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-		[_offersDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_offersDataRequest setDelegate:self];
-		[_offersDataRequest startAsynchronous];
+		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
 	
 	return (self);
-}
-
--(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
 }
 
 -(void)loadView {
@@ -77,7 +64,7 @@
 	[self.view addSubview:_offersTableView];
 	_offersTableView.hidden = YES;
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
@@ -103,7 +90,17 @@
 -(void)viewDidLoad {
 	[super viewDidLoad];
 	
+	_loadOverlay = [[DILoadOverlay alloc] init];
 	
+	_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Offers.php"]] retain];
+	[_offersDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[_offersDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_offersDataRequest setDelegate:self];
+	[_offersDataRequest startAsynchronous];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 }
 
 - (void)viewDidUnload {
@@ -196,12 +193,12 @@
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 @end

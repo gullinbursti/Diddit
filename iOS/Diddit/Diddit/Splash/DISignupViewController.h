@@ -10,9 +10,11 @@
 
 #import "ASIFormDataRequest.h"
 
-@class DILoadOverlayView;
+@class DILoadOverlay;
 
 @interface DISignupViewController : UIViewController <ASIHTTPRequestDelegate, UITextFieldDelegate> {
+	
+	UILabel *_emailLabel;
 	
 	UITextField *_emailTxtField;
 	UITextField *_pinCode1TxtField;
@@ -20,7 +22,7 @@
 	UITextField *_pinCode3TxtField;
 	UITextField *_pinCode4TxtField;
 	
-	DILoadOverlayView *_loadOverlayView;
+	DILoadOverlay *_loadOverlay;
 }
 
 @end

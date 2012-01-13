@@ -14,16 +14,19 @@
 #import "ASIFormDataRequest.h"
 #import "EGOImageView.h"
 
-@class DILoadOverlayView;
+@class DILoadOverlay;
 
-@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 	
+	BOOL _isCameraPic;
 	DIChore *_chore;
 	UIButton *_submitButton;
 	EGOImageView *_imgView;
 	UIButton *_choreThumbBtn;
+	UIScrollView *_scrollView;
+	CGSize _textSize;
 	
-	DILoadOverlayView *_loadOverlayView;
+	DILoadOverlay *_loadOverlay;
 }
 
 -(id)initWithChore:(DIChore *)chore;

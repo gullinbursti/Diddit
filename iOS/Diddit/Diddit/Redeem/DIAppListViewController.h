@@ -11,7 +11,7 @@
 #import "ASIFormDataRequest.h"
 #import "DIPaginationView.h"
 
-#import "DILoadOverlayView.h"
+#import "DILoadOverlay.h"
 
 @interface DIAppListViewController : UIViewController <ASIHTTPRequestDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate> {
 	
@@ -29,7 +29,7 @@
 	
 	NSMutableArray *_cells;
 	
-	DILoadOverlayView *_loadOverlayView;
+	DILoadOverlay *_loadOverlay;
 }
 
 -(void)fillFeatured:(int)tot;

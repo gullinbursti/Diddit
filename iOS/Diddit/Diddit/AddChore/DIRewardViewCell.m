@@ -60,11 +60,11 @@
 		_checkImgView.alpha = 0.0;
 		[self addSubview:_checkImgView];
 		
-		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
-		CGRect frame = dividerImgView.frame;
+		_dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+		CGRect frame = _dividerImgView.frame;
 		frame.origin.y = 95;
-		dividerImgView.frame = frame;
-		[self addSubview:dividerImgView];
+		_dividerImgView.frame = frame;
+		[self addSubview:_dividerImgView];
 	}
 	
 	return (self);
@@ -90,12 +90,16 @@
 #pragma presentation
 -(void)toggleSelect:(BOOL)isSelected {
 	
-	_circleOffImgView.hidden = isSelected;
-	_circleOnImgView.hidden = !isSelected;
 	_checkImgView.hidden = !isSelected;
+	_dividerImgView.alpha = 0.2;
 	
 	[UIView animateWithDuration:0.2 animations:^(void) {
-		self.alpha = 0.5 + ((int)isSelected * 0.5);
+		//self.alpha = 0.1 + ((int)isSelected * 0.9);
+		_imgView.alpha = 0.2 + ((int)isSelected * 0.8);
+		_pointsLabel.alpha = 0.2 + ((int)isSelected * 0.8);
+		_priceLabel.alpha = 0.2 + ((int)isSelected * 0.8);
+		_circleOffImgView.alpha = 0.2 + ((int)isSelected * 0.8);
+		_circleOnImgView.alpha = 0.2 + ((int)isSelected * 0.8);
 		_checkImgView.alpha = (int)isSelected;
 	}];
 	

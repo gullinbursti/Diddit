@@ -16,6 +16,8 @@
 #import "UAirship.h"
 #import "UAPush.h"
 
+#import "MBProgressHUD.h"
+
 @implementation DIAppDelegate
 
 @synthesize window = _window;
@@ -126,7 +128,7 @@
 #pragma mark - App Lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	
-	//[DIAppDelegate setUserProfile:nil];
+	[DIAppDelegate setUserProfile:nil];
 	
 	
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"notifications"] || [DIAppDelegate notificationsEnabled]) {
@@ -144,7 +146,6 @@
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
-	_loadOverlayView = [[DILoadOverlayView alloc] init];
 	_choreListViewController = [[DIChoreListViewController alloc] init];
 	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
 	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"headerBG.png"] forBarMetrics:UIBarMetricsDefault];
@@ -167,7 +168,7 @@
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
 	
 	} else {
-		[_loadOverlayView toggle:YES];
+		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -230,12 +231,12 @@
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 

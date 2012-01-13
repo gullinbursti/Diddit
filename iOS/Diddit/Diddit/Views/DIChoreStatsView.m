@@ -28,10 +28,11 @@
 		pointsButton.frame = CGRectMake(43, 2, 59, 34);
 		pointsButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
 		//pointsButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"headerDiddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"headerDiddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
 		[pointsButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
 		[pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+		[pointsButton setEnabled:NO];
 		[self addSubview:pointsButton];
 		
 		UILabel *choresLabel = [[UILabel alloc] initWithFrame:CGRectMake(112, 7, 60, 26)];
@@ -44,12 +45,13 @@
 		[self addSubview:choresLabel];
 		
 		UIButton *finishedButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		finishedButton.frame = CGRectMake(160, 2, 38, 34);
+		finishedButton.frame = CGRectMake(160, 2, 39, 34);
 		finishedButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"headerChoresBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"headerChoresBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
 		[finishedButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
 		[finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+		[finishedButton setEnabled:NO];
 		[self addSubview:finishedButton];
 	}
 	

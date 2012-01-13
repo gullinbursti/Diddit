@@ -13,14 +13,14 @@
 #import "DIChoreListViewController.h"
 #import "ASIFormDataRequest.h"
 
-#import "DILoadOverlayView.h"
+#import "DILoadOverlay.h"
 
 @interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate> {
 	
 	DIChoreListViewController *_choreListViewController;
 	ASIFormDataRequest *_userRequest;
 	
-	DILoadOverlayView *_loadOverlayView;
+	DILoadOverlay *_loadOverlay;
 }
 
 @property (strong, nonatomic) UIWindow *window;

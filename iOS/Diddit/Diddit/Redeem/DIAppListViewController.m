@@ -11,10 +11,11 @@
 #import "DINavHomeIcoBtnView.h"
 #import "DIPaginationView.h"
 #import "DIChoreStatsView.h"
-#import "DIFeaturedItemView.h"
+#import "DIFeaturedItemButton.h"
 #import "DIOffersHelpViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIAppListViewController.h"
+#import "DIOfferListViewController.h"
 #import "DIAppViewCell.h"
 
 @implementation DIAppListViewController
@@ -26,34 +27,32 @@
 		_apps = [[NSMutableArray alloc] init];
 		_cells =[[NSMutableArray alloc] init];
 		
-		_loadOverlayView = [[DILoadOverlayView alloc] init];
-		[_loadOverlayView toggle:YES];
-		
 		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"store"];
 		
 		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
 		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
-		
-		_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Apps.php"]] retain];
-		[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-		[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_featuredDataRequest setDelegate:self];
-		//[_featuredDataRequest startAsynchronous];
-		
-		[_loadOverlayView toggle:YES];
-		_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Apps.php"]] retain];
-		[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_appsDataRequest setDelegate:self];
-		[_appsDataRequest startAsynchronous];
 	}
 	
 	return (self);
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	
+	_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+	[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_featuredDataRequest setDelegate:self];
+	//[_featuredDataRequest startAsynchronous];
+	
+	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+	[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_appsDataRequest setDelegate:self];
+	[_appsDataRequest startAsynchronous];
 }
 
 -(void)loadView {
@@ -79,7 +78,7 @@
 	
 	
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
@@ -107,8 +106,6 @@
 
 -(void)viewDidLoad {
 	[super viewDidLoad];
-	
-	
 }
 
 - (void)viewDidUnload {
@@ -129,14 +126,14 @@
 		int col = i % 2;
 		int row = i / 2;
 		
-		DIFeaturedItemView *featuredItemView = [[DIFeaturedItemView alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]];
-		CGRect frame = featuredItemView.frame;
+		DIFeaturedItemButton *featuredItemButton = [[DIFeaturedItemButton alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]];
+		CGRect frame = featuredItemButton.frame;
 		frame.origin.x = col * 154;
 		frame.origin.y = row * 104;
-		featuredItemView.frame = frame;
+		featuredItemButton.frame = frame;
 		
-		[featuredItemView addTarget:self action:@selector(_goFeature) forControlEvents:UIControlEventTouchUpInside];
-		[_featuredView addSubview:featuredItemView];
+		[featuredItemButton addTarget:self action:@selector(_goFeature) forControlEvents:UIControlEventTouchUpInside];
+		[_featuredView addSubview:featuredItemButton];
 	}
 }
 
@@ -147,12 +144,14 @@
 }
 
 -(void)_goOffers {
-	[self.navigationController popViewControllerAnimated:NO];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
+	//[self.navigationController popViewControllerAnimated:NO];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
 	
 	//	[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
 	//		[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
 	//	}];
+	
+	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goFeature {
@@ -193,13 +192,7 @@
 	}
 }
 
-#pragma mark - Delegate ScrollView
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	int page = _featuredScrollView.contentOffset.x / 160;
-	
-	[_paginationView updToPage:page];
-	NSLog(@"SCROLL PAGE:[%d]", page);
-}
+
 
 /*
 #pragma mark - TableView Delegates
@@ -273,9 +266,18 @@
 	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 }
 
+
+#pragma mark - ScrollView Delegates
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	int page = _featuredScrollView.contentOffset.x / 160;
+	
+	[_paginationView updToPage:page];
+	NSLog(@"SCROLL PAGE:[%d]", page);
+}
+
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	//NSLog(@"AppListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	NSLog(@"AppListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
 	@autoreleasepool {
 		NSError *error = nil;
@@ -307,12 +309,12 @@
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 

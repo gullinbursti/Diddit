@@ -15,7 +15,7 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
-		[[[[[[[[[self parentViewController] navigationController] parentViewController] navigationController] parentViewController] navigationController] parentViewController] navigationController] setNavigationBarHidden:YES animated:NO];
+		[self.navigationController setNavigationBarHidden:YES animated:NO];
 		
 		//[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
 		
@@ -54,9 +54,9 @@
 	[self.view addSubview:_playerController.view];
 	
 	_closeBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_closeBtn.frame = CGRectMake(280, 10, 34, 34);
-	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"videoButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"videoButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	_closeBtn.frame = CGRectMake(440, 10, 34, 34);
+	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"closeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"closeButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_closeBtn addTarget:self action:@selector(_goClose) forControlEvents:UIControlEventTouchUpInside];
 	_closeBtn.alpha = 0.0;
 	[self.view addSubview:_closeBtn];

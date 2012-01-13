@@ -27,14 +27,8 @@
 		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 		
-		_loadOverlayView = [[DILoadOverlayView alloc] init];
-		[_loadOverlayView toggle:YES];
 		
-		ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
-		[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-		[rewardsRequest setDelegate:self];
-		[rewardsRequest startAsynchronous];
-		
+		_selIndex = -1;
 		_cells = [[NSMutableArray alloc] init];
 	}
 	
@@ -69,12 +63,25 @@
 	[_howBtn setTitleColor:[UIColor colorWithWhite:0.5 alpha:1.0] forState:UIControlStateNormal];
 	[_howBtn setTitle:@"How do didds work?" forState:UIControlStateNormal];
 	[_howBtn addTarget:self action:@selector(_goHow) forControlEvents:UIControlEventTouchUpInside];
+	_howBtn.hidden = YES;
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
+	
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	
+	ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+	[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[rewardsRequest setDelegate:self];
+	[rewardsRequest startAsynchronous];
 }
 
 -(void)viewDidLoad {
@@ -146,6 +153,7 @@
 #pragma mark - TableView Delegates
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	_selIndex = indexPath.row;
 	if (indexPath.row < [_rewards count]) {
 	
 		DIRewardViewCell *cell;
@@ -168,8 +176,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
-	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
-	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	
+	if (indexPath.row != _selIndex && _selIndex > -1 && indexPath.row < [_rewards count])
+		[(DIRewardViewCell *) cell toggleSelect:NO];
 }
 
 
@@ -196,14 +205,16 @@
 			
 			_rewards = [rewardList retain];
 			[_rewardTableView reloadData];
+			_howBtn.hidden = NO;
+			
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 

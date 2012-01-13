@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #import "DIChore.h"
-#import "EGOImageView.h"
 
 @interface DIMyChoresViewCell : UITableViewCell {
 	
-	EGOImageView *_imgView;
+	UIView *_thumbHolderView;
 	UILabel *_titleLabel;
 	UILabel *_pointsLabel;
 	

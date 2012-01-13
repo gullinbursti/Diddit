@@ -38,7 +38,7 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, self.view.bounds.size.width, 227) style:UITableViewStylePlain];
+	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
 	_settingsTableView.rowHeight = 55;
 	_settingsTableView.delegate = self;
 	_settingsTableView.dataSource = self;
@@ -51,7 +51,6 @@
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
-	
 }
 
 -(void)viewDidLoad {
@@ -59,7 +58,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 }
 
 -(void)viewDidUnload {
@@ -90,19 +89,19 @@
 		
 		switch (indexPath.row) {
 			case 0:
-				cell.textLabel.text = @"iTunes Credits";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"credits";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 1:
-				cell.textLabel.text = @"Passcode";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"passcode";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 2:
-				cell.textLabel.text = @"Notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 3:
-				cell.textLabel.text = @"Support";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"support";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 		}
 		

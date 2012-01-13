@@ -11,7 +11,7 @@
 @implementation DIApp
 
 @synthesize dictionary;
-@synthesize app_id, title, info, points, ico_url, img_url, app_info, images;
+@synthesize app_id, title, info, points, score, ico_url, app_info, images;
 
 
 +(DIApp *)appWithDictionary:(NSDictionary *)dictionary {
@@ -23,8 +23,8 @@
 	app.title = [dictionary objectForKey:@"title"];
 	app.info = [dictionary objectForKey:@"info"];
 	app.points = [[dictionary objectForKey:@"points"] intValue];
+	app.score = [[dictionary objectForKey:@"score"] intValue];
 	app.ico_url = [dictionary objectForKey:@"ico_url"];
-	app.img_url = [dictionary objectForKey:@"img_url"];
 	app.app_info = [dictionary objectForKey:@"description"];
 	
 	app.images = [dictionary objectForKey:@"images"];
@@ -40,7 +40,6 @@
 	self.title = nil;
 	self.info = nil;
 	self.ico_url = nil;
-	self.img_url = nil;
 	self.app_info = nil;
 	self.images = nil;
 	

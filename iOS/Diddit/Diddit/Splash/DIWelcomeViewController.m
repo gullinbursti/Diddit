@@ -38,6 +38,12 @@
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	[self.view addSubview:overlayImgView];
 	
+	UIImageView *footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]];
+	CGRect frame = footerImgView.frame;
+	frame.origin.y = self.view.frame.size.height - frame.size.height;
+	footerImgView.frame = frame;
+	[self.view addSubview:footerImgView];
+	
 	UIButton *signupBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	signupBtn.frame = CGRectMake(46, 412, 114, 34);
 	signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
@@ -70,7 +76,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 }
 
 -(void)viewDidUnload {

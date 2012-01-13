@@ -32,19 +32,13 @@
 		holderView.layer.borderWidth = 1.0;
 		[self addSubview:holderView];
 		
-		UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 31.0, 24, 24)] autorelease];
-		cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
-		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
 		
-		UIView *imgView = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
-		imgView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
-		imgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
-		imgView.layer.borderWidth = 1.0;
-		imgView.clipsToBounds = YES;
-		[imgView addSubview:cameraImgView];
-		[imgView addSubview:_imgView];
-		
-		[holderView addSubview:imgView];
+		_thumbHolderView = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
+		_thumbHolderView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
+		_thumbHolderView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_thumbHolderView.layer.borderWidth = 1.0;
+		_thumbHolderView.clipsToBounds = YES;
+		[holderView addSubview:_thumbHolderView];
 		
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 185.0, 22)];
 		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:17.0];
@@ -84,9 +78,21 @@
 	_chore = chore;
 	
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _chore.title];		
-	_imgView.imageURL = [NSURL URLWithString:_chore.icoPath];
-	
 	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
+	
+	
+	if (![_chore.imgPath isEqualToString:@"00000000000000"]) {
+		NSData *imageData = [[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath];
+		
+		UIImageView *picImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 58, 58)];
+		picImageView.image = [UIImage imageWithData:imageData];
+		[_thumbHolderView addSubview:picImageView];
+		
+	} else {
+		UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 31.0, 24, 24)] autorelease];
+		cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
+		[_thumbHolderView addSubview:cameraImgView];	
+	}
 }
 
 

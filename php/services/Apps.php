@@ -117,7 +117,7 @@ class Apps {
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'], 
-					"img_url" => $row['img_url'],
+					"score" => $row['score'],
 					"description" => $row['description'],
 					"images" => $img_result
 				));
@@ -146,7 +146,7 @@ class Apps {
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'], 
-					"img_url" => $row['img_url'], 
+					"score" => $row['score'], 
 					"description" => $row['description']
 				));
 			}

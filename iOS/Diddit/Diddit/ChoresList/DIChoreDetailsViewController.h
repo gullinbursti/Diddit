@@ -9,18 +9,21 @@
 #import <UIKit/UIKit.h>
 
 #import "ASIFormDataRequest.h"
-#import "EGOImageView.h"
 #import "DIChore.h"
 
-@interface DIChoreDetailsViewController : UIViewController <ASIHTTPRequestDelegate> {//<UITableViewDelegate, UITableViewDataSource> {
+@interface DIChoreDetailsViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
 	UITableView *_appsTableView;
-	EGOImageView *_imgView;
+	UIImageView *_imgView;
 	UIButton *_completeButton;
+	
+	UIScrollView *_scrollView;
+	CGSize _textSize;
 	
 	ASIFormDataRequest *_updUserRequest;
 	
 	DIChore *_chore;
+	BOOL _isCameraPic;
 }
 
 -(id)initWithChore:(DIChore *)chore;

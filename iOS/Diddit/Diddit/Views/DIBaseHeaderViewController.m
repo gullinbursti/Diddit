@@ -56,7 +56,7 @@
 	bgImgView.frame = frame;
 	[self.view addSubview:bgImgView];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
 	frame = dividerImgView.frame;
 	frame.origin.y = 48;
 	dividerImgView.frame = frame;

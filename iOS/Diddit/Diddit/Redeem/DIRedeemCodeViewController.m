@@ -11,7 +11,6 @@
 #import "DIRedeemCodeViewController.h"
 
 #import "DIAppDelegate.h"
-#import "DIFooterBtnView.h"
 
 @implementation DIRedeemCodeViewController
 
@@ -47,10 +46,21 @@
 	codeLabel.textAlignment = UITextAlignmentCenter;
 	codeLabel.text = _redeemCode;
 	[self.view addSubview:codeLabel];
+		
+	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
+	[self.view addSubview:footerView];
 	
-	DIFooterBtnView *view = [[DIFooterBtnView alloc] initWithLabel:@"copy code to clipboard"];
-	[[view btn] addTarget:self action:@selector(_goCopy) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:view];
+	UIButton *copyButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	copyButton.frame = CGRectMake(0, 352, 320, 60);
+	copyButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
+	copyButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	[copyButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[copyButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[copyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[copyButton setTitle:@"copy code to clipboard" forState:UIControlStateNormal];
+	[copyButton addTarget:self action:@selector(_goCopy) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:copyButton];
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	CGRect frame = overlayImgView.frame;

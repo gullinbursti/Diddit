@@ -28,7 +28,6 @@
 		[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
 		[cancelButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelButton] autorelease];
-		
 	}
 	
 	return (self);
@@ -49,16 +48,28 @@
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 	
-	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 300, 64)] autorelease];
+	
+	_emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 4, 200, 64)];
+	_emailLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
+	_emailLabel.textColor = [UIColor colorWithRed:0.031 green:0.553 blue:0.294 alpha:1.0];
+	_emailLabel.backgroundColor = [UIColor clearColor];
+	_emailLabel.shadowColor = [UIColor whiteColor];
+	_emailLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	_emailLabel.text = @"enter email address";
+	[self.view addSubview:_emailLabel];
+	
+	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 200, 64)] autorelease];
 	[_emailTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_emailTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_emailTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
 	[_emailTxtField setBackgroundColor:[UIColor clearColor]];
-	_emailTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
-	_emailTxtField.keyboardType = UIKeyboardTypeURL;
-	_emailTxtField.placeholder = @"enter email address";
+	_emailTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
+	_emailTxtField.textColor = [UIColor colorWithRed:0.031 green:0.553 blue:0.294 alpha:1.0];
+	_emailTxtField.keyboardType = UIKeyboardTypeDefault;
+	_emailTxtField.delegate = self;
 	[self.view addSubview:_emailTxtField];
 	
+	//CGColorCreateGenericRGB(0.031, 0.553, 0.294, 1.0)
 	/*
 	UILabel *pinCodeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)];
 	//pinCodeLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
@@ -118,14 +129,25 @@
 	
 	[_emailTxtField becomeFirstResponder];
 	
+	
+	UIButton *skipButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	skipButton.frame = CGRectMake(71, 100, 84, 37);
+	skipButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+	[skipButton setBackgroundImage:[[UIImage imageNamed:@"skipButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[skipButton setBackgroundImage:[[UIImage imageNamed:@"skipButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[skipButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
+	[skipButton setTitle:@"skip this" forState:UIControlStateNormal];
+	[skipButton addTarget:self action:@selector(_goSkip) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:skipButton];
+	
+	
 	UIButton *submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	submitButton.frame = CGRectMake(97, 100, 126, 34);
+	submitButton.frame = CGRectMake(165, 100, 84, 37);
 	submitButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-	[submitButton setBackgroundImage:[[UIImage imageNamed:@"genericButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[submitButton setBackgroundImage:[[UIImage imageNamed:@"genericButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[submitButton setBackgroundImage:[[UIImage imageNamed:@"submitButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[submitButton setBackgroundImage:[[UIImage imageNamed:@"submitButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[submitButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
-	[submitButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateSelected];
-	[submitButton setTitle:@"Sign up now" forState:UIControlStateNormal];
+	[submitButton setTitle:@"sign up" forState:UIControlStateNormal];
 	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:submitButton];
 }
@@ -135,7 +157,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 }
 
 -(void)viewDidUnload {
@@ -148,14 +170,29 @@
 
 
 #pragma mark - Navigation
-- (void)_goBack {
+-(void)_goBack {
 	[self dismissViewControllerAnimated:YES completion:nil];	
 }
 
-- (void)_goSubmit {
+-(void)_goSkip {
+	NSLog(@"EMAIL:[%@]", _emailTxtField.text);;
+	NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	
+	ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+	[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"deviceID"];
+	[userRequest setPostValue:_emailTxtField.text forKey:@"email"];
+	[userRequest setPostValue:[NSString stringWithString:@"000"] forKey:@"pin"];
+	[userRequest setDelegate:self];
+	[userRequest startAsynchronous];
+}
+
+-(void)_goSubmit {
 	
 	BOOL isSubmit = YES;
-	NSString *pinCode = [NSString stringWithString:@"0000"];
+	NSString *pinCode = [NSString stringWithString:@"000"];
 	//NSString *pinCode = [NSString stringWithFormat:@"%@%@%@%@", _pinCode1TxtField.text, _pinCode2TxtField.text, _pinCode3TxtField.text, _pinCode4TxtField.text];
 	
 	if (![DIAppDelegate deviceToken])
@@ -164,7 +201,7 @@
 	if ([_emailTxtField.text length] == 0)
 	isSubmit = NO;
 	
-	if ([pinCode length] != 4)
+	if ([pinCode length] != 3)
 		isSubmit = NO;
 	
 	if (isSubmit) {
@@ -172,8 +209,7 @@
 		NSLog(@"PIN:[%@]", pinCode);
 		NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
 		
-		_loadOverlayView = [[DILoadOverlayView alloc] init];
-		[_loadOverlayView toggle:YES];
+		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
@@ -189,28 +225,38 @@
 #pragma mark - TextField Delegates
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	
-	if ([textField.text length] >= 1 && ![string isEqualToString:@""]) {
-		textField.text = [textField.text substringToIndex:1];
-		
-		if (textField.tag == 0) {
-			[_pinCode1TxtField resignFirstResponder];
-			[_pinCode2TxtField becomeFirstResponder];
-		}
-		
-		if (textField.tag == 1) {
-			[_pinCode2TxtField resignFirstResponder];
-			[_pinCode3TxtField becomeFirstResponder];
-		}
-		
-		if (textField.tag == 2) {
-			[_pinCode3TxtField resignFirstResponder];
-			[_pinCode4TxtField becomeFirstResponder];
-		}
-		
-		return (NO);
-	}
+//	if ([textField.text length] >= 1 && ![string isEqualToString:@""]) {
+//		textField.text = [textField.text substringToIndex:1];
+//		
+//		if (textField.tag == 0) {
+//			[_pinCode1TxtField resignFirstResponder];
+//			[_pinCode2TxtField becomeFirstResponder];
+//		}
+//		
+//		if (textField.tag == 1) {
+//			[_pinCode2TxtField resignFirstResponder];
+//			[_pinCode3TxtField becomeFirstResponder];
+//		}
+//		
+//		if (textField.tag == 2) {
+//			[_pinCode3TxtField resignFirstResponder];
+//			[_pinCode4TxtField becomeFirstResponder];
+//		}
+//		
+//		return (NO);
+//	}
+//	
+//	return (YES);
+	
+	if ([textField.text length] == 0)
+		_emailLabel.hidden = YES;
 	
 	return (YES);
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {	
+	if ([textField.text length] == 0)
+		_emailLabel.hidden = NO;
 }
 
 
@@ -237,12 +283,12 @@
 		}
 	}
 	
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 }
 
 
 -(void)requestFailed:(ASIHTTPRequest *)request {
-	[_loadOverlayView toggle:NO];
+	[_loadOverlay remove];
 	
 		//[_delegates perform:@selector(jobList:didFailLoadWithError:) withObject:self withObject:request.error];
 		//MBL_RELEASE_SAFELY(_jobListRequest);
