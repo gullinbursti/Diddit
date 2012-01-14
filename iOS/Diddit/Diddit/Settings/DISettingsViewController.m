@@ -125,7 +125,7 @@
 			UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(295.0, 23.0, 14, 14)];		
 			chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
 			[cell addSubview:chevronView];
-			cell.selectionStyle = UITableViewCellSelectionStyleGray;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			[chevronView release];
 		}
 		
@@ -182,8 +182,20 @@
 	
 	switch (indexPath.row) {
 		case 0:
+			[UIView animateWithDuration:0.25 animations:^(void) {
+				[[tableView cellForRowAtIndexPath:indexPath] setAlpha:0.5];
+				
+			} completion:^(BOOL finished) {
+				[UIView animateWithDuration:0.125 animations:^(void) {
+					[[tableView cellForRowAtIndexPath:indexPath] setAlpha:1.0];	
+				}];
+			}];
+			
 			[self.navigationController pushViewController:[[[DIStoreCreditsViewController alloc] init] autorelease] animated:YES];
 			//navigationController = [[[UINavigationController alloc] initWithRootViewController:storeCreditsViewController] autorelease];
+			break;
+			
+		case 1:
 			break;
 			
 		case 2:
@@ -191,6 +203,15 @@
 			break;
 			
 		case 3:
+			[UIView animateWithDuration:0.25 animations:^(void) {
+				[[tableView cellForRowAtIndexPath:indexPath] setAlpha:0.5];
+				
+			} completion:^(BOOL finished) {
+				[UIView animateWithDuration:0.125 animations:^(void) {
+					[[tableView cellForRowAtIndexPath:indexPath] setAlpha:1.0];	
+				}];
+			}];
+			
 			[self _goSupport];
 			break;
 	}

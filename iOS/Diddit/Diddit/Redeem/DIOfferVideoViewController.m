@@ -14,7 +14,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		[[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
+		//[[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
 		
 		/*
 		[[self view] setBounds:CGRectMake(0, 0, 480, 320)];

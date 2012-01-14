@@ -12,8 +12,6 @@
 #import "DIChore.h"
 
 @interface DIChoreDetailsViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
-
-	UITableView *_appsTableView;
 	UIImageView *_imgView;
 	UIButton *_completeButton;
 	

@@ -65,7 +65,7 @@
 	_scrollView.alwaysBounceVertical = NO;
 	//[self.view addSubview:_scrollView];
 	
-	_imgView = [[[UIImageView alloc] initWithFrame:CGRectMake(58, 35, 206, 174)] autorelease];
+	_imgView = [[UIImageView alloc] initWithFrame:CGRectMake(58, 35, 206, 174)];
 	_imgView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
 	_imgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
 	_imgView.layer.borderWidth = 1.0;
@@ -158,7 +158,6 @@
 }
 
 -(void)dealloc {
-	[_appsTableView release];
 	[_imgView release];
 	[_completeButton release];
 	[_scrollView release];

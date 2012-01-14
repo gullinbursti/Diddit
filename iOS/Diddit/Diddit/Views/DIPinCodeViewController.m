@@ -29,7 +29,7 @@
 	digit1ImgView.image = [UIImage imageNamed:@"passcodeBG.png"];
 	[self.view addSubview:digit1ImgView];
 	
-	_digit1TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(50, 85, 30, 80)] autorelease];
+	_digit1TxtField = [[UITextField alloc] initWithFrame:CGRectMake(50, 85, 30, 80)];
 	[_digit1TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_digit1TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_digit1TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
@@ -47,7 +47,7 @@
 	digit2ImgView.image = [UIImage imageNamed:@"passcodeBG.png"];
 	[self.view addSubview:digit2ImgView];
 
-	_digit2TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(150, 85, 30, 80)] autorelease];
+	_digit2TxtField = [[UITextField alloc] initWithFrame:CGRectMake(150, 85, 30, 80)];
 	[_digit2TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_digit2TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_digit2TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
@@ -65,7 +65,7 @@
 	digit3ImgView.image = [UIImage imageNamed:@"passcodeBG.png"];
 	[self.view addSubview:digit3ImgView];
 
-	_digit3TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(250, 85, 30, 80)] autorelease];
+	_digit3TxtField = [[UITextField alloc] initWithFrame:CGRectMake(250, 85, 30, 80)];
 	[_digit3TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_digit3TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_digit3TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
@@ -123,7 +123,7 @@
 
 -(void)dealloc {
 	[_submitButton release];
-	[_chore release];
+	//[_chore release];
 	
 	[super dealloc];
 }

@@ -110,8 +110,8 @@
 
 -(void)dealloc {
 	[_offersTableView release];
-	[_offers release];
-	[_emptyLabel release];
+	//[_offers release];
+	//[_emptyLabel release];
 	[_offersDataRequest release];
 	[_loadOverlay release];
 	

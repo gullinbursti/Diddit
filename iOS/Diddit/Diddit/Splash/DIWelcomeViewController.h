@@ -14,6 +14,7 @@
 	UIButton *_videoBtn;
 	
 	UIImageView *_logoImgView;
+	UIImageView *_bootImgView;
 }
 
 @end

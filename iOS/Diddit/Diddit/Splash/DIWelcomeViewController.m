@@ -35,14 +35,17 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	_footerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]] autorelease];
+	_bootImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background_logo.png"]] autorelease];
+	[self.view addSubview:bgImgView];
+	
+	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]];
 	frame = _footerImgView.frame;
 	frame.origin.y = self.view.frame.size.height;
 	_footerImgView.frame = frame;
 	[self.view addSubview:_footerImgView];
 	
 	
-	_logoImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]] autorelease];
+	_logoImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
 	frame = _logoImgView.frame;
 	frame.origin.x = 93;
 	frame.origin.y = 175;
@@ -84,7 +87,8 @@
 -(void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[UIView animateWithDuration:0.33 animations:^(void) {
+	_bootImgView.hidden = YES;
+	[UIView animateWithDuration:0.5 animations:^(void) {
 		CGRect logoFrame = _logoImgView.frame;
 		logoFrame.origin.y = _logoImgView.frame.origin.y - 70;
 		_logoImgView.frame = logoFrame;
@@ -103,6 +107,7 @@
 		_videoBtn.frame = videoFrame;
 		
 	} completion:^(BOOL finished) {
+		//[_bootImgView removeFromSuperview];
 //		[UIView animateWithDuration:0.33 animations:^(void) {
 //			CGRect footerFrame = _footerImgView.frame;
 //			footerFrame.origin.y = footerFrame.origin.y - _footerImgView.frame.size.height;
