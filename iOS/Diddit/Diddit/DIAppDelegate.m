@@ -66,12 +66,12 @@
 }
 
 +(void)notificationsToggle:(BOOL)isOn {
-	NSString *bool_str = [[NSString alloc] init];
+	NSString *bool_str;
 	if (isOn)
-		bool_str = @"YES";
+		bool_str = [NSString stringWithString:@"YES"];
 	
 	else
-		bool_str = @"NO";
+		bool_str = [NSString stringWithString:@"NO"];
 	
 	[[NSUserDefaults standardUserDefaults] setObject:bool_str forKey:@"notifications"];
 	[[NSUserDefaults standardUserDefaults] synchronize];

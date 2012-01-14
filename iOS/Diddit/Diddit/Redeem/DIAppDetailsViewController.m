@@ -23,9 +23,9 @@
 
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:[_app.title lowercaseString]];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:[_app.title lowercaseString]] autorelease];
 		
-		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
@@ -50,12 +50,12 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
 	CGSize textSize = [_app.app_info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
 	
-	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0, self.view.bounds.size.width, 396)];
+	UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0, self.view.bounds.size.width, 396)] autorelease];
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	scrollView.opaque = NO;
 	scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, textSize.height + 400);
@@ -66,7 +66,7 @@
 	[self.view addSubview:scrollView];
 	
 	
-	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
 	[scrollView addSubview:choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -81,16 +81,16 @@
 	[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 	[scrollView addSubview:offersBtn];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
 	[scrollView addSubview:dividerImgView];
 	
-	DIAppStatsView *appStatsView = [[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 71.0) appVO:_app];
+	DIAppStatsView *appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 71.0) appVO:_app] autorelease];
 	[scrollView addSubview:appStatsView];
 		
-	UILabel *storeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 145, 300, textSize.height)];
+	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 145, 300, textSize.height)] autorelease];
 	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	storeInfoLabel.backgroundColor = [UIColor clearColor];
 	storeInfoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
@@ -121,8 +121,8 @@
 		
 		CGSize size = CGSizeMake(300, 200);
 		
-		UIView *holderView = [[UIView alloc] initWithFrame:CGRectMake(xOffset, 0, size.width, size.height)];
-		EGOImageView *appImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+		UIView *holderView = [[[UIView alloc] initWithFrame:CGRectMake(xOffset, 0, size.width, size.height)] autorelease];
+		EGOImageView *appImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)] autorelease];
 		appImgView.imageURL = [NSURL URLWithString:url];
 		
 		if (type == 1) {
@@ -164,7 +164,7 @@
 	
 	//[scrollView addSubview:appImgView];
 	
-	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
 	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 	[self.view addSubview:footerView];
 	
@@ -179,7 +179,7 @@
 	[purchaseButton addTarget:self action:@selector(_goPurchase) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:purchaseButton];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -197,6 +197,10 @@
 
 
 -(void)dealloc {
+	[_app release];
+	[_paginationView release];
+	[_imgScrollView release];
+	
 	[super dealloc];
 }
 

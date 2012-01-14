@@ -50,7 +50,7 @@
 	//[self.view addSubview:player.view];
 	[_player play];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	[self.view addSubview:overlayImgView];
 }
 

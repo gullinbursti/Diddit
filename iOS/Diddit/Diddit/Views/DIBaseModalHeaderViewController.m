@@ -19,7 +19,7 @@
 	
 	if ((self = [super initWithTitle:titleTxt header:headerTxt])) {
 		
-		DINavRightBtnView *closeBtnView = [[DINavRightBtnView alloc] initWithLabel:closeLbl];
+		DINavRightBtnView *closeBtnView = [[[DINavRightBtnView alloc] initWithLabel:closeLbl] autorelease];
 		[[closeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:closeBtnView] autorelease];
 	}
@@ -44,6 +44,8 @@
 }
 
 -(void)dealloc {
+	[_closeLbl release];
+	
 	[super dealloc];
 }
 

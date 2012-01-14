@@ -16,7 +16,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"sign up"];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"sign up"] autorelease];
 		
 		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);
@@ -38,11 +38,11 @@
 	
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 68;
 	dividerImgView.frame = frame;
@@ -89,7 +89,7 @@
 	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:submitButton];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -107,10 +107,15 @@
 }
 
 -(void)viewDidUnload {
+	[_emailTxtField resignFirstResponder];
+	
 	[super viewDidUnload];
 }
 
 -(void)dealloc {
+	[_emailLabel release];
+	[_loadOverlay release];
+	
 	[super dealloc];
 }
 

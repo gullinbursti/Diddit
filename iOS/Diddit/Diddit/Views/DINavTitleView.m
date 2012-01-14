@@ -33,6 +33,8 @@
 
 
 -(void)dealloc {
+	[_label release];
+	
 	[super dealloc];
 }
 

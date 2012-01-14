@@ -11,7 +11,6 @@
 @class MBProgressHUD;
 
 @interface DILoadOverlay : NSObject {
-	UIView *_holderView;
 	MBProgressHUD *_hud;
 }
 

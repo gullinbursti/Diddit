@@ -24,14 +24,14 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"add chore"];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"add chore"] autorelease];
 		
-		DINavLeftBtnView *cancelBtnView = [[DINavLeftBtnView alloc] initWithLabel:@"Cancel"];
+		DINavLeftBtnView *cancelBtnView = [[[DINavLeftBtnView alloc] initWithLabel:@"Cancel"] autorelease];
 		[[cancelBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelBtnView] autorelease];
 		
 		
-		DINavRightBtnView *nextBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Next"];
+		DINavRightBtnView *nextBtnView = [[[DINavRightBtnView alloc] initWithLabel:@"Next"] autorelease];
 		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 	}
@@ -46,18 +46,18 @@
 	
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
 	CGRect frame;
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	frame = dividerImgView.frame;
 	frame.origin.y = 68;
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 
-	_titleLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 8, 200, 64)];
+	_titleLbl = [[[UILabel alloc] initWithFrame:CGRectMake(20, 8, 200, 64)] autorelease];
 	_titleLbl.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
 	_titleLbl.textColor = [UIColor blackColor];
 	_titleLbl.backgroundColor = [UIColor clearColor];
@@ -94,7 +94,7 @@
 	_infoTxtView.delegate = self;
 	[self.view addSubview:_infoTxtView];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -107,15 +107,20 @@
 
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
 	[_titleTxtField becomeFirstResponder];
 }
 
 - (void)viewDidUnload {
+	[_titleTxtField resignFirstResponder];
+	
 	[super viewDidUnload];
 }
 
 -(void)dealloc {
+	//[_titleTxtField release];
+	[_titleLbl release];
+	[_infoLbl release];
+	
 	[super dealloc];
 }
 

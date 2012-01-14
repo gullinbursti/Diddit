@@ -39,6 +39,7 @@
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	chore.expires = [dateFormat dateFromString:[dictionary objectForKey:@"expires"]];
+	[dateFormat release];
 	
 	return (chore);
 }

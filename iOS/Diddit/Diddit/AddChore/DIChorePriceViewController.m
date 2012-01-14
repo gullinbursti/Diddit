@@ -23,7 +23,7 @@
 -(id)init {
 	if ((self = [super initWithTitle:@"add chore" header:@"how much is the chore worth?" backBtn:@"Back"])) {
 		
-		DINavRightBtnView *nextBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Next"];
+		DINavRightBtnView *nextBtnView = [[[DINavRightBtnView alloc] initWithLabel:@"Next"] autorelease];
 		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 		
@@ -65,7 +65,7 @@
 	[_howBtn addTarget:self action:@selector(_goHow) forControlEvents:UIControlEventTouchUpInside];
 	_howBtn.hidden = YES;
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -93,6 +93,11 @@
 }
 
 -(void)dealloc {
+	[_rewardTableView release];
+	[_rewards release];
+	[_howBtn release];
+	[_loadOverlay release];
+	
 	[super dealloc];
 }
 

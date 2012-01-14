@@ -58,8 +58,8 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
-	[self.view addSubview:choreStatsView];
+	_choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	[self.view addSubview:_choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	offersBtn.frame = CGRectMake(228, 15, 84, 34);
@@ -131,6 +131,12 @@
 }
 
 -(void)dealloc {
+	[_chore release];
+	[_choreUpdRequest release];
+	[_userUpdRequest release];
+	[_loadOverlay release];
+	[_choreStatsView release];
+	
 	[super dealloc];
 }
 
@@ -166,7 +172,7 @@
 		
 			else {
 				[DIAppDelegate setUserProfile:parsedUser];
-				[_pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+				[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 				[_choreUpdRequest startAsynchronous];
 			}
 		}
@@ -182,7 +188,7 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
-				[_finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+				[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
 				[[NSUserDefaults standardUserDefaults] setObject:nil forKey:_chore.imgPath];
 			}
 		}

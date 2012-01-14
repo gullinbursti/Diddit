@@ -13,7 +13,6 @@
 	int _totPages;
 	
 	UIImageView *_onImgView;
-	NSMutableArray *_onLEDs;
 }
 
 -(id)initWithTotal:(int)total coords:(CGPoint)pos;

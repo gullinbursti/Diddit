@@ -38,7 +38,7 @@
 		_thumbHolderView.layer.borderWidth = 1.0;
 		_thumbHolderView.clipsToBounds = YES;
 		
-		UIImageView *emptyImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreThumb.jpg"]];
+		UIImageView *emptyImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreThumb.jpg"]] autorelease];
 		[_thumbHolderView addSubview:emptyImgView];
 		
 		[holderView addSubview:_thumbHolderView];
@@ -46,7 +46,7 @@
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 185.0, 22)];
 		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:17.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
-		_titleLabel.textColor = [UIColor blackColor];
+		_titleLabel.textColor = [UIColor colorWithRed:0.027 green:0.557 blue:0.294 alpha:1.0];
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		_titleLabel.shadowColor = [UIColor whiteColor];
 		_titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
@@ -66,6 +66,8 @@
 		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(270.0, 33.0, 14, 14)] autorelease];
 		chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
 		[holderView addSubview:chevronView];
+		
+		[holderView release];
 	}
 	
 	return (self);
@@ -73,6 +75,11 @@
 
 
 -(void)dealloc {
+	[_chore release];
+	[_thumbHolderView release];
+	[_titleLabel release];
+	[_pointsLabel release];
+	
 	[super dealloc];
 }
 

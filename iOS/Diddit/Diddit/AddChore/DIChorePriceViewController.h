@@ -10,9 +10,8 @@
 
 #import "DIBasePushHeaderViewController.h"
 #import "ASIFormDataRequest.h"
-#import "DIChore.h"
 
-@class DILoadOverlay;
+@class DIChore, DILoadOverlay;
 
 
 @interface DIChorePriceViewController : DIBasePushHeaderViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {

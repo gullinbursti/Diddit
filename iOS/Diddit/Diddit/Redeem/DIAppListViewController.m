@@ -27,9 +27,9 @@
 		_apps = [[NSMutableArray alloc] init];
 		_cells =[[NSMutableArray alloc] init];
 		
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"store"];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"store"] autorelease];
 		
-		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
+		DINavHomeIcoBtnView *homeBtnView = [[[DINavHomeIcoBtnView alloc] init] autorelease];
 		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
 	}
@@ -58,10 +58,10 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
 	[self.view addSubview:choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -78,7 +78,7 @@
 	
 	
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
@@ -97,7 +97,7 @@
 	_appsTableView.hidden = YES;
 	
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -114,6 +114,17 @@
 
 
 -(void)dealloc {
+	[_featuredView release];
+	[_featuredScrollView release];
+	[_paginationView release];
+	[_appsTableView release];
+	[_featuredDataRequest release];
+	[_appsDataRequest release];
+	[_features release];
+	[_apps release];
+	[_cells release];
+	[_loadOverlay release];
+	
 	[super dealloc];
 }
 
@@ -126,7 +137,7 @@
 		int col = i % 2;
 		int row = i / 2;
 		
-		DIFeaturedItemButton *featuredItemButton = [[DIFeaturedItemButton alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]];
+		DIFeaturedItemButton *featuredItemButton = [[[DIFeaturedItemButton alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]] retain];
 		CGRect frame = featuredItemButton.frame;
 		frame.origin.x = col * 154;
 		frame.origin.y = row * 104;

@@ -88,7 +88,7 @@
 	[_submitButton addTarget:self action:@selector(_goInfo) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_submitButton];
 	
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 160, 200, 16)];
+	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 160, 200, 16)] autorelease];
 	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	infoLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
 	infoLabel.backgroundColor = [UIColor clearColor];
@@ -96,7 +96,7 @@
 	[self.view addSubview:infoLabel];
 	
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -105,14 +105,26 @@
 
 
 -(void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 }
 
 -(void)viewDidUnload {
-    [super viewDidUnload];
+	if ([_digit1TxtField isFirstResponder])
+		[_digit1TxtField resignFirstResponder];
+	
+	if ([_digit2TxtField isFirstResponder])
+		[_digit2TxtField resignFirstResponder];
+	
+	if ([_digit3TxtField isFirstResponder])
+		[_digit3TxtField resignFirstResponder];
+	
+	[super viewDidUnload];
 }
 
 -(void)dealloc {
+	[_submitButton release];
+	[_chore release];
+	
 	[super dealloc];
 }
 

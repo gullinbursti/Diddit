@@ -17,10 +17,10 @@
 	UILabel *_emailLabel;
 	
 	UITextField *_emailTxtField;
-	UITextField *_pinCode1TxtField;
-	UITextField *_pinCode2TxtField;
-	UITextField *_pinCode3TxtField;
-	UITextField *_pinCode4TxtField;
+	//UITextField *_pinCode1TxtField;
+	//UITextField *_pinCode2TxtField;
+	//UITextField *_pinCode3TxtField;
+	//UITextField *_pinCode4TxtField;
 	
 	DILoadOverlay *_loadOverlay;
 }

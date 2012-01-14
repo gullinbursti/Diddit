@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface DISettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface DISettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate> {
 	
 	UITableView *_settingsTableView;
 }

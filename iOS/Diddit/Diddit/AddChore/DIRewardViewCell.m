@@ -33,7 +33,7 @@
 		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 30, 200.0, 22)];
 		_pointsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:17.0];
 		_pointsLabel.backgroundColor = [UIColor clearColor];
-		_pointsLabel.textColor = [UIColor blackColor];
+		_pointsLabel.textColor = [UIColor colorWithRed:0.027 green:0.557 blue:0.294 alpha:1.0];
 		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		_pointsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 		_pointsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
@@ -72,6 +72,15 @@
 
 
 -(void)dealloc {
+	[_reward release];
+	[_imgView release];
+	[_pointsLabel release];
+	[_priceLabel release];
+	[_circleOffImgView release];
+	[_circleOnImgView release];
+	[_checkImgView release];
+	[_dividerImgView release];
+	
 	[super dealloc];
 }
 

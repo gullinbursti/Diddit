@@ -12,10 +12,12 @@
 
 @implementation DIChoreStatsView
 
+@synthesize ptsBtn = _ptsBtn;
+@synthesize totBtn = _totBtn;
 
 -(id)initWithFrame:(CGRect)frame {
 	if ((self = [super initWithFrame:frame])) {
-		UILabel *diddsLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 7, 60, 26)];
+		UILabel *diddsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(3, 7, 60, 26)] autorelease];
 		diddsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
 		diddsLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 		diddsLabel.backgroundColor = [UIColor clearColor];
@@ -24,18 +26,18 @@
 		diddsLabel.text = @"DIDDS";
 		[self addSubview:diddsLabel];
 		
-		UIButton *pointsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		pointsButton.frame = CGRectMake(43, 2, 59, 34);
-		pointsButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-		//pointsButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"headerDiddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"headerDiddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
-		[pointsButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-		[pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
-		[pointsButton setEnabled:NO];
-		[self addSubview:pointsButton];
+		_ptsBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		_ptsBtn.frame = CGRectMake(43, 2, 59, 34);
+		_ptsBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		//_ptsBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+		[_ptsBtn setBackgroundImage:[[UIImage imageNamed:@"headerDiddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[_ptsBtn setBackgroundImage:[[UIImage imageNamed:@"headerDiddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
+		[_ptsBtn setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+		[_ptsBtn setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+		[_ptsBtn setEnabled:NO];
+		[self addSubview:_ptsBtn];
 		
-		UILabel *choresLabel = [[UILabel alloc] initWithFrame:CGRectMake(112, 7, 60, 26)];
+		UILabel *choresLabel = [[[UILabel alloc] initWithFrame:CGRectMake(112, 7, 60, 26)] autorelease];
 		choresLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
 		choresLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 		choresLabel.backgroundColor = [UIColor clearColor];
@@ -44,15 +46,15 @@
 		choresLabel.text = @"CHORES";
 		[self addSubview:choresLabel];
 		
-		UIButton *finishedButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		finishedButton.frame = CGRectMake(160, 2, 39, 34);
-		finishedButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"headerChoresBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"headerChoresBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
-		[finishedButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-		[finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
-		[finishedButton setEnabled:NO];
-		[self addSubview:finishedButton];
+		_totBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		_totBtn.frame = CGRectMake(160, 2, 39, 34);
+		_totBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		[_totBtn setBackgroundImage:[[UIImage imageNamed:@"headerChoresBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[_totBtn setBackgroundImage:[[UIImage imageNamed:@"headerChoresBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
+		[_totBtn setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+		[_totBtn setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+		[_totBtn setEnabled:NO];
+		[self addSubview:_totBtn];
 	}
 	
 	return (self);
@@ -60,7 +62,7 @@
 
 -(id)init {
 	if ((self = [super init])) {
-		UILabel *diddsLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, 7, 60, 26)];
+		UILabel *diddsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(3, 7, 60, 26)] autorelease];
 		diddsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
 		diddsLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 		diddsLabel.backgroundColor = [UIColor clearColor];
@@ -69,17 +71,17 @@
 		diddsLabel.text = @"DIDDS";
 		[self addSubview:diddsLabel];
 		
-		UIButton *pointsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		pointsButton.frame = CGRectMake(43, 2, 59, 34);
-		pointsButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-		//pointsButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-		[pointsButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-		[pointsButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-		[pointsButton setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
-		[self addSubview:pointsButton];
+		_ptsBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		_ptsBtn.frame = CGRectMake(43, 2, 59, 34);
+		_ptsBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		//_ptsBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+		[_ptsBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+		[_ptsBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+		[_ptsBtn setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+		[_ptsBtn setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+		[self addSubview:_ptsBtn];
 		
-		UILabel *choresLabel = [[UILabel alloc] initWithFrame:CGRectMake(112, 7, 60, 26)];
+		UILabel *choresLabel = [[[UILabel alloc] initWithFrame:CGRectMake(112, 7, 60, 26)] autorelease];
 		choresLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
 		choresLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 		choresLabel.backgroundColor = [UIColor clearColor];
@@ -88,14 +90,14 @@
 		choresLabel.text = @"CHORES";
 		[self addSubview:choresLabel];
 		
-		UIButton *finishedButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		finishedButton.frame = CGRectMake(160, 2, 38, 34);
-		finishedButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-		[finishedButton setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
-		[finishedButton setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
-		[finishedButton setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
-		[self addSubview:finishedButton];
+		_totBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		_totBtn.frame = CGRectMake(160, 2, 38, 34);
+		_totBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		[_totBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+		[_totBtn setBackgroundImage:[[UIImage imageNamed:@"hudHeaderBG.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateSelected];
+		[_totBtn setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.0] forState:UIControlStateNormal];
+		[_totBtn setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+		[self addSubview:_totBtn];
 		
 	}
 	
@@ -104,6 +106,9 @@
 
 
 -(void)dealloc {
+	[_ptsBtn release];
+	[_totBtn release];
+	
 	[super dealloc];
 }
 

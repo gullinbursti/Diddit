@@ -19,7 +19,7 @@
 	_headerTxt = headerTxt;
 	
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:titleTxt];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:titleTxt] autorelease];
 	}
 	
 	return (self);
@@ -34,13 +34,13 @@
 	
 	[self.view setBackgroundColor:[UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0]];
 	
-	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)];
+	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)] autorelease];
 	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
 	[self.view addSubview:headerView];
 	
 	CGRect frame;
 	
-	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)] autorelease];
 	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
 	titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
@@ -50,13 +50,13 @@
 	titleLabel.textAlignment = UITextAlignmentCenter;
 	[self.view addSubview:titleLabel];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	frame = bgImgView.frame;
 	frame.origin.y = 48;
 	bgImgView.frame = frame;
 	[self.view addSubview:bgImgView];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	frame = dividerImgView.frame;
 	frame.origin.y = 48;
 	dividerImgView.frame = frame;
@@ -72,6 +72,9 @@
 }
 
 -(void)dealloc {
+	[_titleTxt release];
+	[_headerTxt release];
+	
 	[super dealloc];
 }
 

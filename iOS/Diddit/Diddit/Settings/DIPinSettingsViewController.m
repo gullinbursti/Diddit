@@ -24,7 +24,7 @@
 		[headerLabel sizeToFit];
 		self.navigationItem.titleView = headerLabel;
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		UIButton *backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		backButton.frame = CGRectMake(0, 0, 60.0, 30);
 		[backButton setBackgroundImage:[[UIImage imageNamed:@"non_Active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateNormal];
 		[backButton setBackgroundImage:[[UIImage imageNamed:@"active_headerButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:7] forState:UIControlStateHighlighted];
@@ -43,7 +43,7 @@
 	
 	[self.view setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
 	
-	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 70, 20)];
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 20, 70, 20)] autorelease];
 	//titleLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
 	titleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
 	titleLabel.backgroundColor = [UIColor clearColor];

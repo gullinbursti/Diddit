@@ -13,7 +13,6 @@
 
 #import "DINavTitleView.h"
 #import "DINavHomeIcoBtnView.h"
-#import "DISupportViewController.h"
 #import "DIStoreCreditsViewController.h"
 #import "DIPinSettingsViewController.h"
 
@@ -22,9 +21,9 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"settings"];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"settings"] autorelease];
 		
-		DINavHomeIcoBtnView *homeBtnView = [[DINavHomeIcoBtnView alloc] init];
+		DINavHomeIcoBtnView *homeBtnView = [[[DINavHomeIcoBtnView alloc] init] autorelease];
 		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
 	}
@@ -35,7 +34,7 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
 	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
@@ -46,7 +45,7 @@
 	_settingsTableView.separatorColor = [UIColor clearColor];
 	[self.view addSubview:_settingsTableView];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -66,6 +65,8 @@
 }
 
 -(void)dealloc {
+	[_settingsTableView release];
+	
 	[super dealloc];
 }
 
@@ -121,9 +122,11 @@
 			[switchView release];
 			
 		} else {
-			 UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(295.0, 23.0, 14, 14)];		
-			 chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
-			 [cell addSubview:chevronView];
+			UIImageView *chevronView = [[UIImageView alloc] initWithFrame:CGRectMake(295.0, 23.0, 14, 14)];		
+			chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
+			[cell addSubview:chevronView];
+			cell.selectionStyle = UITableViewCellSelectionStyleGray;
+			[chevronView release];
 		}
 		
 		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
@@ -131,12 +134,13 @@
 		frame.origin.y = 54;
 		dividerImgView.frame = frame;
 		[cell addSubview:dividerImgView];
+		[dividerImgView release];
 	}
 	
 	return cell;
 }
 
-
+#pragma mark - Navigation
 -(void)_goNotificationsToggle:(UISwitch *)switchView {
 
 	//UITableViewCell *cell = (UITableViewCell *)[switchView superview];
@@ -144,6 +148,24 @@
 	//NSIndexPath *switchViewIndexPath = [table indexPathForCell:cell];
 	
 	[DIAppDelegate notificationsToggle:switchView.on];
+}
+
+-(void)_goSupport {
+	if ([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *mfViewController = [[MFMailComposeViewController alloc] init];
+		mfViewController.mailComposeDelegate = self;
+		[mfViewController setSubject:[NSString stringWithFormat:@"Support Ticket - diddit %@", @""]];
+		[mfViewController setMessageBody:@"Mirum est notare quam littera gothica quam nunc putamus parum claram anteposuerit litterarum formas humanitatis. Ex ea commodo consequat duis autem vel eum iriure dolor in." isHTML:NO];
+		
+		[self presentViewController:mfViewController animated:YES completion:nil];
+		[mfViewController release];
+		
+	} else {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Status:" message:@"Your phone is not currently configured to send mail." delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+		
+		[alert show];
+		[alert release];
+	}
 }
 
 #pragma mark - TableView Delegates
@@ -169,8 +191,7 @@
 			break;
 			
 		case 3:
-			[self.navigationController pushViewController:[[[DISupportViewController alloc] initWithTitle:@"support" header:@"diddit help" backBtn:@"Done"] autorelease] animated:YES];
-			//navigationController = [[[UINavigationController alloc] initWithRootViewController:supportViewController] autorelease];
+			[self _goSupport];
 			break;
 	}
 	
@@ -189,4 +210,40 @@
 	cell.textLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 }
 
+
+
+#pragma mark MailComposeViewController Delegates
+-(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Status:" message:@"" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+	
+	switch (result) {
+		case MFMailComposeResultCancelled:
+			alert.message = @"Message Canceled";
+			break;
+			
+		case MFMailComposeResultSaved:
+			alert.message = @"Message Saved";
+			[alert show];
+			break;
+			
+		case MFMailComposeResultSent:
+			alert.message = @"Message Sent";
+			break;
+			
+		case MFMailComposeResultFailed:
+			alert.message = @"Message Failed";
+			[alert show];
+			break;
+			
+		default:
+			alert.message = @"Message Not Sent";
+			[alert show];
+			break;
+	}
+	
+	[self dismissViewControllerAnimated:YES completion:nil];
+	
+	
+	[alert release];
+}
 @end

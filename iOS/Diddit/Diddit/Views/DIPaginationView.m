@@ -18,7 +18,7 @@
 		int xOffset = -3.5;
 		
 		for (int i=0; i<_totPages; i++) {
-			UIImageView *ledImgView = [[UIImageView alloc] initWithFrame:CGRectMake(xOffset, -3.5, 7.0, 7.0)];
+			UIImageView *ledImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(xOffset, -3.5, 7.0, 7.0)] autorelease];
 			[ledImgView setImage:[UIImage imageNamed:@"pagination_off.png"]];
 			[self addSubview:ledImgView];
 			xOffset += 14.0;
@@ -38,6 +38,8 @@
 }
 
 -(void)dealloc {
+	[_onImgView release];
+	
 	[super dealloc];
 }
 

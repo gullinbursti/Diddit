@@ -20,7 +20,7 @@
 		footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 		[self addSubview:footerView];
 		
-		_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+		_btn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		_btn.frame = CGRectMake(0, 352, 320, 59);
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
@@ -36,6 +36,8 @@
 }
 
 -(void)dealloc {
+	[_btn release];
+	
 	[super dealloc];
 }
 

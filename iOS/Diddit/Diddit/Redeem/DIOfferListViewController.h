@@ -15,7 +15,6 @@
 @interface DIOfferListViewController : UIViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate> {
 	
 	UITableView *_offersTableView;
-	UIButton *_pointsButton;
 	NSMutableArray *_offers;
 	
 	UILabel *_emptyLabel;

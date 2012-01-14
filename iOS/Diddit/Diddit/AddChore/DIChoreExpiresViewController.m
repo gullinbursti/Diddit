@@ -19,7 +19,7 @@
 -(id)init {
 	if ((self = [super initWithTitle:@"add chore" header:@"when should the chore be done?" backBtn:@"Back"])) {
 		
-		DINavRightBtnView *nextBtnView = [[DINavRightBtnView alloc] initWithLabel:@"Next"];
+		DINavRightBtnView *nextBtnView = [[[DINavRightBtnView alloc] initWithLabel:@"Next"] autorelease];
 		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
 	
@@ -51,7 +51,7 @@
 - (void)loadView {
 	[super loadView];
 	
-	UILabel *inLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)];
+	UILabel *inLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)] autorelease];
 	inLabel.font = [[DIAppDelegate diAdelleFontBoldItalic] fontWithSize:16];
 	inLabel.textColor = [UIColor colorWithWhite:0.75 alpha:1.0];
 	inLabel.backgroundColor = [UIColor clearColor];
@@ -80,7 +80,7 @@
 	
 	_daysLabel.text = [_daysArray objectAtIndex:[_pickerView selectedRowInComponent:0]];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -96,6 +96,11 @@
 }
 
 -(void)dealloc {
+	[_chore release];
+	[_daysLabel release];
+	[_pickerView release];
+	[_daysArray release];
+	
 	[super dealloc];
 }
 

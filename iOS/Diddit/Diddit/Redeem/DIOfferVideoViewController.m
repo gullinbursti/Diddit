@@ -59,7 +59,7 @@
 	_closeBtn.alpha = 0.0;
 	[self.view addSubview:_closeBtn];
 
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	[self.view addSubview:overlayImgView];
 }
 
@@ -72,6 +72,8 @@
 }
 
 -(void)dealloc {
+	[_url release];
+	
 	[super dealloc];
 }
 

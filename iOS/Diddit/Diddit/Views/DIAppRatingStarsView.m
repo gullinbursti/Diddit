@@ -41,6 +41,8 @@
 				starImgView.image = [UIImage imageNamed:@"star_nonActive.png"];
 			
 			[self addSubview:starImgView];
+			//[starImgView release];
+			
 			offset += 15;
 		}
 	}
@@ -63,6 +65,8 @@
 				starImgView.image = [UIImage imageNamed:@"star_nonActive.png"];
 			
 			[self addSubview:starImgView];
+			//[starImgView release];
+			
 			offset += 15;
 		}
 	}

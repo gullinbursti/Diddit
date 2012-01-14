@@ -23,7 +23,7 @@
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
 		
-		UIView *holderView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)];
+		UIView *holderView = [[[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)] autorelease];
 		holderView.backgroundColor = [UIColor colorWithRed:0.98034 green:0.9922 blue:0.7843 alpha:1.0];
 		holderView.layer.cornerRadius = 8.0;
 		holderView.clipsToBounds = YES;
@@ -68,6 +68,11 @@
 
 
 -(void)dealloc {
+	[_imgView release];
+	[_titleLabel release];
+	[_pointsLabel release];
+	[_offer release];
+	
 	[super dealloc];
 }
 

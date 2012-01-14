@@ -35,13 +35,13 @@
 		
 		_chores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
-		_achievements = [[NSMutableArray alloc] init];
 		_cells = [[NSMutableArray alloc] init];
 				
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)]] autorelease];
+		DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)] autorelease];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:choreStatsView] autorelease];
 		
 		
-		UIButton *offersBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+		UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		offersBtn.frame = CGRectMake(-4.0, 3.0, 84.0, 34.0);
 		[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
@@ -51,7 +51,7 @@
 		[offersBtn setTitle:@"Earn Didds" forState:UIControlStateNormal];
 		[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 		
-		UIView *rtBtnView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 84.0, 34.0)];
+		UIView *rtBtnView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 84.0, 34.0)] autorelease];
 		[rtBtnView addSubview:offersBtn];
 		
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rtBtnView] autorelease];
@@ -62,12 +62,6 @@
 		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_activeChoresRequest setDelegate:self];
 		[_activeChoresRequest startAsynchronous];
-		
-		//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
-		//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		//[_achievementsRequest setDelegate:self];
-		//[_achievementsRequest startAsynchronous];
 	}
 	
 	return (self);
@@ -80,7 +74,7 @@
 -(void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
 	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -112,27 +106,13 @@
 	_emptyListImgView.frame = frame;
 	[self.view addSubview:_emptyListImgView];
 	
-	_footer1ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_001.png"]];
-	frame = _footer1ImgView.frame;
+	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_001.png"]];
+	frame = _footerImgView.frame;
 	frame.origin.y = 420 - (frame.size.height + 4);
-	_footer1ImgView.frame = frame;
-	[self.view addSubview:_footer1ImgView];
-	
-	_footer2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_002.png"]];
-	frame = _footer2ImgView.frame;
-	frame.origin.y = 420 - (frame.size.height + 15);
-	_footer2ImgView.frame = frame;
-	_footer2ImgView.hidden = YES;
-	[self.view addSubview:_footer2ImgView];
-	
-	_footer3ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_003.png"]];
-	frame = _footer3ImgView.frame;
-	frame.origin.y = 420 - (frame.size.height + 4);
-	_footer3ImgView.frame = frame;
-	_footer3ImgView.hidden = YES;
-	[self.view addSubview:_footer3ImgView];
-	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	_footerImgView.frame = frame;
+	[self.view addSubview:_footerImgView];
+		
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -161,7 +141,7 @@
 	[addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:addChoreButton];
 	
-	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(129, 392, 70, 26)];
+	UILabel *addLabel = [[[UILabel alloc] initWithFrame:CGRectMake(129, 392, 70, 26)] autorelease];
 	addLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
 	addLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 	addLabel.backgroundColor = [UIColor clearColor];
@@ -187,6 +167,16 @@
 
 
 -(void)dealloc {
+	[_activeChoresRequest release];
+	[_loadOverlay release];
+	[_myChoresTableView release];
+	[_chores release];
+	[_finishedChores release];
+	[_cells release];
+	[_emptyListImgView release];
+	[_footerImgView release];
+	[_addBtn release];
+	
 	[super dealloc];
 }
 
@@ -412,7 +402,7 @@
 			}
 		}
 	
-	} else if ([request isEqual:_achievementsRequest]) {
+	} /*else if ([request isEqual:_achievementsRequest]) {
 		@autoreleasepool {
 			NSError *error = nil;
 			NSArray *parsedAchievements = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
@@ -433,7 +423,7 @@
 				_achievements = [achievementList retain];
 			}
 		}
-	}
+	}*/
 	
 	[_loadOverlay remove];
 }

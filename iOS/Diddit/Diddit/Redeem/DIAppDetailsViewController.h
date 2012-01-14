@@ -12,7 +12,6 @@
 #import "DIPaginationView.h"
 
 @interface DIAppDetailsViewController : UIViewController <UIScrollViewDelegate> {
-	
 	DIApp *_app;
 	DIPaginationView *_paginationView;
 	UIScrollView *_imgScrollView;

@@ -60,6 +60,12 @@
 
 
 -(void)dealloc {
+	[_icoView release];
+	[_titleLabel release];
+	[_infoLabel release];
+	[_pointsLabel release];
+	[_app release];
+	
 	[super dealloc];
 }
 

@@ -60,6 +60,8 @@
 }
 
 -(void)dealloc {
+	[_hud release];
+	
 	[super dealloc];
 }
 

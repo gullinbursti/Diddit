@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIChoreStatsView : UIView
+@interface DIChoreStatsView : UIView {
+	UIButton *_ptsBtn;
+	UIButton *_totBtn;
+}
+
+@property (nonatomic, retain) UIButton *ptsBtn;
+@property (nonatomic, retain) UIButton *totBtn;
 
 @end

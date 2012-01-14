@@ -32,17 +32,17 @@
 	CGRect frame;
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]];
+	_footerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]] autorelease];
 	frame = _footerImgView.frame;
 	frame.origin.y = self.view.frame.size.height;
 	_footerImgView.frame = frame;
 	[self.view addSubview:_footerImgView];
 	
 	
-	_logoImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
+	_logoImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]] autorelease];
 	frame = _logoImgView.frame;
 	frame.origin.x = 93;
 	frame.origin.y = 175;
@@ -77,7 +77,7 @@
 	[_videoBtn addTarget:self action:@selector(_goVideo) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_videoBtn];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	[self.view addSubview:overlayImgView];
 }
 
@@ -129,6 +129,11 @@
 }
 
 -(void)dealloc {
+	[_footerImgView release];
+	[_signupBtn release];
+	[_videoBtn release];
+	[_logoImgView release];
+	
 	[super dealloc];
 }
 

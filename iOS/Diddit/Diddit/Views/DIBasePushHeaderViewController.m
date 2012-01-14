@@ -17,7 +17,7 @@
 -(id)initWithTitle:(NSString *)titleTxt header:(NSString *)headerTxt backBtn:(NSString *)backTxt {
 	if ((self = [super initWithTitle:titleTxt header:headerTxt])) {
 		
-		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}

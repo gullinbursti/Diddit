@@ -24,9 +24,9 @@
 -(id)init {
 	if ((self = [super init])) {
 		_offers = [[NSMutableArray alloc] init];
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:@"earn didds"];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"earn didds"] autorelease];
 		
-		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
@@ -40,7 +40,7 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)]autorelease];
 	[self.view addSubview:choreStatsView];
 	
 	UIButton *helpBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -64,7 +64,7 @@
 	[self.view addSubview:_offersTableView];
 	_offersTableView.hidden = YES;
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
@@ -80,7 +80,7 @@
 	[self.view addSubview:_emptyLabel];
 	*/
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -109,6 +109,12 @@
 
 
 -(void)dealloc {
+	[_offersTableView release];
+	[_offers release];
+	[_emptyLabel release];
+	[_offersDataRequest release];
+	[_loadOverlay release];
+	
 	[super dealloc];
 }
 

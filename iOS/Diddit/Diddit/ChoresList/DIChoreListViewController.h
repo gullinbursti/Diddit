@@ -8,36 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
-#import "DILoadOverlay.h"
+
+@class DILoadOverlay;
 
 @interface DIChoreListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
 	
-	UILabel *_headerLabel;
-	UILabel *_emptyLabel;
+	ASIFormDataRequest *_activeChoresRequest;
+	DILoadOverlay *_loadOverlay;
 	
 	UITableView *_myChoresTableView;
 	
 	NSMutableArray *_chores;
 	NSMutableArray *_finishedChores;
-	NSMutableArray *_achievements;
 	NSMutableArray *_cells;
 	
-	ASIFormDataRequest *_activeChoresRequest;
-	ASIFormDataRequest *_achievementsRequest;
 	
 	UIImageView *_emptyListImgView;
-	UIImageView *_footer1ImgView;
-	UIImageView *_footer2ImgView;
-	UIImageView *_footer3ImgView;
-
-	
-	//UIView *_footerView;
-	//UIButton *_addChoreButton;
-	//UIButton *_settingsButton;
-	
+	UIImageView *_footerImgView;
 	UIButton *_addBtn;
 	
-	DILoadOverlay *_loadOverlay;
 }
 
 @end

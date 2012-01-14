@@ -15,20 +15,20 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
 	
-	UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"helpIcon.png"]];
+	UIImageView *imgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"helpIcon.png"]] autorelease];
 	frame = imgView.frame;
 	frame.origin.x = 10;
 	frame.origin.y = 66;
 	imgView.frame = frame;
 	[self.view addSubview:imgView];
 	
-	UILabel *mainTxtLabel = [[UILabel alloc] initWithFrame:CGRectMake(86, 74, 224, 48)];
+	UILabel *mainTxtLabel = [[[UILabel alloc] initWithFrame:CGRectMake(86, 74, 224, 48)] autorelease];
 	mainTxtLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11];
 	mainTxtLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 	mainTxtLabel.backgroundColor = [UIColor clearColor];
@@ -36,7 +36,7 @@
 	mainTxtLabel.numberOfLines = 0;
 	[self.view addSubview:mainTxtLabel];
 	
-	UILabel *subTxtLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 140, 300, 190)];
+	UILabel *subTxtLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 140, 300, 190)] autorelease];
 	subTxtLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11];
 	subTxtLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 	subTxtLabel.backgroundColor = [UIColor clearColor];

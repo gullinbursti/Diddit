@@ -22,9 +22,9 @@
 
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[DINavTitleView alloc] initWithTitle:[_offer.app_name lowercaseString]];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:[_offer.app_name lowercaseString]] autorelease];
 		
-		DINavBackBtnView *backBtnView = [[DINavBackBtnView alloc] init];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
@@ -49,7 +49,7 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
 	CGSize textSize = [_offer.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
@@ -64,7 +64,7 @@
 	scrollView.alwaysBounceVertical = NO;
 	[self.view addSubview:scrollView];
 	
-	DIChoreStatsView *choreStatsView = [[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)];
+	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)]autorelease];
 	[scrollView addSubview:choreStatsView];
 	
 	UIButton *helpBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -79,13 +79,13 @@
 	[helpBtn addTarget:self action:@selector(_goHelp) forControlEvents:UIControlEventTouchUpInside];
 	[scrollView addSubview:helpBtn];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
 	[scrollView addSubview:dividerImgView];
 	
-	EGOImageView *icoImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 67, 60, 60)];
+	EGOImageView *icoImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(10, 67, 60, 60)] autorelease];
 	icoImgView.imageURL = [NSURL URLWithString:_offer.ico_url];
 	icoImgView.layer.cornerRadius = 8.0;
 	icoImgView.clipsToBounds = YES;
@@ -93,7 +93,7 @@
 	icoImgView.layer.borderWidth = 1.0;
 	[scrollView addSubview:icoImgView];
 	
-	UILabel *appTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(76, 86, 180.0, 22)];
+	UILabel *appTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(76, 86, 180.0, 22)] autorelease];
 	appTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14.0];
 	appTitleLabel.backgroundColor = [UIColor clearColor];
 	appTitleLabel.textColor = [UIColor blackColor];
@@ -106,14 +106,14 @@
 	ptsIcoView.image = [UIImage imageNamed:@"piggyIcon.png"];
 	[scrollView addSubview:ptsIcoView];
 	
-	UILabel *pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(96, 106, 120.0, 16)];
+	UILabel *pointsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(96, 106, 120.0, 16)] autorelease];
 	pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
 	pointsLabel.backgroundColor = [UIColor clearColor];
 	pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	pointsLabel.text = _offer.disp_points;
 	[scrollView addSubview:pointsLabel];
 	
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 146, 300, textSize.height)];
+	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 146, 300, textSize.height)] autorelease];
 	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	infoLabel.textColor = [UIColor colorWithWhite:0.33 alpha:1.0];
 	infoLabel.backgroundColor = [UIColor clearColor];
@@ -121,7 +121,7 @@
 	infoLabel.text = _offer.info;
 	[scrollView addSubview:infoLabel];
 	
-	UIImageView *divider2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *divider2ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	frame = divider2ImgView.frame;
 	frame.origin.y = 169 + textSize.height;
 	divider2ImgView.frame = frame;
@@ -146,10 +146,7 @@
 		
 		int type = [[dict objectForKey:@"type"] intValue];
 		NSString *url = [dict objectForKey:@"url"];
-		
-		
 		CGSize size = CGSizeMake(300, 200);
-		
 		
 		UIView *holderView = [[UIView alloc] initWithFrame:CGRectMake(xOffset, 0, size.width, size.height)];
 		EGOImageView *appImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
@@ -174,6 +171,9 @@
 		}
 		
 		xOffset += 320;
+		[url release];
+		[holderView release];
+		[appImgView release];
 	}
 	
 	_paginationView = [[DIPaginationView alloc] initWithTotal:[_offer.images count] coords:CGPointMake(160, 510 + textSize.height)];
@@ -181,7 +181,7 @@
 	
 	
 	
-	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
 	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 	[self.view addSubview:footerView];
 	
@@ -196,7 +196,7 @@
 	[watchButton addTarget:self action:@selector(_goWatch) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:watchButton];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -213,6 +213,10 @@
 
 
 -(void)dealloc {
+	[_offer release];
+	[_paginationView release];
+	[_imgScrollView release];
+	
 	[super dealloc];
 }
 

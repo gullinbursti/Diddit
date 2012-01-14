@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
 #import "DIBasePushHeaderViewController.h"
 
-@interface DISupportViewController : DIBasePushHeaderViewController {
+@interface DISupportViewController : DIBasePushHeaderViewController <MFMailComposeViewControllerDelegate> {
 	
 }
 

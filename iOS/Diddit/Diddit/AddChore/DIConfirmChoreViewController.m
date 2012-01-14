@@ -37,10 +37,10 @@
 	
 	_textSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 348.0) style:UITableViewStylePlain];
+	UITableView *tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 348.0) style:UITableViewStylePlain] autorelease];
 	tableView.rowHeight = 305 + _textSize.height;
 	tableView.backgroundColor = [UIColor clearColor];
 	tableView.separatorColor = [UIColor clearColor];
@@ -58,11 +58,11 @@
 	_scrollView.alwaysBounceVertical = NO;
 	//[self.view addSubview:_scrollView];
 	
-	UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)];
+	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)] autorelease];
 	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
 	[_scrollView addSubview:headerView];
 	
-	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)] autorelease];
 	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
 	titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
@@ -72,13 +72,13 @@
 	titleLabel.textAlignment = UITextAlignmentCenter;
 	[_scrollView addSubview:titleLabel];
 	
-	UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	frame = dividerImgView.frame;
 	frame.origin.y = 48;
 	dividerImgView.frame = frame;
 	[_scrollView addSubview:dividerImgView];
 	
-	_choreThumbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+	_choreThumbBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_choreThumbBtn.frame = CGRectMake(10, 64, 58, 58);
 	_choreThumbBtn.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
 	_choreThumbBtn.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
@@ -90,14 +90,14 @@
 	[_scrollView addSubview:_choreThumbBtn];
 	
 	
-	UIImageView *choreImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreThumb.png"]];
+	UIImageView *choreImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreThumb.png"]] autorelease];
 	frame = choreImgView.frame;
 	frame.origin.x = 10;
 	frame.origin.y = 55;
 	choreImgView.frame = frame;
 	[_scrollView addSubview:choreImgView];
 	
-	UILabel *choreTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 83, 200, 24)];
+	UILabel *choreTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(78, 83, 200, 24)] autorelease];
 	choreTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:20];
 	choreTitleLabel.textColor = [UIColor blackColor];
 	choreTitleLabel.backgroundColor = [UIColor clearColor];
@@ -106,13 +106,13 @@
 	choreTitleLabel.text = _chore.title;
 	[_scrollView addSubview:choreTitleLabel];
 	
-	UIImageView *divider2ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+	UIImageView *divider2ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	frame = divider2ImgView.frame;
 	frame.origin.y = 143;
 	divider2ImgView.frame = frame;
 	[_scrollView addSubview:divider2ImgView];
 	
-	UILabel *rewardLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, 120, 16)];
+	UILabel *rewardLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 150, 120, 16)] autorelease];
 	rewardLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	rewardLabel.textColor = [UIColor colorWithWhite:0.33 alpha:1.0];
 	rewardLabel.backgroundColor = [UIColor clearColor];
@@ -123,7 +123,7 @@
 	_imgView.imageURL = [NSURL URLWithString:_chore.icoPath];
 	[_scrollView addSubview:_imgView];
 	
-	UILabel *rewardTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(144, 172, 120, 20)];
+	UILabel *rewardTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(144, 172, 120, 20)] autorelease];
 	rewardTitleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
 	rewardTitleLabel.textColor = [UIColor blackColor];
 	rewardTitleLabel.backgroundColor = [UIColor clearColor];
@@ -132,20 +132,20 @@
 	rewardTitleLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
 	[_scrollView addSubview:rewardTitleLabel];
 	
-	UILabel *rewardPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(144, 190, 100, 16)];
+	UILabel *rewardPriceLabel = [[[UILabel alloc] initWithFrame:CGRectMake(144, 190, 100, 16)] autorelease];
 	rewardPriceLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11];
 	rewardPriceLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
 	rewardPriceLabel.backgroundColor = [UIColor clearColor];
 	rewardPriceLabel.text = _chore.price;
 	[_scrollView addSubview:rewardPriceLabel];
 	
-	UIImageView *divider3ImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]];
+	UIImageView *divider3ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
 	frame = divider3ImgView.frame;
 	frame.origin.y = 251;
 	divider3ImgView.frame = frame;
 	[_scrollView addSubview:divider3ImgView];
 	
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 267, 300, _textSize.height)];
+	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 267, 300, _textSize.height)] autorelease];
 	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	infoLabel.backgroundColor = [UIColor clearColor];
@@ -160,14 +160,14 @@
 	calendarImgView.image = [UIImage imageNamed:@"cal_Icon.png"];
 	[_scrollView addSubview:calendarImgView];
 	
-	UILabel *expiresLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 282 + _textSize.height, 200, 16)];
+	UILabel *expiresLabel = [[[UILabel alloc] initWithFrame:CGRectMake(32, 282 + _textSize.height, 200, 16)] autorelease];
 	expiresLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	expiresLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 	expiresLabel.backgroundColor = [UIColor clearColor];
 	expiresLabel.text = [NSString stringWithFormat:@"Expires on %@", _chore.disp_expires];
 	[_scrollView addSubview:expiresLabel];
 	
-	UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)];
+	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
 	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 	[self.view addSubview:footerView];
 			
@@ -182,7 +182,7 @@
 	[_submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_submitButton];
 	
-	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
@@ -198,6 +198,14 @@
 }
 
 -(void)dealloc {
+	//[_chore autorelease];
+	[_submitButton release];
+	[_imgView release];
+	[_choreThumbBtn release];
+	[_scrollView release];
+	
+	[_loadOverlay release];
+	
 	[super dealloc];
 }
 
