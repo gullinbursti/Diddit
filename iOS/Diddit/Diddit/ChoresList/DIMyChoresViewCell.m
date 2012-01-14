@@ -32,12 +32,15 @@
 		holderView.layer.borderWidth = 1.0;
 		[self addSubview:holderView];
 		
-		
 		_thumbHolderView = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
 		_thumbHolderView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
 		_thumbHolderView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
 		_thumbHolderView.layer.borderWidth = 1.0;
 		_thumbHolderView.clipsToBounds = YES;
+		
+		UIImageView *emptyImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreThumb.jpg"]];
+		[_thumbHolderView addSubview:emptyImgView];
+		
 		[holderView addSubview:_thumbHolderView];
 		
 		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 20, 185.0, 22)];
@@ -88,11 +91,11 @@
 		picImageView.image = [UIImage imageWithData:imageData];
 		[_thumbHolderView addSubview:picImageView];
 		
-	} else {
-		UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 31.0, 24, 24)] autorelease];
-		cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
-		[_thumbHolderView addSubview:cameraImgView];	
 	}
+	
+	UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 31.0, 24, 24)] autorelease];
+	cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
+	[_thumbHolderView addSubview:cameraImgView];	
 }
 
 

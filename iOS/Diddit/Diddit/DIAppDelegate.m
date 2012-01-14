@@ -30,6 +30,14 @@
 //	return ([[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
 //}
 
+
++(BOOL)validateEmail:(NSString *)address {
+	NSString *regex = @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex]; 
+	
+	return [predicate evaluateWithObject:address];
+}
+
 +(void)setUserProfile:(NSDictionary *)userInfo {
 	[[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"user_info"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -128,7 +136,7 @@
 #pragma mark - App Lifecycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	
-	[DIAppDelegate setUserProfile:nil];
+	//[DIAppDelegate setUserProfile:nil];
 	
 	
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"notifications"] || [DIAppDelegate notificationsEnabled]) {
@@ -201,14 +209,6 @@
 }
 
 
-#pragma mark - Subviews
-
--(void)showSettingsScreen {
-	DISettingsViewController *settingsViewController = [[[DISettingsViewController alloc] init] autorelease];
-	UINavigationController *settingsNavigationController = [[[UINavigationController alloc] initWithRootViewController:settingsViewController] autorelease];
-	
-	[settingsNavigationController pushViewController:settingsViewController animated:YES];
-}
 
 
 #pragma mark - ASI Delegates

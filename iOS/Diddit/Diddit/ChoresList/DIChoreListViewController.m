@@ -36,6 +36,7 @@
 		_chores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
 		_achievements = [[NSMutableArray alloc] init];
+		_cells = [[NSMutableArray alloc] init];
 				
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)]] autorelease];
 		
@@ -104,7 +105,7 @@
 	*/
 	
 	CGRect frame;
-	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.jpg"]];
+	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.png"]];
 	frame = _emptyListImgView.frame;
 	frame.origin.x = 5;
 	frame.origin.y = 5;
@@ -152,7 +153,7 @@
 	[self.view addSubview:settingsButton];
 	
 	UIButton *addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	addChoreButton.frame = CGRectMake(132, 346.0, 56, 56);
+	addChoreButton.frame = CGRectMake(131, 346.0, 56, 56);
 	addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
@@ -160,8 +161,7 @@
 	[addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:addChoreButton];
 	
-	
-	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(129, 395, 70, 26)];
+	UILabel *addLabel = [[UILabel alloc] initWithFrame:CGRectMake(129, 392, 70, 26)];
 	addLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
 	addLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
 	addLabel.backgroundColor = [UIColor clearColor];
@@ -243,6 +243,7 @@
 #pragma mark - Notification Handlers
 -(void)_loadData:(NSNotification *)notification {
 	
+	_cells = [[NSMutableArray alloc] init];
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -281,6 +282,7 @@
 	[_chores removeObjectIdenticalTo:chore];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
+	_cells = [[NSMutableArray alloc] init];
 	[_myChoresTableView reloadData];
 	
 	if ([_chores count] == 0) {
@@ -313,6 +315,7 @@
 		cell.chore = [_chores objectAtIndex:indexPath.row];
 		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		
+		[_cells addObject:cell];
 		return (cell);
 	
 	} else if (indexPath.row == [_chores count]) {
@@ -343,6 +346,17 @@
 	
 	if (indexPath.row == [_chores count])
 		return;
+	
+	
+	DIMyChoresViewCell * cell = (DIMyChoresViewCell *)[_cells objectAtIndex:indexPath.row];
+	
+	[UIView animateWithDuration:0.2 animations:^(void) {
+		cell.alpha = 0.5;
+	} completion:^(BOOL finished) {
+		[UIView animateWithDuration:0.15 animations:^(void) {
+			cell.alpha = 1.0;
+		}];
+	}];
 	
 	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -385,6 +399,7 @@
 						[choreList addObject:chore];
 				}
 				
+				_cells = [[NSMutableArray alloc] init];
 				_chores = [choreList retain];
 				[_myChoresTableView reloadData];
 				

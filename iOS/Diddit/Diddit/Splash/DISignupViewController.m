@@ -51,95 +51,33 @@
 	
 	_emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 4, 200, 64)];
 	_emailLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
-	_emailLabel.textColor = [UIColor colorWithRed:0.031 green:0.553 blue:0.294 alpha:1.0];
+	_emailLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
 	_emailLabel.backgroundColor = [UIColor clearColor];
 	_emailLabel.shadowColor = [UIColor whiteColor];
 	_emailLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	_emailLabel.text = @"enter email address";
 	[self.view addSubview:_emailLabel];
 	
-	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 200, 64)] autorelease];
+	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 300, 64)] autorelease];
 	[_emailTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_emailTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_emailTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
 	[_emailTxtField setBackgroundColor:[UIColor clearColor]];
 	_emailTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
-	_emailTxtField.textColor = [UIColor colorWithRed:0.031 green:0.553 blue:0.294 alpha:1.0];
+	_emailTxtField.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
 	_emailTxtField.keyboardType = UIKeyboardTypeDefault;
 	_emailTxtField.delegate = self;
 	[self.view addSubview:_emailTxtField];
-	
-	//CGColorCreateGenericRGB(0.031, 0.553, 0.294, 1.0)
-	/*
-	UILabel *pinCodeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)];
-	//pinCodeLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12];
-	pinCodeLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-	pinCodeLabel.backgroundColor = [UIColor clearColor];
-	pinCodeLabel.text = @"Pincode:";
-	[self.view addSubview:pinCodeLabel];
-	
-	_pinCode1TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(128, 80, 16, 64)] autorelease];
-	[_pinCode1TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_pinCode1TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_pinCode1TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_pinCode1TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
-	[_pinCode1TxtField setSecureTextEntry:YES];	
-	_pinCode1TxtField.keyboardType = UIKeyboardTypeNumberPad;
-	_pinCode1TxtField.clearsOnBeginEditing = YES;
-	_pinCode1TxtField.tag = 0;
-	_pinCode1TxtField.delegate = self;
-	[self.view addSubview:_pinCode1TxtField];
-	
-	_pinCode2TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(160, 80, 16, 64)] autorelease];
-	[_pinCode2TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_pinCode2TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_pinCode2TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_pinCode2TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
-	[_pinCode2TxtField setSecureTextEntry:YES];
-	_pinCode2TxtField.keyboardType = UIKeyboardTypeNumberPad;
-	_pinCode2TxtField.clearsOnBeginEditing = YES;
-	_pinCode2TxtField.tag = 1;
-	_pinCode2TxtField.delegate = self;
-	[self.view addSubview:_pinCode2TxtField];
-	
-	_pinCode3TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(192, 80, 16, 64)] autorelease];
-	[_pinCode3TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_pinCode3TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_pinCode3TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_pinCode3TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
-	[_pinCode3TxtField setSecureTextEntry:YES];	
-	_pinCode3TxtField.keyboardType = UIKeyboardTypeNumberPad;
-	_pinCode3TxtField.clearsOnBeginEditing = YES;
-	_pinCode3TxtField.tag = 2;
-	_pinCode3TxtField.delegate = self;
-	[self.view addSubview:_pinCode3TxtField];
-	
-	_pinCode4TxtField = [[[UITextField alloc] initWithFrame:CGRectMake(224, 80, 16, 64)] autorelease];
-	[_pinCode4TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_pinCode4TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_pinCode4TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_pinCode4TxtField setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
-	[_pinCode4TxtField setSecureTextEntry:YES];	
-	_pinCode4TxtField.keyboardType = UIKeyboardTypeNumberPad;
-	_pinCode4TxtField.clearsOnBeginEditing = YES;
-	_pinCode4TxtField.tag = 3;
-	_pinCode4TxtField.delegate = self;
-	[self.view addSubview:_pinCode4TxtField];
-	*/
-	
-	[_emailTxtField becomeFirstResponder];
-	
 	
 	UIButton *skipButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	skipButton.frame = CGRectMake(71, 100, 84, 37);
 	skipButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	[skipButton setBackgroundImage:[[UIImage imageNamed:@"skipButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[skipButton setBackgroundImage:[[UIImage imageNamed:@"skipButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[skipButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
+	[skipButton setTitleColor:[UIColor colorWithWhite:0.609 alpha:1.0] forState:UIControlStateNormal];
 	[skipButton setTitle:@"skip this" forState:UIControlStateNormal];
 	[skipButton addTarget:self action:@selector(_goSkip) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:skipButton];
-	
 	
 	UIButton *submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	submitButton.frame = CGRectMake(165, 100, 84, 37);
@@ -150,6 +88,12 @@
 	[submitButton setTitle:@"sign up" forState:UIControlStateNormal];
 	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:submitButton];
+	
+	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
+	frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
 }
 
 -(void)viewDidLoad {
@@ -158,6 +102,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	
+	[_emailTxtField becomeFirstResponder];
 }
 
 -(void)viewDidUnload {
@@ -171,12 +117,15 @@
 
 #pragma mark - Navigation
 -(void)_goBack {
-	[self dismissViewControllerAnimated:YES completion:nil];	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"REVEAL_WELCOME_SCREEN" object:nil];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)_goSkip {
-	NSLog(@"EMAIL:[%@]", _emailTxtField.text);;
+	NSLog(@"EMAIL:[%@]", _emailTxtField.text);
 	NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"CONCEAL_WELCOME_SCREEN" object:nil];
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
@@ -198,8 +147,8 @@
 	if (![DIAppDelegate deviceToken])
 		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];
 	
-	if ([_emailTxtField.text length] == 0)
-	isSubmit = NO;
+	if (![DIAppDelegate validateEmail:_emailTxtField.text])
+		isSubmit = NO;
 	
 	if ([pinCode length] != 3)
 		isSubmit = NO;
@@ -277,6 +226,7 @@
 			NSLog(@"NEW USER: %@", parsedUser);
 			[DIAppDelegate setUserProfile:parsedUser];
 			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"CONCEAL_WELCOME_SCREEN" object:nil];
 			[self dismissViewControllerAnimated:YES completion:^(void) {
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}];

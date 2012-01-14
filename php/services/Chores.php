@@ -92,7 +92,7 @@
 		
 		function activeByUserID($user_id) {
 
-			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`reward_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added`;';
+			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`reward_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON

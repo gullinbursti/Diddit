@@ -23,7 +23,7 @@
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
 		_btn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		_btn.titleEdgeInsets = UIEdgeInsetsMake(0, 1, 0, -1);
+		_btn.titleEdgeInsets = UIEdgeInsetsMake(-1, 1, 1, -1);
 		_btn.titleLabel.shadowColor = [UIColor blackColor];
 		_btn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 		[_btn setTitle:lbl forState:UIControlStateNormal];

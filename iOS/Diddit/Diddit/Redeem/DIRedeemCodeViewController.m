@@ -52,7 +52,7 @@
 	[self.view addSubview:footerView];
 	
 	UIButton *copyButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	copyButton.frame = CGRectMake(0, 352, 320, 60);
+	copyButton.frame = CGRectMake(0, 352, 320, 59);
 	copyButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	copyButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[copyButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];

@@ -40,8 +40,8 @@
 	
 	_closeBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_closeBtn.frame = CGRectMake(280, 10, 34, 34);
-	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"videoButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
-	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"videoButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"closeButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateNormal];
+	[_closeBtn setBackgroundImage:[[UIImage imageNamed:@"closeButton_Active.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_closeBtn addTarget:self action:@selector(_goClose) forControlEvents:UIControlEventTouchUpInside];
 	_closeBtn.alpha = 0.0;
 	[self.view addSubview:_closeBtn];
@@ -65,6 +65,11 @@
 -(void)dealloc {
 	[super dealloc];
 }
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 
 #pragma mark - Navigation
 - (void)_goClose {

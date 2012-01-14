@@ -63,7 +63,7 @@
 	_titleLbl.backgroundColor = [UIColor clearColor];
 	_titleLbl.shadowColor = [UIColor whiteColor];
 	_titleLbl.shadowOffset = CGSizeMake(1.0, 1.0);
-	_titleLbl.text = @"Give your chore or task a title";
+	_titleLbl.text = @"give your chore or task a title";
 	[self.view addSubview:_titleLbl];
 	
 	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 30, 200, 64)] autorelease];
@@ -103,6 +103,10 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 	
 	[_titleTxtField becomeFirstResponder];
 }

@@ -20,6 +20,7 @@
 	NSMutableArray *_chores;
 	NSMutableArray *_finishedChores;
 	NSMutableArray *_achievements;
+	NSMutableArray *_cells;
 	
 	ASIFormDataRequest *_activeChoresRequest;
 	ASIFormDataRequest *_achievementsRequest;

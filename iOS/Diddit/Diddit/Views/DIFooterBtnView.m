@@ -21,7 +21,7 @@
 		[self addSubview:footerView];
 		
 		_btn = [UIButton buttonWithType:UIButtonTypeCustom];
-		_btn.frame = CGRectMake(0, 352, 320, 60);
+		_btn.frame = CGRectMake(0, 352, 320, 59);
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
 		_btn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];

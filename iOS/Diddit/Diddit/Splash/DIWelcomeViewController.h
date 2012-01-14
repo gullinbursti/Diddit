@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIWelcomeViewController : UIViewController
+@interface DIWelcomeViewController : UIViewController {
+	UIImageView *_footerImgView;
+	UIButton *_signupBtn;
+	UIButton *_videoBtn;
+	
+	UIImageView *_logoImgView;
+}
 
 @end

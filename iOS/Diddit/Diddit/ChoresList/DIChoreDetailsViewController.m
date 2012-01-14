@@ -71,7 +71,7 @@
 	_imgView.layer.borderWidth = 1.0;
 	[_scrollView addSubview:_imgView];
 	
-	UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(180.0, 150.0, 24, 24)] autorelease];
+	UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(175.0, 145.0, 29, 29)] autorelease];
 	cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
 	//[_imgView addSubview:cameraImgView];	
 	
@@ -90,7 +90,9 @@
 	if ([[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath]) {
 		NSData *imageData = [[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath];
 		_imgView.image = [UIImage imageWithData:imageData];
-	} 
+	
+	} else
+		_imgView.image = [UIImage imageNamed:@"emptyChore.jpg"];
 	
 	UILabel *pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 225, 320, 40)];
 	pointsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:30];
@@ -126,12 +128,14 @@
 	[self.view addSubview:footerView];
 	
 	_completeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_completeButton.frame = CGRectMake(0, 352, 320, 60);
+	_completeButton.frame = CGRectMake(0, 352, 320, 59);
 	_completeButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	_completeButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[_completeButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[_completeButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	_completeButton.titleLabel.shadowColor = [UIColor whiteColor];
+	_completeButton.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	[_completeButton setTitle:@"approve chore" forState:UIControlStateNormal];
 	[_completeButton addTarget:self action:@selector(_goComplete) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_completeButton];

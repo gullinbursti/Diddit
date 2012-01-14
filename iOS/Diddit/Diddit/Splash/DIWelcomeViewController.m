@@ -18,61 +18,106 @@
 
 #pragma mark - View lifecycle
 -(id)init {
-	if ((self = [super init]))
+	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_dismissMe:) name:@"DISMISS_WELCOME_SCREEN" object:nil];
-	
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_revealMe:) name:@"REVEAL_WELCOME_SCREEN" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_concealMe:) name:@"CONCEAL_WELCOME_SCREEN" object:nil];
+	}
 	return (self);
 }
 
 -(void)loadView {
 	[super loadView];
 	
+	CGRect frame;
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background_logo.png"]];
-	bgImgView.layer.cornerRadius = 16.0;
-	bgImgView.layer.borderColor = [[UIColor blackColor] CGColor];
-	bgImgView.clipsToBounds = YES;
+	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
+	
+	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]];
+	frame = _footerImgView.frame;
+	frame.origin.y = self.view.frame.size.height;
+	_footerImgView.frame = frame;
+	[self.view addSubview:_footerImgView];
+	
+	
+	_logoImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
+	frame = _logoImgView.frame;
+	frame.origin.x = 93;
+	frame.origin.y = 175;
+	_logoImgView.frame = frame;
+	//_logoImgView.alpha = 0.0;
+	[self.view addSubview:_logoImgView];
+	
+	
+	_signupBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_signupBtn.frame = CGRectMake(46, 479, 114, 39);
+	_signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14.0];
+	_signupBtn.titleEdgeInsets = UIEdgeInsetsMake(-2, 0, 2, 0); //up
+	[_signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_signupBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	_signupBtn.titleLabel.shadowColor = [UIColor blackColor];
+	_signupBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+	[_signupBtn setTitle:@"Sign up" forState:UIControlStateNormal];
+	[_signupBtn addTarget:self action:@selector(_goSignup) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_signupBtn];
+	
+	_videoBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_videoBtn.frame = CGRectMake(164, 479, 114, 39);
+	_videoBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14.0];
+	_videoBtn.titleEdgeInsets = UIEdgeInsetsMake(-2, 0, 2, 0);
+	[_videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_videoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	_videoBtn.titleLabel.shadowColor = [UIColor blackColor];
+	_videoBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+	[_videoBtn setTitle:@"Play video" forState:UIControlStateNormal];
+	[_videoBtn addTarget:self action:@selector(_goVideo) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_videoBtn];
 	
 	UIImageView *overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]];
 	[self.view addSubview:overlayImgView];
-	
-	UIImageView *footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]];
-	CGRect frame = footerImgView.frame;
-	frame.origin.y = self.view.frame.size.height - frame.size.height;
-	footerImgView.frame = frame;
-	[self.view addSubview:footerImgView];
-	
-	UIButton *signupBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	signupBtn.frame = CGRectMake(46, 412, 114, 34);
-	signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
-	//signupBtn.titleEdgeInsets = UIEdgeInsetsMake(1, 0, -1, 0); //up
-	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[signupBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	signupBtn.titleLabel.shadowColor = [UIColor blackColor];
-	signupBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[signupBtn setTitle:@"Sign up" forState:UIControlStateNormal];
-	[signupBtn addTarget:self action:@selector(_goSignup) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:signupBtn];
-	
-	UIButton *videoBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	videoBtn.frame = CGRectMake(164, 412, 114, 34);
-	videoBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13.0];
-	//videoBtn.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0); //dn
-	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[videoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	videoBtn.titleLabel.shadowColor = [UIColor blackColor];
-	videoBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[videoBtn setTitle:@"Play video" forState:UIControlStateNormal];
-	[videoBtn addTarget:self action:@selector(_goVideo) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:videoBtn];
 }
 
 -(void)viewDidLoad {
 	[super viewDidLoad];
+	
+	[UIView animateWithDuration:0.33 animations:^(void) {
+		CGRect logoFrame = _logoImgView.frame;
+		logoFrame.origin.y = _logoImgView.frame.origin.y - 70;
+		_logoImgView.frame = logoFrame;
+		//_logoImgView.alpha = 1.0;
+		
+		CGRect footerFrame = _footerImgView.frame;
+		footerFrame.origin.y = footerFrame.origin.y - _footerImgView.frame.size.height;
+		_footerImgView.frame = footerFrame;
+		
+		CGRect signupFrame = _signupBtn.frame;
+		signupFrame.origin.y = signupFrame.origin.y - _footerImgView.frame.size.height;
+		_signupBtn.frame = signupFrame;
+		
+		CGRect videoFrame = _videoBtn.frame;
+		videoFrame.origin.y = videoFrame.origin.y - _footerImgView.frame.size.height;
+		_videoBtn.frame = videoFrame;
+		
+	} completion:^(BOOL finished) {
+//		[UIView animateWithDuration:0.33 animations:^(void) {
+//			CGRect footerFrame = _footerImgView.frame;
+//			footerFrame.origin.y = footerFrame.origin.y - _footerImgView.frame.size.height;
+//			_footerImgView.frame = footerFrame;
+//			
+//			CGRect signupFrame = _signupBtn.frame;
+//			signupFrame.origin.y = signupFrame.origin.y - _footerImgView.frame.size.height;
+//			_signupBtn.frame = signupFrame;
+//			
+//			CGRect videoFrame = _videoBtn.frame;
+//			videoFrame.origin.y = videoFrame.origin.y - _footerImgView.frame.size.height;
+//			_videoBtn.frame = videoFrame;
+//			
+//		}];
+	}];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -117,7 +162,15 @@
 
 #pragma mark - Notification Handlers
 -(void)_dismissMe:(NSNotification *)notification {
-	[self _goBack];
+	[self dismissViewControllerAnimated:NO completion:nil];
+}
+
+-(void)_revealMe:(NSNotification *)notification {
+	self.view.hidden = NO;
+}
+
+-(void)_concealMe:(NSNotification *)notification {
+	self.view.hidden = YES;
 }
 
 

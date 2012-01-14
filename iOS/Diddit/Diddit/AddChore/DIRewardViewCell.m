@@ -46,16 +46,16 @@
 		_priceLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		[self addSubview:_priceLabel];
 		
-		_circleOffImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(280.0, 40.0, 24, 24)] autorelease];
+		_circleOffImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(280.0, 40.0, 19, 19)] autorelease];
 		_circleOffImgView.image = [UIImage imageNamed:@"circleDot_nonActive.png"];
 		[self addSubview:_circleOffImgView];
 		
-		_circleOnImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(280.0, 40.0, 24, 24)] autorelease];
+		_circleOnImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(280.0, 40.0, 19, 19)] autorelease];
 		_circleOnImgView.image = [UIImage imageNamed:@"circleDot_Active.png"];
 		_circleOnImgView.hidden = YES;
 		[self addSubview:_circleOnImgView];
 		
-		_checkImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(283.0, 37.0, 24, 24)] autorelease];
+		_checkImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(283.0, 37.0, 19, 19)] autorelease];
 		_checkImgView.image = [UIImage imageNamed:@"checkMarkIcon.png"];
 		_checkImgView.alpha = 0.0;
 		[self addSubview:_checkImgView];
@@ -90,6 +90,7 @@
 #pragma presentation
 -(void)toggleSelect:(BOOL)isSelected {
 	
+	_circleOnImgView.hidden = !isSelected;
 	_checkImgView.hidden = !isSelected;
 	_dividerImgView.alpha = 0.2;
 	
@@ -98,7 +99,6 @@
 		_imgView.alpha = 0.2 + ((int)isSelected * 0.8);
 		_pointsLabel.alpha = 0.2 + ((int)isSelected * 0.8);
 		_priceLabel.alpha = 0.2 + ((int)isSelected * 0.8);
-		_circleOffImgView.alpha = 0.2 + ((int)isSelected * 0.8);
 		_circleOnImgView.alpha = 0.2 + ((int)isSelected * 0.8);
 		_checkImgView.alpha = (int)isSelected;
 	}];

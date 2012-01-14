@@ -186,7 +186,7 @@
 	[self.view addSubview:footerView];
 	
 	UIButton *watchButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	watchButton.frame = CGRectMake(0, 352, 320, 60);
+	watchButton.frame = CGRectMake(0, 352, 320, 59);
 	watchButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	watchButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[watchButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
@@ -225,6 +225,7 @@
 -(void)_goWatch {
 	DIOfferVideoViewController *offersVideoViewController = [[[DIOfferVideoViewController alloc] initWithURL:_offer.video_url] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:offersVideoViewController] autorelease];
+	[navigationController setNavigationBarHidden:YES animated:NO];
 	[self.navigationController presentModalViewController:navigationController animated:YES];	
 }
 

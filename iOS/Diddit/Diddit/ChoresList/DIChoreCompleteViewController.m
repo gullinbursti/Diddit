@@ -104,7 +104,7 @@
 	[self.view addSubview:footerView];
 	
 	UIButton *storeBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	storeBtn.frame = CGRectMake(0, 352, 320, 60);
+	storeBtn.frame = CGRectMake(0, 352, 320, 59);
 	storeBtn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	storeBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[storeBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];

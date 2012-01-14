@@ -15,15 +15,13 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
-		[self.navigationController setNavigationBarHidden:YES animated:NO];
-		
-		//[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
 		
 		/*
 		[[self view] setBounds:CGRectMake(0, 0, 480, 320)];
 		[[self view] setCenter:CGPointMake(160, 240)];
 		[[self view] setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
 		*/
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieStartedCallback:) name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
 	}
@@ -104,7 +102,6 @@
 
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations
 	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 

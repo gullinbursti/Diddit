@@ -169,7 +169,7 @@
 	[self.view addSubview:footerView];
 	
 	UIButton *purchaseButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	purchaseButton.frame = CGRectMake(0, 352, 320, 60);
+	purchaseButton.frame = CGRectMake(0, 352, 320, 59);
 	purchaseButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	purchaseButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[purchaseButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];

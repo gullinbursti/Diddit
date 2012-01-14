@@ -25,7 +25,7 @@
 		_btn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 		_btn.titleLabel.shadowColor = [UIColor blackColor];
 		_btn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		_btn.titleEdgeInsets = UIEdgeInsetsMake(1, 4, -1, -4);
+		_btn.titleEdgeInsets = UIEdgeInsetsMake(-1, 4, 1, -4);
 		[_btn setTitle:@"Back" forState:UIControlStateNormal];
 
 		[self addSubview:_btn];

@@ -172,7 +172,7 @@
 	[self.view addSubview:footerView];
 			
 	_submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_submitButton.frame = CGRectMake(0, 352, 320, 60);
+	_submitButton.frame = CGRectMake(0, 352, 320, 59);
 	_submitButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	_submitButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[_submitButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];

@@ -27,6 +27,8 @@
 
 +(DIAppDelegate *)sharedInstance;
 
++(BOOL)validateEmail:(NSString *)address;
+
 +(void)setUserProfile:(NSDictionary *)userInfo;
 +(NSDictionary *)profileForUser;
 
@@ -51,7 +53,5 @@
 +(UIFont *)diAdelleFontBold;
 +(UIFont *)diAdelleFontBoldItalic;
 +(UIFont *)diHelveticaNeueFontBold;
-
--(void)showSettingsScreen;
 
 @end
