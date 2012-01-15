@@ -16,11 +16,13 @@
 	EGOImageView *_imgView;
 	UILabel *_titleLabel;
 	UILabel *_pointsLabel;
+	UIView *_overlayView;
 	
 	DIOffer *_offer;
 }
 
 +(NSString *)cellReuseIdentifier;
+-(void)toggleSelected;
 
 @property(nonatomic, retain) DIOffer *offer;
 

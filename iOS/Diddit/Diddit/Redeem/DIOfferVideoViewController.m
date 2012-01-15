@@ -12,26 +12,13 @@
 @implementation DIOfferVideoViewController
 
 #pragma mark - View lifecycle
--(id)init {
+-(id)initWithOffer:(DIOffer *)offer {
 	if ((self = [super init])) {
-		//[[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
-		
-		/*
-		[[self view] setBounds:CGRectMake(0, 0, 480, 320)];
-		[[self view] setCenter:CGPointMake(160, 240)];
-		[[self view] setTransform:CGAffineTransformMakeRotation(M_PI / 2)];
-		*/
+		_offer = offer;
+		_url = _offer.video_url;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieStartedCallback:) name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
-	}
-	
-	return (self);
-}
-
--(id)initWithURL:(NSString *)url {
-	if ((self = [self init])) {
-		_url = url;
 	}
 	
 	return (self);
@@ -91,7 +78,9 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];    
 	[_playerController autorelease];
 	
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self dismissViewControllerAnimated:YES completion:^(void) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"OFFER_VIDEO_COMPLETE" object:_offer];
+	}];
 }
 
 -(void)movieStartedCallback:(NSNotification *)notification {

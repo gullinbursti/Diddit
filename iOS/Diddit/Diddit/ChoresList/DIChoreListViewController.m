@@ -31,11 +31,8 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_pushOffers:) name:@"PUSH_OFFERS_SCREEN" object:nil];
-		
 		_chores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
-		_cells = [[NSMutableArray alloc] init];
 				
 		DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)] autorelease];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:choreStatsView] autorelease];
@@ -172,7 +169,6 @@
 	[_myChoresTableView release];
 	[_chores release];
 	[_finishedChores release];
-	[_cells release];
 	[_emptyListImgView release];
 	[_footerImgView release];
 	[_addBtn release];
@@ -232,8 +228,6 @@
 
 #pragma mark - Notification Handlers
 -(void)_loadData:(NSNotification *)notification {
-	
-	_cells = [[NSMutableArray alloc] init];
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
@@ -272,7 +266,6 @@
 	[_chores removeObjectIdenticalTo:chore];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
-	_cells = [[NSMutableArray alloc] init];
 	[_myChoresTableView reloadData];
 	
 	if ([_chores count] == 0) {
@@ -285,9 +278,6 @@
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
--(void)_pushOffers:(NSNotification *)notification {
-	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
-}
 
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -305,7 +295,6 @@
 		cell.chore = [_chores objectAtIndex:indexPath.row];
 		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		
-		[_cells addObject:cell];
 		return (cell);
 	
 	} else if (indexPath.row == [_chores count]) {
@@ -337,19 +326,23 @@
 	if (indexPath.row == [_chores count])
 		return;
 	
+	DIMyChoresViewCell *cell = (DIMyChoresViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+	[cell toggleSelected];
+	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	DIMyChoresViewCell * cell = (DIMyChoresViewCell *)[_cells objectAtIndex:indexPath.row];
-	
+	/*
 	[UIView animateWithDuration:0.2 animations:^(void) {
 		cell.alpha = 0.5;
 	} completion:^(BOOL finished) {
 		[UIView animateWithDuration:0.15 animations:^(void) {
 			cell.alpha = 1.0;
+			
+			[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
+			[tableView deselectRowAtIndexPath:indexPath animated:YES];
 		}];
 	}];
-	
-	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	 */
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -389,7 +382,6 @@
 						[choreList addObject:chore];
 				}
 				
-				_cells = [[NSMutableArray alloc] init];
 				_chores = [choreList retain];
 				[_myChoresTableView reloadData];
 				

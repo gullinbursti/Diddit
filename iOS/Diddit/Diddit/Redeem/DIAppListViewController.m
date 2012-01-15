@@ -32,6 +32,8 @@
 		DINavHomeIcoBtnView *homeBtnView = [[[DINavHomeIcoBtnView alloc] init] autorelease];
 		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goFeatured:) name:@"PUSH_FEATURED" object:nil];
 	}
 	
 	return (self);
@@ -41,12 +43,6 @@
 	[super viewDidAppear:animated];
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	
-	_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
-	[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-	[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_featuredDataRequest setDelegate:self];
-	//[_featuredDataRequest startAsynchronous];
 	
 	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
 	[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
@@ -85,7 +81,6 @@
 	[self.view addSubview:dividerImgView];
 	
 	_featuredView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 230)];
-	[self fillFeatured:4];
 	
 	_appsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 56, self.view.bounds.size.width, self.view.bounds.size.height - 56) style:UITableViewStylePlain];
 	_appsTableView.rowHeight = 80;
@@ -129,26 +124,6 @@
 }
 
 
-#pragma mark - Layout
--(void)fillFeatured:(int)tot {
-	
-	for (int i=0; i<tot; i++) {
-		
-		int col = i % 2;
-		int row = i / 2;
-		
-		DIFeaturedItemButton *featuredItemButton = [[[DIFeaturedItemButton alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]] retain];
-		CGRect frame = featuredItemButton.frame;
-		frame.origin.x = col * 154;
-		frame.origin.y = row * 104;
-		featuredItemButton.frame = frame;
-		
-		[featuredItemButton addTarget:self action:@selector(_goFeature) forControlEvents:UIControlEventTouchUpInside];
-		[_featuredView addSubview:featuredItemButton];
-	}
-}
-
-
 #pragma mark - navigation
 -(void)_goBack {
 	[self.navigationController popViewControllerAnimated:YES];
@@ -165,8 +140,9 @@
 	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
--(void)_goFeature {
-	NSLog(@"GO FEATURE!!!");
+-(void)_goFeatured:(NSNotification *)notification {
+	NSLog(@"GO FEATURE!!! [%d]", [(NSNumber *)[notification object] intValue]);
+	[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_features objectAtIndex:[(NSNumber *)[notification object] intValue]]] autorelease] animated:YES];
 }
 
 #pragma mark - TableView Data Source Delegates
@@ -196,7 +172,7 @@
 			cell = [[[DIAppViewCell alloc] init] autorelease];
 		
 		cell.app = [_apps objectAtIndex:indexPath.row - 1];
-		[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		
 		[_cells addObject:cell];
 		return (cell);		
@@ -220,33 +196,10 @@
 	NSLog(@"SELECTED [%d]", indexPath.row);
 	
 	if (indexPath.row > 0) {
-		UITableViewCell *cell = (UITableViewCell *)[_cells objectAtIndex:indexPath.row];
-		cell.alpha = 1.0;
+		DIAppViewCell *cell = (DIAppViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+		[cell toggleSelected];
 		
-		DIApp *app = (DIApp *)[_apps objectAtIndex:indexPath.row - 1];
-		
-		[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:app] autorelease] animated:YES];
-		[tableView deselectRowAtIndexPath:indexPath animated:YES];
-		
-		/*
-		UITableViewCell *cell = (UITableViewCell *)[_cells objectAtIndex:indexPath.row];
-		[UIView animateWithDuration:0.125 animations:^(void){cell.alpha = 0.5;} completion:^(BOOL finished){
-			cell.alpha = 0.85;
-			
-			UITableViewCell *cell = (UITableViewCell *)[_cells objectAtIndex:indexPath.row];
-			cell.alpha = 1.0;
-			
-			DIApp *app = (DIApp *)[_apps objectAtIndex:indexPath.row];
-			
-			[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:app] autorelease] animated:YES];
-			[tableView deselectRowAtIndexPath:indexPath animated:YES];
-		}];
-		*/
-		//
-		//[UIView animateWithDuration:0.125 animations:^{
-		//	cell.alpha = 0.5;
-		//}];
-		//
+		[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_apps objectAtIndex:indexPath.row - 1]] autorelease] animated:YES];
 	}	
 }
 
@@ -290,37 +243,82 @@
 -(void)requestFinished:(ASIHTTPRequest *)request { 
 	NSLog(@"AppListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
-	@autoreleasepool {
-		NSError *error = nil;
-		NSArray *parsedApps = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-		if (error != nil)
-			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-		
-		else {
-			NSMutableArray *appList = [NSMutableArray array];
-			
-			for (NSDictionary *serverApp in parsedApps) {
-				DIApp *app = [DIApp appWithDictionary:serverApp];
-				
-				//NSLog(@"APP \"%@\"", app.title);
-				
-				if (app != nil)
-					[appList addObject:app];
-			}
-			
-			_apps = [appList retain];
-			[_appsTableView reloadData];
-			
-			if ([_apps count] > 0) {
-				_appsTableView.hidden = NO;
-				//_emptyLabel.hidden = YES;
-			}
-			
-			//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
-		}
-	}
 	
-	[_loadOverlay remove];
+	if ([request isEqual:_appsDataRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSArray *parsedApps = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			else {
+				NSMutableArray *appList = [NSMutableArray array];
+				
+				for (NSDictionary *serverApp in parsedApps) {
+					DIApp *app = [DIApp appWithDictionary:serverApp];
+					
+					//NSLog(@"APP \"%@\"", app.title);
+					
+					if (app != nil)
+						[appList addObject:app];
+				}
+				
+				_apps = [appList retain];
+				[_appsTableView reloadData];
+				
+				if ([_apps count] > 0) {
+					_appsTableView.hidden = NO;
+					//_emptyLabel.hidden = YES;
+				}
+				
+				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
+			}
+			
+			_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+			[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+			[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+			[_featuredDataRequest setDelegate:self];
+			[_featuredDataRequest startAsynchronous];
+		}
+	
+	} else {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSArray *parsedApps = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			else {
+				NSMutableArray *appList = [NSMutableArray array];
+				
+				for (NSDictionary *serverApp in parsedApps) {
+					DIApp *app = [DIApp appWithDictionary:serverApp];
+					
+					//NSLog(@"APP \"%@\"", app.title);
+					
+					if (app != nil)
+						[appList addObject:app];
+				}
+				
+				_features = [appList retain];
+			}
+			
+			for (int i=0; i<[_features count]; i++) {
+				int col = i % 2;
+				int row = i / 2;
+				
+				//DIFeaturedItemButton *featuredItemButton = [[[DIFeaturedItemButton alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]] retain];
+				DIFeaturedItemButton *featuredItemButton = [[DIFeaturedItemButton alloc] initWithApp:(DIApp *)[_features objectAtIndex:i] AtIndex:i];
+				CGRect frame = featuredItemButton.frame;
+				frame.origin.x = col * 154;
+				frame.origin.y = row * 104;
+				featuredItemButton.frame = frame;
+				[_featuredView addSubview:featuredItemButton];
+			}
+		}
+		
+		[_loadOverlay remove];	
+	}
 }
 
 

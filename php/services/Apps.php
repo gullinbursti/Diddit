@@ -87,9 +87,9 @@ class Apps {
 		echo $body;
 	}
 		
-	function partnerApps() {   
+	function partnerApps($user_id) {   
 		
-		$query = 'SELECT * FROM `tblApps` ORDER BY `points`;';
+		$query = 'SELECT * FROM `tblApps` ORDER BY `added` DESC;';
 		$res = mysql_query($query);
 		
 		// Return data, as JSON
@@ -129,7 +129,7 @@ class Apps {
 	}
 	
 	function featureApps($user_id) {
-		$query = 'SELECT * FROM `tblApps` ORDER BY `points`;';
+		$query = 'SELECT * FROM `tblApps` ORDER BY `added` DESC;';
 		$res = mysql_query($query);
 		
 		// Return data, as JSON
@@ -181,16 +181,18 @@ $apps = new Apps;
 if (isset($_POST["action"])) {
 	switch ($_POST["action"]) {
 		case 0:
-			$apps_json = $apps->partnerApps();
+			if (isset($_POST['userID']))
+				$apps_json = $apps->partnerApps($_POST['userID']);
 			break;
 		
 		case 1:
-			$apps_json = $apps->featureApps();
+			if (isset($_POST['userID']))
+				$apps_json = $apps->featureApps($_POST['userID']);
 			break;
 				
 	    case 2:
 			if (isset($_POST['userID']) && isset($_POST['appID']) && isset($_POST['points']))
-			$apps_json = $apps->purchaseApp($_POST['userID'], $_POST['appID'], $_POST['points']);
+				$apps_json = $apps->purchaseApp($_POST['userID'], $_POST['appID'], $_POST['points']);
 			break;
 	}
 }

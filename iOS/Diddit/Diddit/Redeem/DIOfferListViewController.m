@@ -29,6 +29,8 @@
 		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goOfferComplete:) name:@"OFFER_VIDEO_COMPLETE" object:nil];
 	}
 	
 	return (self);
@@ -130,6 +132,18 @@
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
+
+#pragma mark - Notification handlers
+-(void)_goOfferComplete:(NSNotification *)notification {
+	DIOffer *offer = (DIOffer *)[notification object];
+	
+	NSLog(@"OFFER COMPLETE [%@]", offer.title);
+	
+	[_offers removeObjectIdenticalTo:offer];
+	//[_offersTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	[_offersTableView reloadData];
+}
+
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return ([_offers count]);
@@ -150,9 +164,10 @@
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	DIOffer *offer = (DIOffer *)[_offers objectAtIndex:indexPath.row];
+	DIOfferViewCell *cell = (DIOfferViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+	[cell toggleSelected];
 	
-	[self.navigationController pushViewController:[[[DIOfferDetailsViewController alloc] initWithOffer:offer] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIOfferDetailsViewController alloc] initWithOffer:(DIOffer *)[_offers objectAtIndex:indexPath.row]] autorelease] animated:YES];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

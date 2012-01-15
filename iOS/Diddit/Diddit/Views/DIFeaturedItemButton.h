@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DIApp.h"
+#import "EGOImageView.h"
 
 @interface DIFeaturedItemButton : UIButton {
-
+	DIApp *_app;
+	EGOImageView *_imgView;
+	int _ind;
 }
 
--(id)initWithImage:(UIImage *)img;
+-(id)initWithApp:(DIApp *)app AtIndex:(int)ind;
 @end

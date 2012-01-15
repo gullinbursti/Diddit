@@ -67,10 +67,31 @@
 		chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
 		[holderView addSubview:chevronView];
 		
+		_overlayView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)];
+		_overlayView.backgroundColor = [UIColor blackColor];
+		_overlayView.layer.cornerRadius = 8.0;
+		_overlayView.clipsToBounds = YES;
+		_overlayView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_overlayView.layer.borderWidth = 1.0;
+		_overlayView.alpha = 0.0;
+		[self addSubview:_overlayView];
+		
+		
 		[holderView release];
 	}
 	
 	return (self);
+}
+
+-(void)toggleSelected {
+	[UIView animateWithDuration:0.25 animations:^(void) {
+		_overlayView.alpha = 0.5;
+		
+	} completion:^(BOOL finished) {
+		[UIView animateWithDuration:0.15 animations:^(void) {
+			_overlayView.alpha = 0.0;
+		}];		
+	}];
 }
 
 
@@ -79,6 +100,7 @@
 	[_thumbHolderView release];
 	[_titleLabel release];
 	[_pointsLabel release];
+	[_overlayView release];
 	
 	[super dealloc];
 }

@@ -12,6 +12,8 @@
 
 @interface DIMyChoresViewCell : UITableViewCell {
 	
+	UIView *_overlayView;
+	
 	UIView *_thumbHolderView;
 	UILabel *_titleLabel;
 	UILabel *_pointsLabel;
@@ -20,6 +22,7 @@
 }
 
 +(NSString *)cellReuseIdentifier;
+-(void)toggleSelected;
 
 @property(nonatomic, retain) DIChore *chore;
 

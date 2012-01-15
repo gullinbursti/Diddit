@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "DIOffer.h"
+
 @interface DIOfferVideoViewController : UIViewController {
+	
+	DIOffer *_offer;
 	
 	NSString *_url;
 	UIButton *_closeBtn;
@@ -17,5 +21,5 @@
 	MPMoviePlayerController *_playerController;
 }
 
--(id)initWithURL:(NSString *)url;
+-(id)initWithOffer:(DIOffer *)offer;
 @end

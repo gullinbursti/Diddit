@@ -61,9 +61,25 @@
 		frame.origin.y = 78;
 		dividerImgView.frame = frame;
 		[holderView addSubview:dividerImgView];
+		
+		_overlayView = [[UIView alloc] initWithFrame:CGRectMake(0.0, -1.0, 300.0, 81.0)];
+		_overlayView.backgroundColor = [UIColor blackColor];
+		_overlayView.alpha = 0.0;
+		[self addSubview:_overlayView];
 	}
 	
 	return (self);
+}
+
+-(void)toggleSelected {
+	[UIView animateWithDuration:0.25 animations:^(void) {
+		_overlayView.alpha = 0.5;
+		
+	} completion:^(BOOL finished) {
+		[UIView animateWithDuration:0.15 animations:^(void) {
+			_overlayView.alpha = 0.0;
+		}];		
+	}];
 }
 
 
@@ -73,6 +89,7 @@
 	[_infoLabel release];
 	[_pointsLabel release];
 	[_app release];
+	[_overlayView release];
 	
 	[super dealloc];
 }

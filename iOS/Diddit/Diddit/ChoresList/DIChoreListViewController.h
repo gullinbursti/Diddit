@@ -20,8 +20,6 @@
 	
 	NSMutableArray *_chores;
 	NSMutableArray *_finishedChores;
-	NSMutableArray *_cells;
-	
 	
 	UIImageView *_emptyListImgView;
 	UIImageView *_footerImgView;

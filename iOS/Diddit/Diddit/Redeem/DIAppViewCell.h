@@ -17,11 +17,14 @@
 	UILabel *_titleLabel;
 	UILabel *_infoLabel;
 	UILabel *_pointsLabel;
+	UIView *_overlayView;
+	
 	
 	DIApp *_app;
 }
 
 +(NSString *)cellReuseIdentifier;
+-(void)toggleSelected;
 
 @property(nonatomic, retain) DIApp *app;
 @end

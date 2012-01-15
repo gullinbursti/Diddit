@@ -20,6 +20,7 @@
 @property (nonatomic) int points;
 @property (nonatomic) int score;
 @property (nonatomic, retain) NSString *ico_url;
+@property (nonatomic, retain) NSString *img_url;
 @property (nonatomic, retain) NSString *app_info;
 @property (nonatomic, retain) NSDictionary *images;
 

@@ -87,7 +87,7 @@ class Store {
 		echo $body;
 	}
 		
-	function partnerApps() {   
+	function partnerApps($user_id) {   
 		
 		$query = 'SELECT * FROM `tblStore` WHERE `type_id` =1 ORDER BY `points`;';
 		$res = mysql_query($query);
@@ -116,7 +116,8 @@ class Store {
 					"info" => $row['info'], 
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
-					"ico_url" => $row['ico_url'], 
+					"ico_url" => $row['ico_url'],
+					"img_url" => "", 
 					"score" => $row['score'],
 					"description" => $row['description'],
 					"images" => $img_result
@@ -128,9 +129,9 @@ class Store {
 		return (true);   
 	}
 	
-	function giftCards() {   
-		
-		$query = 'SELECT * FROM `tblStore` WHERE `type_id` =2 ORDER BY `points`;';
+	
+	function featureApps($user_id) {
+		$query = 'SELECT * FROM `tblStore` WHERE `type_id` =3 ORDER BY `points`;';
 		$res = mysql_query($query);
 		
 		// Return data, as JSON
@@ -139,7 +140,7 @@ class Store {
 		// error performing query
 		if (mysql_num_rows($res) > 0) {
 			
-			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {				
 				$query = 'SELECT `tblImages`.`type_id`, `tblImages`.`url` FROM `tblImages` INNER JOIN `tblStoreImages` ON `tblImages`.`id` = `tblStoreImages`.`image_id` WHERE `tblStoreImages`.`store_id` ='. $row['id'] .';';
 				$img_res = mysql_query($query);
 				$img_result = array();
@@ -157,38 +158,11 @@ class Store {
 					"info" => $row['info'], 
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
-					"ico_url" => $row['ico_url'], 
-					"score" => $row['score'],
-					"description" => $row['description'],
-					"images" => $img_result
-				));
-			}
-		}
-		
-		$this->sendResponse(200, json_encode($result));
-		return (true);   
-	}
-	
-	function featureApps($user_id) {
-		$query = 'SELECT * FROM `tblStore` WHERE `type_id` =3 ORDER BY `points`;';
-		$res = mysql_query($query);
-		
-		// Return data, as JSON
-		$result = array(); 
-			
-		// error performing query
-		if (mysql_num_rows($res) > 0) {
-			
-			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-				array_push($result, array(
-					"id" => $row['id'], 
-					"title" => $row['title'], 
-					"info" => $row['info'], 
-					"dev_id" => $row['dev_id'], 
-					"points" => $row['points'], 
-					"ico_url" => $row['ico_url'], 
+					"ico_url" => $row['ico_url'],
+					"img_url" => $row['img_url'], 
 					"score" => $row['score'], 
-					"description" => $row['description']
+					"description" => $row['description'], 
+					"images" => $img_result
 				));
 			}
 		}
@@ -263,11 +237,13 @@ $store = new Store;
 if (isset($_POST["action"])) {
 	switch ($_POST["action"]) {
 		case 0:
-			$store_json = $store->partnerApps();
+			if (isset($_POST['userID']))
+				$store_json = $store->partnerApps($_POST['userID']);
 			break;
 		
 		case 1:
-			$store_json = $store->featureApps();
+		   if (isset($_POST['userID']))
+				$store_json = $store->featureApps($_POST['userID']);
 			break;
 			
 		case 2:   

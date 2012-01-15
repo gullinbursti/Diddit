@@ -32,6 +32,4 @@
 	DILoadOverlay *_loadOverlay;
 }
 
--(void)fillFeatured:(int)tot;
-
 @end

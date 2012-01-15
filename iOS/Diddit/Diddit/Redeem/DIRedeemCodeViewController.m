@@ -78,8 +78,8 @@
 }
 
 -(void)dealloc {
-	[_app release];
-	[_redeemCode release];
+	//[_app release];
+	//[_redeemCode release];
 	
 	[super dealloc];
 }

@@ -27,6 +27,8 @@
 		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goDismiss:) name:@"OFFER_VIDEO_COMPLETE" object:nil];
 	}
 	
 	return (self);
@@ -57,7 +59,7 @@
 	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0, self.view.bounds.size.width, 392)];
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	scrollView.opaque = NO;
-	scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, 525 + textSize.height);
+	scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, 420 + textSize.height);
 	scrollView.scrollsToTop = NO;
 	scrollView.showsHorizontalScrollIndicator = NO;
 	scrollView.showsVerticalScrollIndicator = YES;
@@ -128,23 +130,23 @@
 	[scrollView addSubview:divider2ImgView];
 	
 	
-	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 197 + textSize.height, 320, 420)];
+	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 190 + textSize.height, 320, 300)];
 	_imgScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_imgScrollView.opaque = NO;
-	_imgScrollView.contentSize = CGSizeMake(320 * [_offer.images count], 420);
+	_imgScrollView.contentSize = CGSizeMake(320 * [_offer.images count], 240);
 	_imgScrollView.scrollsToTop = NO;
 	_imgScrollView.pagingEnabled = YES;
 	_imgScrollView.delegate = self;
 	_imgScrollView.showsHorizontalScrollIndicator = NO;
 	_imgScrollView.showsVerticalScrollIndicator = NO;
 	_imgScrollView.alwaysBounceVertical = NO;
+	_imgScrollView.bounces = NO;
 	[scrollView addSubview:_imgScrollView];
 	
-	int xOffset = 55;
+	int xOffset = 10;
 	for (NSDictionary *dict in _offer.images) {
 		NSLog(@"IMG:%d)>[%@]", [[dict objectForKey:@"type"] intValue], [dict objectForKey:@"url"]);
-		
-		int type = [[dict objectForKey:@"type"] intValue];
+	
 		NSString *url = [dict objectForKey:@"url"];
 		CGSize size = CGSizeMake(300, 200);
 		
@@ -152,23 +154,8 @@
 		EGOImageView *appImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
 		appImgView.imageURL = [NSURL URLWithString:url];
 		
-		if (type == 2) {
-			appImgView.center = CGPointMake(size.width * 0.5, size.height * 0.5);
-			[holderView addSubview:appImgView];
-			[_imgScrollView addSubview:holderView];
-			
-			
-			appImgView.transform = CGAffineTransformMakeRotation(3.0 * M_PI / 2);
-			appImgView.center = CGPointMake(0.0, 0.0);
-			frame = appImgView.frame;
-			frame.origin.x += size.height * 0.5;
-			frame.origin.y += size.width * 0.5;
-			appImgView.frame = frame;	
-			
-		} else {
-			[holderView addSubview:appImgView];
-			[_imgScrollView addSubview:holderView];
-		}
+		[holderView addSubview:appImgView];
+		[_imgScrollView addSubview:holderView];
 		
 		xOffset += 320;
 		[url release];
@@ -176,7 +163,7 @@
 		[appImgView release];
 	}
 	
-	_paginationView = [[DIPaginationView alloc] initWithTotal:[_offer.images count] coords:CGPointMake(160, 510 + textSize.height)];
+	_paginationView = [[DIPaginationView alloc] initWithTotal:[_offer.images count] coords:CGPointMake(160, 400 + textSize.height)];
 	[scrollView addSubview:_paginationView];
 	
 	
@@ -227,7 +214,7 @@
 }
 
 -(void)_goWatch {
-	DIOfferVideoViewController *offersVideoViewController = [[[DIOfferVideoViewController alloc] initWithURL:_offer.video_url] autorelease];
+	DIOfferVideoViewController *offersVideoViewController = [[[DIOfferVideoViewController alloc] initWithOffer:_offer] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:offersVideoViewController] autorelease];
 	[navigationController setNavigationBarHidden:YES animated:NO];
 	[self.navigationController presentModalViewController:navigationController animated:YES];	
@@ -237,6 +224,11 @@
 	DIOffersHelpViewController *offersHelpViewController = [[[DIOffersHelpViewController alloc] initWithTitle:@"need help?" header:@"earning didds is easy and fun" closeLabel:@"Done"] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:offersHelpViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
+}
+
+#pragma mark - Notification handlers
+-(void)_goDismiss:(NSNotification *)notification {
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - ScrollView Delegates
