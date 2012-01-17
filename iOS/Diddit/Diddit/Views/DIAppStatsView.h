@@ -12,7 +12,10 @@
 
 @interface DIAppStatsView : UIView {
 	DIApp *_app;
+	UILabel *_ptsLbl;
 }
+
+@property (nonatomic, retain)UILabel *ptsLbl;
 
 -(id)initWithCoords:(CGPoint)pos appVO:(DIApp *)app;
 @end

@@ -13,7 +13,6 @@
 #import "DIAppDelegate.h"
 #import "DINavBackBtnView.h"
 #import "DINavTitleView.h"
-#import "DIChoreStatsView.h"
 #import "DIAppRatingStarsView.h"
 #import "DIAppStatsView.h"
 #import "DIOfferListViewController.h"
@@ -66,8 +65,8 @@
 	[self.view addSubview:scrollView];
 	
 	
-	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
-	[scrollView addSubview:choreStatsView];
+	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
+	[scrollView addSubview:_choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	offersBtn.frame = CGRectMake(228, 15, 84, 34);
@@ -87,8 +86,8 @@
 	dividerImgView.frame = frame;
 	[scrollView addSubview:dividerImgView];
 	
-	DIAppStatsView *appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 71.0) appVO:_app] autorelease];
-	[scrollView addSubview:appStatsView];
+	_appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 71.0) appVO:_app] autorelease];
+	[scrollView addSubview:_appStatsView];
 		
 	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 145, 300, textSize.height)] autorelease];
 	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
@@ -164,20 +163,20 @@
 	
 	//[scrollView addSubview:appImgView];
 	
-	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
-	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
-	[self.view addSubview:footerView];
+	_footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
+	_footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
+	[self.view addSubview:_footerView];
 	
-	UIButton *purchaseButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	purchaseButton.frame = CGRectMake(0, 352, 320, 59);
-	purchaseButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-	purchaseButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-	[purchaseButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[purchaseButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[purchaseButton setTitle:@"purchase" forState:UIControlStateNormal];
-	[purchaseButton addTarget:self action:@selector(_goPurchase) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:purchaseButton];
+	_footerBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_footerBtn.frame = CGRectMake(0, 352, 320, 59);
+	_footerBtn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
+	_footerBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_footerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[_footerBtn setTitle:@"purchase" forState:UIControlStateNormal];
+	[_footerBtn addTarget:self action:@selector(_goPurchase) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_footerBtn];
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -200,7 +199,11 @@
 	[_app release];
 	[_paginationView release];
 	[_imgScrollView release];
+	//[_loadOverlay release];
+	//[_choreStatsView release];
 	
+	//[_footerView release];
+	//[_footerBtn release];
 	[super dealloc];
 }
 
@@ -218,9 +221,37 @@
 }
 
 -(void)_goPurchase {
-	DIRedeemCodeViewController *redeemCodeViewController = [[[DIRedeemCodeViewController alloc] initWithApp:_app] autorelease];
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:redeemCodeViewController] autorelease];
-	[self.navigationController presentModalViewController:navigationController animated:YES];
+	
+	if (_app.type_id == 2) {
+		//DIRedeemCodeViewController *redeemCodeViewController = [[[DIRedeemCodeViewController alloc] initWithApp:_app] autorelease];
+		//UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:redeemCodeViewController] autorelease];
+		//[self.navigationController presentModalViewController:navigationController animated:YES];
+	
+	} else {
+		//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Purchase In-App" message:[NSString stringWithFormat:@"Trading %d didds", _app.points] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+		//[alert show];
+		//[alert release];
+	}
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Purchases.php"]] retain];
+	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[purchaseRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _app.app_id] forKey:@"appID"];
+	[purchaseRequest setDelegate:self];
+	[purchaseRequest startAsynchronous];
+	
+	[_appStatsView ptsLbl].text = @"PURCHASED";
+	[UIView animateWithDuration:0.33 animations:^(void) {
+		CGRect footerFrame = _footerView.frame;
+		footerFrame.origin.y += footerFrame.size.height;
+		_footerView.frame = footerFrame;
+		
+		CGRect btnFrame = _footerBtn.frame;
+		btnFrame.origin.y += footerFrame.size.height;
+		_footerBtn.frame = btnFrame;
+	}];
+	
 }
 
 
@@ -230,6 +261,46 @@
 	
 	[_paginationView updToPage:page];
 	NSLog(@"SCROLL PAGE:[%d]", page);
+}
+
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+		else {
+			[DIAppDelegate setUserProfile:parsedUser];
+			[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_STATS" object:nil];
+			
+			if (_app.type_id == 2) {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+				[alert show];
+				[alert release];
+				
+				NSString *redeemCode = [[DIAppDelegate md5:[NSString stringWithFormat:@"%d", arc4random()]] uppercaseString];
+				redeemCode = [redeemCode substringToIndex:[redeemCode length] - 12];
+				
+				UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+				[pasteboard setValue:redeemCode forPasteboardType:@"public.utf8-plain-text"];
+				
+			}
+		}
+	}
+		
+	[_loadOverlay remove];
+}
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlay remove];
 }
 
 @end

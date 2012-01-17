@@ -93,21 +93,69 @@
 		 * This service returns all jobs available
 		 * @returns recordset
 		 */
-		function makePurchase($user_id, $chore_id, $price) {
-
+		function makePurchase($user_id, $store_id) {
+            
+			$query = 'SELECT `title`, `info`, `points`, `type_id` FROM `tblStore` WHERE `id` = "'. $store_id .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+			$store_title = $row[0];
+			$store_info = $row[1];
+			$store_points = $row[2];
+			$type_id = $row[3];
+            
+			$query = 'SELECT `device_id`, `email`, `pin`, `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+			$user_points = $row[3] - $store_points;
+			$device_id = $row[0];
+			
+			$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
+			$tot_res = mysql_query($query);				
+			$tot = mysql_num_rows($tot_res);
+			
+			$query = 'UPDATE `tblUsers` SET `points` ='. $user_points .' WHERE `id` ='. $user_id .';';
+			$result = mysql_query($query);
+			
 			$query = 'INSERT INTO `tblPurchases` (';
-			$query .= '`id`, `user_id`, `chore_id`, `price`, `added`) ';
-			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $chore_id .'", "'. $price .'", CURRENT_TIMESTAMP);';
+			$query .= '`id`, `user_id`, `store_id`, `added`) ';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $store_id .'", CURRENT_TIMESTAMP);';
 			$result = mysql_query($query);
 			$chore_id = mysql_insert_id();
 			
+			// Return data, as JSON
+			$result = array(
+				"id" => $user_id, 
+				"device_id" => $device_id, 
+				"username" => "", 
+				"email" => $row[1], 
+				"pin" => $row[2],
+				"points" => $user_points, 
+				"finished" => $tot 
+			);
 			
-			$query = 'SELECT `worth` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
-			$row = mysql_fetch_row(mysql_query($query));
-			$worth = $row[0] + $price;
+			//$d_id = '44a83c991875a327456f4c1a33622bd6d5a0cdb6d9b76289d60e8be131c95502';
 			
-			$query = 'UPDATE `tblUsers` SET `worth` ='. $worth .' WHERE `id` ='. $user_id .';';
-			$result = mysql_query($query);
+			if ($type_id == 1)
+				$msg = 'Your in-app good ('. $store_info . ') is available inside '. $store_name .'';
+				
+			else
+				$msg = 'Your '. $store_info .' is now available';
+			
+			$ch = curl_init();
+    
+			curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+			curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "tags": ["'. $type_id .'"], "aliases": ["'. $type_id .'"], "aps": {"alert": "'. $msg .'"}}');
+			                                               
+
+			$res = curl_exec($ch);
+			$err_no = curl_errno($ch);
+			$err_msg = curl_error($ch);
+			$header = curl_getinfo($ch);
+			curl_close($ch);
+
+			$this->sendResponse(200, json_encode($result));
 		}
 		
 		
@@ -148,12 +196,12 @@
 	
 	if (isset($_POST["action"])) {
 		switch ($_POST["action"]) {
-			case "0": 
-				if (isset($_POST["userID"]) && isset($_POST['choreID']) && isset($_POST['price']))
-					 $purchases_json = $purchases->makePurchase($_POST["userID"], $_POST['choreID'], $_POST['price']);
+			case "1": 
+				if (isset($_POST["userID"]) && isset($_POST['appID']))
+					 $purchases_json = $purchases->makePurchase($_POST["userID"], $_POST['appID']);
 				break;
 				
-			case "1":
+			case "2":
 				if (isset($_POST["userID"]))
 					 $purchases_json = $purchases->allPurchases($_POST["userID"]);
 				break;

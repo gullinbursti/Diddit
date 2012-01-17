@@ -11,7 +11,7 @@
 @implementation DIApp
 
 @synthesize dictionary;
-@synthesize app_id, title, info, points, score, ico_url, img_url, app_info, images;
+@synthesize app_id, type_id, title, info, points, score, ico_url, img_url, app_info, images;
 
 
 +(DIApp *)appWithDictionary:(NSDictionary *)dictionary {
@@ -20,6 +20,7 @@
 	app.dictionary = dictionary;
 	
 	app.app_id = [[dictionary objectForKey:@"id"] intValue];
+	app.type_id = [[dictionary objectForKey:@"type_id"] intValue]; 
 	app.title = [dictionary objectForKey:@"title"];
 	app.info = [dictionary objectForKey:@"info"];
 	app.points = [[dictionary objectForKey:@"points"] intValue];

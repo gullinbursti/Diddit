@@ -89,7 +89,7 @@ class Store {
 		
 	function partnerApps($user_id) {   
 		
-		$query = 'SELECT * FROM `tblStore` WHERE `type_id` =1 ORDER BY `points`;';
+		$query = 'SELECT * FROM `tblStore` WHERE `feature` ="N" ORDER BY `points`;';
 		$res = mysql_query($query);
 		
 		// Return data, as JSON
@@ -114,7 +114,8 @@ class Store {
 					"id" => $row['id'], 
 					"title" => $row['title'], 
 					"info" => $row['info'], 
-					"dev_id" => $row['dev_id'], 
+					"dev_id" => $row['dev_id'],
+					"type_id" => $row['type_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'],
 					"img_url" => "", 
@@ -131,7 +132,7 @@ class Store {
 	
 	
 	function featureApps($user_id) {
-		$query = 'SELECT * FROM `tblStore` WHERE `type_id` =3 ORDER BY `points`;';
+		$query = 'SELECT * FROM `tblStore` WHERE `feature` ="Y" ORDER BY `points`;';
 		$res = mysql_query($query);
 		
 		// Return data, as JSON
@@ -157,6 +158,7 @@ class Store {
 					"title" => $row['title'], 
 					"info" => $row['info'], 
 					"dev_id" => $row['dev_id'], 
+					"type_id" => $row['type_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'],
 					"img_url" => $row['img_url'], 

@@ -34,6 +34,7 @@
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goFeatured:) name:@"PUSH_FEATURED" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goStatsUpdate:) name:@"UPDATE_STATS" object:nil];
 	}
 	
 	return (self);
@@ -57,8 +58,8 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
-	[self.view addSubview:choreStatsView];
+	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
+	[self.view addSubview:_choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	offersBtn.frame = CGRectMake(228, 15, 84, 34);
@@ -143,6 +144,12 @@
 -(void)_goFeatured:(NSNotification *)notification {
 	NSLog(@"GO FEATURE!!! [%d]", [(NSNumber *)[notification object] intValue]);
 	[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_features objectAtIndex:[(NSNumber *)[notification object] intValue]]] autorelease] animated:YES];
+}
+
+
+#pragma mark - Notifications
+-(void)_goStatsUpdate:(NSNotification *)notification {
+	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 }
 
 #pragma mark - TableView Data Source Delegates

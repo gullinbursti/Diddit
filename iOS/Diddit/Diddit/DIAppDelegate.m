@@ -329,6 +329,10 @@
 	
 	[[UAPush shared] handleNotification:userInfo applicationState:appState];
 	[[UAPush shared] resetBadge]; // zero badge after push received
+	
+	NSArray *tagsArray = [userInfo objectForKey:@"tags"];
+	NSLog(@"TAGS:[%@]", [userInfo objectForKey:@"tags"]);
+	NSLog(@"ALIASES:[%@]", [userInfo objectForKey:@"aliases"]);
 }
 
 

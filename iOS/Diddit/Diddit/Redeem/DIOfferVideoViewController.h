@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "ASIFormDataRequest.h"
 #import "DIOffer.h"
+#import "DILoadOverlay.h"
 
-@interface DIOfferVideoViewController : UIViewController {
+@interface DIOfferVideoViewController : UIViewController <ASIHTTPRequestDelegate> {
 	
 	DIOffer *_offer;
+	DILoadOverlay *_loadOverlay;
 	
 	NSString *_url;
 	UIButton *_closeBtn;

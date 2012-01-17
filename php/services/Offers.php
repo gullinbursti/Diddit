@@ -133,6 +133,43 @@
 			$this->sendResponse(200, json_encode($result));
 			return (true);  
 		}
+		
+		function complete($user_id, $offer_id) {
+            
+			$query = 'SELECT `points` FROM `tblOffers` WHERE `id` = "'. $offer_id .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+			$offer_points = $row[0];
+            
+			$query = 'SELECT `device_id`, `email`, `pin`, `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+			$user_points = $row[3] + $offer_points;
+			
+			$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
+			$tot_res = mysql_query($query);				
+			$tot = mysql_num_rows($tot_res);
+			
+			$query = 'UPDATE `tblUsers` SET `points` ='. $user_points .' WHERE `id` ='. $user_id .';';
+			$result = mysql_query($query);
+			
+			$query = 'INSERT INTO `tblOffersCompleted` (';
+			$query .= '`id`, `user_id`, `offer=-_id`, `added`) ';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $store_id .'", CURRENT_TIMESTAMP);';
+			$result = mysql_query($query);
+			$chore_id = mysql_insert_id();
+			
+			// Return data, as JSON
+			$result = array(
+				"id" => $user_id, 
+				"device_id" => $row[0], 
+				"username" => "", 
+				"email" => $row[1], 
+				"pin" => $row[2],
+				"points" => $user_points, 
+				"finished" => $tot 
+			);
+
+			$this->sendResponse(200, json_encode($result));
+		}
 	}
 	
 	$offers = new Offers;
@@ -141,6 +178,11 @@
 		switch ($_POST["action"]) {
 			case "1":
 				$offers_json = $offers->getAll();
+				break;
+				
+			case "2":
+				if (isset($_POST['userID']) && isset($_POST['offerID']))
+				$offers_json = $offers->complete($_POST['userID'], $_POST['offerID']);
 				break;
 		}
 	}   

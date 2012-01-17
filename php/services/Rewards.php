@@ -92,7 +92,7 @@
 		
 		function allTypes() {
 
-			$query = 'SELECT * FROM `tblRewardTypes`;';
+			$query = 'SELECT * FROM `tblRewardTypes` WHERE `active` = "Y";';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON

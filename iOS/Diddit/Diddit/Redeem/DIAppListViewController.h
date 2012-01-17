@@ -10,7 +10,7 @@
 
 #import "ASIFormDataRequest.h"
 #import "DIPaginationView.h"
-
+#import "DIChoreStatsView.h"
 #import "DILoadOverlay.h"
 
 @interface DIAppListViewController : UIViewController <ASIHTTPRequestDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate> {
@@ -30,6 +30,7 @@
 	NSMutableArray *_cells;
 	
 	DILoadOverlay *_loadOverlay;
+	DIChoreStatsView *_choreStatsView;
 }
 
 @end

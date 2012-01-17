@@ -9,12 +9,24 @@
 #import <UIKit/UIKit.h>
 
 #import "DIApp.h"
+#import "DIChoreStatsView.h"
 #import "DIPaginationView.h"
+#import "DILoadOverlay.h"
+#import "DIAppStatsView.h"
 
-@interface DIAppDetailsViewController : UIViewController <UIScrollViewDelegate> {
+#import "ASIFormDataRequest.h"
+
+@interface DIAppDetailsViewController : UIViewController <UIScrollViewDelegate, ASIHTTPRequestDelegate> {
 	DIApp *_app;
 	DIPaginationView *_paginationView;
 	UIScrollView *_imgScrollView;
+	DILoadOverlay *_loadOverlay;
+	DIChoreStatsView *_choreStatsView;
+	DIAppStatsView *_appStatsView;
+	
+	
+	UIView *_footerView;
+	UIButton *_footerBtn;
 }
 
 -(id)initWithApp:(DIApp *)app;

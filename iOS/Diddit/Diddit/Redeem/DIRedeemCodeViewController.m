@@ -46,7 +46,7 @@
 	codeLabel.textAlignment = UITextAlignmentCenter;
 	codeLabel.text = _redeemCode;
 	[self.view addSubview:codeLabel];
-		
+	
 	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
 	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 	[self.view addSubview:footerView];

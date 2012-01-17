@@ -42,8 +42,8 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)]autorelease];
-	[self.view addSubview:choreStatsView];
+	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)]autorelease];
+	[self.view addSubview:_choreStatsView];
 	
 	UIButton *helpBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	helpBtn.frame = CGRectMake(228, 15, 84, 34);
@@ -138,6 +138,7 @@
 	DIOffer *offer = (DIOffer *)[notification object];
 	
 	NSLog(@"OFFER COMPLETE [%@]", offer.title);
+	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 	
 	[_offers removeObjectIdenticalTo:offer];
 	//[_offersTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];

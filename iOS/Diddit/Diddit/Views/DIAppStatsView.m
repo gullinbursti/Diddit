@@ -16,6 +16,8 @@
 
 @implementation DIAppStatsView
 
+@synthesize ptsLbl = _ptsLbl;
+
 -(id)initWithCoords:(CGPoint)pos appVO:(DIApp *)app {
 	if ((self = [super initWithFrame:CGRectMake(pos.x, pos.y, 300.0, 60.0)])) {
 		_app = app;
@@ -53,13 +55,13 @@
 		ptsView.layer.borderWidth = 2.0;
 		[self addSubview:ptsView];
 		
-		UILabel *pointsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 3, 52, 20)] autorelease];
-		pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-		pointsLabel.backgroundColor = [UIColor clearColor];
-		pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		pointsLabel.text = [NSString stringWithFormat:@"%@ D", _app.disp_points];
-		pointsLabel.textAlignment = UITextAlignmentCenter;
-		[ptsView addSubview:pointsLabel];
+		_ptsLbl = [[[UILabel alloc] initWithFrame:CGRectMake(0, 3, 52, 20)] autorelease];
+		_ptsLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		_ptsLbl.backgroundColor = [UIColor clearColor];
+		_ptsLbl.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		_ptsLbl.text = [NSString stringWithFormat:@"%@ D", _app.disp_points];
+		_ptsLbl.textAlignment = UITextAlignmentCenter;
+		[ptsView addSubview:_ptsLbl];
 	}
 	
 	return (self);
@@ -69,6 +71,7 @@
 
 -(void)dealloc {
 	[_app release];
+	[_ptsLbl release];
 	
 	[super dealloc];
 }

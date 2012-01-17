@@ -8,6 +8,7 @@
 
 #import "DIOfferVideoViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "DIAppDelegate.h"
 
 @implementation DIOfferVideoViewController
 
@@ -78,9 +79,13 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];    
 	[_playerController autorelease];
 	
-	[self dismissViewControllerAnimated:YES completion:^(void) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"OFFER_VIDEO_COMPLETE" object:_offer];
-	}];
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	ASIFormDataRequest *offerRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Offers.php"]] retain];
+	[offerRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"action"];
+	[offerRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[offerRequest setPostValue:[NSString stringWithFormat:@"%d", _offer.offer_id] forKey:@"offerID"];
+	[offerRequest setDelegate:self];
+	[offerRequest startAsynchronous];
 }
 
 -(void)movieStartedCallback:(NSNotification *)notification {
@@ -96,6 +101,33 @@
 	return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			[DIAppDelegate setUserProfile:parsedUser];
+			[self dismissViewControllerAnimated:YES completion:^(void) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"OFFER_VIDEO_COMPLETE" object:_offer];
+			}];
+		}
+	}
+	
+	[_loadOverlay remove];
+}
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlay remove];
+}
 
 
 @end
