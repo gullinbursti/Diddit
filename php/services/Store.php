@@ -119,6 +119,7 @@ class Store {
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'],
 					"img_url" => "", 
+					"itunes_id" => $row['itunes_id'], 
 					"score" => $row['score'],
 					"description" => $row['description'],
 					"images" => $img_result
@@ -161,7 +162,8 @@ class Store {
 					"type_id" => $row['type_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'],
-					"img_url" => $row['img_url'], 
+					"img_url" => $row['img_url'],
+					"itunes_id" => $row['itunes_id'],  
 					"score" => $row['score'], 
 					"description" => $row['description'], 
 					"images" => $img_result
@@ -203,7 +205,8 @@ class Store {
 					"dev_id" => $row['dev_id'], 
 					"points" => $row['points'], 
 					"ico_url" => $row['ico_url'], 
-					"score" => $row['score'],
+					"score" => $row['score'], 
+					"itunes_id" => $row['itunes_id'], 
 					"description" => $row['description'],
 					"images" => $img_result
 				));

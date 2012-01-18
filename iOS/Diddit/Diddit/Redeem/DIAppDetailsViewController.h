@@ -16,7 +16,7 @@
 
 #import "ASIFormDataRequest.h"
 
-@interface DIAppDetailsViewController : UIViewController <UIScrollViewDelegate, ASIHTTPRequestDelegate> {
+@interface DIAppDetailsViewController : UIViewController <UIScrollViewDelegate, ASIHTTPRequestDelegate, UIAlertViewDelegate> {
 	DIApp *_app;
 	DIPaginationView *_paginationView;
 	UIScrollView *_imgScrollView;

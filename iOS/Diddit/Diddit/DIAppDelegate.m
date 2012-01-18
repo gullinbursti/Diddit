@@ -192,6 +192,20 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+	/*
+	// Schedule a test notification
+	UILocalNotification *localNotification = [[[UILocalNotification alloc] init] autorelease];
+	localNotification.fireDate = [[NSDate alloc] initWithTimeIntervalSinceNow:5];
+	localNotification.alertBody = @"BACKGROUNDED!";
+	localNotification.soundName = UILocalNotificationDefaultSoundName;
+	localNotification.applicationIconBadgeNumber = 1;
+	
+	NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Object 1", @"Key 1", @"Object 2", @"Key 2", nil];
+	localNotification.userInfo = infoDict;
+	
+	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+	 */
+	
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -330,9 +344,38 @@
 	[[UAPush shared] handleNotification:userInfo applicationState:appState];
 	[[UAPush shared] resetBadge]; // zero badge after push received
 	
-	NSArray *tagsArray = [userInfo objectForKey:@"tags"];
-	NSLog(@"TAGS:[%@]", [userInfo objectForKey:@"tags"]);
-	NSLog(@"ALIASES:[%@]", [userInfo objectForKey:@"aliases"]);
+	//[UAPush shared].delegate = self;
+	
+	int type_id = [[userInfo objectForKey:@"type"] intValue];
+	NSLog(@"TYPE: [%d]", type_id);
+	/*
+	if (type_id == 2) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:@"Visit iTunes", nil];
+		[alert show];
+		[alert release];
+		
+		NSString *redeemCode = [[DIAppDelegate md5:[NSString stringWithFormat:@"%d", arc4random()]] uppercaseString];
+		redeemCode = [redeemCode substringToIndex:[redeemCode length] - 12];
+		
+		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+		[pasteboard setValue:redeemCode forPasteboardType:@"public.utf8-plain-text"];
+	}
+	
+	UILocalNotification *localNotification = [[[UILocalNotification alloc] init] autorelease];
+	localNotification.fireDate = [[NSDate alloc] initWithTimeIntervalSinceNow:5];
+	localNotification.alertBody = [NSString stringWithFormat:@"%d", [[userInfo objectForKey:@"type"] intValue]];;
+	localNotification.soundName = UILocalNotificationDefaultSoundName;
+	localNotification.applicationIconBadgeNumber = 3;
+	
+	NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Object 1", @"Key 1", @"Object 2", @"Key 2", nil];
+	localNotification.userInfo = infoDict;
+	
+	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+	 */
+}
+
+-(void)displayNotificationAlert:(NSString *)alertMessage {
+	
 }
 
 

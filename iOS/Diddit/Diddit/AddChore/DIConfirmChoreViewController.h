@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
 #import "DIBasePushHeaderViewController.h"
 
@@ -16,7 +17,7 @@
 
 @class DILoadOverlay;
 
-@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface DIConfirmChoreViewController : DIBasePushHeaderViewController <ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SKProductsRequestDelegate> {
 	
 	BOOL _isCameraPic;
 	DIChore *_chore;
@@ -30,5 +31,6 @@
 }
 
 -(id)initWithChore:(DIChore *)chore;
+- (void) requestProductData;
 
 @end

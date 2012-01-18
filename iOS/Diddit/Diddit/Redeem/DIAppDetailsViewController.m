@@ -241,7 +241,7 @@
 	[purchaseRequest setDelegate:self];
 	[purchaseRequest startAsynchronous];
 	
-	[_appStatsView ptsLbl].text = @"PURCHASED";
+	[_appStatsView makePuchased];
 	[UIView animateWithDuration:0.33 animations:^(void) {
 		CGRect footerFrame = _footerView.frame;
 		footerFrame.origin.y += footerFrame.size.height;
@@ -264,6 +264,29 @@
 }
 
 
+#pragma mark - AlertView Delegates
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	switch(_app.type_id) {
+		case 1:
+			if (buttonIndex == 1) {
+				NSLog(@"%@", [NSString stringWithFormat:@"itms-apps://itunes.apple.com/us/app/id%@?mt=8", _app.itunes_id]);
+				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%@?mt=8", _app.itunes_id]]];
+			}
+			break;
+			
+		case 2:
+			if (buttonIndex == 1) {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to iTunes", nil];
+				[alert show];
+				[alert release];
+				
+				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/us/"]];
+			}
+			break;
+	}
+}
+
+
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
 	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
@@ -282,7 +305,7 @@
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_STATS" object:nil];
 			
 			if (_app.type_id == 2) {
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Copy", nil];
 				[alert show];
 				[alert release];
 				
@@ -292,7 +315,12 @@
 				UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
 				[pasteboard setValue:redeemCode forPasteboardType:@"public.utf8-plain-text"];
 				
+			} else {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_app.info message:[NSString stringWithFormat:@"Your in-app good is available inside %@", _app.title] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Launch", nil];
+				[alert show];
+				[alert release];
 			}
+				
 		}
 	}
 		

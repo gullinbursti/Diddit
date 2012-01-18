@@ -34,6 +34,7 @@
 		4C3E292314B8F45100D1D218 /* circleDot_nonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E291D14B8F45100D1D218 /* circleDot_nonActive@2x.png */; };
 		4C3E292C14B8F86A00D1D218 /* DIRewardViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E292B14B8F86A00D1D218 /* DIRewardViewCell.m */; };
 		4C3E292F14B8F8B500D1D218 /* DIReward.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E292E14B8F8B500D1D218 /* DIReward.m */; };
+		4C4CDD7414C5FFA00054B723 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C4CDD7314C5FFA00054B723 /* Localizable.strings */; };
 		4CB8358C14BCFCF000A3EE60 /* pagination_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB8358A14BCFCF000A3EE60 /* pagination_off.png */; };
 		4CB8358D14BCFCF000A3EE60 /* pagination_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB8358B14BCFCF000A3EE60 /* pagination_off@2x.png */; };
 		4CB8359914BD522A00A3EE60 /* DIFooterBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8359814BD522A00A3EE60 /* DIFooterBtnView.m */; };
@@ -384,6 +385,7 @@
 		4C3E292B14B8F86A00D1D218 /* DIRewardViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIRewardViewCell.m; sourceTree = "<group>"; };
 		4C3E292D14B8F8B500D1D218 /* DIReward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIReward.h; sourceTree = "<group>"; };
 		4C3E292E14B8F8B500D1D218 /* DIReward.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIReward.m; sourceTree = "<group>"; };
+		4C4CDD7314C5FFA00054B723 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		4CB8358A14BCFCF000A3EE60 /* pagination_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pagination_off.png; sourceTree = "<group>"; };
 		4CB8358B14BCFCF000A3EE60 /* pagination_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pagination_off@2x.png"; sourceTree = "<group>"; };
 		4CB8359714BD522900A3EE60 /* DIFooterBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIFooterBtnView.h; sourceTree = "<group>"; };
@@ -1945,6 +1947,7 @@
 				4CE5FB2F14B7EE7100847283 /* Fonts */,
 				4CE5FB3114B7EEBB00847283 /* FPO */,
 				4CE5FB3014B7EE9700847283 /* Testing */,
+				4C4CDD7314C5FFA00054B723 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2210,6 +2213,7 @@
 				4CFF043514C0DDD600729A5F /* logo@2x.png in Resources */,
 				4CFF043814C0F23000729A5F /* cameraIcon_lg.png in Resources */,
 				4CFF043914C0F23000729A5F /* cameraIcon_lg@2x.png in Resources */,
+				4C4CDD7414C5FFA00054B723 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2365,7 +2369,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "525A8FEF-1C2B-4E0F-9C57-B4E849A8B41D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6068E960-CC54-49D3-BC19-1793C04A4ECC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2376,7 +2380,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthew Holcombe (RTUXT9B8RZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Matthew Holcombe";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2385,7 +2389,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "525A8FEF-1C2B-4E0F-9C57-B4E849A8B41D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04D800CF-665C-45F2-8058-5C8EF11AC848";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2403,6 +2407,7 @@
 					"\"$(SRCROOT)/Airship\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2418,6 +2423,7 @@
 					"\"$(SRCROOT)/Airship\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

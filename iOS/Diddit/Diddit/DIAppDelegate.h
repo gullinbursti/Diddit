@@ -14,8 +14,9 @@
 #import "ASIFormDataRequest.h"
 
 #import "DILoadOverlay.h"
+#import "UAPushNotificationHandler.h"
 
-@interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate> {
+@interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate, UAPushNotificationDelegate> {
 	
 	DIChoreListViewController *_choreListViewController;
 	ASIFormDataRequest *_userRequest;

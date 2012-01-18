@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSDictionary *dictionary;
 @property (nonatomic) int app_id;
 @property (nonatomic) int type_id;
+@property (nonatomic, retain) NSString *itunes_id;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
 @property (nonatomic) int points;

@@ -24,10 +24,40 @@
 	if ((self = [super initWithTitle:@"add chore" header:@"review, approve, and submit" backBtn:@"Back"])) {
 		_chore = chore;	
 		_isCameraPic = NO;
+		
+		if ([SKPaymentQueue canMakePayments])
+			[self requestProductData];
+		
+		else
+			NSLog(@"NO CAN BUY DIPSHIT!");
 	}
 	
 	return (self);
 }
+
+- (void) requestProductData
+{
+	NSSet *prodIDs = [NSSet setWithObjects:@"com.getdiddit.consumable.00099", nil];
+	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:prodIDs];
+	request.delegate = self;
+	[request start];
+}
+
+
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
+{
+	NSLog(@"\n\n-------PRODUCT REQUEST--------\nINVALID:[%@]\nVALID[%@]", response.invalidProductIdentifiers, response.products);
+	
+	NSArray *myProduct = response.products;
+	// populate UI
+	for(int i=0;i<[myProduct count];i++)
+	{
+		SKProduct *product = [myProduct objectAtIndex:i];
+		NSLog(@"Name: %@ - Price: %f",[product localizedTitle],[[product price] doubleValue]);
+		NSLog(@"Product identifier: %@", [product productIdentifier]);
+	}
+}
+
 
 -(void)loadView {
 	[super loadBaseView];

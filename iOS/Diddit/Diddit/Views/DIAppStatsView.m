@@ -16,8 +16,6 @@
 
 @implementation DIAppStatsView
 
-@synthesize ptsLbl = _ptsLbl;
-
 -(id)initWithCoords:(CGPoint)pos appVO:(DIApp *)app {
 	if ((self = [super initWithFrame:CGRectMake(pos.x, pos.y, 300.0, 60.0)])) {
 		_app = app;
@@ -47,13 +45,13 @@
 		DIAppRatingStarsView *appRatingStarsView = [[[DIAppRatingStarsView alloc] initWithCoords:CGPointMake(66.0, 38.0) appScore:_app.score] autorelease];
 		[self addSubview:appRatingStarsView];
 		
-		UIView *ptsView = [[[UIView alloc] initWithFrame:CGRectMake(247.0, 14.0, 52, 25)] autorelease];
-		ptsView.backgroundColor = [UIColor colorWithRed:0.976 green:0.976 blue:0.929 alpha:1.0];
-		ptsView.layer.cornerRadius = 6.0;
-		ptsView.clipsToBounds = YES;
-		ptsView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
-		ptsView.layer.borderWidth = 2.0;
-		[self addSubview:ptsView];
+		_ptsView = [[[UIView alloc] initWithFrame:CGRectMake(247.0, 14.0, 52, 25)] autorelease];
+		_ptsView.backgroundColor = [UIColor colorWithRed:0.976 green:0.976 blue:0.929 alpha:1.0];
+		_ptsView.layer.cornerRadius = 6.0;
+		_ptsView.clipsToBounds = YES;
+		_ptsView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_ptsView.layer.borderWidth = 2.0;
+		[self addSubview:_ptsView];
 		
 		_ptsLbl = [[[UILabel alloc] initWithFrame:CGRectMake(0, 3, 52, 20)] autorelease];
 		_ptsLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
@@ -61,17 +59,31 @@
 		_ptsLbl.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 		_ptsLbl.text = [NSString stringWithFormat:@"%@ D", _app.disp_points];
 		_ptsLbl.textAlignment = UITextAlignmentCenter;
-		[ptsView addSubview:_ptsLbl];
+		[_ptsView addSubview:_ptsLbl];
 	}
 	
 	return (self);
 		  
 }
 
+-(void)makePuchased {
+	CGRect frame = _ptsView.frame;
+	frame.origin.x = 217;
+	frame.size.width = 82;
+	_ptsView.frame = frame;
+	
+	frame = _ptsLbl.frame;
+	frame.origin.x = 0;
+	frame.size.width = 82;
+	_ptsLbl.frame = frame;
+	
+	_ptsLbl.text = @"PURCHASED";
+}
+
 
 -(void)dealloc {
 	[_app release];
-	[_ptsLbl release];
+	//[_ptsLbl release];
 	
 	[super dealloc];
 }

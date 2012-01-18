@@ -138,22 +138,22 @@
 				
 			else
 				$msg = 'Your '. $store_info .' is now available';
-			
+			                  
+			/*
 			$ch = curl_init();
-    
 			curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
 			curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "tags": ["'. $type_id .'"], "aliases": ["'. $type_id .'"], "aps": {"alert": "'. $msg .'"}}');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
 			                                               
-
 			$res = curl_exec($ch);
 			$err_no = curl_errno($ch);
 			$err_msg = curl_error($ch);
 			$header = curl_getinfo($ch);
 			curl_close($ch);
+			*/
 
 			$this->sendResponse(200, json_encode($result));
 		}
