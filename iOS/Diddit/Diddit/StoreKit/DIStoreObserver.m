@@ -7,6 +7,7 @@
 //
 
 #import "DIStoreObserver.h"
+#import "DIAppDelegate.h"
 
 @implementation DIStoreObserver
 
@@ -31,15 +32,18 @@
 	}
 }
 
--(void) failedTransaction: (SKPaymentTransaction *)transaction {
+-(void) failedTransaction:(SKPaymentTransaction *)transaction {
 	if (transaction.error.code != SKErrorPaymentCancelled) {
 		// Optionally, display an error here.
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed Transaction" message:transaction.error.description delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+		[alert show];
+		[alert release];
 	}
 	
-	[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+	[[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 
-- (void) restoreTransaction: (SKPaymentTransaction *)transaction {
+-(void)restoreTransaction:(SKPaymentTransaction *)transaction {
 	//If you want to save the transaction
 	// [self recordTransaction: transaction];
 	
@@ -51,15 +55,54 @@
 	
 }
 
-- (void) completeTransaction: (SKPaymentTransaction *)transaction {
+-(void)completeTransaction:(SKPaymentTransaction *)transaction {
 	//If you want to save the transaction
-	// [self recordTransaction: transaction];
+	//[self recordTransaction: transaction];
 	
 	//Provide the new content
 	//[self provideContent: transaction.payment.productIdentifier];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Completed Transaction" message:@"Your payment has been processed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+	[alert show];
+	[alert release];
 	
-	[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	
+	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/AppStore.php"]] retain];
+	[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"action"];
+	[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[dataRequest setPostValue:transaction.transactionIdentifier forKey:@"transID"];
+	[dataRequest setPostValue:[[NSString stringWithFormat:@"%@", transaction.transactionReceipt] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"< >"]] forKey:@"data"];
+	[dataRequest setPostValue:[dateFormat stringFromDate:transaction.transactionDate] forKey:@"transDate"];
+	[dataRequest setDelegate:self];
+	[dataRequest startAsynchronous];
+	
+	[dateFormat release];
+	
+	[[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+}
+
+#pragma mark - ASI Delegates
+-(void)requestFinished:(ASIHTTPRequest *)request { 
+	NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	
+	@autoreleasepool {
+		NSError *error = nil;
+		NSDictionary *parsedResult = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		
+		if (error != nil)
+			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+		
+		else {
+			//[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:[DIChore choreWithDictionary:parsedChore]];
+		}
+	}
+	
+	[_loadOverlay remove];
+}
+
+-(void)requestFailed:(ASIHTTPRequest *)request {
+	[_loadOverlay remove];
 }
 
 @end

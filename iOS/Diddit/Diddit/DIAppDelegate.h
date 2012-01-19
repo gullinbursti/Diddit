@@ -45,6 +45,9 @@
 +(void)notificationsToggle:(BOOL)isOn;
 +(BOOL)notificationsEnabled;
 
++(void)setCompletedOffers:(NSDictionary *)offers;
++(NSDictionary *)completedOffers;
+
 +(NSString *)md5:(NSString *)input;
 
 

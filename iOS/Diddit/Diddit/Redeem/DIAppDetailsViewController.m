@@ -234,8 +234,8 @@
 	}
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Purchases.php"]] retain];
-	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 3] forKey:@"action"];
 	[purchaseRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _app.app_id] forKey:@"appID"];
 	[purchaseRequest setDelegate:self];

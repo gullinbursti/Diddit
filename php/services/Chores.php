@@ -92,7 +92,7 @@
 		
 		function activeByUserID($user_id) {
 
-			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`reward_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
+			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON
@@ -163,17 +163,17 @@
 
 			// has entry
 			if ($row) {
-                $reward_id = $row[0];
+                $iap_id = $row[0];
 				$points = $row[1];
 			
 			} else {
-				$reward_id = 0;
+				$iap_id = 0;
 				$points = 0;
 			}
 			
 			$query = 'INSERT INTO `tblChores` (';
-			$query .= '`id`, `user_id`, `reward_id`, `title`, `info`, `ico_path`, `img_path`, `status_id`, `expires`, `added`, `modified`) ';
-			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $reward_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
+			$query .= '`id`, `user_id`, `iap_id`, `title`, `info`, `ico_path`, `img_path`, `status_id`, `expires`, `added`, `modified`) ';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $iap_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
 			

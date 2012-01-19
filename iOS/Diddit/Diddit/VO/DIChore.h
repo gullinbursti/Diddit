@@ -19,6 +19,7 @@
 @property (nonatomic) int chore_id;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
+@property (nonatomic, retain) NSString *itunes_id;
 @property (nonatomic) float cost;
 @property (nonatomic) int points;
 @property (nonatomic, retain) NSString *icoPath;

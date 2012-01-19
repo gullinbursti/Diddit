@@ -13,6 +13,7 @@
 #import "DISettingsViewController.h"
 #import "DIWelcomeViewController.h"
 
+#import "DIStoreObserver.h"
 #import "UAirship.h"
 #import "UAPush.h"
 
@@ -64,6 +65,16 @@
 +(int)userTotalFinished {
 	return ([[[DIAppDelegate profileForUser] objectForKey:@"finished"] intValue]);
 }
+
++(void)setCompletedOffers:(NSDictionary *)offers {
+	
+}
+
++(NSDictionary *)completedOffers {
+	return (nil);
+}
+
+
 
 +(void)notificationsToggle:(BOOL)isOn {
 	NSString *bool_str;
@@ -153,6 +164,7 @@
 	}
 	
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+	[[SKPaymentQueue defaultQueue] addTransactionObserver:[[DIStoreObserver alloc] init]];
 	
 	_choreListViewController = [[DIChoreListViewController alloc] init];
 	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];

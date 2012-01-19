@@ -1,6 +1,6 @@
 <?php
 
-	class Offers {	
+	class AppStore {	
 		private $db_conn;
 		
 		function __construct() {
@@ -90,9 +90,9 @@
 	
 		
 		
-		function getAll() {
+		function activeIAP() {
 
-			$query = 'SELECT * FROM `tblOffers`;';
+			$query = 'SELECT * FROM `tblRewardTypes` WHERE `active` = "Y";';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON
@@ -102,30 +102,14 @@
 			if (mysql_num_rows($res) > 0) {
 				
 				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-					
-					$query = 'SELECT `tblImages`.`type_id`, `tblImages`.`url` FROM `tblImages` INNER JOIN `tblOffersImages` ON `tblImages`.`id` = `tblOffersImages`.`image_id` WHERE `tblOffersImages`.`offer_id` ='. $row['id'] .';';
-					$img_res = mysql_query($query);
-					$img_result = array();
-			
-					while ($img_row = mysql_fetch_array($img_res, MYSQL_BOTH)) {
-						array_push($img_result, array(
-							"type" => $img_row[0],
-							"url" => $img_row[1]
-						));
-					}
-				
-				
 					array_push($result, array(
 						"id" => $row['id'], 
-						"title" => $row['title'],
-						"name" => $row['app_name'], 
+						"name" => $row['name'], 
 						"info" => $row['info'], 
 						"itunes_id" => $row['itunes_id'], 
 						"points" => $row['points'],
-						"ico_url" => $row['ico_url'], 
-						"img_url" => $row['img_url'], 
-						"video_url" => $row['video_url'],
-						"images" => $img_result
+						"price" => $row['cost'], 
+						"ico_url" => $row['ico_url']
 					));
 				}
 			}
@@ -134,55 +118,30 @@
 			return (true);  
 		}
 		
-		function complete($user_id, $offer_id) {
-            
-			$query = 'SELECT `points` FROM `tblOffers` WHERE `id` = "'. $offer_id .'";';
-			$row = mysql_fetch_row(mysql_query($query));
-			$offer_points = $row[0];
-            
-			$query = 'SELECT `device_id`, `email`, `pin`, `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
-			$row = mysql_fetch_row(mysql_query($query));
-			$user_points = $row[3] + $offer_points;
-			
-			$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
-			$tot_res = mysql_query($query);				
-			$tot = mysql_num_rows($tot_res);
-			
-			$query = 'UPDATE `tblUsers` SET `points` ='. $user_points .' WHERE `id` ='. $user_id .';';
+		function addReceipt($user_id, $trans_id, $trans_data, $trans_date) {
+			$query = 'INSERT INTO `tblReceipts` (';
+			$query .= '`id`, `user_id`, `trans_id`, `trans_date`, `trans_data`, `added`) ';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $trans_id .'", "'. $trans_date .'", "'. $trans_data .'", CURRENT_TIMESTAMP);';
 			$result = mysql_query($query);
+			$receipt_id = mysql_insert_id();
 			
-			$query = 'INSERT INTO `tblOffersCompleted` (';
-			$query .= '`id`, `user_id`, `offer_id`, `added`) ';
-			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $offer_id .'", CURRENT_TIMESTAMP);';
-			$result = mysql_query($query);
-			$chore_id = mysql_insert_id();
-			
-			// Return data, as JSON
-			$result = array(
-				"id" => $user_id, 
-				"device_id" => $row[0], 
-				"username" => "", 
-				"email" => $row[1], 
-				"pin" => $row[2],
-				"points" => $user_points, 
-				"finished" => $tot 
-			);
-
-			$this->sendResponse(200, json_encode($result));
+			$this->sendResponse(200, json_encode(array(
+				"id" => $receipt_id
+			)));  
 		}
 	}
 	
-	$offers = new Offers;
+	$appStore = new AppStore;
 	
 	if (isset($_POST["action"])) {
 		switch ($_POST["action"]) {
 			case "1":
-				$offers_json = $offers->getAll();
+				$appStore_json = $appStore->activeIAP();
 				break;
-				
+			
 			case "2":
-				if (isset($_POST['userID']) && isset($_POST['offerID']))
-				$offers_json = $offers->complete($_POST['userID'], $_POST['offerID']);
+			 	if (isset($_POST['userID']) && isset($_POST['transID']) && isset($_POST['data']) && isset($_POST['transDate']))
+					$appStore_json = $appStore->addReceipt($_POST['userID'], $_POST['transID'], $_POST['data'], $_POST['transDate']);
 				break;
 		}
 	}   

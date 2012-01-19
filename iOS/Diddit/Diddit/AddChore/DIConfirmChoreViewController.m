@@ -25,36 +25,56 @@
 		_chore = chore;	
 		_isCameraPic = NO;
 		
-		if ([SKPaymentQueue canMakePayments])
+		if ([SKPaymentQueue canMakePayments] && _chore.cost > 0.00)
 			[self requestProductData];
 		
 		else
-			NSLog(@"NO CAN BUY DIPSHIT!");
+			NSLog(@"NO CAN BUY!");
 	}
 	
 	return (self);
 }
 
-- (void) requestProductData
-{
-	NSSet *prodIDs = [NSSet setWithObjects:@"com.getdiddit.consumable.00099", nil];
-	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:prodIDs];
+-(void)requestProductData {
+	//NSMutableArray *idList = [[NSMutableArray alloc] init];  
+	
+	NSLog(@"productID:[%@]", _chore.itunes_id);
+	SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObjects:_chore.itunes_id, nil]];
+	
+	//for (int i=0; i<=0; i++) { //9
+	//	NSString *productIdent = [NSString stringWithFormat:@"com.getdiddit.consumable.%03d99", i];
+	//	[idList addObject:productIdent];
+	//	NSLog(@"PRODUCT: [%@]", productIdent);
+	//}	
+	//SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:idList]];  
+	
+	//NSSet *prodIDs = [NSSet setWithObjects:@"com.getdiddit.consumable.00099", nil];
+	//SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:prodIDs];
 	request.delegate = self;
 	[request start];
 }
 
 
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
-{
+-(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
 	NSLog(@"\n\n-------PRODUCT REQUEST--------\nINVALID:[%@]\nVALID[%@]", response.invalidProductIdentifiers, response.products);
 	
 	NSArray *myProduct = response.products;
-	// populate UI
-	for(int i=0;i<[myProduct count];i++)
-	{
+	
+	if ([response.invalidProductIdentifiers count] > 0) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"App Store Error" message:@"Restart app to try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+		[alert show];
+		[alert release];
+	}
+	
+	for (int i=0; i<[myProduct count]; i++) {
 		SKProduct *product = [myProduct objectAtIndex:i];
-		NSLog(@"Name: %@ - Price: %f",[product localizedTitle],[[product price] doubleValue]);
+		NSLog(@"Name: %@ - Price: %f - INFO:[%@]", [product localizedTitle], [[product price] doubleValue], [product localizedDescription]);
 		NSLog(@"Product identifier: %@", [product productIdentifier]);
+		
+		SKPayment *payRequest = [SKPayment paymentWithProduct:product];
+		[[SKPaymentQueue defaultQueue] addPayment:payRequest];
+		
+		[request autorelease];
 	}
 }
 

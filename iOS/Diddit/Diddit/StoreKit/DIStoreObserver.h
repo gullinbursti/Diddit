@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
+#import "ASIFormDataRequest.h"
+#import "DILoadOverlay.h"
 
-@interface DIStoreObserver : NSObject <SKPaymentTransactionObserver> {
-	
+@interface DIStoreObserver : NSObject <SKPaymentTransactionObserver, ASIHTTPRequestDelegate> {
+	DILoadOverlay *_loadOverlay;
 }
 
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions;

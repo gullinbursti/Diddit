@@ -20,7 +20,7 @@
 @synthesize imgPath;
 @synthesize isFinished;
 @synthesize expires;
-
+@synthesize itunes_id;
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
 	
@@ -69,6 +69,7 @@
 	self.info = nil;
 	self.icoPath = nil;
 	self.imgPath = nil;
+	self.itunes_id = nil;
 	
 	[super dealloc];
 }

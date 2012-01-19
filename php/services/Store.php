@@ -215,25 +215,112 @@ class Store {
 		
 		$this->sendResponse(200, json_encode($result));
 		return (true);   
-	} 
+	}
 	
-	function purchaseApp($user_id, $app_id, $points) {
-		$query = 'SELECT `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
+	
+	
+	
+	/**
+	 * This service returns all jobs available
+	 * @returns recordset
+	 */
+	function makePurchase($user_id, $store_id) {
+           
+		$query = 'SELECT `title`, `info`, `points`, `type_id` FROM `tblStore` WHERE `id` = "'. $store_id .'";';
 		$row = mysql_fetch_row(mysql_query($query));
-		$points = $row[0] - $points;
-			
-		$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $user_id .';';
+		$store_title = $row[0];
+		$store_info = $row[1];
+		$store_points = $row[2];
+		$type_id = $row[3];
+           
+		$query = 'SELECT `device_id`, `email`, `pin`, `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
+		$row = mysql_fetch_row(mysql_query($query));
+		$user_points = $row[3] - $store_points;
+		$device_id = $row[0];
+		
+		$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
+		$tot_res = mysql_query($query);				
+		$tot = mysql_num_rows($tot_res);
+		
+		$query = 'UPDATE `tblUsers` SET `points` ='. $user_points .' WHERE `id` ='. $user_id .';';
 		$result = mysql_query($query);
 		
+		$query = 'INSERT INTO `tblPurchases` (';
+		$query .= '`id`, `user_id`, `store_id`, `added`) ';
+		$query .= 'VALUES (NULL, "'. $user_id .'", "'. $store_id .'", CURRENT_TIMESTAMP);';
+		$result = mysql_query($query);
+		$chore_id = mysql_insert_id();
 		
 		// Return data, as JSON
 		$result = array(
-			"success" => "true" 
+			"id" => $user_id, 
+			"device_id" => $device_id, 
+			"username" => "", 
+			"email" => $row[1], 
+			"pin" => $row[2],
+			"points" => $user_points, 
+			"finished" => $tot 
 		);
+		
+		//$d_id = '44a83c991875a327456f4c1a33622bd6d5a0cdb6d9b76289d60e8be131c95502';
+		
+		if ($type_id == 1)
+			$msg = 'Your in-app good ('. $store_info . ') is available inside '. $store_name .'';
+			
+		else
+			$msg = 'Your '. $store_info .' is now available';
+		                  
+		/*
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+		curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+		                                               
+		$res = curl_exec($ch);
+		$err_no = curl_errno($ch);
+		$err_msg = curl_error($ch);
+		$header = curl_getinfo($ch);
+		curl_close($ch);
+		*/
 
 		$this->sendResponse(200, json_encode($result));
-		return (true);
 	}
+	
+	
+	function allPurchases($user_id) {
+
+		$query = 'SELECT * FROM `tblPurchases` WHERE `user_id` = "'. $user_id .'" ORDER BY `added`;';
+		$res = mysql_query($query);
+		
+		// error performing query
+		if (mysql_num_rows($res) > 0) {
+				
+			// Return data, as JSON
+			$result = array();
+		
+			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+				array_push($result, array(
+					"id" => $row['id'], 
+					"chore_id" => $row['chore_id'], 
+					"price" => $row['price'], 
+					"added" => $row['added']
+				));
+			}
+		
+			$this->sendResponse(200, json_encode($result));
+			return (true);
+		
+		} else {
+			$this->sendResponse(200, json_encode(array()));
+			return (true);
+		}
+	}
+	
+	
+	
 }
 
 	
@@ -254,10 +341,15 @@ if (isset($_POST["action"])) {
 		case 2:   
 			$store_json = $store->giftCards();
 			break;
-				
-	    case 3:
-			if (isset($_POST['userID']) && isset($_POST['appID']) && isset($_POST['points']))
-			$store_json = $store->purchaseApp($_POST['userID'], $_POST['appID'], $_POST['points']);
+			
+		case 3:
+			if (isset($_POST['userID']) && isset($_POST['appID']))
+				$store_json = $store->makePurchase($_POST['userID'], $_POST['appID']);
+			break;
+			
+		case 4:   
+			if (isset($_POST['userID']))
+				$store_json = $store->allPurchases($_POST['userID']);
 			break;
 	}
 }

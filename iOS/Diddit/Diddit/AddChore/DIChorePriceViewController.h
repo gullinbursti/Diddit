@@ -18,7 +18,7 @@
 	DIChore *_chore;
 	
 	UITableView *_rewardTableView;
-	NSMutableArray *_rewards;
+	NSMutableArray *_iapPaks;
 	NSMutableArray *_cells;
 	
 	UIButton *_howBtn;

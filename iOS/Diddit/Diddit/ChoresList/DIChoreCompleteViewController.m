@@ -189,7 +189,10 @@
 			
 			else {
 				[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
-				[[NSUserDefaults standardUserDefaults] setObject:nil forKey:_chore.imgPath];
+				
+				if ([[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath]) {
+					[[NSUserDefaults standardUserDefaults] setObject:nil forKey:_chore.imgPath];
+				}
 			}
 		}
 	}

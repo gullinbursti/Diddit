@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
+#import "DIChoreStatsView.h"
 
 @class DILoadOverlay;
 
@@ -15,6 +16,7 @@
 	
 	ASIFormDataRequest *_activeChoresRequest;
 	DILoadOverlay *_loadOverlay;
+	DIChoreStatsView *_choreStatsView;
 	
 	UITableView *_myChoresTableView;
 	

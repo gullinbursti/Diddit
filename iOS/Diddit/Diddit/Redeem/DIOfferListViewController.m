@@ -111,11 +111,11 @@
 
 
 -(void)dealloc {
-	[_offersTableView release];
+	//[_offersTableView release];
 	//[_offers release];
 	//[_emptyLabel release];
-	[_offersDataRequest release];
-	[_loadOverlay release];
+	//[_offersDataRequest release];
+	//[_loadOverlay release];
 	
 	[super dealloc];
 }
@@ -185,34 +185,37 @@
 -(void)requestFinished:(ASIHTTPRequest *)request { 
 	//NSLog(@"OfferListViewController [_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
 	
-	@autoreleasepool {
-		NSError *error = nil;
-		NSArray *parsedOffers = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-		if (error != nil)
-			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-		
-		else {
-			NSMutableArray *offerList = [NSMutableArray array];
+	if ([request isEqual:_offersDataRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSArray *parsedOffers = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
-			for (NSDictionary *serverOffer in parsedOffers) {
-				DIOffer *offer = [DIOffer offerWithDictionary:serverOffer];
+			else {
+				NSMutableArray *offerList = [NSMutableArray array];
+				
+				for (NSDictionary *serverOffer in parsedOffers) {
+					DIOffer *offer = [DIOffer offerWithDictionary:serverOffer];
+						
+					//NSLog(@"OFFER \"%@\"", offer.title);
+						
+					if (offer != nil)
+						[offerList addObject:offer];
+				}
 					
-				//NSLog(@"OFFER \"%@\"", offer.title);
+				_offers = [offerList retain];
+				[_offersTableView reloadData];
 					
-				if (offer != nil)
-					[offerList addObject:offer];
+				if ([_offers count] > 0) {
+					_offersTableView.hidden = NO;
+					_emptyLabel.hidden = YES;
+				}
+				
+				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 			}
-				
-			_offers = [offerList retain];
-			[_offersTableView reloadData];
-				
-			if ([_offers count] > 0) {
-				_offersTableView.hidden = NO;
-				_emptyLabel.hidden = YES;
-			}
-				
-			//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 		}
+		
 	}
 	
 	[_loadOverlay remove];

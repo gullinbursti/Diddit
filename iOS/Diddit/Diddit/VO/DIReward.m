@@ -18,6 +18,7 @@
 @synthesize points;
 @synthesize cost;
 @synthesize ico_url;
+@synthesize itunes_id;
 
 +(DIReward *)rewardWithDictionary:(NSDictionary *)dictionary {
 	
@@ -30,6 +31,7 @@
 	reward.points = [[dictionary objectForKey:@"points"] intValue];
 	reward.cost = [[dictionary objectForKey:@"price"] floatValue];
 	reward.ico_url = [dictionary objectForKey:@"ico_url"];
+	reward.itunes_id = [dictionary objectForKey:@"itunes_id"];
 
 	return (reward);
 }
@@ -47,6 +49,7 @@
 	self.title = nil;
 	self.info = nil;
 	self.ico_url = nil;
+	self.itunes_id = nil;
 	
 	[super dealloc];
 }

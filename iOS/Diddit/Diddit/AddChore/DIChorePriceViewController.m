@@ -78,10 +78,10 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	ASIFormDataRequest *rewardsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
-	[rewardsRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-	[rewardsRequest setDelegate:self];
-	[rewardsRequest startAsynchronous];
+	ASIFormDataRequest *iapPakRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/AppStore.php"]] retain];
+	[iapPakRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[iapPakRequest setDelegate:self];
+	[iapPakRequest startAsynchronous];
 }
 
 -(void)viewDidLoad {
@@ -94,7 +94,7 @@
 
 -(void)dealloc {
 	[_rewardTableView release];
-	[_rewards release];
+	[_iapPaks release];
 	[_howBtn release];
 	[_loadOverlay release];
 	
@@ -122,18 +122,18 @@
 
 #pragma mark - TableView Data Source Delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_rewards count] + 1);
+	return ([_iapPaks count] + 1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row < [_rewards count]) {
+	if (indexPath.row < [_iapPaks count]) {
 		DIRewardViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIRewardViewCell cellReuseIdentifier]];
 		
 		if (cell == nil)
 			cell = [[[DIRewardViewCell alloc] init] autorelease];
 		
-		cell.reward = [_rewards objectAtIndex:indexPath.row];
+		cell.reward = [_iapPaks objectAtIndex:indexPath.row];
 		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 	
 		[_cells addObject:cell];
@@ -159,7 +159,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	_selIndex = indexPath.row;
-	if (indexPath.row < [_rewards count]) {
+	if (indexPath.row < [_iapPaks count]) {
 	
 		DIRewardViewCell *cell;
 		for (int i=0; i<[_cells count]; i++) {
@@ -170,9 +170,10 @@
 		cell = (DIRewardViewCell *)[_cells objectAtIndex:indexPath.row];
 		[cell toggleSelect:YES];
 		
-		_chore.points = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).points;
-		_chore.cost = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).cost;
-		_chore.icoPath = ((DIReward *)[_rewards objectAtIndex:indexPath.row]).ico_url;
+		_chore.points = ((DIReward *)[_iapPaks objectAtIndex:indexPath.row]).points;
+		_chore.cost = ((DIReward *)[_iapPaks objectAtIndex:indexPath.row]).cost;
+		_chore.icoPath = ((DIReward *)[_iapPaks objectAtIndex:indexPath.row]).ico_url;
+		_chore.itunes_id = ((DIReward *)[_iapPaks objectAtIndex:indexPath.row]).itunes_id;
 	}
 }
 
@@ -182,7 +183,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
 	
-	if (indexPath.row != _selIndex && _selIndex > -1 && indexPath.row < [_rewards count])
+	if (indexPath.row != _selIndex && _selIndex > -1 && indexPath.row < [_iapPaks count])
 		[(DIRewardViewCell *) cell toggleSelect:NO];
 }
 
@@ -193,22 +194,22 @@
 	
 	@autoreleasepool {
 		NSError *error = nil;
-		NSArray *parsedRewards = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+		NSArray *parsedPaks = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
 		
 		if (error != nil)
 			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 		
 		else {
-			NSMutableArray *rewardList = [NSMutableArray array];
+			NSMutableArray *iapList = [NSMutableArray array];
 			
-			for (NSDictionary *serverReward in parsedRewards) {
-				DIReward *reward = [DIReward rewardWithDictionary:serverReward];
+			for (NSDictionary *serverIAP in parsedPaks) {
+				DIReward *reward = [DIReward rewardWithDictionary:serverIAP];
 				
 				if (reward != nil)
-					[rewardList addObject:reward];
+					[iapList addObject:reward];
 			}
 			
-			_rewards = [rewardList retain];
+			_iapPaks = [iapList retain];
 			[_rewardTableView reloadData];
 			_howBtn.hidden = NO;
 			

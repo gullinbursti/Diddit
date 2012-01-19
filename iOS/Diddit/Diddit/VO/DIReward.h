@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *info;
 @property (nonatomic, retain) NSString *ico_url;
+@property (nonatomic, retain) NSString *itunes_id;
 @property (nonatomic) int points;
 @property (nonatomic, ) float cost;
 

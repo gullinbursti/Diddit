@@ -34,8 +34,8 @@
 		_chores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
 				
-		DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)] autorelease];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:choreStatsView] autorelease];
+		_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)] autorelease];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:_choreStatsView] autorelease];
 		
 		
 		UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
@@ -263,6 +263,8 @@
 	DIChore *chore = (DIChore *)[notification object];
 	[_finishedChores addObject:chore];
 	
+	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+	[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
 	[_chores removeObjectIdenticalTo:chore];
 	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
