@@ -36,7 +36,7 @@
 	_app = app;
 	
 	if ((self = [self init])) {
-		
+		_isStoreAlert = NO;
 	}
 	
 	return (self);
@@ -195,16 +195,16 @@
 }
 
 
--(void)dealloc {
+-(void)dealloc {/*
 	[_app release];
 	[_paginationView release];
 	[_imgScrollView release];
-	//[_loadOverlay release];
-	//[_choreStatsView release];
+	[_loadOverlay release];
+	[_choreStatsView release];
 	
-	//[_footerView release];
+	[_footerView release];
 	//[_footerBtn release];
-	[super dealloc];
+	*/[super dealloc];
 }
 
 
@@ -266,24 +266,34 @@
 
 #pragma mark - AlertView Delegates
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	switch(_app.type_id) {
-		case 1:
-			if (buttonIndex == 1) {
-				NSLog(@"%@", [NSString stringWithFormat:@"itms-apps://itunes.apple.com/us/app/id%@?mt=8", _app.itunes_id]);
-				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%@?mt=8", _app.itunes_id]]];
-			}
-			break;
-			
-		case 2:
-			if (buttonIndex == 1) {
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to iTunes", nil];
-				[alert show];
-				[alert release];
+	if (!_isStoreAlert) {
+		switch(_app.type_id) {
+			case 1:
+				if (buttonIndex == 1) {
+					NSLog(@"%@", [NSString stringWithFormat:@"%@://", [[_app.title stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString]]);
+					//[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@://", [[_app.title stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString]]]];
+					//[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/us/app/id%@?mt=8", _app.itunes_id]]];
+					//[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"fb://profile"]];
+					[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"gutz://"]];
+				}
+				break;
 				
-				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/us/"]];
-			}
-			break;
+			case 2:
+				if (buttonIndex == 1) {
+					_isStoreAlert = YES;
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to iTunes", nil];
+					[alert show];
+					[alert release];
+				}
+				break;
+		}
+	} else {
+		if (buttonIndex == 1) {
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/redeemLandingPage?mt=8&partnerId=30&siteID=hFutuamrkR4"]];
+		}
 	}
+	
+	[alertView dismissWithClickedButtonIndex:1 animated:NO];
 }
 
 

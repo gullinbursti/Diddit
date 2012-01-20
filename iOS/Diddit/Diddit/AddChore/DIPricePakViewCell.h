@@ -1,5 +1,5 @@
 //
-//  DIRewardViewCell.h
+//  DIPricePakViewCell.h
 //  Diddit
 //
 //  Created by Matthew Holcombe on 01.07.12.
@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DIReward.h"
+#import "DIPricePak.h"
 #import "EGOImageView.h"
 
-@interface DIRewardViewCell : UITableViewCell {
+@interface DIPricePakViewCell : UITableViewCell {
 	
-	DIReward *_reward;
+	DIPricePak *_pricePak;
 	
 	EGOImageView *_imgView;
 	UILabel *_pointsLabel;
@@ -29,6 +29,6 @@
 +(NSString *)cellReuseIdentifier;
 -(void)toggleSelect:(BOOL)isSelected;
 
-@property(nonatomic, retain) DIReward *reward;
+@property(nonatomic, retain) DIPricePak *pricePak;
 
 @end

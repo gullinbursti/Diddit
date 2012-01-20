@@ -1,18 +1,18 @@
 //
-//  DIReward.m
+//  DIPricePak.m
 //  Diddit
 //
 //  Created by Matthew Holcombe on 01.07.12.
 //  Copyright (c) 2012 Sparkle Mountain. All rights reserved.
 //
 
-#import "DIReward.h"
+#import "DIPricePak.h"
 
-@implementation DIReward
+@implementation DIPricePak
 
 @synthesize dictionary;
 
-@synthesize reward_id;
+@synthesize iap_id;
 @synthesize title;
 @synthesize info;
 @synthesize points;
@@ -20,20 +20,20 @@
 @synthesize ico_url;
 @synthesize itunes_id;
 
-+(DIReward *)rewardWithDictionary:(NSDictionary *)dictionary {
++(DIPricePak *)pricePakWithDictionary:(NSDictionary *)dictionary {
 	
-	DIReward *reward = [[DIReward alloc] init];
-	reward.dictionary = dictionary;
+	DIPricePak *pricePak = [[DIPricePak alloc] init];
+	pricePak.dictionary = dictionary;
 	
-	reward.reward_id = [[dictionary objectForKey:@"id"] intValue];
-	reward.title = [dictionary objectForKey:@"name"];
-	reward.info = [dictionary objectForKey:@"info"];
-	reward.points = [[dictionary objectForKey:@"points"] intValue];
-	reward.cost = [[dictionary objectForKey:@"price"] floatValue];
-	reward.ico_url = [dictionary objectForKey:@"ico_url"];
-	reward.itunes_id = [dictionary objectForKey:@"itunes_id"];
+	pricePak.iap_id = [[dictionary objectForKey:@"id"] intValue];
+	pricePak.title = [dictionary objectForKey:@"name"];
+	pricePak.info = [dictionary objectForKey:@"info"];
+	pricePak.points = [[dictionary objectForKey:@"points"] intValue];
+	pricePak.cost = [[dictionary objectForKey:@"price"] floatValue];
+	pricePak.ico_url = [dictionary objectForKey:@"ico_url"];
+	pricePak.itunes_id = [dictionary objectForKey:@"itunes_id"];
 
-	return (reward);
+	return (pricePak);
 }
 
 -(NSString *)price {

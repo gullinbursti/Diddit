@@ -15,7 +15,6 @@
 #import "DINavRightBtnView.h"
 #import "DIMyChoresViewCell.h"
 #import "DIChoreExpiresViewController.h"
-#import "DIConfirmChoreViewController.h"
 
 #import "DIChore.h"
 
@@ -102,12 +101,13 @@
 }
 
 - (void)viewDidLoad {
+	[_titleTxtField becomeFirstResponder];
+	
 	[super viewDidLoad];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[_titleTxtField becomeFirstResponder];
 }
 
 - (void)viewDidUnload {

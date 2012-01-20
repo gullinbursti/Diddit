@@ -32,7 +32,7 @@
 	}
 }
 
--(void) failedTransaction:(SKPaymentTransaction *)transaction {
+-(void)failedTransaction:(SKPaymentTransaction *)transaction {
 	if (transaction.error.code != SKErrorPaymentCancelled) {
 		// Optionally, display an error here.
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed Transaction" message:transaction.error.description delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -61,13 +61,15 @@
 	
 	//Provide the new content
 	//[self provideContent: transaction.payment.productIdentifier];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Completed Transaction" message:@"Your payment has been processed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-	[alert show];
-	[alert release];
+	
+	//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Completed Transaction" message:@"Your payment has been processed" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+	//[alert show];
+	//[alert release];
 	
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	
+	_loadOverlay = [[DILoadOverlay alloc] init];
 	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/AppStore.php"]] retain];
 	[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"action"];
 	[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
@@ -94,7 +96,7 @@
 			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 		
 		else {
-			//[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:[DIChore choreWithDictionary:parsedChore]];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"IAP_COMPLETED" object:nil];
 		}
 	}
 	

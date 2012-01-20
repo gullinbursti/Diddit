@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
 #import "DIBasePushHeaderViewController.h"
 #import "ASIFormDataRequest.h"
+#import "DIChore.h"
 
-@class DIChore, DILoadOverlay;
+@class DILoadOverlay;
 
 
-@interface DIChorePriceViewController : DIBasePushHeaderViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+@interface DIChorePriceViewController : DIBasePushHeaderViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate, ASIHTTPRequestDelegate> {
 	DIChore *_chore;
 	
-	UITableView *_rewardTableView;
+	UITableView *_iapTableView;
 	NSMutableArray *_iapPaks;
 	NSMutableArray *_cells;
 	
@@ -28,6 +30,9 @@
 	int _selIndex;
 	
 	DILoadOverlay *_loadOverlay;
+	
+	ASIFormDataRequest *_iapPakRequest;
+	ASIFormDataRequest *_addChoreDataRequest;
 }
 
 

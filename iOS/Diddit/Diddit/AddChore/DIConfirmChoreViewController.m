@@ -7,7 +7,6 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-
 #import "DIConfirmChoreViewController.h"
 
 

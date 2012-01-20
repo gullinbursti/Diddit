@@ -10,7 +10,7 @@
 #import "DIAppDelegate.h"
 #import "DINavRightBtnView.h"
 #import "DIChore.h"
-#import "DIChorePriceViewController.h"
+#import "DIAddPhotoViewController.h"
 
 @implementation DIChoreExpiresViewController
 
@@ -118,7 +118,7 @@
 	_chore.expires = [[NSCalendar currentCalendar] dateByAddingComponents:dc toDate:now options:0];
 	[dc release];
 	
-	[self.navigationController pushViewController:[[[DIChorePriceViewController alloc] initWithChore:_chore] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIAddPhotoViewController alloc] initWithChore:_chore] autorelease] animated:YES];
 	
 	
 	//NSLog(@"EXPIRES: [%@]", _chore.disp_expires);

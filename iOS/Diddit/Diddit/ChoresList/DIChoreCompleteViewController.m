@@ -196,29 +196,6 @@
 			}
 		}
 	}
-	
-//	@autoreleasepool {
-//		NSError *error = nil;
-//		NSArray *parsedRewards = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
-//		
-//		if (error != nil)
-//			NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-//		
-//		else {
-//			NSMutableArray *rewardList = [NSMutableArray array];
-//			
-//			for (NSDictionary *serverReward in parsedRewards) {
-//				DIReward *reward = [DIReward rewardWithDictionary:serverReward];
-//				
-//				if (reward != nil)
-//					[rewardList addObject:reward];
-//			}
-//			
-//			_rewards = [rewardList retain];
-//			[_rewardTableView reloadData];
-//		}
-//	}
-	
 	[_loadOverlay remove];
 }
 

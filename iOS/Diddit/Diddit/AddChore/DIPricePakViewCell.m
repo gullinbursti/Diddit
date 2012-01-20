@@ -1,5 +1,5 @@
 //
-//  DIRewardViewCell.m
+//  DIPricePakViewCell.m
 //  Diddit
 //
 //  Created by Matthew Holcombe on 01.07.12.
@@ -8,13 +8,13 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import "DIRewardViewCell.h"
+#import "DIPricePakViewCell.h"
 
 #import "DIAppDelegate.h"
 
-@implementation DIRewardViewCell
+@implementation DIPricePakViewCell
 
-@synthesize reward = _reward;
+@synthesize pricePak = _pricePak;
 
 +(NSString *)cellReuseIdentifier {
 	return (NSStringFromClass(self));
@@ -72,7 +72,7 @@
 
 
 -(void)dealloc {
-	[_reward release];
+	[_pricePak release];
 	[_imgView release];
 	[_pointsLabel release];
 	[_priceLabel release];
@@ -85,13 +85,13 @@
 }
 
 #pragma mark - Accessors
--(void)setReward:(DIReward *)reward {
-	_reward = reward;
+-(void)setPricePak:(DIPricePak *)pricePak {
+	_pricePak = pricePak;
 	
-	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _reward.disp_points];
-	_priceLabel.text = _reward.price;
+	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _pricePak.disp_points];
+	_priceLabel.text = _pricePak.price;
 	
-	_imgView.imageURL = [NSURL URLWithString:_reward.ico_url];
+	_imgView.imageURL = [NSURL URLWithString:_pricePak.ico_url];
 	//_imgView.imageURL = [NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/app/images/pointPak_ico.png"];
 }
 

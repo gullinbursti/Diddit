@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>services/Purchases.php</string>
+	<string>services/Chores.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>212</integer>
+	<integer>207</integer>
 	<key>metaData</key>
 	<dict>
 		<key>services/Achievements.php</key>
@@ -51,118 +51,104 @@
 			<key>firstVisibleLine</key>
 			<integer>94</integer>
 		</dict>
-		<key>services/Apps.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>15</integer>
-				<key>line</key>
-				<integer>164</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>96</integer>
-		</dict>
-		<key>services/Chores.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>10</integer>
-				<key>line</key>
-				<integer>176</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>167</integer>
-		</dict>
-		<key>services/Offers.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>72</integer>
-				<key>line</key>
-				<integer>184</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>161</integer>
-		</dict>
-		<key>services/Purchases.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>15</integer>
-				<key>line</key>
-				<integer>139</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>130</integer>
-		</dict>
-		<key>services/Rewards.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>11</integer>
-				<key>line</key>
-				<integer>85</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>services/Store.php</key>
+		<key>services/AppStore.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>5</integer>
 				<key>line</key>
-				<integer>110</integer>
+				<integer>142</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>126</integer>
+			<integer>88</integer>
+		</dict>
+		<key>services/Chores.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>88</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>75</integer>
+		</dict>
+		<key>services/Offers.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>135</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>161</integer>
+		</dict>
+		<key>services/Rewards.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>128</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>120</integer>
+		</dict>
+		<key>services/Store.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>9</integer>
+				<key>line</key>
+				<integer>344</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>329</integer>
 		</dict>
 		<key>services/Users.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>36</integer>
+				<integer>51</integer>
 				<key>line</key>
-				<integer>122</integer>
+				<integer>117</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>98</integer>
+			<integer>99</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
 				<integer>4</integer>
 				<key>line</key>
-				<integer>120</integer>
+				<integer>117</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>36</integer>
+				<integer>51</integer>
 				<key>line</key>
-				<integer>122</integer>
+				<integer>117</integer>
 			</dict>
 		</dict>
 	</dict>
@@ -172,14 +158,13 @@
 		<string>services/Store.php</string>
 		<string>services/Offers.php</string>
 		<string>services/Achievements.php</string>
-		<string>services/Purchases.php</string>
-		<string>services/Apps.php</string>
 		<string>services/Users.php</string>
 		<string>services/Rewards.php</string>
+		<string>services/AppStore.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{911, 452}, {1574, 758}}</string>
+	<string>{{947, 172}, {1574, 758}}</string>
 </dict>
 </plist>

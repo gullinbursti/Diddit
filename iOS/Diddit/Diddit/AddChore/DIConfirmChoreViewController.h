@@ -31,6 +31,6 @@
 }
 
 -(id)initWithChore:(DIChore *)chore;
-- (void) requestProductData;
+-(void)requestProductData;
 
 @end

@@ -27,6 +27,7 @@
 	
 	UIView *_footerView;
 	UIButton *_footerBtn;
+	BOOL _isStoreAlert;
 }
 
 -(id)initWithApp:(DIApp *)app;

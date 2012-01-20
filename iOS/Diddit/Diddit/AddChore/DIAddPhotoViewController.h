@@ -1,0 +1,25 @@
+//
+//  DIAddPhotoViewController.h
+//  Diddit
+//
+//  Created by Matthew Holcombe on 01.19.12.
+//  Copyright (c) 2012 Sparkle Mountain. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+
+#import "DIBasePushHeaderViewController.h"
+#import "DIAppDelegate.h"
+#import "DIChore.h"
+
+@interface DIAddPhotoViewController : DIBasePushHeaderViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+	BOOL _isCameraPic;
+	DIChore *_chore;
+	UIImageView *_choreImgView;
+	UIImagePickerController *_previewImageController;
+}
+
+-(id)initWithChore:(DIChore *)chore;
+
+@end

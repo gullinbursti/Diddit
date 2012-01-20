@@ -16,9 +16,12 @@
 #import "DIAddChoreViewController.h"
 #import "DIChoreCompleteViewController.h"
 #import "DIAppListViewController.h"
+#import "DIAppDetailsViewController.h"
 #import "DIOfferListViewController.h"
+#import "DIOfferDetailsViewController.h"
 #import "DISettingsViewController.h"
 #import "DIMyChoresViewCell.h"
+#import "DISponsorship.h"
 
 #import "MBProgressHUD.h"
 
@@ -33,7 +36,8 @@
 		
 		_chores = [[NSMutableArray alloc] init];
 		_finishedChores = [[NSMutableArray alloc] init];
-				
+		_sponsorships = [[NSMutableArray alloc] init];
+		
 		_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)] autorelease];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:_choreStatsView] autorelease];
 		
@@ -74,6 +78,26 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
+	_emptyScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 361.0)];
+	_emptyScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_emptyScrollView.contentSize = CGSizeMake(320, 362.0);
+	_emptyScrollView.opaque = NO;
+	_emptyScrollView.scrollsToTop = NO;
+	_emptyScrollView.showsHorizontalScrollIndicator = NO;
+	_emptyScrollView.showsVerticalScrollIndicator = YES;
+	_emptyScrollView.alwaysBounceVertical = NO;
+	
+	_holderView = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+	[self.view addSubview:_holderView];
+	[_holderView addSubview:_emptyScrollView];
+	
+	_sponsorshipImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10.0, 10.0, 300.0, 90.0)];
+	_sponsorshipImgView.backgroundColor = [UIColor colorWithRed:0.98034 green:0.9922 blue:0.7843 alpha:1.0];
+	_sponsorshipImgView.layer.cornerRadius = 8.0;
+	_sponsorshipImgView.clipsToBounds = YES;
+	_sponsorshipImgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	_sponsorshipImgView.layer.borderWidth = 1.0;
+	
 	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
 	_myChoresTableView.rowHeight = 80;
 	_myChoresTableView.backgroundColor = [UIColor clearColor];
@@ -82,26 +106,16 @@
 	_myChoresTableView.dataSource = self;
 	_myChoresTableView.layer.borderColor = [[UIColor clearColor] CGColor];
 	_myChoresTableView.layer.borderWidth = 1.0;
-	[self.view addSubview:_myChoresTableView];
-	_myChoresTableView.hidden = YES;
-	
-	/*
-	_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
-	_emptyLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12];
-	_emptyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-	_emptyLabel.backgroundColor = [UIColor clearColor];
-	_emptyLabel.textAlignment = UITextAlignmentCenter;
-	_emptyLabel.text = @"You don't have any chores!";
-	[self.view addSubview:_emptyLabel];
-	*/
+	//[self.view addSubview:_myChoresTableView];
+	//_myChoresTableView.hidden = YES;
 	
 	CGRect frame;
-	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.png"]];
+	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.jpg"]];
 	frame = _emptyListImgView.frame;
-	frame.origin.x = 5;
-	frame.origin.y = 5;
+	frame.origin.x = 0.0;
+	frame.origin.y = -45.0;
 	_emptyListImgView.frame = frame;
-	[self.view addSubview:_emptyListImgView];
+	[_emptyScrollView addSubview:_emptyListImgView];
 	
 	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"choreFooterBG_001.png"]];
 	frame = _footerImgView.frame;
@@ -130,7 +144,7 @@
 	[self.view addSubview:settingsButton];
 	
 	UIButton *addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	addChoreButton.frame = CGRectMake(131, 346.0, 56, 56);
+	addChoreButton.frame = CGRectMake(131, 340.0, 56, 56);
 	addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
@@ -248,13 +262,16 @@
 	
 	NSLog(@"ChoreListViewController - addChore:[]");
 	
-	_emptyListImgView.hidden = YES;
-	_myChoresTableView.hidden = NO;
+	[_emptyScrollView removeFromSuperview];
+	[_holderView addSubview:_myChoresTableView];
+	
+	//_emptyListImgView.hidden = YES;
+	//_myChoresTableView.hidden = NO;
 	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	
 	
-	NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
-	[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+	//NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
+	//[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
 	[_myChoresTableView reloadData];	
 }
 
@@ -266,13 +283,16 @@
 	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 	[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
 	[_chores removeObjectIdenticalTo:chore];
-	[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
 	[_myChoresTableView reloadData];
 	
 	if ([_chores count] == 0) {
-		_emptyListImgView.hidden = NO;
-		_myChoresTableView.hidden = YES;
+		[_myChoresTableView removeFromSuperview];
+		[_holderView addSubview:_emptyScrollView];
+		
+		//_emptyListImgView.hidden = NO;
+		//_myChoresTableView.hidden = YES;
 	}
 	
 	DIChoreCompleteViewController *choreCompleteViewController = [[[DIChoreCompleteViewController alloc] initWithChore:chore] autorelease];
@@ -283,18 +303,30 @@
 
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_chores count] + 2);
+	return ([_chores count] + 1 + [_sponsorships count]);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row < [_chores count]) {
+	if (indexPath.row == 0) {
+		UITableViewCell *cell = nil;
+		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+		
+		if (cell == nil) {			
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
+			[cell addSubview:_sponsorshipImgView];
+			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+		}
+		
+		return (cell);
+		
+	} else if (indexPath.row < [_chores count]) {
 		DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
 		
 		if (cell == nil)
 			cell = [[[DIMyChoresViewCell alloc] init] autorelease];
 		
-		cell.chore = [_chores objectAtIndex:indexPath.row];
+		cell.chore = [_chores objectAtIndex:indexPath.row - [_sponsorships count]];
 		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		
 		return (cell);
@@ -325,14 +357,24 @@
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (indexPath.row == [_chores count])
+	if (indexPath.row >= [_chores count])
 		return;
 	
-	DIMyChoresViewCell *cell = (DIMyChoresViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-	[cell toggleSelected];
-	[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if (indexPath.row == 0) {
+		
+		if (((DISponsorship *)[_sponsorships objectAtIndex:0]).type_id == 1)
+			[self.navigationController pushViewController:[[[DIOfferDetailsViewController alloc] initWithOffer:((DISponsorship *)[_sponsorships objectAtIndex:0]).offer] autorelease] animated:YES];	
+		
+		else
+			[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:((DISponsorship *)[_sponsorships objectAtIndex:0]).app] autorelease] animated:YES];	
+		
+	} else {
+		DIMyChoresViewCell *cell = (DIMyChoresViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+		[cell toggleSelected];
+		[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row - 1]] autorelease] animated:YES];	
+	}	
 	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	/*
 	[UIView animateWithDuration:0.2 animations:^(void) {
 		cell.alpha = 0.5;
@@ -371,8 +413,8 @@
 			NSArray *parsedChores = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
 			if (error != nil) {
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
-			}
-			else {
+			
+			} else {
 				NSMutableArray *choreList = [NSMutableArray array];
 				
 				for (NSDictionary *serverChore in parsedChores) {
@@ -388,15 +430,57 @@
 				[_myChoresTableView reloadData];
 				
 				if ([_chores count] > 0) {
-					_myChoresTableView.hidden = NO;
-					_emptyListImgView.hidden = YES;
+					[_emptyScrollView removeFromSuperview];
+					[_holderView addSubview:_myChoresTableView];
+					
+					//_myChoresTableView.hidden = NO;
+					//_emptyListImgView.hidden = YES;
 				}
 				
 				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 			}
+			
+			_sponsorshipsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Sponsorships.php"]] retain];
+			[_sponsorshipsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+			[_sponsorshipsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+			[_sponsorshipsDataRequest setDelegate:self];
+			[_sponsorshipsDataRequest startAsynchronous];
 		}
 	
-	} /*else if ([request isEqual:_achievementsRequest]) {
+	} else if ([request isEqual:_sponsorshipsDataRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSArray *parsedSponsorships = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			if (error != nil) {
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			} else {
+				NSMutableArray *sponsorshipList = [NSMutableArray array];
+				
+				for (NSDictionary *serverSponsorship in parsedSponsorships) {
+					DISponsorship *sponsorship = [DISponsorship sponsorshipWithDictionary:serverSponsorship];
+					_sponsorshipImgView.imageURL = [NSURL URLWithString:sponsorship.img_url];
+					
+					NSLog(@"SPONSORSHIP \"%@\"", sponsorship.offer.title);
+					
+					if (sponsorship != nil)
+						[sponsorshipList addObject:sponsorship];
+				}
+				
+				_sponsorships = [sponsorshipList retain];
+				[_myChoresTableView reloadData];
+				
+				[_emptyScrollView removeFromSuperview];
+				[_holderView addSubview:_myChoresTableView];
+			}
+		}
+		
+		[_loadOverlay remove];
+	}
+	
+	
+	
+	/*else if ([request isEqual:_achievementsRequest]) {
 		@autoreleasepool {
 			NSError *error = nil;
 			NSArray *parsedAchievements = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
@@ -418,8 +502,6 @@
 			}
 		}
 	}*/
-	
-	[_loadOverlay remove];
 }
 
 

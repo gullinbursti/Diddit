@@ -42,14 +42,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
-	_loadOverlay = [[DILoadOverlay alloc] init];
-	
-	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
-	[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_appsDataRequest setDelegate:self];
-	[_appsDataRequest startAsynchronous];
 }
 
 -(void)loadView {
@@ -98,6 +90,14 @@
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	
+	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+	[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_appsDataRequest setDelegate:self];
+	[_appsDataRequest startAsynchronous];
 }
 
 -(void)viewDidLoad {
@@ -117,7 +117,7 @@
 	[_featuredDataRequest release];
 	[_appsDataRequest release];
 	[_features release];
-	[_apps release];
+	//[_apps release];
 	[_cells release];
 	[_loadOverlay release];
 	
