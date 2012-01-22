@@ -35,6 +35,8 @@
 	
 	UIView *_holderView;
 	UIScrollView *_emptyScrollView;
+	
+	UIImageView *_badgesImgView;
 }
 
 @end

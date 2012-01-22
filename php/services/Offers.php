@@ -125,6 +125,7 @@
 						"ico_url" => $row['ico_url'], 
 						"img_url" => $row['img_url'], 
 						"video_url" => $row['video_url'],
+						"score" => $row['score'], 
 						"images" => $img_result
 					));
 				}

@@ -11,7 +11,7 @@
 @implementation DIOffer
 
 @synthesize dictionary;
-@synthesize offer_id, title, app_name, info, points, ico_url, img_url, video_url, itunes_id, images;
+@synthesize offer_id, title, app_name, info, points, ico_url, img_url, video_url, score, itunes_id, images;
 
 
 +(DIOffer *)offerWithDictionary:(NSDictionary *)dictionary {
@@ -22,14 +22,15 @@
 	offer.offer_id = [[dictionary objectForKey:@"id"] intValue];
 	offer.title = [dictionary objectForKey:@"title"];
 	offer.app_name = [dictionary objectForKey:@"name"];
-	offer.info = [dictionary objectForKey:@"info"];
+	offer.info = [[dictionary objectForKey:@"info"] stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+	//offer.info = [NSString stringWithUTF8String:[[[dictionary objectForKey:@"info"] stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"] cStringUsingEncoding:[NSString defaultCStringEncoding]]];
 	offer.points = [[dictionary objectForKey:@"points"] intValue];
 	offer.ico_url = [dictionary objectForKey:@"ico_url"];
 	offer.img_url = [dictionary objectForKey:@"img_url"];
 	offer.video_url = [dictionary objectForKey:@"video_url"];
+	offer.score = [[dictionary objectForKey:@"score"] intValue];
 	offer.itunes_id = [dictionary objectForKey:@"itunes_id"];
 	offer.images = [dictionary objectForKey:@"images"];
-	
 	return (offer);
 }
 

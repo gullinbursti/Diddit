@@ -130,7 +130,7 @@
 	_choreThumbBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_choreThumbBtn.frame = CGRectMake(10, 64, 58, 58);
 	_choreThumbBtn.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
-	_choreThumbBtn.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	_choreThumbBtn.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 	_choreThumbBtn.layer.borderWidth = 1.0;
 	_choreThumbBtn.clipsToBounds = YES;
 	_choreThumbBtn.imageEdgeInsets = UIEdgeInsetsMake(15.0, 12.0, -15.0, -12.0);
@@ -188,7 +188,7 @@
 	rewardPriceLabel.text = _chore.price;
 	[_scrollView addSubview:rewardPriceLabel];
 	
-	UIImageView *divider3ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
+	UIImageView *divider3ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	frame = divider3ImgView.frame;
 	frame.origin.y = 251;
 	divider3ImgView.frame = frame;

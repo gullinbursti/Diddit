@@ -22,7 +22,7 @@
 
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:[_app.title lowercaseString]] autorelease];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:_app.title] autorelease];
 		
 		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
@@ -65,11 +65,11 @@
 	[self.view addSubview:scrollView];
 	
 	
-	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
+	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 15, 300, 34)] autorelease];
 	[scrollView addSubview:_choreStatsView];
 	
 	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	offersBtn.frame = CGRectMake(228, 15, 84, 34);
+	offersBtn.frame = CGRectMake(228, 17, 84, 34);
 	offersBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
@@ -80,22 +80,24 @@
 	[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 	[scrollView addSubview:offersBtn];
 	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
-	frame.origin.y = 54;
+	frame.origin.y = 61;
 	dividerImgView.frame = frame;
 	[scrollView addSubview:dividerImgView];
 	
-	_appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 71.0) appVO:_app] autorelease];
+	_appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 77.0) appVO:_app] autorelease];
 	[scrollView addSubview:_appStatsView];
 		
-	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 145, 300, textSize.height)] autorelease];
+	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 150, 300, textSize.height)] autorelease];
 	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	storeInfoLabel.backgroundColor = [UIColor clearColor];
 	storeInfoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	storeInfoLabel.numberOfLines = 0;
 	storeInfoLabel.text = _app.app_info;
 	[scrollView addSubview:storeInfoLabel];
+	
+	NSLog(@"INFO:[%@]", _app.info);
 	
 	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160 + textSize.height, 320, 300)];
 	_imgScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -163,20 +165,34 @@
 	
 	//[scrollView addSubview:appImgView];
 	
-	_footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
+	_footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 344, 320, 72)] autorelease];
 	_footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 	[self.view addSubview:_footerView];
 	
+	
+	NSString *buttonLbl;
+	
+	if (_app.type_id == 1)
+		buttonLbl = @"purchase good now";
+	
+	else
+		buttonLbl = @"purchase card now";
+	
+	
 	_footerBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_footerBtn.frame = CGRectMake(0, 352, 320, 59);
-	_footerBtn.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-	_footerBtn.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	_footerBtn.frame = CGRectMake(0, 351, 320, 59);
+	_footerBtn.titleLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:20.0];
+	_footerBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, -0, 0);
 	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_footerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_footerBtn setTitle:@"purchase" forState:UIControlStateNormal];
+	_footerBtn.titleLabel.shadowColor = [UIColor blackColor];
+	_footerBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+	[_footerBtn setTitle:buttonLbl forState:UIControlStateNormal];
 	[_footerBtn addTarget:self action:@selector(_goPurchase) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_footerBtn];
+	
+	[buttonLbl release];
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;

@@ -51,9 +51,9 @@
 - (void)loadView {
 	[super loadView];
 	
-	UILabel *inLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 80, 70, 20)] autorelease];
+	UILabel *inLabel = [[[UILabel alloc] initWithFrame:CGRectMake(30, 75, 70, 20)] autorelease];
 	inLabel.font = [[DIAppDelegate diAdelleFontBoldItalic] fontWithSize:16];
-	inLabel.textColor = [UIColor colorWithWhite:0.75 alpha:1.0];
+	inLabel.textColor = [UIColor blackColor];
 	inLabel.backgroundColor = [UIColor clearColor];
 	inLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	inLabel.shadowOffset = CGSizeMake(1.0, 1.0);
@@ -61,8 +61,8 @@
 	[self.view addSubview:inLabel];
 	
 	
-	_daysLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 320, 80)];
-	_daysLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:70];
+	_daysLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 87, 320, 80)];
+	_daysLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:64];
 	_daysLabel.textColor = [UIColor blackColor];
 	_daysLabel.backgroundColor = [UIColor clearColor];
 	_daysLabel.textAlignment = UITextAlignmentCenter;
@@ -71,7 +71,7 @@
 	_daysLabel.text = @"";
 	[self.view addSubview:_daysLabel];
 	
-	_pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 235, 320, 216)];
+	_pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 201, 320, 216)];
 	_pickerView.dataSource = self;
 	_pickerView.delegate = self;
 	_pickerView.showsSelectionIndicator = YES;

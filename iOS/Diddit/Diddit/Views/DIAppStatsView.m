@@ -24,7 +24,7 @@
 		icoImgView.imageURL = [NSURL URLWithString:_app.ico_url];
 		icoImgView.layer.cornerRadius = 8.0;
 		icoImgView.clipsToBounds = YES;
-		icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		icoImgView.layer.borderWidth = 1.0;
 		[self addSubview:icoImgView];
 		
@@ -45,15 +45,15 @@
 		DIAppRatingStarsView *appRatingStarsView = [[[DIAppRatingStarsView alloc] initWithCoords:CGPointMake(66.0, 38.0) appScore:_app.score] autorelease];
 		[self addSubview:appRatingStarsView];
 		
-		_ptsView = [[[UIView alloc] initWithFrame:CGRectMake(247.0, 14.0, 52, 25)] autorelease];
+		_ptsView = [[[UIView alloc] initWithFrame:CGRectMake(247.0, 16.0, 52, 30)] autorelease];
 		_ptsView.backgroundColor = [UIColor colorWithRed:0.976 green:0.976 blue:0.929 alpha:1.0];
 		_ptsView.layer.cornerRadius = 6.0;
 		_ptsView.clipsToBounds = YES;
-		_ptsView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_ptsView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		_ptsView.layer.borderWidth = 2.0;
 		[self addSubview:_ptsView];
 		
-		_ptsLbl = [[[UILabel alloc] initWithFrame:CGRectMake(0, 3, 52, 20)] autorelease];
+		_ptsLbl = [[[UILabel alloc] initWithFrame:CGRectMake(0, 5, 52, 20)] autorelease];
 		_ptsLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 		_ptsLbl.backgroundColor = [UIColor clearColor];
 		_ptsLbl.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];

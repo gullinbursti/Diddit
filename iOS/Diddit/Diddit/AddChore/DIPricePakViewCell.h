@@ -18,6 +18,8 @@
 	EGOImageView *_imgView;
 	UILabel *_pointsLabel;
 	UILabel *_priceLabel;
+	UIView *_priceView;
+	UILabel *_currencyLabel;
 	
 	UIImageView *_circleOffImgView;
 	UIImageView *_circleOnImgView;

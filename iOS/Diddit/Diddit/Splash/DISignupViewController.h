@@ -14,9 +14,9 @@
 
 @interface DISignupViewController : UIViewController <ASIHTTPRequestDelegate, UITextFieldDelegate> {
 	
-	UILabel *_emailLabel;
+	UILabel *_usernameLabel;
 	
-	UITextField *_emailTxtField;
+	UITextField *_usernameTxtField;
 	//UITextField *_pinCode1TxtField;
 	//UITextField *_pinCode2TxtField;
 	//UITextField *_pinCode3TxtField;

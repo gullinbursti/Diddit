@@ -17,11 +17,13 @@
 -(id)init {
 	if ((self = [super init])) {
 		
+		_bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loadOverlayBG.png"]];
+		[((DIAppDelegate *)[UIApplication sharedApplication].delegate).window addSubview:_bgImgView];
 		
 		_hud = [MBProgressHUD showHUDAddedTo:((DIAppDelegate *)[UIApplication sharedApplication].delegate).window animated:YES];
 		_hud.labelFont = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 		_hud.labelText = @"Loading…";
-		_hud.dimBackground = YES;
+		_hud.dimBackground = NO;
 		
 		/*
 		_holderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 480.0)];
@@ -55,11 +57,13 @@
 }
 
 -(void)remove {
+	[_bgImgView removeFromSuperview];
 	[_hud hide:YES];
 	_hud = nil;
 }
 
 -(void)dealloc {
+	[_bgImgView release];
 	[_hud release];
 	
 	[super dealloc];

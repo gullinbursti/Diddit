@@ -20,11 +20,10 @@
 		_label = [[[UILabel alloc] initWithFrame:CGRectMake(-textSize.width * 0.5, (-textSize.height * 0.5) + 4.0, textSize.width, textSize.height)] autorelease];
 		[_label setFont:font];
 		_label.backgroundColor = [UIColor clearColor];
-		_label.textColor = [UIColor colorWithRed:0.184313725490196 green:0.537254901960784 blue:0.298039215686275 alpha:1.0];
+		_label.textColor = [UIColor colorWithRed:0.180 green:0.525 blue:0.298 alpha:1.0];
 		_label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.33];
 		_label.shadowOffset = CGSizeMake(1.0, 1.0);
 		[_label setText:title];
-		
 		[self addSubview:_label];
 	}
 	

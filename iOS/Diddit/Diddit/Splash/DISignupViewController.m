@@ -8,6 +8,8 @@
 
 #import "DISignupViewController.h"
 
+#import "DIWhySignupViewController.h"
+#import "DINavRightBtnView.h"
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
 
@@ -16,18 +18,11 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"sign up"] autorelease];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"get started"] autorelease];
 		
-		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		cancelButton.frame = CGRectMake(0, 0, 59.0, 34);
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[cancelButton setBackgroundImage:[[UIImage imageNamed:@"headerButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-		cancelButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		cancelButton.titleLabel.shadowColor = [UIColor blackColor];
-		cancelButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-		[cancelButton addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelButton] autorelease];
+		DINavRightBtnView *closeBtnView = [[[DINavRightBtnView alloc] initWithLabel:@"Cancel"] autorelease];
+		[[closeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:closeBtnView] autorelease];
 	}
 	
 	return (self);
@@ -44,48 +39,48 @@
 	
 	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
-	frame.origin.y = 68;
+	frame.origin.y = 77;
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 	
 	
-	_emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 4, 200, 64)];
-	_emailLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
-	_emailLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
-	_emailLabel.backgroundColor = [UIColor clearColor];
-	_emailLabel.shadowColor = [UIColor whiteColor];
-	_emailLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	_emailLabel.text = @"enter email address";
-	[self.view addSubview:_emailLabel];
+	_usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 64)];
+	_usernameLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
+	_usernameLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
+	_usernameLabel.backgroundColor = [UIColor clearColor];
+	_usernameLabel.shadowColor = [UIColor whiteColor];
+	_usernameLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	_usernameLabel.text = @"enter your kids name";
+	[self.view addSubview:_usernameLabel];
 	
-	_emailTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 25, 300, 64)] autorelease];
-	[_emailTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_emailTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_emailTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_emailTxtField setBackgroundColor:[UIColor clearColor]];
-	_emailTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
-	_emailTxtField.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
-	_emailTxtField.keyboardType = UIKeyboardTypeDefault;
-	_emailTxtField.delegate = self;
-	[self.view addSubview:_emailTxtField];
+	_usernameTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 32, 300, 64)] autorelease];
+	[_usernameTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_usernameTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_usernameTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_usernameTxtField setBackgroundColor:[UIColor clearColor]];
+	_usernameTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
+	_usernameTxtField.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
+	_usernameTxtField.keyboardType = UIKeyboardTypeDefault;
+	_usernameTxtField.delegate = self;
+	[self.view addSubview:_usernameTxtField];
 	
-	UIButton *skipButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	skipButton.frame = CGRectMake(71, 100, 84, 37);
-	skipButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-	[skipButton setBackgroundImage:[[UIImage imageNamed:@"skipButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[skipButton setBackgroundImage:[[UIImage imageNamed:@"skipButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[skipButton setTitleColor:[UIColor colorWithWhite:0.609 alpha:1.0] forState:UIControlStateNormal];
-	[skipButton setTitle:@"skip this" forState:UIControlStateNormal];
-	[skipButton addTarget:self action:@selector(_goSkip) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:skipButton];
+	UIButton *whyButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	whyButton.frame = CGRectMake(71, 119, 84, 37);
+	whyButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+	[whyButton setBackgroundImage:[[UIImage imageNamed:@"submitButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[whyButton setBackgroundImage:[[UIImage imageNamed:@"submitButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[whyButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
+	[whyButton setTitle:@"Why?" forState:UIControlStateNormal];
+	[whyButton addTarget:self action:@selector(_goWhy) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:whyButton];
 	
 	UIButton *submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	submitButton.frame = CGRectMake(165, 100, 84, 37);
+	submitButton.frame = CGRectMake(165, 119, 84, 37);
 	submitButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	[submitButton setBackgroundImage:[[UIImage imageNamed:@"submitButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[submitButton setBackgroundImage:[[UIImage imageNamed:@"submitButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[submitButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
-	[submitButton setTitle:@"sign up" forState:UIControlStateNormal];
+	[submitButton setTitle:@"Submit" forState:UIControlStateNormal];
 	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:submitButton];
 	
@@ -98,22 +93,22 @@
 
 -(void)viewDidLoad {
 	[super viewDidLoad];
+	
+	[_usernameTxtField becomeFirstResponder];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
-	[_emailTxtField becomeFirstResponder];
 }
 
 -(void)viewDidUnload {
-	[_emailTxtField resignFirstResponder];
+	[_usernameTxtField resignFirstResponder];
 	
 	[super viewDidUnload];
 }
 
 -(void)dealloc {
-	[_emailLabel release];
+	[_usernameLabel release];
 	[_loadOverlay release];
 	
 	[super dealloc];
@@ -126,21 +121,10 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)_goSkip {
-	NSLog(@"EMAIL:[%@]", _emailTxtField.text);
-	NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"CONCEAL_WELCOME_SCREEN" object:nil];
-	
-	_loadOverlay = [[DILoadOverlay alloc] init];
-	
-	ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
-	[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-	[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"deviceID"];
-	[userRequest setPostValue:_emailTxtField.text forKey:@"email"];
-	[userRequest setPostValue:[NSString stringWithString:@"000"] forKey:@"pin"];
-	[userRequest setDelegate:self];
-	[userRequest startAsynchronous];
+-(void)_goWhy {
+	DIWhySignupViewController *whySignupViewController = [[[DIWhySignupViewController alloc] initWithTitle:@"why?" header:@"we will never release your info…" closeLabel:@"Done"] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:whySignupViewController] autorelease];
+	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 -(void)_goSubmit {
@@ -152,14 +136,17 @@
 	if (![DIAppDelegate deviceToken])
 		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];
 	
-	if (![DIAppDelegate validateEmail:_emailTxtField.text])
+	//if (![DIAppDelegate validateEmail:_usernameTxtField.text])
+	//	isSubmit = NO;
+	
+	if ([_usernameTxtField.text length] == 0)
 		isSubmit = NO;
 	
 	if ([pinCode length] != 3)
 		isSubmit = NO;
 	
 	if (isSubmit) {
-		NSLog(@"EMAIL:[%@]", _emailTxtField.text);
+		NSLog(@"USERNAME:[%@]", _usernameTxtField.text);
 		NSLog(@"PIN:[%@]", pinCode);
 		NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
 		
@@ -168,7 +155,7 @@
 		ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 		[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"deviceID"];
-		[userRequest setPostValue:_emailTxtField.text forKey:@"email"];
+		[userRequest setPostValue:_usernameTxtField.text forKey:@"username"];
 		[userRequest setPostValue:pinCode forKey:@"pin"];
 		[userRequest setDelegate:self];
 		[userRequest startAsynchronous];
@@ -203,14 +190,14 @@
 //	return (YES);
 	
 	if ([textField.text length] == 0)
-		_emailLabel.hidden = YES;
+		_usernameLabel.hidden = YES;
 	
 	return (YES);
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {	
 	if ([textField.text length] == 0)
-		_emailLabel.hidden = NO;
+		_usernameLabel.hidden = NO;
 }
 
 

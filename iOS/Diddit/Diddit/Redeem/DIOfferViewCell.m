@@ -27,14 +27,14 @@
 		holderView.backgroundColor = [UIColor colorWithRed:0.98034 green:0.9922 blue:0.7843 alpha:1.0];
 		holderView.layer.cornerRadius = 8.0;
 		holderView.clipsToBounds = YES;
-		holderView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		holderView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		holderView.layer.borderWidth = 1.0;
 		[self addSubview:holderView];
 		
 		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
 		_imgView.layer.cornerRadius = 8.0;
 		_imgView.clipsToBounds = YES;
-		_imgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_imgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		_imgView.layer.borderWidth = 1.0;
 		[holderView addSubview:_imgView];
 		
@@ -66,7 +66,7 @@
 		_overlayView.backgroundColor = [UIColor blackColor];
 		_overlayView.layer.cornerRadius = 8.0;
 		_overlayView.clipsToBounds = YES;
-		_overlayView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		_overlayView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		_overlayView.layer.borderWidth = 1.0;
 		_overlayView.alpha = 0.0;
 		[self addSubview:_overlayView];

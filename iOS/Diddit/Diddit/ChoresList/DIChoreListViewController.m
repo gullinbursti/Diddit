@@ -38,7 +38,7 @@
 		_finishedChores = [[NSMutableArray alloc] init];
 		_sponsorships = [[NSMutableArray alloc] init];
 		
-		_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(0, -19, 215, 34)] autorelease];
+		_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(15, -19, 215, 34)] autorelease];
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:_choreStatsView] autorelease];
 		
 		
@@ -75,6 +75,8 @@
 -(void)viewDidLoad {
 	[super viewDidLoad];
 	
+	CGRect frame;
+	
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
@@ -88,14 +90,17 @@
 	_emptyScrollView.alwaysBounceVertical = NO;
 	
 	_holderView = [[[UIView alloc] initWithFrame:self.view.bounds] autorelease];
+	frame = _holderView.frame;
+	frame.origin.y = 5.0;
+	_holderView.frame = frame;
 	[self.view addSubview:_holderView];
 	[_holderView addSubview:_emptyScrollView];
 	
-	_sponsorshipImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10.0, 10.0, 300.0, 90.0)];
+	_sponsorshipImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10.0, 15.0, 300.0, 80.0)];
 	_sponsorshipImgView.backgroundColor = [UIColor colorWithRed:0.98034 green:0.9922 blue:0.7843 alpha:1.0];
 	_sponsorshipImgView.layer.cornerRadius = 8.0;
 	_sponsorshipImgView.clipsToBounds = YES;
-	_sponsorshipImgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	_sponsorshipImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 	_sponsorshipImgView.layer.borderWidth = 1.0;
 	
 	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -109,7 +114,6 @@
 	//[self.view addSubview:_myChoresTableView];
 	//_myChoresTableView.hidden = YES;
 	
-	CGRect frame;
 	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.jpg"]];
 	frame = _emptyListImgView.frame;
 	frame.origin.x = 0.0;
@@ -122,6 +126,14 @@
 	frame.origin.y = 420 - (frame.size.height + 4);
 	_footerImgView.frame = frame;
 	[self.view addSubview:_footerImgView];
+	
+	_badgesImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noticationBG.png"]];
+	//frame = _badgesImgView.frame;
+	//frame.origin.x = 20;
+	//frame.origin.y = -10;
+	_badgesImgView.frame = frame;
+	[_footerImgView addSubview:_badgesImgView];
+	
 		
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -130,21 +142,21 @@
 	[self.view addSubview:overlayImgView];
 	
 	UIButton *appBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
-	appBtn.frame = CGRectMake(15, 362, 79, 54);
+	appBtn.frame = CGRectMake(15, 357, 79, 54);
 	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[appBtn setBackgroundImage:[[UIImage imageNamed:@"appStoreIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[appBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:appBtn];
 	
 	UIButton *settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	settingsButton.frame = CGRectMake(220, 364, 79, 54);
+	settingsButton.frame = CGRectMake(220, 357, 79, 54);
 	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"settingsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"settingsIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:settingsButton];
 	
 	UIButton *addChoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	addChoreButton.frame = CGRectMake(131, 340.0, 56, 56);
+	addChoreButton.frame = CGRectMake(131, 333.0, 56, 56);
 	addChoreButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[addChoreButton setBackgroundImage:[[UIImage imageNamed:@"addButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
@@ -152,9 +164,9 @@
 	[addChoreButton addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:addChoreButton];
 	
-	UILabel *addLabel = [[[UILabel alloc] initWithFrame:CGRectMake(129, 392, 70, 26)] autorelease];
-	addLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:10];
-	addLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+	UILabel *addLabel = [[[UILabel alloc] initWithFrame:CGRectMake(129, 384, 70, 26)] autorelease];
+	addLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:11];
+	addLabel.textColor = [UIColor colorWithRed:0.243 green:0.259 blue:0.247 alpha:1.0];
 	addLabel.backgroundColor = [UIColor clearColor];
 	addLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	addLabel.shadowOffset = CGSizeMake(1.0, 1.0);
@@ -170,6 +182,7 @@
 	[_addBtn setTitleColor:[UIColor colorWithWhite:0.5 alpha:1.0] forState:UIControlStateNormal];
 	[_addBtn setTitle:@"Add more chores" forState:UIControlStateNormal];
 	[_addBtn addTarget:self action:@selector(_goAddChore) forControlEvents:UIControlEventTouchUpInside];
+	_addBtn.hidden = [_chores count] < 2;
 }
 
 -(void)viewDidUnload {
@@ -269,10 +282,10 @@
 	//_myChoresTableView.hidden = NO;
 	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	
-	
 	//NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
 	//[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
 	[_myChoresTableView reloadData];	
+	_addBtn.hidden = [_chores count] >= 2;
 }
 
 
@@ -286,6 +299,7 @@
 	//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
 	[_myChoresTableView reloadData];
+	_addBtn.hidden = [_chores count] >= 2;
 	
 	if ([_chores count] == 0) {
 		[_myChoresTableView removeFromSuperview];
@@ -347,8 +361,10 @@
 		UITableViewCell *cell = nil;
 		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 		
-		if (cell == nil)	
+		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
+			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+		}
 		
 		return (cell);
 	}
@@ -374,7 +390,7 @@
 		[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row - 1]] autorelease] animated:YES];	
 	}	
 	
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	/*
 	[UIView animateWithDuration:0.2 animations:^(void) {
 		cell.alpha = 0.5;
@@ -390,8 +406,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row < [_chores count])
-		return (95);
+	
+	if (indexPath.row == 0)
+		return (91);
+	
+	else if (indexPath.row < [_chores count])
+		return (96);
 	
 	else
 		return (100);

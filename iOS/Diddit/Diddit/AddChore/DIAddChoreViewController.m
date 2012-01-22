@@ -50,22 +50,16 @@
 	
 	CGRect frame;
 	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
-	frame = dividerImgView.frame;
-	frame.origin.y = 68;
-	dividerImgView.frame = frame;
-	[self.view addSubview:dividerImgView];
-
-	_titleLbl = [[[UILabel alloc] initWithFrame:CGRectMake(20, 8, 200, 64)] autorelease];
+	_titleLbl = [[[UILabel alloc] initWithFrame:CGRectMake(20, 10, 300, 64)] autorelease];
 	_titleLbl.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:17];
-	_titleLbl.textColor = [UIColor blackColor];
+	_titleLbl.textColor = [UIColor colorWithWhite:0.33 alpha:1.0];
 	_titleLbl.backgroundColor = [UIColor clearColor];
 	_titleLbl.shadowColor = [UIColor whiteColor];
 	_titleLbl.shadowOffset = CGSizeMake(1.0, 1.0);
-	_titleLbl.text = @"give your chore or task a title";
+	_titleLbl.text = @"give your chore a title";
 	[self.view addSubview:_titleLbl];
 	
-	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 30, 200, 64)] autorelease];
+	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 32, 200, 64)] autorelease];
 	[_titleTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_titleTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_titleTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
@@ -75,14 +69,20 @@
 	_titleTxtField.delegate = self;
 	[self.view addSubview:_titleTxtField];
 	
-	_infoLbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 75, 160, 20)];
-	_infoLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:13];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
+	frame = dividerImgView.frame;
+	frame.origin.y = 77;
+	dividerImgView.frame = frame;
+	[self.view addSubview:dividerImgView];
+	
+	_infoLbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 80, 160, 20)];
+	_infoLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	_infoLbl.textColor = [UIColor lightGrayColor];
 	_infoLbl.backgroundColor = [UIColor clearColor];
 	_infoLbl.text = @"additional note (optional)";
 	[self.view addSubview:_infoLbl];
 	
-	_infoTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 70, 300, 160)] autorelease];
+	_infoTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 75, 300, 160)] autorelease];
 	[_infoTxtView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_infoTxtView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_infoTxtView setAutocorrectionType:UITextAutocorrectionTypeNo];

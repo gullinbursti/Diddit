@@ -28,7 +28,8 @@
 	app.itunes_id  = [dictionary objectForKey:@"itunes_id"];
 	app.ico_url = [dictionary objectForKey:@"ico_url"];
 	app.img_url = [dictionary objectForKey:@"img_url"];
-	app.app_info = [dictionary objectForKey:@"description"];
+	app.app_info = [[dictionary objectForKey:@"description"] stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+	//app.app_info = [NSString stringWithUTF8String:[[[dictionary objectForKey:@"description"] stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"] cStringUsingEncoding:[NSString defaultCStringEncoding]]];
 	
 	app.images = [dictionary objectForKey:@"images"];
 	return (app);

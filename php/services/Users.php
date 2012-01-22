@@ -91,7 +91,7 @@
 		}
 	
 		
-		function addNew($device_id, $email, $pin) {
+		function addNew($device_id, $username, $pin) {
 
 			$query = 'SELECT `id`, `device_id`, `username`, `email`, `pin`, `points` FROM `tblUsers` WHERE `device_id` = "'. $device_id .'";';
 			$res = mysql_fetch_row(mysql_query($query));
@@ -100,7 +100,7 @@
 			if (!$res) {
 				$query = 'INSERT INTO `tblUsers` (';
 				$query .= '`id`, `device_id`, `username`, `email`, `pin`, `points`, `added`, `modified`) ';
-				$query .= 'VALUES (NULL, "'. $device_id .'", "", "'. $email .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
+				$query .= 'VALUES (NULL, "'. $device_id .'", "", "'. $username .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
 				$result = mysql_query($query);
 			    $user_id = mysql_insert_id();
 				
@@ -108,8 +108,8 @@
 				$result = array(
 					"id" => $user_id, 
 					"device_id" => $device_id, 
-					"username" => "", 
-					"email" => $email, 
+					"username" => $username, 
+					"email" => "", 
 					"pin" => $pin,
 					"points" => 0, 
 					"finished" => 0 
@@ -239,8 +239,8 @@
 	if (isset($_POST['action'])) {
 		switch ($_POST['action']) {
 			case "0":
-				if (isset($_POST["deviceID"]) && isset($_POST['email']) && isset($_POST['pin']))
-					$users->addNew($_POST['deviceID'], $_POST['email'], $_POST['pin']);
+				if (isset($_POST["deviceID"]) && isset($_POST['username']) && isset($_POST['pin']))
+					$users->addNew($_POST['deviceID'], $_POST['username'], $_POST['pin']);
 				break;
 				
 			case "1":

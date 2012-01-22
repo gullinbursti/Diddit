@@ -18,6 +18,7 @@
 	UILabel *_infoLabel;
 	UILabel *_pointsLabel;
 	UIView *_overlayView;
+	UIView *_holderView;
 	
 	
 	DIApp *_app;

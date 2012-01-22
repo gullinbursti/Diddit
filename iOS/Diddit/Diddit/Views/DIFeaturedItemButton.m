@@ -27,7 +27,7 @@
 		bgView.backgroundColor = [UIColor blackColor];
 		bgView.layer.cornerRadius = 8.0;
 		bgView.clipsToBounds = YES;
-		bgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+		bgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		bgView.layer.borderWidth = 0.0;
 		[self addSubview:bgView];
 		*/

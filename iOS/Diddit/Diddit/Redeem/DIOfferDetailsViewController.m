@@ -16,6 +16,7 @@
 #import "DIChoreStatsView.h"
 #import "DIOffersHelpViewController.h"
 #import "DIOfferVideoViewController.h"
+#import "DIOfferStatsView.h"
 
 @implementation DIOfferDetailsViewController
 
@@ -81,17 +82,21 @@
 	[helpBtn addTarget:self action:@selector(_goHelp) forControlEvents:UIControlEventTouchUpInside];
 	[scrollView addSubview:helpBtn];
 	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	CGRect frame = dividerImgView.frame;
 	frame.origin.y = 54;
 	dividerImgView.frame = frame;
 	[scrollView addSubview:dividerImgView];
 	
+	DIOfferStatsView *statsView = [[[DIOfferStatsView alloc] initWithCoords:CGPointMake(10.0, 67.0) offerVO:_offer] autorelease];
+	[scrollView addSubview:statsView];
+	
+	/*
 	EGOImageView *icoImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(10, 67, 60, 60)] autorelease];
 	icoImgView.imageURL = [NSURL URLWithString:_offer.ico_url];
 	icoImgView.layer.cornerRadius = 8.0;
 	icoImgView.clipsToBounds = YES;
-	icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 	icoImgView.layer.borderWidth = 1.0;
 	[scrollView addSubview:icoImgView];
 	
@@ -114,6 +119,7 @@
 	pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	pointsLabel.text = _offer.disp_points;
 	[scrollView addSubview:pointsLabel];
+	*/
 	
 	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 146, 300, textSize.height)] autorelease];
 	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
@@ -175,7 +181,7 @@
 	UIButton *watchButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	watchButton.frame = CGRectMake(0, 352, 320, 59);
 	watchButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-	watchButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	//watchButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[watchButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[watchButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[watchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

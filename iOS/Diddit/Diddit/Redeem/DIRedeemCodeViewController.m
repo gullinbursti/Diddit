@@ -35,7 +35,7 @@
 	UIView *codeBGView = [[[UIView alloc] initWithFrame:CGRectMake(25, 256, 274, 64)] autorelease];
 	[codeBGView setBackgroundColor:[UIColor whiteColor]];
 	codeBGView.layer.cornerRadius = 8.0;
-	codeBGView.layer.borderColor = [[UIColor colorWithWhite:0.8 alpha:1.0] CGColor];
+	codeBGView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 	codeBGView.layer.borderWidth = 1.0;
 	[self.view addSubview:codeBGView];
 	

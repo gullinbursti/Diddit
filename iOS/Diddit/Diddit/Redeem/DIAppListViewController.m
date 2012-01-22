@@ -47,6 +47,8 @@
 -(void)loadView {
 	[super loadView];
 	
+	CGRect frame;
+	
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
@@ -65,17 +67,15 @@
 	[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:offersBtn];
 	
-	
-	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerDivider.png"]] autorelease];
-	CGRect frame = dividerImgView.frame;
-	frame.origin.y = 54;
+	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
+	frame = dividerImgView.frame;
+	frame.origin.y = 61;
 	dividerImgView.frame = frame;
 	[self.view addSubview:dividerImgView];
 	
 	_featuredView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 230)];
 	
-	_appsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 56, self.view.bounds.size.width, self.view.bounds.size.height - 56) style:UITableViewStylePlain];
+	_appsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 62, self.view.bounds.size.width, self.view.bounds.size.height - 56) style:UITableViewStylePlain];
 	_appsTableView.rowHeight = 80;
 	_appsTableView.backgroundColor = [UIColor clearColor];
 	_appsTableView.separatorColor = [UIColor clearColor];
@@ -318,10 +318,24 @@
 				DIFeaturedItemButton *featuredItemButton = [[DIFeaturedItemButton alloc] initWithApp:(DIApp *)[_features objectAtIndex:i] AtIndex:i];
 				CGRect frame = featuredItemButton.frame;
 				frame.origin.x = col * 154;
-				frame.origin.y = row * 104;
+				frame.origin.y = row * 114;
 				featuredItemButton.frame = frame;
 				[_featuredView addSubview:featuredItemButton];
 			}
+			
+			UIImageView *divider1ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
+			CGRect frame = divider1ImgView.frame;
+			frame.origin.x = -10;
+			frame.origin.y = 104;
+			divider1ImgView.frame = frame;
+			[_featuredView addSubview:divider1ImgView];
+			
+			UIImageView *divider2ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
+			frame = divider2ImgView.frame;
+			frame.origin.x = -10;
+			frame.origin.y = 220;
+			divider2ImgView.frame = frame;
+			[_featuredView addSubview:divider2ImgView];
 		}
 		
 		[_loadOverlay remove];	

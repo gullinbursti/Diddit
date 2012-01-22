@@ -32,10 +32,17 @@
 	CGRect frame;
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.jpg"]] autorelease];
+	frame = bgImgView.frame;
+	frame.origin.y = -20;
+	bgImgView.frame = frame;
 	[self.view addSubview:bgImgView];
 	
 	_bootImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background_logo.png"]] autorelease];
+	//frame = _footerImgView.frame;
+	//frame.origin.y = self.view.frame.size.height;
+	//_footerImgView.frame = frame;
+	_bootImgView.hidden = YES;
 	[self.view addSubview:bgImgView];
 	
 	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueFooterBG.png"]];
@@ -47,29 +54,29 @@
 	
 	_logoImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
 	frame = _logoImgView.frame;
-	frame.origin.x = 93;
-	frame.origin.y = 175;
+	frame.origin.x = 97;
+	frame.origin.y = 163;
 	_logoImgView.frame = frame;
 	//_logoImgView.alpha = 0.0;
 	[self.view addSubview:_logoImgView];
 	
 	
 	_signupBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_signupBtn.frame = CGRectMake(46, 479, 114, 39);
-	_signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14.0];
+	_signupBtn.frame = CGRectMake(46, 478, 114, 39);
+	_signupBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	_signupBtn.titleEdgeInsets = UIEdgeInsetsMake(-2, 0, 2, 0); //up
 	[_signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[_signupBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_signupBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	_signupBtn.titleLabel.shadowColor = [UIColor blackColor];
 	_signupBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[_signupBtn setTitle:@"Sign up" forState:UIControlStateNormal];
+	[_signupBtn setTitle:@"Get started" forState:UIControlStateNormal];
 	[_signupBtn addTarget:self action:@selector(_goSignup) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_signupBtn];
 	
 	_videoBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_videoBtn.frame = CGRectMake(164, 479, 114, 39);
-	_videoBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14.0];
+	_videoBtn.frame = CGRectMake(164, 478, 114, 39);
+	_videoBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	_videoBtn.titleEdgeInsets = UIEdgeInsetsMake(-2, 0, 2, 0);
 	[_videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[_videoBtn setBackgroundImage:[[UIImage imageNamed:@"FUE_button_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
@@ -90,7 +97,7 @@
 	_bootImgView.hidden = YES;
 	[UIView animateWithDuration:0.5 animations:^(void) {
 		CGRect logoFrame = _logoImgView.frame;
-		logoFrame.origin.y = _logoImgView.frame.origin.y - 70;
+		logoFrame.origin.y = _logoImgView.frame.origin.y - 25;
 		_logoImgView.frame = logoFrame;
 		//_logoImgView.alpha = 1.0;
 		

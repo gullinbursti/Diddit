@@ -37,7 +37,7 @@
 }
 
 -(NSString *)price {
-	return ((self.cost > 0.0) ? [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:self.cost] numberStyle:NSNumberFormatterCurrencyStyle] : @"Free");
+	return ((self.cost > 0.0) ? [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:self.cost] numberStyle:NSNumberFormatterCurrencyStyle] : @"FREE");
 }
 
 -(NSString *)disp_points {
