@@ -11,7 +11,7 @@
 #import "DIWelcomeViewController.h"
 
 #import "DIAppDelegate.h"
-#import "DISignupViewController.h"
+#import "DIAppTypeViewController.h"
 #import "DISplashVideoViewController.h"
 
 @implementation DIWelcomeViewController
@@ -158,8 +158,12 @@
 - (void)_goSignup {
 	//[self dismissViewControllerAnimated:YES completion:nil];
 	
-	DISignupViewController *signupViewController = [[[DISignupViewController alloc] init] autorelease];
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:signupViewController] autorelease];
+	//DISignupViewController *signupViewController = [[[DISignupViewController alloc] init] autorelease];
+	//UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:signupViewController] autorelease];
+	//[self.navigationController presentModalViewController:navigationController animated:YES];
+	
+	DIAppTypeViewController *appTypeViewController = [[[DIAppTypeViewController alloc] init] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:appTypeViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 

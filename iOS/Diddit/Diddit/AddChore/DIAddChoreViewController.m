@@ -111,15 +111,15 @@
 }
 
 - (void)viewDidUnload {
-	[_titleTxtField resignFirstResponder];
+	//[_titleTxtField resignFirstResponder];
 	
 	[super viewDidUnload];
 }
 
 -(void)dealloc {
 	//[_titleTxtField release];
-	[_titleLbl release];
-	[_infoLbl release];
+	//[_titleLbl release];
+	//[_infoLbl release];
 	
 	[super dealloc];
 }

@@ -12,7 +12,7 @@
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
-#import "DINavHomeIcoBtnView.h"
+#import "DINavBackBtnView.h"
 #import "DIPinCodeViewController.h"
 
 @implementation DIChoreDetailsViewController
@@ -22,9 +22,9 @@
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
 		
-		DINavHomeIcoBtnView *homeBtnView = [[[DINavHomeIcoBtnView alloc] init] autorelease];
-		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
 	
 	return (self);
@@ -33,7 +33,7 @@
 -(id)initWithChore:(DIChore *)chore {
 	if ((self = [self init])) {
 		_chore = chore;
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:[_chore.title lowercaseString]] autorelease];		
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"chore details"] autorelease];		
 	}
 	
 	return (self);
@@ -42,20 +42,25 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
-	[self.view addSubview:bgImgView];
+	[self.view setBackgroundColor:[UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0]];
 	
-	_textSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(265.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
+	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)] autorelease];
+	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
+	[self.view addSubview:headerView];
+	
+	CGRect frame;
+	
+	_textSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
 	
 	UITableView *tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 348.0) style:UITableViewStylePlain] autorelease];
-	tableView.rowHeight = 305 + _textSize.height;
+	tableView.rowHeight = 325 + _textSize.height;
 	tableView.backgroundColor = [UIColor clearColor];
 	tableView.separatorColor = [UIColor clearColor];
 	tableView.delegate = self;
 	tableView.dataSource = self;
 	[self.view addSubview:tableView];
 	
-	_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 392)];
+	_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 362)];
 	_scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_scrollView.contentSize = CGSizeMake(320, 300 + _textSize.height);
 	_scrollView.opaque = NO;
@@ -65,21 +70,56 @@
 	_scrollView.alwaysBounceVertical = NO;
 	//[self.view addSubview:_scrollView];
 	
-	_imgView = [[UIImageView alloc] initWithFrame:CGRectMake(58, 35, 206, 174)];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
+	frame = bgImgView.frame;
+	frame.origin.y = 48;
+	bgImgView.frame = frame;
+	[_scrollView addSubview:bgImgView];
+	
+	UILabel *expiresLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 16, 300, 24)] autorelease];
+	expiresLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
+	expiresLabel.textColor = [UIColor colorWithRed:0.996 green:0.035 blue:0.220 alpha:1.0];
+	expiresLabel.backgroundColor = [UIColor clearColor];
+	expiresLabel.textAlignment =UITextAlignmentCenter;
+	expiresLabel.text = [NSString stringWithFormat:@"expires on %@", _chore.disp_expires];
+	[_scrollView addSubview:expiresLabel];
+	
+	
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 59, 320, 40)] autorelease];
+	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:20];
+	titleLabel.textColor = [UIColor colorWithWhite:0.404 alpha:1.0];
+	titleLabel.backgroundColor = [UIColor clearColor];
+	titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	titleLabel.text = _chore.title;
+	[_scrollView addSubview:titleLabel];
+	
+	UILabel *pointsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 88, 320, 40)] autorelease];
+	pointsLabel.font = [[DIAppDelegate diAdelleFontRegular] fontWithSize:18];
+	pointsLabel.textColor = [UIColor blackColor];
+	pointsLabel.backgroundColor = [UIColor clearColor];
+	pointsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	pointsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
+	[_scrollView addSubview:pointsLabel];
+
+	_imgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 134, 280, 174)];
 	_imgView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
 	_imgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 	_imgView.layer.borderWidth = 1.0;
 	[_scrollView addSubview:_imgView];
 	
-	UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(175.0, 145.0, 29, 29)] autorelease];
-	cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];
-	//[_imgView addSubview:cameraImgView];	
-	
 	UIButton *imageButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	imageButton.frame = CGRectMake(58, 35, 206, 174);
+	imageButton.frame = CGRectMake(20, 134, 280, 174);
 	imageButton.backgroundColor = [UIColor clearColor];
 	[imageButton addTarget:self action:@selector(_goActionSheet) forControlEvents:UIControlEventTouchUpInside];
-	[imageButton addSubview:cameraImgView];
+	
+//	if (![[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath]) {
+//		UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(242.0, 140.0, 29, 29)] autorelease];
+//		cameraImgView.image = [UIImage imageNamed:@"cameraIcon_lg.png"];
+//		//[_imgView addSubview:cameraImgView];		
+//		[imageButton addSubview:cameraImgView];
+//	}
 	
 	[_scrollView addSubview:imageButton];
 	//if ([[NSUserDefaults standardUserDefaults] valueForKey:[NSString stringWithFormat:@"image1bw"]]) {
@@ -95,41 +135,26 @@
 	} else
 		_imgView.image = [UIImage imageNamed:@"emptyChore.jpg"];
 	
-	UILabel *pointsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 225, 320, 40)] autorelease];
-	pointsLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:30];
-	pointsLabel.textColor = [UIColor blackColor];
-	pointsLabel.backgroundColor = [UIColor clearColor];
-	pointsLabel.textAlignment = UITextAlignmentCenter;
-	pointsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-	pointsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
-	[_scrollView addSubview:pointsLabel];
 	
-	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 265, 300, _textSize.height)] autorelease];
+	CGSize txtSize = [_chore.info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
+	
+	NSLog(@"TXTSIZE:[%@]", _chore.info);
+	
+	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 320, 280, txtSize.height)] autorelease];
 	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
-	infoLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+	infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	infoLabel.backgroundColor = [UIColor clearColor];
 	infoLabel.numberOfLines = 0;
 	infoLabel.text = _chore.info;
 	[_scrollView addSubview:infoLabel];
 	
-	UIImageView *calendarImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 275 + _textSize.height, 14, 14)] autorelease];
-	calendarImgView.image = [UIImage imageNamed:@"cal_Icon.png"];
-	[_scrollView addSubview:calendarImgView];
 	
-	UILabel *expiresLabel = [[[UILabel alloc] initWithFrame:CGRectMake(32, 275 + _textSize.height, 200, 16)] autorelease];
-	expiresLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
-	expiresLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-	expiresLabel.backgroundColor = [UIColor clearColor];
-	expiresLabel.text = [NSString stringWithFormat:@"Expires on %@", _chore.disp_expires];
-	[_scrollView addSubview:expiresLabel];
-	
-	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 348, 320, 72)] autorelease];
+	UIView *footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 344, 320, 72)] autorelease];
 	footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
 	[self.view addSubview:footerView];
 	
 	_completeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_completeButton.frame = CGRectMake(0, 352, 320, 59);
+	_completeButton.frame = CGRectMake(0, 351, 320, 59);
 	_completeButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	_completeButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 	[_completeButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
@@ -142,7 +167,7 @@
 	[self.view addSubview:_completeButton];
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
-	CGRect frame = overlayImgView.frame;
+	frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];

@@ -18,6 +18,9 @@
 	ASIFormDataRequest *_activeChoresRequest;
 	ASIFormDataRequest *_sponsorshipsDataRequest;
 	
+	ASIFormDataRequest *_choreUpdRequest;
+	ASIFormDataRequest *_userUpdRequest;
+	
 	DILoadOverlay *_loadOverlay;
 	DIChoreStatsView *_choreStatsView;
 	

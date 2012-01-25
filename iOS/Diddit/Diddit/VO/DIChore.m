@@ -54,7 +54,7 @@
 
 -(NSString *)disp_expires {
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-	[dateFormat setDateFormat:@"M/d/YY"];
+	[dateFormat setDateFormat:@"MM/dd/YY"];
 	
 	NSString *dateString = [dateFormat stringFromDate:self.expires];  
 	[dateFormat release];

@@ -148,13 +148,22 @@
 	if (isSubmit) {
 		NSLog(@"USERNAME:[%@]", _usernameTxtField.text);
 		NSLog(@"PIN:[%@]", pinCode);
-		NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+		NSLog(@"DEVICE ID:[%@]", [DIAppDelegate deviceToken]);
+		NSLog(@"DEVICE NAME:[%@]", [UIDevice currentDevice].name);
+		NSLog(@"DEVICE MODEL:[%@]", [UIDevice currentDevice].model);
+		NSLog(@"SYS NAME:[%@]", [UIDevice currentDevice].systemName);
+		NSLog(@"SYS VER:[%@]", [UIDevice currentDevice].systemVersion);
+		NSLog(@"UUID:[%@]", [DIAppDelegate deviceUUID]);
 		
 		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		ASIFormDataRequest *userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[userRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-		[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"deviceID"];
+		[userRequest setPostValue:[DIAppDelegate deviceUUID] forKey:@"uuID"];
+		[userRequest setPostValue:[UIDevice currentDevice].model forKey:@"model"];
+		[userRequest setPostValue:[UIDevice currentDevice].systemVersion forKey:@"os"];
+		[userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"uaID"];
+		[userRequest setPostValue:[UIDevice currentDevice].name forKey:@"deviceName"];
 		[userRequest setPostValue:_usernameTxtField.text forKey:@"username"];
 		[userRequest setPostValue:pinCode forKey:@"pin"];
 		[userRequest setDelegate:self];

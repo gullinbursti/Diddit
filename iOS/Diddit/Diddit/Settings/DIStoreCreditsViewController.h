@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIStoreCreditsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+#import "ASIFormDataRequest.h"
+
+@interface DIStoreCreditsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, ASIHTTPRequestDelegate> {
 	UITableView *_creditsTableView;
+	NSMutableArray *_credits;
+	
+	int _type_id;
 }
+
+-(id)initAsCredits;
+-(id)initAsInAppGoods;
 
 @end

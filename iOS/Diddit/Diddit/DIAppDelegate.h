@@ -29,6 +29,7 @@
 +(DIAppDelegate *)sharedInstance;
 
 +(BOOL)validateEmail:(NSString *)address;
++(NSString *)md5:(NSString *)input;
 
 +(void)setUserProfile:(NSDictionary *)userInfo;
 +(NSDictionary *)profileForUser;
@@ -48,7 +49,7 @@
 +(void)setCompletedOffers:(NSDictionary *)offers;
 +(NSDictionary *)completedOffers;
 
-+(NSString *)md5:(NSString *)input;
++(NSString *)deviceUUID;
 
 
 +(UIFont *)diAdelleFontRegular;

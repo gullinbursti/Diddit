@@ -245,7 +245,7 @@ class Store {
 		$query = 'UPDATE `tblUsers` SET `points` ='. $user_points .' WHERE `id` ='. $user_id .';';
 		$result = mysql_query($query);
 		
-		$query = 'INSERT INTO `tblPurchases` (';
+		$query = 'INSERT INTO `tblStorePurchases` (';
 		$query .= '`id`, `user_id`, `store_id`, `added`) ';
 		$query .= 'VALUES (NULL, "'. $user_id .'", "'. $store_id .'", CURRENT_TIMESTAMP);';
 		$result = mysql_query($query);
@@ -292,7 +292,7 @@ class Store {
 	
 	function allPurchases($user_id) {
 
-		$query = 'SELECT * FROM `tblPurchases` WHERE `user_id` = "'. $user_id .'" ORDER BY `added`;';
+		$query = 'SELECT * FROM `tblStorePurchases` WHERE `user_id` = "'. $user_id .'" ORDER BY `added`;';
 		$res = mysql_query($query);
 		
 		// error performing query
@@ -304,8 +304,7 @@ class Store {
 			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
 				array_push($result, array(
 					"id" => $row['id'], 
-					"chore_id" => $row['chore_id'], 
-					"price" => $row['price'], 
+					"store_id" => $row['store_id'], 
 					"added" => $row['added']
 				));
 			}
@@ -318,6 +317,80 @@ class Store {
 			return (true);
 		}
 	}
+	
+	
+	
+	function creditPurchases($user_id) {
+
+		$query = 'SELECT `tblStore`.`id`, `tblStore`.`title`, `tblStore`.`info`, `tblStore`.`dev_id`, `tblStore`.`points`, `tblStore`.`ico_url`, `tblStore`.`score`, `tblStore`.`itunes_id` FROM `tblStore` INNER JOIN `tblStorePurchases` ON `tblStore`.`id` = `tblStorePurchases`.`store_id` WHERE `tblStorePurchases`.`user_id` = "'. $user_id .'" AND `tblStore`.`type_id` =2;';
+		$res = mysql_query($query);
+		
+		// error performing query
+		if (mysql_num_rows($res) > 0) {
+				
+			// Return data, as JSON
+			$result = array();
+		
+			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+				array_push($result, array(
+					"id" => $row[0], 
+					"title" => $row[1], 
+					"info" => $row[2], 
+					"dev_id" => $row[3], 
+					"points" => $row[4], 
+					"ico_url" => $row[5], 
+					"score" => $row[6], 
+					"itunes_id" => $row[7], 
+					"description" => "",
+					"images" => array()
+				));
+			}
+		
+			$this->sendResponse(200, json_encode($result));
+			return (true);
+		
+		} else {
+			$this->sendResponse(200, json_encode(array()));
+			return (true);
+		}
+	}
+	
+	
+	
+	function inAppPurchases($user_id) {
+
+		$query = 'SELECT `tblStore`.`id`, `tblStore`.`title`, `tblStore`.`info`, `tblStore`.`dev_id`, `tblStore`.`points`, `tblStore`.`ico_url`, `tblStore`.`score`, `tblStore`.`itunes_id` FROM `tblStore` INNER JOIN `tblStorePurchases` ON `tblStore`.`id` = `tblStorePurchases`.`store_id` WHERE `tblStorePurchases`.`user_id` = "'. $user_id .'" AND `tblStore`.`type_id` =1;';
+		$res = mysql_query($query);
+		
+		// error performing query
+		if (mysql_num_rows($res) > 0) {
+				
+			// Return data, as JSON
+			$result = array();
+		
+			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+				array_push($result, array(
+					"id" => $row[0], 
+					"title" => $row[1], 
+					"info" => $row[2], 
+					"dev_id" => $row[3], 
+					"points" => $row[4], 
+					"ico_url" => $row[5], 
+					"score" => $row[6], 
+					"itunes_id" => $row[7], 
+					"description" => "",
+					"images" => array()
+				));
+			}
+		
+			$this->sendResponse(200, json_encode($result));
+			return (true);
+		
+		} else {
+			$this->sendResponse(200, json_encode(array()));
+			return (true);
+		}
+	} 
 	
 	
 	
@@ -350,6 +423,16 @@ if (isset($_POST["action"])) {
 		case 4:   
 			if (isset($_POST['userID']))
 				$store_json = $store->allPurchases($_POST['userID']);
+			break;
+			
+		case 5:
+			if (isset($_POST['userID']))
+				$store_json = $store->creditPurchases($_POST['userID']);
+			break;
+			
+		case 6:
+			if (isset($_POST['userID']))
+				$store_json = $store->inAppPurchases($_POST['userID']);
 			break;
 	}
 }

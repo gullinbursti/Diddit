@@ -174,6 +174,9 @@
 	[self.view addSubview:addLabel];
 	
 	
+	
+	
+	
 	_addBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_addBtn.frame = CGRectMake(100, 30, 115, 28);
 	_addBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
@@ -262,7 +265,20 @@
 	[_activeChoresRequest setDelegate:self];
 	[_activeChoresRequest startAsynchronous];
 	
+	UILabel *appTypeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 300, 320, 26)] autorelease];
+	appTypeLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14];
+	appTypeLabel.textColor = [UIColor colorWithRed:0.243 green:0.259 blue:0.247 alpha:1.0];
+	appTypeLabel.backgroundColor = [UIColor clearColor];
+	appTypeLabel.textAlignment = UITextAlignmentCenter;
+	appTypeLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	appTypeLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	
+	if ([[[DIAppDelegate profileForUser] objectForKey:@"app_type"] isEqualToString:@"master"])
+		appTypeLabel.text = @"PARENT";
+	
+	else
+		appTypeLabel.text = @"CHILD";
+	[self.view addSubview:appTypeLabel];
 	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
 	//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
@@ -291,12 +307,29 @@
 
 -(void)_finishChore:(NSNotification *)notification {
 	DIChore *chore = (DIChore *)[notification object];
+	
+	_loadOverlay = [[DILoadOverlay alloc] init];
+	
+	_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
+	[_userUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.points] forKey:@"points"];
+	[_userUpdRequest setDelegate:self];
+	[_userUpdRequest startAsynchronous];
+	
+	_choreUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
+	[_choreUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.chore_id] forKey:@"choreID"];
+	
 	[_finishedChores addObject:chore];
 	
-	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
-	[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+	if ([[NSUserDefaults standardUserDefaults] valueForKey:chore.imgPath]) {
+		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:chore.imgPath];
+	}
+	
 	[_chores removeObjectIdenticalTo:chore];
-	//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	
 	
 	[_myChoresTableView reloadData];
 	_addBtn.hidden = [_chores count] >= 2;
@@ -308,10 +341,13 @@
 		//_emptyListImgView.hidden = NO;
 		//_myChoresTableView.hidden = YES;
 	}
+
+	//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
-	DIChoreCompleteViewController *choreCompleteViewController = [[[DIChoreCompleteViewController alloc] initWithChore:chore] autorelease];
-	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:choreCompleteViewController] autorelease];
-	[self.navigationController presentModalViewController:navigationController animated:YES];
+	
+	//DIChoreCompleteViewController *choreCompleteViewController = [[[DIChoreCompleteViewController alloc] initWithChore:chore] autorelease];
+	//UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:choreCompleteViewController] autorelease];
+	//[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 
@@ -492,6 +528,40 @@
 				
 				[_emptyScrollView removeFromSuperview];
 				[_holderView addSubview:_myChoresTableView];
+			}
+		}
+		
+		[_loadOverlay remove];
+	
+	} else if ([request isEqual:_userUpdRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			NSDictionary *parsedUser = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			else {
+				[DIAppDelegate setUserProfile:parsedUser];
+				[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+				[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
+				[_choreUpdRequest startAsynchronous];
+			}
+		}
+		
+		[_loadOverlay remove];
+		
+	} else if ([request isEqual:_choreUpdRequest]) {
+		@autoreleasepool {
+			NSError *error = nil;
+			//NSDictionary *parsedTotal = [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:&error];
+			
+			if (error != nil)
+				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
+			
+			else {
+				[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+				[[_choreStatsView totBtn] setTitle:[NSString stringWithFormat:@"%d", [DIAppDelegate userTotalFinished]] forState:UIControlStateNormal];
 			}
 		}
 		

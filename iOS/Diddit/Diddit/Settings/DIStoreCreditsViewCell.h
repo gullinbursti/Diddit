@@ -12,12 +12,13 @@
 #import "EGOImageView.h"
 
 @interface DIStoreCreditsViewCell : UITableViewCell {
-	EGOImageView *_icoView;
+	
+	UIView *_holderView;
+	DIApp *_app;
+	
+	EGOImageView *_icoImgView;
 	UILabel *_titleLabel;
 	UILabel *_infoLabel;
-	UILabel *_pointsLabel;
-	
-	DIApp *_app;
 	
 	BOOL _shouldDrawSeparator;
 }

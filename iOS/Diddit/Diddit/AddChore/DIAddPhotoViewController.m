@@ -16,13 +16,15 @@
 
 #pragma mark - View lifecycle
 -(id)initWithChore:(DIChore *)chore {
-	if ((self = [super initWithTitle:@"pick photo" header:@"choose a chore photo" backBtn:@"Back"])) {
+	if ((self = [super initWithTitle:@"add chore" header:@"what type of chore is it?" backBtn:@"Back"])) {
 		_chore = chore;
 		_isCameraPic = NO;
 		
 		DINavRightBtnView *nextBtnView = [[[DINavRightBtnView alloc] initWithLabel:@"Next"] autorelease];
 		[[nextBtnView btn] addTarget:self action:@selector(_goNext) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:nextBtnView] autorelease];
+		
+		_types = [[NSMutableArray alloc] initWithObjects:@"Take photo", @"Camera Roll", @"Laundry", @"Car Wash", nil];
 	}
 	
 	return (self);
@@ -31,12 +33,21 @@
 -(void)loadView {
 	[super loadView];
 	
+	
+	_photoTypeTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 48, self.view.bounds.size.width, self.view.bounds.size.height - 80) style:UITableViewStylePlain];
+	_photoTypeTableView.rowHeight = 70;
+	_photoTypeTableView.backgroundColor = [UIColor clearColor];
+	_photoTypeTableView.separatorColor = [UIColor clearColor];
+	_photoTypeTableView.delegate = self;
+	_photoTypeTableView.dataSource = self;
+	[self.view addSubview:_photoTypeTableView];
+	
 	_choreImgView = [[UIImageView alloc] initWithFrame:CGRectMake(58, 60, 206, 174)];
 	_choreImgView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
 	_choreImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 	_choreImgView.layer.borderWidth = 1.0;
 	_choreImgView.clipsToBounds = YES;
-	[self.view addSubview:_choreImgView];
+	//[self.view addSubview:_choreImgView];
 	
 	/*if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 	 _previewImageController = [[UIImagePickerController alloc] init];
@@ -46,6 +57,7 @@
 	 //[_choreImgView addSubview:_previewImageController.view];
 	 }*/
 	
+	/*
 	UIButton *cameraButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	cameraButton.frame = CGRectMake(0, 235, 320, 59);
 	cameraButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
@@ -71,6 +83,7 @@
 	[photoButton setTitle:@"album" forState:UIControlStateNormal];
 	[photoButton addTarget:self action:@selector(_goAlbum) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:photoButton];
+	 */
 }
 
 -(void)viewDidLoad {
@@ -137,10 +150,95 @@
 	}
 }
 
--(void)_goActionSheet {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"choose picture", @"take picture", nil];
-	[actionSheet showInView:self.view];
-	[actionSheet release];
+
+#pragma mark - TableView Data Source Delegates
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return ([_types count]);
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	UITableViewCell *cell = nil;
+	cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+	
+	if (cell == nil) {			
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
+		
+		UIImageView *icoImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(10.0, 10.0, 60, 60)] autorelease];
+		//icoImgView.image = @"";
+		icoImgView.layer.cornerRadius = 8.0;
+		icoImgView.clipsToBounds = YES;
+		icoImgView.backgroundColor = [UIColor colorWithRed:0.988 green:1.000 blue:0.714 alpha:1.0];
+		icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+		icoImgView.layer.borderWidth = 1.0;
+		[cell addSubview:icoImgView];
+		
+		UILabel *appTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(76.0, 15.0, 180.0, 22)] autorelease];
+		appTitleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		appTitleLabel.backgroundColor = [UIColor clearColor];
+		appTitleLabel.textColor = [UIColor colorWithRed:0.208 green:0.682 blue:0.369 alpha:1.0];
+		appTitleLabel.text = @"Type";
+		[cell addSubview:appTitleLabel];
+		
+		UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(76.0, 33.0, 300.0, 16)] autorelease];
+		infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14];
+		infoLabel.textColor = [UIColor blackColor];
+		infoLabel.backgroundColor = [UIColor clearColor];
+		infoLabel.text = [_types objectAtIndex:indexPath.row];
+		[cell addSubview:infoLabel];
+		
+		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+		CGRect frame = dividerImgView.frame;
+		frame.origin.x = -10;
+		frame.origin.y = 80;
+		dividerImgView.frame = frame;
+		[cell addSubview:dividerImgView];
+		
+		//[cell addSubview:_sponsorshipImgView];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+	}
+		
+	return (cell);
+}
+
+#pragma mark - TableView Delegates
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	
+	if (indexPath.row == 0) {
+		[self _goCamera];
+		
+	} else if (indexPath.row == 1) {
+		[self _goAlbum];
+		
+	} else {
+		[self _goNext];
+	}
+	
+	
+	
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	/*
+	 [UIView animateWithDuration:0.2 animations:^(void) {
+	 cell.alpha = 0.5;
+	 } completion:^(BOOL finished) {
+	 [UIView animateWithDuration:0.15 animations:^(void) {
+	 cell.alpha = 1.0;
+	 
+	 [self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
+	 [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	 }];
+	 }];
+	 */
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return (80);
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
+	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
+	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 }
 
 
@@ -185,6 +283,8 @@
 		NSData *imageData = UIImagePNGRepresentation(image); 
 		[[NSUserDefaults standardUserDefaults] setObject:imageData forKey:_chore.imgPath];
 	}
+	
+	[self _goNext];
 	
 	NSLog(@"IMG:[%@]", _chore.imgPath);
 }

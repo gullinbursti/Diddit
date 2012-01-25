@@ -8,7 +8,7 @@
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
-#import "DINavHomeIcoBtnView.h"
+#import "DINavBackBtnView.h"
 #import "DIPaginationView.h"
 #import "DIChoreStatsView.h"
 #import "DIFeaturedItemButton.h"
@@ -29,9 +29,9 @@
 		
 		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"store"] autorelease];
 		
-		DINavHomeIcoBtnView *homeBtnView = [[[DINavHomeIcoBtnView alloc] init] autorelease];
-		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goFeatured:) name:@"PUSH_FEATURED" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goStatsUpdate:) name:@"UPDATE_STATS" object:nil];

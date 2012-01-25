@@ -8,6 +8,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "DIStoreCreditsViewCell.h"
+#import "DIAppDelegate.h"
+#import "DIAppRatingStarsView.h"
 
 @implementation DIStoreCreditsViewCell
 
@@ -22,37 +24,58 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
-		_icoView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 32, 32)];
-		_icoView.layer.cornerRadius = 8.0;
-		_icoView.clipsToBounds = YES;
-		_icoView.layer.borderColor = [[UIColor colorWithWhite:0.671 alpha:1.0] CGColor];
-		_icoView.layer.borderWidth = 1.0;
-		[self addSubview:_icoView];
 		
-		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 10, 200.0, 20)];
-		//_titleLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:11.0];
+		
+		_holderView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)];
+		[self addSubview:_holderView];
+		
+		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
+		CGRect frame = dividerImgView.frame;
+		frame.origin.x = -10;
+		frame.origin.y = 70;
+		dividerImgView.frame = frame;
+		[_holderView addSubview:dividerImgView];
+		
+		//_overlayView = [[UIView alloc] initWithFrame:CGRectMake(0.0, -1.0, 300.0, 81.0)];
+		//_overlayView.backgroundColor = [UIColor blackColor];
+		//_overlayView.alpha = 0.0;
+		//[self addSubview:_overlayView];
+		
+		_icoImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 60, 60)] autorelease];
+		_icoImgView.imageURL = [NSURL URLWithString:_app.ico_url];
+		_icoImgView.layer.cornerRadius = 8.0;
+		_icoImgView.clipsToBounds = YES;
+		_icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+		_icoImgView.layer.borderWidth = 1.0;
+		[_holderView addSubview:_icoImgView];
+		
+		_titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(66.0, 5.0, 180.0, 22)] autorelease];
+		_titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
-		_titleLabel.textColor = [UIColor colorWithRed:0.039 green:0.478 blue:0.938 alpha:1.0];
-		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_titleLabel];
+		_titleLabel.textColor = [UIColor colorWithRed:0.208 green:0.682 blue:0.369 alpha:1.0];
+		[_holderView addSubview:_titleLabel];
 		
-		_infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(54, 25, 200.0, 16)];
-		//_dateLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
+		_infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(66.0, 23.0, 300.0, 16)] autorelease];
+		_infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14];
+		_infoLabel.textColor = [UIColor blackColor];
 		_infoLabel.backgroundColor = [UIColor clearColor];
-		_infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_infoLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_infoLabel];
+		[_holderView addSubview:_infoLabel];
 		
-		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 10, 80.0, 16)];
-		//_pointsLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:9.5];
-		_pointsLabel.backgroundColor = [UIColor clearColor];
-		_pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[self addSubview:_pointsLabel];
+		UIView *ptsView = [[[UIView alloc] initWithFrame:CGRectMake(220.0, 16.0, 78, 30)] autorelease];
+		ptsView.backgroundColor = [UIColor colorWithRed:0.976 green:0.976 blue:0.929 alpha:1.0];
+		ptsView.layer.cornerRadius = 6.0;
+		ptsView.clipsToBounds = YES;
+		ptsView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+		ptsView.layer.borderWidth = 1.0;
+		[_holderView addSubview:ptsView];
 		
-		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(300.0, 20.0, 9, 12)] autorelease];
-		chevronView.image = [UIImage imageNamed:@"smallChevron.png"];
-		[self addSubview:chevronView];
+		UILabel *ptsLbl = [[[UILabel alloc] initWithFrame:CGRectMake(0, 6, 78, 20)] autorelease];
+		ptsLbl.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		ptsLbl.backgroundColor = [UIColor clearColor];
+		ptsLbl.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		ptsLbl.text = @"PURCHASED";
+		ptsLbl.textAlignment = UITextAlignmentCenter;
+		[ptsView addSubview:ptsLbl];
 	}
 	
 	return (self);
@@ -60,10 +83,9 @@
 
 
 -(void)dealloc {
-	[_icoView release];
+	[_icoImgView release];
 	[_titleLabel release];
 	[_infoLabel release];
-	[_pointsLabel release];
 	[_app release];
 	
 	[super dealloc];
@@ -73,10 +95,12 @@
 - (void)setApp:(DIApp *)app {
 	_app = app;
 	
+	_icoImgView.imageURL = [NSURL URLWithString:_app.ico_url];
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _app.title];		
-	_icoView.imageURL = [NSURL URLWithString:_app.ico_url];
 	_infoLabel.text = _app.info;
-	_pointsLabel.text = [NSString stringWithFormat:@"%dpts", _app.points];
+	
+	DIAppRatingStarsView *appRatingStarsView = [[[DIAppRatingStarsView alloc] initWithCoords:CGPointMake(66.0, 38.0) appScore:_app.score] autorelease];
+	[_holderView addSubview:appRatingStarsView];
 }
 
 

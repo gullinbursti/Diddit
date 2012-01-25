@@ -13,11 +13,14 @@
 #import "DIAppDelegate.h"
 #import "DIChore.h"
 
-@interface DIAddPhotoViewController : DIBasePushHeaderViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface DIAddPhotoViewController : DIBasePushHeaderViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate> {
 	BOOL _isCameraPic;
 	DIChore *_chore;
 	UIImageView *_choreImgView;
 	UIImagePickerController *_previewImageController;
+	
+	UITableView *_photoTypeTableView;
+	NSMutableArray *_types;
 }
 
 -(id)initWithChore:(DIChore *)chore;

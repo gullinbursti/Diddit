@@ -140,6 +140,10 @@
 	return (output);
 }
 
++(NSString *)deviceUUID {
+	return ([UIDevice currentDevice].uniqueIdentifier);
+}
+
 //+(NSString *)userPinCode {
 //	return ([[DIAppDelegate profileForUser] objectForKey:@"pin"]);
 //}
@@ -196,6 +200,15 @@
 		[_userRequest setDelegate:self];
 		[_userRequest startAsynchronous];
 	}
+	
+	/*
+	NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+	NSLog(@"DEVICE NAME:[%@]", [UIDevice currentDevice].name);
+	NSLog(@"DEVICE MODEL:[%@]", [UIDevice currentDevice].model);
+	NSLog(@"SYS NAME:[%@]", [UIDevice currentDevice].systemName);
+	NSLog(@"SYS VER:[%@]", [UIDevice currentDevice].systemVersion);
+	NSLog(@"UUID:[%@]", [UIDevice currentDevice].uniqueIdentifier);
+	*/
 	
 	return YES;
 }

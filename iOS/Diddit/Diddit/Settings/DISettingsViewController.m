@@ -12,7 +12,7 @@
 #import "DIAppDelegate.h"
 
 #import "DINavTitleView.h"
-#import "DINavHomeIcoBtnView.h"
+#import "DINavBackBtnView.h"
 #import "DIStoreCreditsViewController.h"
 #import "DIPinSettingsViewController.h"
 
@@ -23,9 +23,9 @@
 	if ((self = [super init])) {
 		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"settings"] autorelease];
 		
-		DINavHomeIcoBtnView *homeBtnView = [[[DINavHomeIcoBtnView alloc] init] autorelease];
-		[[homeBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:homeBtnView] autorelease];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];		
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 	}
 	
 	return (self);
@@ -38,7 +38,7 @@
 	[self.view addSubview:bgImgView];
 	
 	_settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
-	_settingsTableView.rowHeight = 55;
+	_settingsTableView.rowHeight = 60;
 	_settingsTableView.delegate = self;
 	_settingsTableView.dataSource = self;
 	_settingsTableView.backgroundColor = [UIColor clearColor];
@@ -78,7 +78,7 @@
 
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return (4);
+	return (5);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -90,30 +90,34 @@
 		
 		switch (indexPath.row) {
 			case 0:
-				cell.textLabel.text = @"credits";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"iTunes credits";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 1:
-				cell.textLabel.text = @"passcode";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"in-app goods";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 2:
-				cell.textLabel.text = @"notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
+				cell.textLabel.text = @"passcode";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 				
 			case 3:
+				cell.textLabel.text = @"notifications";//[NSString stringWithFormat:@"%d", indexPath.row];
+				break;
+				
+			case 4:
 				cell.textLabel.text = @"support";//[NSString stringWithFormat:@"%d", indexPath.row];
 				break;
 		}
 		
 		
-		if (indexPath.row == 1 || indexPath.row == 2) {
+		if (indexPath.row == 2 || indexPath.row == 3) {
 			UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
 			switchView.on = YES;
 			cell.accessoryView = switchView;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			
-			if (indexPath.row == 2) {
+			if (indexPath.row == 3) {
 				if (![DIAppDelegate notificationsEnabled])
 					switchView.on = NO;
 				
@@ -131,7 +135,7 @@
 		
 		UIImageView *dividerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]];
 		CGRect frame = dividerImgView.frame;
-		frame.origin.y = 54;
+		frame.origin.y = 60;
 		dividerImgView.frame = frame;
 		[cell addSubview:dividerImgView];
 		[dividerImgView release];
@@ -172,7 +176,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 	
-	if (indexPath.row == 1 || indexPath.row == 2)
+	if (indexPath.row == 2 || indexPath.row == 3)
 		return;
 	
 	//	UINavigationController *navigationController;
@@ -191,18 +195,32 @@
 				}];
 			}];
 			
-			[self.navigationController pushViewController:[[[DIStoreCreditsViewController alloc] init] autorelease] animated:YES];
+			[self.navigationController pushViewController:[[[DIStoreCreditsViewController alloc] initAsCredits] autorelease] animated:YES];
 			//navigationController = [[[UINavigationController alloc] initWithRootViewController:storeCreditsViewController] autorelease];
 			break;
 			
 		case 1:
-			break;
+			[UIView animateWithDuration:0.25 animations:^(void) {
+				[[tableView cellForRowAtIndexPath:indexPath] setAlpha:0.5];
+				
+			} completion:^(BOOL finished) {
+				[UIView animateWithDuration:0.125 animations:^(void) {
+					[[tableView cellForRowAtIndexPath:indexPath] setAlpha:1.0];	
+				}];
+			}];
 			
+			[self.navigationController pushViewController:[[[DIStoreCreditsViewController alloc] initAsInAppGoods] autorelease] animated:YES];
+			//navigationController = [[[UINavigationController alloc] initWithRootViewController:storeCreditsViewController] autorelease];
+			break;
+		
 		case 2:
-			[DIAppDelegate notificationsToggle:![DIAppDelegate notificationsEnabled]];
 			break;
 			
 		case 3:
+			[DIAppDelegate notificationsToggle:![DIAppDelegate notificationsEnabled]];
+			break;
+			
+		case 4:
 			[UIView animateWithDuration:0.25 animations:^(void) {
 				[[tableView cellForRowAtIndexPath:indexPath] setAlpha:0.5];
 				
@@ -221,12 +239,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 55;
+	return 60;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
-	cell.textLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16.0];
-	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	cell.textLabel.font = [[DIAppDelegate diAdelleFontRegular] fontWithSize:16.0];
+	cell.textLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.0];
 	cell.textLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	cell.textLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 }
