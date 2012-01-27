@@ -30,6 +30,7 @@
 
 +(BOOL)validateEmail:(NSString *)address;
 +(NSString *)md5:(NSString *)input;
++(NSString *)rndChars:(int)len;
 
 +(void)setUserProfile:(NSDictionary *)userInfo;
 +(NSDictionary *)profileForUser;
@@ -50,7 +51,7 @@
 +(NSDictionary *)completedOffers;
 
 +(NSString *)deviceUUID;
-
++(BOOL)isParentApp;
 
 +(UIFont *)diAdelleFontRegular;
 +(UIFont *)diAdelleFontLight;

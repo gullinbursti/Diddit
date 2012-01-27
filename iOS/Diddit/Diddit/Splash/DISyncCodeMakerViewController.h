@@ -13,7 +13,10 @@
 @class DILoadOverlay;
 
 @interface DISyncCodeMakerViewController : UIViewController <ASIHTTPRequestDelegate> {
-	UILabel *_codeLabel;
+	UILabel *_digit1Label;
+	UILabel *_digit2Label;
+	UILabel *_digit3Label;
+	
 	DILoadOverlay *_loadOverlay;
 	
 	ASIFormDataRequest *_signupDataRequest;

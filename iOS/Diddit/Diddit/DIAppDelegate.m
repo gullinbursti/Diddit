@@ -11,7 +11,7 @@
 #import "DIAppDelegate.h"
 #import "DIChore.h"
 #import "DISettingsViewController.h"
-#import "DIWelcomeViewController.h"
+#import "DIAppTypeViewController.h"
 
 #import "DIStoreObserver.h"
 #import "UAirship.h"
@@ -31,12 +31,35 @@
 //	return ([[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
 //}
 
++(NSString *)deviceUUID {
+	return ([UIDevice currentDevice].uniqueIdentifier);
+}
 
 +(BOOL)validateEmail:(NSString *)address {
 	NSString *regex = @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex]; 
 	
 	return [predicate evaluateWithObject:address];
+}
+
++(NSString *)md5:(NSString *)input {
+	
+	const char *cStr = [input UTF8String];
+	unsigned char digest[16];
+	
+	CC_MD5(cStr, strlen(cStr), digest);
+	
+	NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+	
+	for(int i=0; i<CC_MD5_DIGEST_LENGTH; i++)
+		[output appendFormat:@"%02x", digest[i]];
+	
+	return (output);
+}
+
++(NSString *)rndChars:(int)len {
+	NSString *code = [[DIAppDelegate md5:[NSString stringWithFormat:@"%d", arc4random()]] uppercaseString];
+	return ([code substringToIndex:[code length] - (32 - len)]);
 }
 
 +(void)setUserProfile:(NSDictionary *)userInfo {
@@ -101,6 +124,10 @@
 	return ([[NSUserDefaults standardUserDefaults] objectForKey:@"device_token"]);
 }
 
++(BOOL)isParentApp {
+	return ([[[DIAppDelegate profileForUser] objectForKey:@"app_type"] isEqualToString:@"master"]);
+}
+
 +(UIFont *)diAdelleFontRegular {
 	return [UIFont fontWithName:@"Adelle" size:12.0];
 }
@@ -125,24 +152,6 @@
 	return [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0];
 }
 
-+(NSString *)md5:(NSString *)input {
-	
-	const char *cStr = [input UTF8String];
-	unsigned char digest[16];
-	
-	CC_MD5(cStr, strlen(cStr), digest);
-	
-	NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-	
-	for(int i=0; i<CC_MD5_DIGEST_LENGTH; i++)
-		[output appendFormat:@"%02x", digest[i]];
-	
-	return (output);
-}
-
-+(NSString *)deviceUUID {
-	return ([UIDevice currentDevice].uniqueIdentifier);
-}
 
 //+(NSString *)userPinCode {
 //	return ([[DIAppDelegate profileForUser] objectForKey:@"pin"]);
@@ -186,7 +195,7 @@
 	
 	// show welcome screen
 	if (![DIAppDelegate profileForUser]) {
-		DIWelcomeViewController *splash = [[[DIWelcomeViewController alloc] init] autorelease];
+		DIAppTypeViewController *splash = [[[DIAppTypeViewController alloc] init] autorelease];
 		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
 		[splashNavigation setNavigationBarHidden:YES animated:NO];
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
@@ -197,6 +206,7 @@
 		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 		[_userRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"uaID"];
 		[_userRequest setDelegate:self];
 		[_userRequest startAsynchronous];
 	}
@@ -373,6 +383,16 @@
 	
 	int type_id = [[userInfo objectForKey:@"type"] intValue];
 	NSLog(@"TYPE: [%d]", type_id);
+	
+	switch (type_id) {
+		case 1:
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
+			break;
+			
+		case 2:
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
+			break;
+	}
 	/*
 	if (type_id == 2) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:@"Visit iTunes", nil];

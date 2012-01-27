@@ -17,7 +17,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"enter passcode"] autorelease];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"device setup"] autorelease];
 		
 		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
@@ -50,24 +50,76 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.jpg"]] autorelease];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.png"]] autorelease];
 	CGRect frame = bgImgView.frame;
 	frame.origin.y = -20;
 	bgImgView.frame = frame;
 	[self.view addSubview:bgImgView];
 	
-	NSString *code = [[DIAppDelegate md5:[NSString stringWithFormat:@"%d", arc4random()]] uppercaseString];
+	UILabel *instructLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 30, 280, 32)] autorelease];
+	instructLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14];
+	instructLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+	instructLabel.backgroundColor = [UIColor clearColor];
+	instructLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	instructLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	instructLabel.textAlignment = UITextAlignmentCenter;
+	instructLabel.numberOfLines = 0;
+	instructLabel.text = @"use the following passcode to help your kids activate their devices";
+	[self.view addSubview:instructLabel];
 	
-	_codeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20.0, 180.0, 280.0, 80)] autorelease];
-	_codeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:60.0];
-	_codeLabel.backgroundColor = [UIColor clearColor];
-	_codeLabel.textColor = [UIColor blackColor];
-	_codeLabel.textAlignment = UITextAlignmentCenter;
-	_codeLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-	_codeLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	_codeLabel.text = [code substringToIndex:[code length] - 28];
+	UIImageView *digit1ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inputBG.png"]] autorelease];
+	frame = digit1ImgView.frame;
+	frame.origin.x = 20;
+	frame.origin.y = 100;
+	digit1ImgView.frame = frame;
+	[self.view addSubview:digit1ImgView];
 	
-	[self.view addSubview:_codeLabel];
+	UIImageView *digit2ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inputBG.png"]] autorelease];
+	frame = digit2ImgView.frame;
+	frame.origin.x = 125;
+	frame.origin.y = 100;
+	digit2ImgView.frame = frame;
+	[self.view addSubview:digit2ImgView];
+	
+	UIImageView *digit3ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inputBG.png"]] autorelease];
+	frame = digit3ImgView.frame;
+	frame.origin.x = 225;
+	frame.origin.y = 100;
+	digit3ImgView.frame = frame;
+	[self.view addSubview:digit3ImgView];
+	
+	_digit1Label = [[[UILabel alloc] initWithFrame:CGRectMake(20.0, 110.0, 74.0, 52)] autorelease];
+	_digit1Label.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:48.0];
+	_digit1Label.backgroundColor = [UIColor clearColor];
+	_digit1Label.textColor = [UIColor whiteColor];
+	_digit1Label.textAlignment = UITextAlignmentCenter;
+	_digit1Label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+	_digit1Label.shadowOffset = CGSizeMake(1.0, 1.0);
+	[self.view addSubview:_digit1Label];
+	
+	_digit2Label = [[[UILabel alloc] initWithFrame:CGRectMake(125.0, 110.0, 74.0, 52)] autorelease];
+	_digit2Label.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:48.0];
+	_digit2Label.backgroundColor = [UIColor clearColor];
+	_digit2Label.textColor = [UIColor whiteColor];
+	_digit2Label.textAlignment = UITextAlignmentCenter;
+	_digit2Label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+	_digit2Label.shadowOffset = CGSizeMake(1.0, 1.0);
+	[self.view addSubview:_digit2Label];
+	
+	_digit3Label = [[[UILabel alloc] initWithFrame:CGRectMake(225.0, 110.0, 74.0, 52)] autorelease];
+	_digit3Label.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:48.0];
+	_digit3Label.backgroundColor = [UIColor clearColor];
+	_digit3Label.textColor = [UIColor whiteColor];
+	_digit3Label.textAlignment = UITextAlignmentCenter;
+	_digit3Label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+	_digit3Label.shadowOffset = CGSizeMake(1.0, 1.0);
+	[self.view addSubview:_digit3Label];
+	
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
+	frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
 }
 
 -(void)viewDidLoad {
@@ -112,7 +164,9 @@
 			
 			else {
 				NSLog(@"SYNC CODE: %@", parsedCode);
-				_codeLabel.text = [parsedCode objectForKey:@"hex_code"];
+				_digit1Label.text = [[parsedCode objectForKey:@"pin_code"] substringWithRange:NSMakeRange(0, 1)];
+				_digit2Label.text = [[parsedCode objectForKey:@"pin_code"] substringWithRange:NSMakeRange(1, 1)];
+				_digit3Label.text = [[parsedCode objectForKey:@"pin_code"] substringWithRange:NSMakeRange(2, 1)];
 			}
 		}
 	

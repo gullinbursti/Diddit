@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
 #import "DIChoreStatsView.h"
-#import "EGOImageView.h"
+#import "DIPaginationView.h"
 
 @class DILoadOverlay;
 
-@interface DIChoreListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+@interface DIChoreListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate, UIScrollViewDelegate> {
 	
 	ASIFormDataRequest *_activeChoresRequest;
 	ASIFormDataRequest *_sponsorshipsDataRequest;
@@ -23,13 +23,12 @@
 	
 	DILoadOverlay *_loadOverlay;
 	DIChoreStatsView *_choreStatsView;
+	DIPaginationView *_paginationView;
 	
 	UITableView *_myChoresTableView;
 	
 	NSMutableArray *_chores;
 	NSMutableArray *_finishedChores;
-	
-	EGOImageView *_sponsorshipImgView;
 	NSMutableArray *_sponsorships;
 	
 	UIImageView *_emptyListImgView;
@@ -40,6 +39,9 @@
 	UIScrollView *_emptyScrollView;
 	
 	UIImageView *_badgesImgView;
+	
+	UIView *_sponsorshipHolderView;
+	UIScrollView *_sponsorshipsScrollView;
 }
 
 @end

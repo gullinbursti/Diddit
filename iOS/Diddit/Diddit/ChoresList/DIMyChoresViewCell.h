@@ -16,7 +16,8 @@
 	
 	UIView *_thumbHolderView;
 	UILabel *_titleLabel;
-	UILabel *_pointsLabel;
+	UILabel *_typeLabel;
+	UILabel *_ptsLabel;
 	
 	DIChore *_chore;
 }

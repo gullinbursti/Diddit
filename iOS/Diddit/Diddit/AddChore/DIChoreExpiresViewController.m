@@ -26,6 +26,7 @@
 		_hours = 0;
 		
 		_daysArray = [[NSMutableArray alloc] init];
+		[_daysArray addObject:@"immediately"];
 		[_daysArray addObject:@"24 hours"];
 		[_daysArray addObject:@"2 days"];
 		[_daysArray addObject:@"3 days"];
@@ -143,7 +144,7 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	_daysLabel.text = [_daysArray objectAtIndex:row];
-	_hours = (int)((row + 1) * 24);
+	_hours = (int)(row * 24);
 }
 
 

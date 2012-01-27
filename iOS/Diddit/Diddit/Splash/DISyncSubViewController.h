@@ -12,10 +12,15 @@
 
 @class DILoadOverlay;
 
-@interface DISyncSubViewController : UIViewController <ASIHTTPRequestDelegate> {
+@interface DISyncSubViewController : UIViewController <ASIHTTPRequestDelegate, UITextFieldDelegate> {
 	DILoadOverlay *_loadOverlay;
 	NSString *_enteredCode;
-	UITextField *_codeTxtField;
+	
+	UITextField *_digit1TxtField;
+	UITextField *_digit2TxtField;
+	UITextField *_digit3TxtField;
 }
+
+-(void)goSubmit;
 
 @end

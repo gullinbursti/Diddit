@@ -24,28 +24,21 @@
 -(id)init {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
 		UIView *holderView = [[UIView alloc] initWithFrame:CGRectMake(10, 20, 300, 80)];
-		holderView.backgroundColor = [UIColor colorWithRed:0.980 green:0.996 blue:0.898 alpha:1.0];
-		holderView.layer.cornerRadius = 8.0;
-		holderView.clipsToBounds = YES;
-		holderView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
-		holderView.layer.borderWidth = 1.0;
+		holderView.backgroundColor = [UIColor clearColor];
 		[self addSubview:holderView];
 		
-		_thumbHolderView = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 58, 58)];
-		_thumbHolderView.backgroundColor = [UIColor colorWithRed:1.0 green:0.988235294117647 blue:0.874509803921569 alpha:1.0];
-		_thumbHolderView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+		_thumbHolderView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, 58, 58)];
+		_thumbHolderView.backgroundColor = [UIColor whiteColor];
+		_thumbHolderView.layer.borderColor = [[UIColor colorWithWhite:0.4 alpha:1.0] CGColor];
 		_thumbHolderView.layer.borderWidth = 1.0;
+		_thumbHolderView.layer.cornerRadius = 8.0;
 		_thumbHolderView.clipsToBounds = YES;
-		
-		UIImageView *emptyImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreThumb.jpg"]] autorelease];
-		[_thumbHolderView addSubview:emptyImgView];
-		
 		[holderView addSubview:_thumbHolderView];
 		
-		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 20, 185.0, 22)];
-		_titleLabel.font = [[DIAppDelegate diAdelleFontRegular] fontWithSize:19.0];
+		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 10, 185.0, 22)];
+		_titleLabel.font = [[DIAppDelegate diAdelleFontRegular] fontWithSize:18.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
-		_titleLabel.textColor = [UIColor colorWithRed:0.0 green:0.463 blue:0.0 alpha:1.0];
+		_titleLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		_titleLabel.shadowColor = [UIColor whiteColor];
 		_titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
@@ -55,18 +48,28 @@
 //		icoView.image = [UIImage imageNamed:@"piggyIcon.png"];
 //		[holderView addSubview:icoView];
 		
-		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 45, 120.0, 16)];
-		_pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-		_pointsLabel.backgroundColor = [UIColor clearColor];
-		_pointsLabel.textColor = [UIColor colorWithWhite:0.45 alpha:1.0];
-		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[holderView addSubview:_pointsLabel];
+		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 35, 120.0, 16)];
+		_typeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		_typeLabel.backgroundColor = [UIColor clearColor];
+		_typeLabel.textColor = [UIColor colorWithWhite:0.45 alpha:1.0];
+		_typeLabel.text = @"REWARD";
+		[holderView addSubview:_typeLabel];
 		
-		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(270.0, 33.0, 14, 14)] autorelease];
-		chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
-		[holderView addSubview:chevronView];
+		UIView *ptsHolderView = [[UIView alloc] initWithFrame:CGRectMake(260, 30, 50, 26)];
+		ptsHolderView.backgroundColor = [UIColor colorWithRed:0.922 green:0.953 blue:0.902 alpha:1.0];
+		ptsHolderView.layer.borderColor = [[UIColor colorWithWhite:0.4 alpha:1.0] CGColor];
+		ptsHolderView.layer.borderWidth = 1.0;
+		ptsHolderView.layer.cornerRadius = 8.0;
+		[self addSubview:ptsHolderView];
 		
-		_overlayView = [[UIView alloc] initWithFrame:CGRectMake(10, 20, 300, 80)];
+		_ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 50.0, 16)];
+		_ptsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		_ptsLabel.backgroundColor = [UIColor clearColor];
+		_ptsLabel.textColor = [UIColor colorWithWhite:0.45 alpha:1.0];
+		_ptsLabel.textAlignment = UITextAlignmentCenter;
+		[ptsHolderView addSubview:_ptsLabel];
+		
+		_overlayView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, 300, 80)];
 		_overlayView.backgroundColor = [UIColor blackColor];
 		_overlayView.layer.cornerRadius = 8.0;
 		_overlayView.clipsToBounds = YES;
@@ -98,7 +101,7 @@
 	[_chore release];
 	[_thumbHolderView release];
 	[_titleLabel release];
-	[_pointsLabel release];
+	[_ptsLabel release];
 	[_overlayView release];
 	
 	[super dealloc];
@@ -109,7 +112,7 @@
 	_chore = chore;
 	
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _chore.title];		
-	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
+	_ptsLabel.text = [NSString stringWithFormat:@"%@ D", _chore.disp_points];
 	
 	
 	if (![_chore.imgPath isEqualToString:@"00000000000000"]) {

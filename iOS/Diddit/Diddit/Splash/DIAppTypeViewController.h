@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GameKit/GameKit.h>
 
-@interface DIAppTypeViewController : UIViewController {
-	
+@interface DIAppTypeViewController : UIViewController <GKSessionDelegate, GKPeerPickerControllerDelegate> {
+	GKSession *_syncSession;
+	GKPeerPickerController *_syncPickerController;
+	NSMutableArray *_syncClients;
 }
 
 @end

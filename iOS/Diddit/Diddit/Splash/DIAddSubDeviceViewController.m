@@ -32,7 +32,7 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.jpg"]] autorelease];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.png"]] autorelease];
 	CGRect frame = bgImgView.frame;
 	frame.origin.y = -20;
 	bgImgView.frame = frame;
@@ -67,7 +67,7 @@
 	[iPadButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[iPadButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[iPadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[iPadButton setTitle:@"iPhone" forState:UIControlStateNormal];
+	[iPadButton setTitle:@"iPad" forState:UIControlStateNormal];
 	[iPadButton addTarget:self action:@selector(_goPad) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:iPadButton];
 }

@@ -31,36 +31,109 @@
 -(void)loadView {
 	[super loadView];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.jpg"]] autorelease];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.png"]] autorelease];
 	CGRect frame = bgImgView.frame;
 	frame.origin.y = -20;
 	bgImgView.frame = frame;
 	[self.view addSubview:bgImgView];
 	
-	_codeTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 32, 300, 64)] autorelease];
-	[_codeTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_codeTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_codeTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_codeTxtField setBackgroundColor:[UIColor whiteColor]];
-	_codeTxtField.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:16];
-	_codeTxtField.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
-	_codeTxtField.keyboardType = UIKeyboardTypeDefault;
-	_codeTxtField.delegate = nil;
-	[self.view addSubview:_codeTxtField];
+	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)] autorelease];
+	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
+	[self.view addSubview:headerView];
 	
-	UIButton *submitButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	submitButton.frame = CGRectMake(0, 180, 320, 59);
-	submitButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
-	submitButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-	[submitButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[submitButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[submitButton setTitle:@"submit" forState:UIControlStateNormal];
-	[submitButton addTarget:self action:@selector(_goSubmit) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:submitButton];
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)] autorelease];
+	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
+	titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
+	titleLabel.backgroundColor = [UIColor clearColor];
+	titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	titleLabel.text = @"enter your 3 digit passcode";
+	titleLabel.textAlignment = UITextAlignmentCenter;
+	[self.view addSubview:titleLabel];
 	
+	UIImageView *digit1ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inputBG.png"]] autorelease];
+	frame = digit1ImgView.frame;
+	frame.origin.x = 20;
+	frame.origin.y = 70;
+	digit1ImgView.frame = frame;
+	[self.view addSubview:digit1ImgView];
 	
-	[_codeTxtField becomeFirstResponder];
+	UIImageView *digit2ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inputBG.png"]] autorelease];
+	frame = digit2ImgView.frame;
+	frame.origin.x = 125;
+	frame.origin.y = 70;
+	digit2ImgView.frame = frame;
+	[self.view addSubview:digit2ImgView];
+	
+	UIImageView *digit3ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inputBG.png"]] autorelease];
+	frame = digit3ImgView.frame;
+	frame.origin.x = 225;
+	frame.origin.y = 70;
+	digit3ImgView.frame = frame;
+	[self.view addSubview:digit3ImgView];
+	
+	_digit1TxtField = [[UITextField alloc] initWithFrame:CGRectMake(50, 85, 30, 80)];
+	[_digit1TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_digit1TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_digit1TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_digit1TxtField setBackgroundColor:[UIColor clearColor]];
+	[_digit1TxtField setTextColor:[UIColor whiteColor]];
+	[_digit1TxtField setSecureTextEntry:YES];	
+	_digit1TxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:30];
+	_digit1TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_digit1TxtField.clearsOnBeginEditing = YES;
+	_digit1TxtField.tag = 0;
+	_digit1TxtField.delegate = self;
+	[self.view addSubview:_digit1TxtField];
+	
+	_digit2TxtField = [[UITextField alloc] initWithFrame:CGRectMake(150, 85, 30, 80)];
+	[_digit2TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_digit2TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_digit2TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_digit2TxtField setBackgroundColor:[UIColor clearColor]];
+	[_digit2TxtField setTextColor:[UIColor whiteColor]];
+	[_digit2TxtField setSecureTextEntry:YES];
+	_digit2TxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:30];
+	_digit2TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_digit2TxtField.clearsOnBeginEditing = YES;
+	_digit2TxtField.tag = 1;
+	_digit2TxtField.delegate = self;
+	[self.view addSubview:_digit2TxtField];
+		
+	_digit3TxtField = [[UITextField alloc] initWithFrame:CGRectMake(250, 85, 30, 80)];
+	[_digit3TxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_digit3TxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_digit3TxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_digit3TxtField setBackgroundColor:[UIColor clearColor]];
+	[_digit3TxtField setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
+	[_digit3TxtField setSecureTextEntry:YES];
+	_digit3TxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:30];
+	_digit3TxtField.keyboardType = UIKeyboardTypeNumberPad;
+	_digit3TxtField.clearsOnBeginEditing = YES;
+	_digit3TxtField.tag = 2;
+	_digit3TxtField.delegate = self;
+	[self.view addSubview:_digit3TxtField];
+	
+	UIButton *helpButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	helpButton.frame = CGRectMake(10, 160, 200, 16);
+	[helpButton setShowsTouchWhenHighlighted:NO];
+	[helpButton addTarget:self action:@selector(_goInfo) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:helpButton];
+	
+	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 160, 200, 16)] autorelease];
+	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	infoLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
+	infoLabel.backgroundColor = [UIColor clearColor];
+	infoLabel.text = @"Don't have a passcode?";
+	[self.view addSubview:infoLabel];
+	
+	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
+	frame = overlayImgView.frame;
+	frame.origin.y = -44;
+	overlayImgView.frame = frame;
+	[self.view addSubview:overlayImgView];
+	
+	[_digit1TxtField becomeFirstResponder];
 }
 
 -(void)viewDidLoad {
@@ -68,13 +141,17 @@
 }
 
 -(void)viewDidUnload {
-    [super viewDidUnload];
+	if ([_digit1TxtField isFirstResponder])
+		[_digit1TxtField resignFirstResponder];
+	
+	if ([_digit2TxtField isFirstResponder])
+		[_digit2TxtField resignFirstResponder];
+	
+	if ([_digit3TxtField isFirstResponder])
+		[_digit3TxtField resignFirstResponder];
+	
+	[super viewDidUnload];
 }
-
--(void)dealloc {
-	[super dealloc];
-}
-
 
 #pragma mark - Navigation
 -(void)_goBack {
@@ -85,8 +162,10 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)_goSubmit {
+-(void)goSubmit {
 	_loadOverlay = [[DILoadOverlay alloc] init];
+	
+	_enteredCode = [NSString stringWithFormat:@"%@%@%@", _digit1TxtField.text, _digit2TxtField.text, _digit3TxtField.text];
 	
 	if (![DIAppDelegate deviceToken])
 		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];
@@ -98,9 +177,70 @@
 	[syncDataRequest setPostValue:[UIDevice currentDevice].systemVersion forKey:@"os"];
 	[syncDataRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"uaID"];
 	[syncDataRequest setPostValue:[UIDevice currentDevice].name forKey:@"deviceName"];
-	[syncDataRequest setPostValue:_codeTxtField.text forKey:@"hex"];
+	[syncDataRequest setPostValue:[_enteredCode uppercaseString] forKey:@"pinCode"];
 	[syncDataRequest setDelegate:self];
 	[syncDataRequest startAsynchronous];
+}
+
+
+-(void)_goInfo {
+	
+}
+
+#pragma mark - TextField Delegates
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	//NSLog(@"textFieldShouldBeginEditing");
+	
+	return (YES);
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+	//NSLog(@"textFieldDidBeginEditing");
+	
+	//if (textField.tag == 0) {
+	//	[_digit1TxtField resignFirstResponder];
+	//	[_digit2TxtField becomeFirstResponder];
+	//}
+}
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+	//NSLog(@"textFieldShouldEndEditing");
+	
+	return (YES);
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+	//NSLog(@"textFieldDidEndEditing [%@]", _digit1TxtField.text);
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	
+	if ([textField.text length] >= 1 && ![string isEqualToString:@""]) {
+		textField.text = [textField.text substringToIndex:1];
+		
+		if (textField.tag == 0) {
+			[_digit1TxtField resignFirstResponder];
+			[_digit2TxtField becomeFirstResponder];
+		}
+		
+		if (textField.tag == 1) {
+			[_digit2TxtField resignFirstResponder];
+			[_digit3TxtField becomeFirstResponder];
+		}
+		
+		if ((int)[_digit1TxtField.text length] + (int)[_digit2TxtField.text length] + (int)[_digit3TxtField.text length] == 3)
+			[self goSubmit];
+		
+		
+		return (NO);
+	}
+	
+	return (YES);
+}
+
+
+-(void)dealloc {
+	[super dealloc];
 }
 
 

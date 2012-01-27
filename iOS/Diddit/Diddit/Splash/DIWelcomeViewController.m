@@ -32,7 +32,7 @@
 	CGRect frame;
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
-	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.jpg"]] autorelease];
+	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_background.png"]] autorelease];
 	frame = bgImgView.frame;
 	frame.origin.y = -20;
 	bgImgView.frame = frame;

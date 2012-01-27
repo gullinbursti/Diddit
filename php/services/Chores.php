@@ -152,6 +152,22 @@
 			$query = 'UPDATE `tblChores` SET `status_id` ='. $status_id .' WHERE `user_id` = "'. $user_id .'" AND `id` = "'. $chore_id .'";';
 			$result = mysql_query($query);
 			
+			
+			if ($status_id == 4) {
+				$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`master` = "Y" AND `tblUsersDevices`.`user_id`='. $user_id .'';
+				$row = mysql_fetch_row(mysql_query($query));
+				
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+				curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+				curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $row[0] .'"], "type": "2", "aps": {"alert": { "body": "Chore Added ('. $chore_title .')"}, "badge": "+1"}}');				
+			}
+			
+			
 			return (true);
 		}
 		
@@ -176,6 +192,39 @@
 			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $iap_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
+			
+			$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`master` = "N" AND `tblUsersDevices`.`user_id`='. $user_id .'';
+			$dev_res = mysql_query($query);
+			
+			$device_tokens = '[';
+			while ($dev_row = mysql_fetch_array($dev_res, MYSQL_BOTH))
+				$device_tokens .= '"'. $dev_row[0] .'", ';
+				
+			$device_tokens = substr($device_tokens, 0, -2) .']';
+			
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+			curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			curl_setopt($ch, CURLOPT_POST, 1);
+			//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": '. $device_tokens .', "type": "1", "aps": {"alert": { "body": "Chore Added ('. $chore_title .')"}, "badge": "+1"}}');
+			
+			//$ch = curl_init();
+			//curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+			//curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			//curl_setopt($ch, CURLOPT_POST, 1);
+			//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+			//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'"}, "badge": "+1"}}');
+		                                               
+			$res = curl_exec($ch);
+			$err_no = curl_errno($ch);
+			$err_msg = curl_error($ch);
+			$header = curl_getinfo($ch);
+			curl_close($ch);
 			
 			
 			$this->sendResponse(200, json_encode(array(
