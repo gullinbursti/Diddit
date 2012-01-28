@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSString *itunes_id;
 @property (nonatomic) float cost;
 @property (nonatomic) int points;
+@property (nonatomic) int type_id;
 @property (nonatomic, retain) NSString *icoPath;
 @property (nonatomic, retain) NSString *imgPath;
 @property (nonatomic) BOOL isFinished;

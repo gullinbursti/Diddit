@@ -124,6 +124,7 @@
 	[_addChoreDataRequest setPostValue:[NSNumber numberWithFloat:_chore.cost] forKey:@"cost"];
 	[_addChoreDataRequest setPostValue:[dateFormat stringFromDate:_chore.expires] forKey:@"expires"];
 	[_addChoreDataRequest setPostValue:_chore.imgPath forKey:@"image"];
+	[_addChoreDataRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.type_id] forKey:@"type_id"];
 	[_addChoreDataRequest setDelegate:self];
 	[_addChoreDataRequest startAsynchronous];
 	

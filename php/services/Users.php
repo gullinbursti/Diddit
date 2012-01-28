@@ -295,7 +295,18 @@
 					
 				else
 			    	$app_type = "sub";
+                
+                
+				$dev_arr = array();
+				if ($app_type == "master") {
+					$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblDevices`.`id` = `tblUsersDevices`.`device_id` WHERE `tblUsersDevices`.`user_id` = "'. $row[0] .'" AND `tblDevices`.`ua_id` != "'. $ua_id .'";';
+					$dev_res = mysql_query($query);
+				
+					while ($dev_row = mysql_fetch_array($dev_res, MYSQL_BOTH))
+						array_push($dev_arr, $dev_row[0]);
+				}
 
+				
 				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
 				$tot_res = mysql_query($query);				
 				$tot = mysql_num_rows($tot_res);
@@ -309,7 +320,8 @@
 					"pin" => $row[4], 
 					"points" => $row[5], 
 					"finished" => $tot, 
-					"app_type" => $app_type
+					"app_type" => $app_type,
+					"devices" => $dev_arr
 				);
 
 				$this->sendResponse(200, json_encode($result));

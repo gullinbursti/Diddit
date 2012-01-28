@@ -21,6 +21,7 @@
 @synthesize isFinished;
 @synthesize expires;
 @synthesize itunes_id;
+@synthesize type_id;
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
 	
@@ -35,6 +36,7 @@
 	chore.icoPath = [dictionary objectForKey:@"icoPath"];
 	chore.imgPath = [dictionary objectForKey:@"imgPath"];
 	chore.isFinished = (BOOL)([[dictionary objectForKey:@"finished"] isEqual:@"Y"]);
+	chore.type_id = [[dictionary objectForKey:@"type_id"] intValue];
 	
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

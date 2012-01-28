@@ -128,6 +128,11 @@
 	return ([[[DIAppDelegate profileForUser] objectForKey:@"app_type"] isEqualToString:@"master"]);
 }
 
++(NSArray *)childDevices {
+	return ([[DIAppDelegate profileForUser] objectForKey:@"devices"]);
+}
+
+
 +(UIFont *)diAdelleFontRegular {
 	return [UIFont fontWithName:@"Adelle" size:12.0];
 }
@@ -197,7 +202,7 @@
 	if (![DIAppDelegate profileForUser]) {
 		DIAppTypeViewController *splash = [[[DIAppTypeViewController alloc] init] autorelease];
 		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
-		[splashNavigation setNavigationBarHidden:YES animated:NO];
+		[splashNavigation setNavigationBarHidden:NO animated:YES];
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
 	
 	} else {

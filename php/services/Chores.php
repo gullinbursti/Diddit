@@ -92,7 +92,7 @@
 		
 		function activeByUserID($user_id) {
 
-			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
+			$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost`, `tblChores`.`type_id` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` WHERE `tblChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
 			$res = mysql_query($query);
 			
 			// Return data, as JSON
@@ -110,7 +110,8 @@
 						"imgPath" => $row[4],
 						"expires" => $row[5], 
 						"points" => $row[6], 
-						"cost" => $row[7]
+						"cost" => $row[7], 
+						"type_id" => $row[8]
 					));
 				}
 			}
@@ -172,7 +173,7 @@
 		}
 		
 		
-		function addNew($user_id, $chore_title, $chore_info, $cost, $expires, $image) {
+		function addNew($user_id, $chore_title, $chore_info, $cost, $expires, $image, $type_id) {
 			
 			$query = 'SELECT `id`, `points` FROM `tblRewardTypes` WHERE `cost` = "'. $cost .'";';
 			$row = mysql_fetch_row(mysql_query($query));
@@ -188,8 +189,8 @@
 			}
 			
 			$query = 'INSERT INTO `tblChores` (';
-			$query .= '`id`, `user_id`, `iap_id`, `title`, `info`, `ico_path`, `img_path`, `status_id`, `expires`, `added`, `modified`) ';
-			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $iap_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
+			$query .= '`id`, `user_id`, `iap_id`, `title`, `info`, `ico_path`, `img_path`, `type_id`, `status_id`, `expires`, `added`, `modified`) ';
+			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $iap_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "'. $type_id .'" "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
 			
@@ -280,8 +281,8 @@
 				break;
 				
 		   case "7":
-				if (isset($_POST["userID"]) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['cost']) && isset($_POST['expires']) && isset($_POST['image']))
-					 $chores_json = $chores->addNew($_POST['userID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['cost'], $_POST['expires'], $_POST['image']);
+				if (isset($_POST["userID"]) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['cost']) && isset($_POST['expires']) && isset($_POST['image']) && isset($_POST['type_id']))
+					 $chores_json = $chores->addNew($_POST['userID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['cost'], $_POST['expires'], $_POST['image'], $_POST['type_id']);
 				break;
 		}
 	}   

@@ -108,7 +108,6 @@
 	
 	_sponsorshipsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 15.0, 320.0, 120.0)];
 	_sponsorshipsScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_sponsorshipsScrollView.contentSize = CGSizeMake(320, 120.0);
 	_sponsorshipsScrollView.delegate = self;
 	_sponsorshipsScrollView.opaque = NO;
 	_sponsorshipsScrollView.scrollsToTop = NO;
@@ -296,7 +295,7 @@
 }
 
 -(void)_goDevices {
-	
+	NSLog(@"%@", [[DIAppDelegate childDevices] objectAtIndex:0]);
 }
 
 -(void)_goApps {
@@ -405,7 +404,7 @@
 	int page = _sponsorshipsScrollView.contentOffset.x / 154;
 	
 	[_paginationView updToPage:page];
-	NSLog(@"SCROLL PAGE:[%d]", page);
+	NSLog(@"SCROLL PAGE:[(%f) %d]", _sponsorshipsScrollView.contentOffset.x, page);
 }
 
 
@@ -577,7 +576,7 @@
 				
 				_sponsorships = [sponsorshipList retain];
 				[_myChoresTableView reloadData];
-				_paginationView = [[DIPaginationView alloc] initWithTotal:(int)((308 / 154)) coords:CGPointMake(160, 120)];
+				_paginationView = [[DIPaginationView alloc] initWithTotal:[_sponsorships count] / 2 coords:CGPointMake(160, 120)];
 				_sponsorshipsScrollView.contentSize = CGSizeMake([_sponsorships count] * 154, 120.0);
 				[_sponsorshipHolderView addSubview:_paginationView];
 				

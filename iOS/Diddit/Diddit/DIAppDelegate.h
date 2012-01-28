@@ -52,6 +52,7 @@
 
 +(NSString *)deviceUUID;
 +(BOOL)isParentApp;
++(NSArray *)childDevices;
 
 +(UIFont *)diAdelleFontRegular;
 +(UIFont *)diAdelleFontLight;
