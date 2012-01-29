@@ -126,14 +126,14 @@
 	_ptsLabel.text = [NSString stringWithFormat:@"%@ D", _chore.disp_points];
 	
 	
-	if (![_chore.imgPath isEqualToString:@"00000000000000"]) {
-		NSData *imageData = [[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath];
-		
-		UIImageView *picImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 58, 58)];
-		picImageView.image = [UIImage imageWithData:imageData];
-		[_thumbHolderView addSubview:picImageView];
-		
-	}
+//	if (![_chore.imgPath isEqualToString:@"00000000000000"]) {
+//		NSData *imageData = [[NSUserDefaults standardUserDefaults] valueForKey:_chore.imgPath];
+//		
+//		UIImageView *picImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 58, 58)];
+//		picImageView.image = [UIImage imageWithData:imageData];
+//		[_thumbHolderView addSubview:picImageView];
+//		
+//	}
 	
 //	UIImageView *cameraImgView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 31.0, 24, 24)] autorelease];
 //	cameraImgView.image = [UIImage imageNamed:@"cameraIcon.png"];

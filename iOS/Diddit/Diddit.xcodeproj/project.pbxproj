@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C0964A21499B1CE005723AD /* DIAddChoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */; };
 		4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */; };
 		4C0964A51499B1CE005723AD /* DIConfirmChoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0964911499B1CE005723AD /* DIConfirmChoreViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
@@ -38,6 +37,19 @@
 		4C0B54AC14D1D8B2008DD94B /* inputBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54AA14D1D8B2008DD94B /* inputBG.png */; };
 		4C0B54AD14D1D8B2008DD94B /* inputBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54AB14D1D8B2008DD94B /* inputBG@2x.png */; };
 		4C0B54B014D2499B008DD94B /* DISponsorshipItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54AF14D2499B008DD94B /* DISponsorshipItemButton.m */; };
+		4C0B54B314D47B11008DD94B /* DISubDevicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54B214D47B10008DD94B /* DISubDevicesViewController.m */; };
+		4C0B54B614D4940B008DD94B /* DIDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54B514D4940B008DD94B /* DIDevice.m */; };
+		4C0B54B914D4BF5F008DD94B /* DIDeviceViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54B814D4BF5F008DD94B /* DIDeviceViewCell.m */; };
+		4C0B54BC14D4CABB008DD94B /* tableheaderBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54BA14D4CABA008DD94B /* tableheaderBG.png */; };
+		4C0B54BD14D4CABB008DD94B /* tableheaderBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54BB14D4CABB008DD94B /* tableheaderBG@2x.png */; };
+		4C0B54C014D4CB01008DD94B /* DITableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54BF14D4CB01008DD94B /* DITableHeaderView.m */; };
+		4C0B54C514D4CED9008DD94B /* tablerow-l_BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54C114D4CED9008DD94B /* tablerow-l_BG.png */; };
+		4C0B54C614D4CED9008DD94B /* tablerow-l_BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54C214D4CED9008DD94B /* tablerow-l_BG@2x.png */; };
+		4C0B54C714D4CED9008DD94B /* tablerow-s_BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54C314D4CED9008DD94B /* tablerow-s_BG.png */; };
+		4C0B54C814D4CED9008DD94B /* tablerow-s_BG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C0B54C414D4CED9008DD94B /* tablerow-s_BG@2x.png */; };
+		4C0B54CB14D503BD008DD94B /* DIAddChoreTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54CA14D503BD008DD94B /* DIAddChoreTitleViewController.m */; };
+		4C0B54CE14D50423008DD94B /* DIAddChoreTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54CD14D50423008DD94B /* DIAddChoreTypeViewController.m */; };
+		4C0B54D114D50A03008DD94B /* DIAddChoreDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B54D014D50A02008DD94B /* DIAddChoreDeviceViewController.m */; };
 		4C1DA81F149BF8060075B19D /* DIPinSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */; };
 		4C1DA823149C2A7E0075B19D /* DIStoreObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA822149C2A7E0075B19D /* DIStoreObserver.m */; };
 		4C1DA82A149C342D0075B19D /* DIWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DA829149C342D0075B19D /* DIWelcomeViewController.m */; };
@@ -382,8 +394,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4C09648A1499B1CE005723AD /* DIAddChoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAddChoreViewController.h; sourceTree = "<group>"; };
-		4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAddChoreViewController.m; sourceTree = "<group>"; };
 		4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChorePriceViewController.h; sourceTree = "<group>"; };
 		4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChorePriceViewController.m; sourceTree = "<group>"; };
 		4C0964901499B1CE005723AD /* DIConfirmChoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIConfirmChoreViewController.h; sourceTree = "<group>"; };
@@ -420,6 +430,26 @@
 		4C0B54AB14D1D8B2008DD94B /* inputBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inputBG@2x.png"; sourceTree = "<group>"; };
 		4C0B54AE14D2499B008DD94B /* DISponsorshipItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISponsorshipItemButton.h; sourceTree = "<group>"; };
 		4C0B54AF14D2499B008DD94B /* DISponsorshipItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISponsorshipItemButton.m; sourceTree = "<group>"; };
+		4C0B54B114D47B10008DD94B /* DISubDevicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISubDevicesViewController.h; sourceTree = "<group>"; };
+		4C0B54B214D47B10008DD94B /* DISubDevicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISubDevicesViewController.m; sourceTree = "<group>"; };
+		4C0B54B414D4940B008DD94B /* DIDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIDevice.h; sourceTree = "<group>"; };
+		4C0B54B514D4940B008DD94B /* DIDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIDevice.m; sourceTree = "<group>"; };
+		4C0B54B714D4BF5E008DD94B /* DIDeviceViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIDeviceViewCell.h; sourceTree = "<group>"; };
+		4C0B54B814D4BF5F008DD94B /* DIDeviceViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIDeviceViewCell.m; sourceTree = "<group>"; };
+		4C0B54BA14D4CABA008DD94B /* tableheaderBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tableheaderBG.png; sourceTree = "<group>"; };
+		4C0B54BB14D4CABB008DD94B /* tableheaderBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tableheaderBG@2x.png"; sourceTree = "<group>"; };
+		4C0B54BE14D4CB01008DD94B /* DITableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DITableHeaderView.h; sourceTree = "<group>"; };
+		4C0B54BF14D4CB01008DD94B /* DITableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DITableHeaderView.m; sourceTree = "<group>"; };
+		4C0B54C114D4CED9008DD94B /* tablerow-l_BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tablerow-l_BG.png"; sourceTree = "<group>"; };
+		4C0B54C214D4CED9008DD94B /* tablerow-l_BG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tablerow-l_BG@2x.png"; sourceTree = "<group>"; };
+		4C0B54C314D4CED9008DD94B /* tablerow-s_BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tablerow-s_BG.png"; sourceTree = "<group>"; };
+		4C0B54C414D4CED9008DD94B /* tablerow-s_BG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tablerow-s_BG@2x.png"; sourceTree = "<group>"; };
+		4C0B54C914D503BD008DD94B /* DIAddChoreTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAddChoreTitleViewController.h; sourceTree = "<group>"; };
+		4C0B54CA14D503BD008DD94B /* DIAddChoreTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAddChoreTitleViewController.m; sourceTree = "<group>"; };
+		4C0B54CC14D50423008DD94B /* DIAddChoreTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAddChoreTypeViewController.h; sourceTree = "<group>"; };
+		4C0B54CD14D50423008DD94B /* DIAddChoreTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAddChoreTypeViewController.m; sourceTree = "<group>"; };
+		4C0B54CF14D50A02008DD94B /* DIAddChoreDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIAddChoreDeviceViewController.h; sourceTree = "<group>"; };
+		4C0B54D014D50A02008DD94B /* DIAddChoreDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIAddChoreDeviceViewController.m; sourceTree = "<group>"; };
 		4C1DA81D149BF8060075B19D /* DIPinSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIPinSettingsViewController.h; sourceTree = "<group>"; };
 		4C1DA81E149BF8060075B19D /* DIPinSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIPinSettingsViewController.m; sourceTree = "<group>"; };
 		4C1DA821149C2A7E0075B19D /* DIStoreObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStoreObserver.h; sourceTree = "<group>"; };
@@ -980,10 +1010,14 @@
 		4C0964891499B1CE005723AD /* AddChore */ = {
 			isa = PBXGroup;
 			children = (
-				4C09648A1499B1CE005723AD /* DIAddChoreViewController.h */,
-				4C09648B1499B1CE005723AD /* DIAddChoreViewController.m */,
+				4C0B54CC14D50423008DD94B /* DIAddChoreTypeViewController.h */,
+				4C0B54CD14D50423008DD94B /* DIAddChoreTypeViewController.m */,
+				4C0B54C914D503BD008DD94B /* DIAddChoreTitleViewController.h */,
+				4C0B54CA14D503BD008DD94B /* DIAddChoreTitleViewController.m */,
 				4CE5FB3214B8387200847283 /* DIChoreExpiresViewController.h */,
 				4CE5FB3314B8387200847283 /* DIChoreExpiresViewController.m */,
+				4C0B54CF14D50A02008DD94B /* DIAddChoreDeviceViewController.h */,
+				4C0B54D014D50A02008DD94B /* DIAddChoreDeviceViewController.m */,
 				4C329FDB14CA219700F65976 /* DIPhotoOverlayViewController.h */,
 				4C329FDC14CA219700F65976 /* DIPhotoOverlayViewController.m */,
 				4CD0B1A714C895CE008C25C2 /* DIAddPhotoViewController.h */,
@@ -1041,6 +1075,8 @@
 				4CBC4A7F14BF612200043556 /* DIAppStatsView.m */,
 				4C5E86E314CBCEE100AFB6EA /* DIOfferStatsView.h */,
 				4C5E86E414CBCEE100AFB6EA /* DIOfferStatsView.m */,
+				4C0B54BE14D4CB01008DD94B /* DITableHeaderView.h */,
+				4C0B54BF14D4CB01008DD94B /* DITableHeaderView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1060,6 +1096,8 @@
 				4CD02DAF14BA35D500309AC0 /* DIOffer.m */,
 				4CD3FEEA14C9032300C17F90 /* DISponsorship.h */,
 				4CD3FEEB14C9032300C17F90 /* DISponsorship.m */,
+				4C0B54B414D4940B008DD94B /* DIDevice.h */,
+				4C0B54B514D4940B008DD94B /* DIDevice.m */,
 			);
 			path = VO;
 			sourceTree = "<group>";
@@ -1126,6 +1164,10 @@
 				4CD02D7814B9498800309AC0 /* DIChoreDetailsViewController.m */,
 				4CD02DA014B9801A00309AC0 /* DIChoreCompleteViewController.h */,
 				4CD02DA114B9801A00309AC0 /* DIChoreCompleteViewController.m */,
+				4C0B54B114D47B10008DD94B /* DISubDevicesViewController.h */,
+				4C0B54B214D47B10008DD94B /* DISubDevicesViewController.m */,
+				4C0B54B714D4BF5E008DD94B /* DIDeviceViewCell.h */,
+				4C0B54B814D4BF5F008DD94B /* DIDeviceViewCell.m */,
 			);
 			path = ChoresList;
 			sourceTree = "<group>";
@@ -1293,6 +1335,12 @@
 		4CD02D9314B94AFD00309AC0 /* BGs */ = {
 			isa = PBXGroup;
 			children = (
+				4C0B54C114D4CED9008DD94B /* tablerow-l_BG.png */,
+				4C0B54C214D4CED9008DD94B /* tablerow-l_BG@2x.png */,
+				4C0B54C314D4CED9008DD94B /* tablerow-s_BG.png */,
+				4C0B54C414D4CED9008DD94B /* tablerow-s_BG@2x.png */,
+				4C0B54BA14D4CABA008DD94B /* tableheaderBG.png */,
+				4C0B54BB14D4CABB008DD94B /* tableheaderBG@2x.png */,
 				4C0B54AA14D1D8B2008DD94B /* inputBG.png */,
 				4C0B54AB14D1D8B2008DD94B /* inputBG@2x.png */,
 				4C0B54A214D1D888008DD94B /* fue_background.png */,
@@ -2372,6 +2420,12 @@
 				4C0B54A914D1D888008DD94B /* fue_backPlate@2x.png in Resources */,
 				4C0B54AC14D1D8B2008DD94B /* inputBG.png in Resources */,
 				4C0B54AD14D1D8B2008DD94B /* inputBG@2x.png in Resources */,
+				4C0B54BC14D4CABB008DD94B /* tableheaderBG.png in Resources */,
+				4C0B54BD14D4CABB008DD94B /* tableheaderBG@2x.png in Resources */,
+				4C0B54C514D4CED9008DD94B /* tablerow-l_BG.png in Resources */,
+				4C0B54C614D4CED9008DD94B /* tablerow-l_BG@2x.png in Resources */,
+				4C0B54C714D4CED9008DD94B /* tablerow-s_BG.png in Resources */,
+				4C0B54C814D4CED9008DD94B /* tablerow-s_BG@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2436,7 +2490,6 @@
 				4CE260761499380200E367A2 /* UASubscriptionTableViewDelegate.m in Sources */,
 				4CE260771499380200E367A2 /* UASubscriptionUI.m in Sources */,
 				4CE260781499380200E367A2 /* UASubscriptionUIUtil.m in Sources */,
-				4C0964A21499B1CE005723AD /* DIAddChoreViewController.m in Sources */,
 				4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */,
 				4C0964A51499B1CE005723AD /* DIConfirmChoreViewController.m in Sources */,
 				4C0964AA1499B1CE005723AD /* DIApp.m in Sources */,
@@ -2500,6 +2553,13 @@
 				4C7F5FFF14CFABAF00825D6C /* DISyncCodeMakerViewController.m in Sources */,
 				4C7F600214CFD81600825D6C /* DISyncSubViewController.m in Sources */,
 				4C0B54B014D2499B008DD94B /* DISponsorshipItemButton.m in Sources */,
+				4C0B54B314D47B11008DD94B /* DISubDevicesViewController.m in Sources */,
+				4C0B54B614D4940B008DD94B /* DIDevice.m in Sources */,
+				4C0B54B914D4BF5F008DD94B /* DIDeviceViewCell.m in Sources */,
+				4C0B54C014D4CB01008DD94B /* DITableHeaderView.m in Sources */,
+				4C0B54CB14D503BD008DD94B /* DIAddChoreTitleViewController.m in Sources */,
+				4C0B54CE14D50423008DD94B /* DIAddChoreTypeViewController.m in Sources */,
+				4C0B54D114D50A03008DD94B /* DIAddChoreDeviceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

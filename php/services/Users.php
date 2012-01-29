@@ -287,10 +287,10 @@
 			// has user
 			if ($row) {
                 
-				$query = 'SELECT `master` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'";';
+				$query = 'SELECT `id`, `master` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'";';
                 $dev_row = mysql_fetch_row(mysql_query($query));
 
-				if ($dev_row[0] == "Y")
+				if ($dev_row[1] == "Y")
 					$app_type = "master";
 					
 				else
@@ -299,30 +299,54 @@
                 
 				$dev_arr = array();
 				if ($app_type == "master") {
-					$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblDevices`.`id` = `tblUsersDevices`.`device_id` WHERE `tblUsersDevices`.`user_id` = "'. $row[0] .'" AND `tblDevices`.`ua_id` != "'. $ua_id .'";';
+					$query = 'SELECT `tblDevices`.`id`, `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblDevices`.`id` = `tblUsersDevices`.`device_id` WHERE `tblUsersDevices`.`user_id` = "'. $row[0] .'" AND `tblDevices`.`ua_id` != "'. $ua_id .'";';
 					$dev_res = mysql_query($query);
 				
-					while ($dev_row = mysql_fetch_array($dev_res, MYSQL_BOTH))
-						array_push($dev_arr, $dev_row[0]);
-				}
+					while ($dev_row = mysql_fetch_array($dev_res, MYSQL_BOTH)) {
+						array_push($dev_arr, array(
+							"id" => $dev_row[0], 
+							"ua_id" => $dev_row[1]
+						));
+			    	}
+			
+					$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
+					$tot_res = mysql_query($query);				
+					$tot = mysql_num_rows($tot_res);
 
+					// Return data, as JSON
+					$result = array(
+						"id" => $row[0], 
+						"device_id" => $ua_id, 
+						"sub_id" => "0", 
+						"username" => $row[2], 
+						"email" => $row[3], 
+						"pin" => $row[4], 
+						"points" => $row[5], 
+						"finished" => $tot, 
+						"app_type" => $app_type,
+						"devices" => $dev_arr
+					);
 				
-				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
-				$tot_res = mysql_query($query);				
-				$tot = mysql_num_rows($tot_res);
+				} else {
+                        
+					$query = 'SELECT * FROM `tblChores` INNER JOIN `tblUsersChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`sub_id` = "'. $dev_row[0] .'" AND `tblChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` = "4" ORDER BY `tblChores`.`added`;';
+					$tot_res = mysql_query($query);				
+					$tot = mysql_num_rows($tot_res);
 
-				// Return data, as JSON
-				$result = array(
-					"id" => $row[0], 
-					"device_id" => $ua_id, 
-					"username" => $row[2], 
-					"email" => $row[3], 
-					"pin" => $row[4], 
-					"points" => $row[5], 
-					"finished" => $tot, 
-					"app_type" => $app_type,
-					"devices" => $dev_arr
-				);
+					// Return data, as JSON
+					$result = array(
+						"id" => $row[0], 
+						"device_id" => $ua_id, 
+						"sub_id" => $dev_row[0], 
+						"username" => $row[2], 
+						"email" => $row[3], 
+						"pin" => $row[4], 
+						"points" => $row[5], 
+						"finished" => $tot, 
+						"app_type" => $app_type,
+						"devices" => $dev_arr
+					);
+				}
 
 				$this->sendResponse(200, json_encode($result));
 
@@ -389,6 +413,29 @@
 			
 			return (true);
 		}
+		
+		function getDevices($user_id) {
+			
+			$query = 'SELECT * FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $user_id .'" AND `tblDevices`.`master` = "N"';
+			$dev_res = mysql_query($query);
+			$dev_arr = array();
+				
+			while ($dev_row = mysql_fetch_array($dev_res, MYSQL_BOTH)) {
+				array_push($dev_arr, array(
+					"id" => $dev_row['id'],
+					"uuid" => $dev_row['uuid'], 
+					"ua_id" => $dev_row['ua_id'], 
+					"type_id" => $dev_row['type_id'], 
+					"os" => $dev_row['os'], 
+					"name" => $dev_row['name'], 
+					"master" => $dev_row['master'], 
+					"locked" => $dev_row['locked']
+				));
+			}
+			$this->sendResponse(200, json_encode($dev_arr));
+		
+			return (true);
+		}
 	}
 	
 	
@@ -397,7 +444,7 @@
 	
 	//$device_id = '58fd9edd83341c29f1aebba81c31e25758fd9edd83341c29f1aebba81c31e257';	
 	//$users->addNew($device_id);
-	
+	                                
 	
 	if (isset($_POST['action'])) {
 		switch ($_POST['action']) {
@@ -434,6 +481,11 @@
 		   case "6":
 				if (isset($_POST['uuID']) && isset($_POST['uaID']) && isset($_POST['deviceName']) && isset($_POST['model']) && isset($_POST['os']) && isset($_POST['pinCode']))
 					$users->addNewDevice($_POST['uuID'], $_POST['uaID'], $_POST['deviceName'], $_POST['model'], $_POST['os'], $_POST['pinCode']);
+				break;
+		   
+		   case "7":
+				if (isset($_POST['userID']))
+					$users->getDevices($_POST['userID']);
 				break;
 		}
 	}

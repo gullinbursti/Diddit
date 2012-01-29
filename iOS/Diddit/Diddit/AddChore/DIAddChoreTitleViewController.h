@@ -1,5 +1,5 @@
 //
-//  DIAddChoreViewController.h
+//  DIAddChoreTitleViewController.h
 //  DidIt
 //
 //  Created by Matthew Holcombe on 12.12.11.
@@ -7,14 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DIChore.h"
 
-@interface DIAddChoreViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
+@interface DIAddChoreTitleViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
 	
 	UITextField *_titleTxtField;
 	UITextView *_infoTxtView;
 	
 	UILabel *_titleLbl;
 	UILabel *_infoLbl;
+	
+	DIChore *_chore;
 }
+
+-(id)initWithChore:(DIChore *)chore;
 
 @end

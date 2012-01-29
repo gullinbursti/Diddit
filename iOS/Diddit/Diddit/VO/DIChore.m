@@ -22,6 +22,8 @@
 @synthesize expires;
 @synthesize itunes_id;
 @synthesize type_id;
+@synthesize subIDs;
+@synthesize iap_id;
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
 	
@@ -72,6 +74,7 @@
 	self.icoPath = nil;
 	self.imgPath = nil;
 	self.itunes_id = nil;
+	self.subIDs = nil;
 	
 	[super dealloc];
 }

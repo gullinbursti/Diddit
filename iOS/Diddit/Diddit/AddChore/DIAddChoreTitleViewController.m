@@ -1,5 +1,5 @@
 //
-//  DIAddChoreViewController.m
+//  DIAddChoreTitleViewController.m
 //  DidIt
 //
 //  Created by Matthew Holcombe on 12.12.11.
@@ -7,27 +7,28 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "DIAddChoreViewController.h"
+#import "DIAddChoreTitleViewController.h"
 
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
-#import "DINavLeftBtnView.h"
+#import "DINavBackBtnView.h"
 #import "DINavRightBtnView.h"
 #import "DIMyChoresViewCell.h"
 #import "DIChoreExpiresViewController.h"
 
 #import "DIChore.h"
 
-@implementation DIAddChoreViewController
+@implementation DIAddChoreTitleViewController
 
 #pragma mark - View lifecycle
--(id)init {
+-(id)initWithChore:(DIChore *)chore {
+	_chore = chore;
 	if ((self = [super init])) {
 		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"add chore"] autorelease];
 		
-		DINavLeftBtnView *cancelBtnView = [[[DINavLeftBtnView alloc] initWithLabel:@"Cancel"] autorelease];
-		[[cancelBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:cancelBtnView] autorelease];
+		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
+		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 		
 		
 		DINavRightBtnView *nextBtnView = [[[DINavRightBtnView alloc] initWithLabel:@"Next"] autorelease];
@@ -37,6 +38,7 @@
 	
 	return (self);
 }
+
 
 
 
@@ -128,12 +130,15 @@
 
 #pragma mark - Navigation
 -(void)_goBack {
-	[self dismissViewControllerAnimated:YES completion:nil];	
+	[self.navigationController popViewControllerAnimated:YES];	
 }
 
 -(void)_goNext {
-	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", _titleTxtField.text, @"title", _infoTxtView.text, @"info", @"", @"icoPath", @"", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", nil]];
-	[self.navigationController pushViewController:[[[DIChoreExpiresViewController alloc] initWithChore:chore] autorelease] animated:YES];
+	_chore.title = _titleTxtField.text;
+	_chore.info = _infoTxtView.text;
+	_chore.imgPath = @"00000000000000";
+	
+	[self.navigationController pushViewController:[[[DIChoreExpiresViewController alloc] initWithChore:_chore] autorelease] animated:YES];
 }
 
 #pragma mark - TextField Delegate

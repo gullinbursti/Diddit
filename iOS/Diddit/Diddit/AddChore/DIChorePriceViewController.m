@@ -125,6 +125,8 @@
 	[_addChoreDataRequest setPostValue:[dateFormat stringFromDate:_chore.expires] forKey:@"expires"];
 	[_addChoreDataRequest setPostValue:_chore.imgPath forKey:@"image"];
 	[_addChoreDataRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.type_id] forKey:@"type_id"];
+	[_addChoreDataRequest setPostValue:_chore.subIDs forKey:@"subIDs"];
+	[_addChoreDataRequest setPostValue:[NSString stringWithFormat:@"%d", _chore.iap_id] forKey:@"iapID"];
 	[_addChoreDataRequest setDelegate:self];
 	[_addChoreDataRequest startAsynchronous];
 	
@@ -186,6 +188,7 @@
 		_chore.cost = ((DIPricePak *)[_iapPaks objectAtIndex:indexPath.row]).cost;
 		_chore.icoPath = ((DIPricePak *)[_iapPaks objectAtIndex:indexPath.row]).ico_url;
 		_chore.itunes_id = ((DIPricePak *)[_iapPaks objectAtIndex:indexPath.row]).itunes_id;
+		_chore.iap_id = ((DIPricePak *)[_iapPaks objectAtIndex:indexPath.row]).iap_id;
 		
 		if (_chore.cost > 0.00) {
 			
@@ -242,7 +245,7 @@
 
 #pragma mark - ASI Delegates
 -(void)requestFinished:(ASIHTTPRequest *)request { 
-	//NSLog(@"[_asiFormRequest responseString]=\n%@\n\n", [request responseString]);
+	NSLog(@"[ChorePrice responseString]=\n%@\n\n", [request responseString]);
 	
 	if ([request isEqual:_iapPakRequest]) {
 		@autoreleasepool {
@@ -278,6 +281,7 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
+				
 				[self dismissViewControllerAnimated:YES completion:^(void) {
 					[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE" object:[DIChore choreWithDictionary:parsedChore]];
 				}];

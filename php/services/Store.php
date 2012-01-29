@@ -251,6 +251,8 @@ class Store {
 		$result = mysql_query($query);
 		$chore_id = mysql_insert_id();
 		
+		
+		
 		// Return data, as JSON
 		$result = array(
 			"id" => $user_id, 

@@ -13,12 +13,13 @@
 #import "DIAppDelegate.h"
 #import "DIChoreStatsView.h"
 #import "DIChoreDetailsViewController.h"
-#import "DIAddChoreViewController.h"
+#import "DIAddChoreTypeViewController.h"
 #import "DIChoreCompleteViewController.h"
 #import "DIAppListViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIOfferListViewController.h"
 #import "DIOfferDetailsViewController.h"
+#import "DISubDevicesViewController.h"
 #import "DISettingsViewController.h"
 #import "DIMyChoresViewCell.h"
 #import "DISponsorshipItemButton.h"
@@ -63,6 +64,7 @@
 		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
 		[_activeChoresRequest setDelegate:self];
 		[_activeChoresRequest startAsynchronous];
 	}
@@ -289,13 +291,13 @@
 	}];
 	*/
 	
-	DIAddChoreViewController *addChoreViewController = [[[DIAddChoreViewController alloc] init] autorelease];
+	DIAddChoreTypeViewController *addChoreViewController = [[[DIAddChoreTypeViewController alloc] init] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 -(void)_goDevices {
-	NSLog(@"%@", [[DIAppDelegate childDevices] objectAtIndex:0]);
+	[self.navigationController pushViewController:[[[DISubDevicesViewController alloc] init] autorelease] animated:YES];
 }
 
 -(void)_goApps {
@@ -317,6 +319,7 @@
 	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
 	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
 	[_activeChoresRequest setDelegate:self];
 	[_activeChoresRequest startAsynchronous];
 	
