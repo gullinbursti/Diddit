@@ -224,7 +224,7 @@ class Store {
 	 * This service returns all jobs available
 	 * @returns recordset
 	 */
-	function makePurchase($user_id, $store_id) {
+	function makePurchase($user_id, $sub_id, $store_id) {
            
 		$query = 'SELECT `title`, `info`, `points`, `type_id` FROM `tblStore` WHERE `id` = "'. $store_id .'";';
 		$row = mysql_fetch_row(mysql_query($query));
@@ -246,8 +246,8 @@ class Store {
 		$result = mysql_query($query);
 		
 		$query = 'INSERT INTO `tblStorePurchases` (';
-		$query .= '`id`, `user_id`, `store_id`, `added`) ';
-		$query .= 'VALUES (NULL, "'. $user_id .'", "'. $store_id .'", CURRENT_TIMESTAMP);';
+		$query .= '`id`, `user_id`, `sub_id`, `store_id`, `added`) ';
+		$query .= 'VALUES (NULL, "'. $user_id .'", "'. $sub_id .'", "'. $store_id .'", CURRENT_TIMESTAMP);';
 		$result = mysql_query($query);
 		$chore_id = mysql_insert_id();
 		
@@ -292,31 +292,73 @@ class Store {
 	}
 	
 	
-	function allPurchases($user_id) {
-
-		$query = 'SELECT * FROM `tblStorePurchases` WHERE `user_id` = "'. $user_id .'" ORDER BY `added`;';
-		$res = mysql_query($query);
+	function allPurchases($user_id, $sub_id) {
+        
+		if ($sub_id == "0") {
+			$query = 'SELECT `tblStore`.`id`, `tblStore`.`title`, `tblStore`.`info`, `tblStore`.`dev_id`, `tblStore`.`points`, `tblStore`.`ico_url`, `tblStore`.`score`, `tblStore`.`itunes_id` FROM `tblStore` INNER JOIN `tblStorePurchases` ON `tblStore`.`id` = `tblStorePurchases`.`store_id` WHERE `tblStorePurchases`.`user_id` = "'. $user_id .'";';
+			$res = mysql_query($query);
 		
-		// error performing query
-		if (mysql_num_rows($res) > 0) {
+			// error performing query
+			if (mysql_num_rows($res) > 0) {
 				
-			// Return data, as JSON
-			$result = array();
+				// Return data, as JSON
+				$result = array();
 		
-			while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-				array_push($result, array(
-					"id" => $row['id'], 
-					"store_id" => $row['store_id'], 
-					"added" => $row['added']
-				));
+				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					array_push($result, array(
+						"id" => $row[0], 
+						"title" => $row[1], 
+						"info" => $row[2], 
+						"dev_id" => $row[3], 
+						"points" => $row[4], 
+						"ico_url" => $row[5], 
+						"score" => $row[6], 
+						"itunes_id" => $row[7], 
+						"description" => "",
+						"images" => array()
+					));
+				}
+		
+				$this->sendResponse(200, json_encode($result));
+				return (true);
+		
+			} else {
+				$this->sendResponse(200, json_encode(array()));
+				return (true);
 			}
 		
-			$this->sendResponse(200, json_encode($result));
-			return (true);
-		
 		} else {
-			$this->sendResponse(200, json_encode(array()));
-			return (true);
+			$query = 'SELECT `tblStore`.`id`, `tblStore`.`title`, `tblStore`.`info`, `tblStore`.`dev_id`, `tblStore`.`points`, `tblStore`.`ico_url`, `tblStore`.`score`, `tblStore`.`itunes_id` FROM `tblStore` INNER JOIN `tblStorePurchases` ON `tblStore`.`id` = `tblStorePurchases`.`store_id` WHERE `tblStorePurchases`.`user_id` = "'. $user_id .'" AND `tblStorePurchases`.`sub_id` = "'. $sub_id .'";';
+			$res = mysql_query($query);
+		
+			// error performing query
+			if (mysql_num_rows($res) > 0) {
+				
+				// Return data, as JSON
+				$result = array();
+		
+				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					array_push($result, array(
+						"id" => $row[0], 
+						"title" => $row[1], 
+						"info" => $row[2], 
+						"dev_id" => $row[3], 
+						"points" => $row[4], 
+						"ico_url" => $row[5], 
+						"score" => $row[6], 
+						"itunes_id" => $row[7], 
+						"description" => "",
+						"images" => array()
+					));
+				}
+		
+				$this->sendResponse(200, json_encode($result));
+				return (true);
+		
+			} else {
+				$this->sendResponse(200, json_encode(array()));
+				return (true);
+			}
 		}
 	}
 	
@@ -418,13 +460,13 @@ if (isset($_POST["action"])) {
 			break;
 			
 		case 3:
-			if (isset($_POST['userID']) && isset($_POST['appID']))
-				$store_json = $store->makePurchase($_POST['userID'], $_POST['appID']);
+			if (isset($_POST['userID']) && isset($_POST['sub_id']) && isset($_POST['appID']))
+				$store_json = $store->makePurchase($_POST['userID'], $_POST['sub_id'], $_POST['appID']);
 			break;
 			
 		case 4:   
-			if (isset($_POST['userID']))
-				$store_json = $store->allPurchases($_POST['userID']);
+			if (isset($_POST['userID']) && isset($_POST['subID']))
+				$store_json = $store->allPurchases($_POST['userID'], $_POST['subID']);
 			break;
 			
 		case 5:

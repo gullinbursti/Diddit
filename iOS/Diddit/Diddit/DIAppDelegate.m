@@ -200,6 +200,9 @@
 	
 	// show welcome screen
 	if (![DIAppDelegate profileForUser]) {
+		[self.window setRootViewController:rootNavigationController];
+		[self.window makeKeyAndVisible];
+		
 		DIAppTypeViewController *splash = [[[DIAppTypeViewController alloc] init] autorelease];
 		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
 		[splashNavigation setNavigationBarHidden:NO animated:YES];
@@ -279,7 +282,9 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
-				[DIAppDelegate setUserProfile:parsedUser];				
+				[DIAppDelegate setUserProfile:parsedUser];
+				[self.window setRootViewController:[[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease]];
+				[self.window makeKeyAndVisible];
 				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 			}
 		}

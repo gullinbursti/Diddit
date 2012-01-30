@@ -272,7 +272,8 @@
 				"imgPath" => $image,
 				"expires" => $expires, 
 				"points" => $points, 
-				"cost" => $cost
+				"cost" => $cost, 
+				"type_id" => $type_id
 			)));
 			
 			return (true);

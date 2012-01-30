@@ -8,28 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIFormDataRequest.h"
-#import "DIChoreStatsView.h"
-#import "DIPaginationView.h"
 
 @class DILoadOverlay;
 
 @interface DIChoreListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate, UIScrollViewDelegate> {
 	
 	ASIFormDataRequest *_activeChoresRequest;
-	ASIFormDataRequest *_sponsorshipsDataRequest;
-	
 	ASIFormDataRequest *_choreUpdRequest;
 	ASIFormDataRequest *_userUpdRequest;
 	
 	DILoadOverlay *_loadOverlay;
-	DIChoreStatsView *_choreStatsView;
-	DIPaginationView *_paginationView;
 	
 	UITableView *_myChoresTableView;
+	UITableView *_myRewardsTableView;
 	
+	NSMutableArray *_activeDisplay;
 	NSMutableArray *_chores;
+	NSMutableArray *_rewards;
 	NSMutableArray *_finishedChores;
-	NSMutableArray *_sponsorships;
 	
 	UIImageView *_emptyListImgView;
 	UIImageView *_footerImgView;
@@ -40,8 +36,12 @@
 	
 	UIImageView *_badgesImgView;
 	
-	UIView *_sponsorshipHolderView;
-	UIScrollView *_sponsorshipsScrollView;
+	UIButton *_ptsButton;
+	UIButton *_rewardsToggleButton;
+	UIButton *_choresToggleButton;
+	
+	
+	BOOL _isRewardList;
 }
 
 @end

@@ -73,7 +73,7 @@
 	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/AppStore.php"]] retain];
 	[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"action"];
 	[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[dataRequest setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"device_token"] forKey:@"subIDs"];
+	[dataRequest setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"devices"] forKey:@"subIDs"];
 	[dataRequest setPostValue:transaction.transactionIdentifier forKey:@"transID"];
 	[dataRequest setPostValue:[[NSString stringWithFormat:@"%@", transaction.transactionReceipt] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"< >"]] forKey:@"data"];
 	[dataRequest setPostValue:[dateFormat stringFromDate:transaction.transactionDate] forKey:@"transDate"];
