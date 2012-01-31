@@ -397,12 +397,15 @@
 
 -(void)_addChore:(NSNotification *)notification {
 	
-	if (_isRewardList)
-		[_chores insertObject:(DIChore *)[notification object] atIndex:0];	
-	else
+	if (_isRewardList) {
 		[_rewards insertObject:(DIChore *)[notification object] atIndex:0];	
+		[_myRewardsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+		
+	} else {
+		[_chores insertObject:(DIChore *)[notification object] atIndex:0];	
+		[_myChoresTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+	}
 	
-	[_chores insertObject:(DIChore *)[notification object] atIndex:0];
 	[_activeDisplay insertObject:(DIChore *)[notification object] atIndex:0];
 	
 	NSLog(@"ChoreListViewController - addChore:[]");
@@ -415,11 +418,9 @@
 	//_myChoresTableView.hidden = NO;
 	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	
-	NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
-	//[_myChoresTableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
-	[_myChoresTableView reloadData];
-	[_myRewardsTableView reloadData];
+
+	//[_myChoresTableView reloadData];
+	//[_myRewardsTableView reloadData];
 	
 }
 
@@ -447,15 +448,19 @@
 		[[NSUserDefaults standardUserDefaults] setObject:nil forKey:chore.imgPath];
 	}
 	
-	if (_isRewardList)
-		[_chores removeObjectIdenticalTo:chore];
-	else
+	if (_isRewardList) {
 		[_rewards removeObjectIdenticalTo:chore];
+		//[_myRewardsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+		
+	} else {
+		[_chores removeObjectIdenticalTo:chore];
+		//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+	}
 	
 	[_activeDisplay removeObjectIdenticalTo:chore];
 	
-	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	
 	[_myChoresTableView reloadData];
 	[_myRewardsTableView reloadData];
@@ -464,8 +469,6 @@
 		[_myChoresTableView removeFromSuperview];
 		[_holderView addSubview:_emptyScrollView];
 	}
-	
-	//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	
 	
 	//DIChoreCompleteViewController *choreCompleteViewController = [[[DIChoreCompleteViewController alloc] initWithChore:chore] autorelease];
@@ -606,11 +609,11 @@
 					NSLog(@"CHORE \"%@\" (%d)", chore.title, chore.type_id);
 					
 					if (chore != nil) {
-						if (chore.type_id == 0)
-							[rewardList addObject:chore];
+						if (chore.type_id == 1)
+							[choreList addObject:chore];
 						
 						else
-							[choreList addObject:chore];
+							[rewardList addObject:chore];
 					}
 				}
 				

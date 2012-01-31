@@ -238,7 +238,8 @@ class Store {
 		$user_points = $row[3] - $store_points;
 		$device_id = $row[0];
 		
-		$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
+		$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblChores`.`status_id` =4;';
+		//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
 		$tot_res = mysql_query($query);				
 		$tot = mysql_num_rows($tot_res);
 		

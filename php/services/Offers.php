@@ -145,7 +145,8 @@
 			$row = mysql_fetch_row(mysql_query($query));
 			$user_points = $row[3] + $offer_points;
 			
-			$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
+			$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblChores`.`status_id` =4;';
+			//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
 			$tot_res = mysql_query($query);				
 			$tot = mysql_num_rows($tot_res);
 			

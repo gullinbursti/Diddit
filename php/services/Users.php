@@ -151,7 +151,7 @@
 				$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
 				$user_res = mysql_fetch_row(mysql_query($query));
 			
-				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
+				$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
 				$tot_res = mysql_query($query);				
 				$tot = mysql_num_rows($tot_res);
 				
@@ -204,7 +204,8 @@
 					$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
 					$user_res = mysql_fetch_row(mysql_query($query));
 					
-					$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
+					$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
+					//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
 					$tot_res = mysql_query($query);				
 					$tot = mysql_num_rows($tot_res);
 					
@@ -232,7 +233,8 @@
 			 	$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
 				$user_res = mysql_fetch_row(mysql_query($query));
 				
-				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
+				//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
+				$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
 				$tot_res = mysql_query($query);				
 				$tot = mysql_num_rows($tot_res);
 				
@@ -309,7 +311,8 @@
 						));
 			    	}
 			
-					$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
+					$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` =4;';
+					//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
 					$tot_res = mysql_query($query);				
 					$tot = mysql_num_rows($tot_res);
 
@@ -328,8 +331,8 @@
 					);
 				
 				} else {
-                        
-					$query = 'SELECT * FROM `tblChores` INNER JOIN `tblUsersChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`sub_id` = "'. $dev_row[0] .'" AND `tblChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` = "4" ORDER BY `tblChores`.`added`;';
+                    
+					$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`sub_id` = "'. $dev_row[0] .'" AND `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` = "4" ORDER BY `tblChores`.`added`;';
 					$tot_res = mysql_query($query);				
 					$tot = mysql_num_rows($tot_res);
 
@@ -391,7 +394,8 @@
 			// has user
 			if ($row) {
                 
-				$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
+				$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` =4;';
+				//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
 				$tot_res = mysql_query($query);				
 				$tot = mysql_num_rows($tot_res);
 

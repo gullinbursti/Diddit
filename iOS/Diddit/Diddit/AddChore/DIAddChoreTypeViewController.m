@@ -120,12 +120,12 @@
 
 #pragma mark - Navigation
 -(void)_goInstantReward {
-	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", @"", @"title", @"", @"info", @"", @"icoPath", @"00000000000000", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", nil]];
+	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", @"", @"title", @"", @"info", @"", @"icoPath", @"00000000000000", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", @"2", @"type_id", nil]];
 	[self.navigationController pushViewController:[[[DIAddChoreTitleViewController alloc] initWithChore:chore] autorelease] animated:YES];	
 }
 
 -(void)_goChoreReward {
-	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", @"", @"title", @"", @"info", @"", @"icoPath", @"00000000000000", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", nil]];
+	DIChore *chore = [DIChore choreWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys:@"0", @"id", @"", @"title", @"", @"info", @"", @"icoPath", @"00000000000000", @"imgPath", @"0000-00-00 00:00:00", @"expires", @"0", @"points", @"0", @"cost", @"1", @"type_id", nil]];
 	[self.navigationController pushViewController:[[[DIAddChoreTitleViewController alloc] initWithChore:chore] autorelease] animated:YES];
 }
 
