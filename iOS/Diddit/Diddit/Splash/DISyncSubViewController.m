@@ -10,6 +10,7 @@
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
 #import "DINavBackBtnView.h"
+#import "DIWhySignupViewController.h"
 
 @implementation DISyncSubViewController
 
@@ -17,7 +18,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"sync device"] autorelease];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"device setup"] autorelease];
 		
 		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
@@ -37,17 +38,13 @@
 	bgImgView.frame = frame;
 	[self.view addSubview:bgImgView];
 	
-	UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 48)] autorelease];
-	headerView.backgroundColor = [UIColor colorWithRed:0.988235294117647 green:0.988235294117647 blue:0.713725490196078 alpha:1.0];
-	[self.view addSubview:headerView];
-	
-	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)] autorelease];
-	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
-	titleLabel.textColor = [UIColor colorWithWhite:0.6 alpha:1.0];
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 33, 320, 20)] autorelease];
+	titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14];
+	titleLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
 	titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	titleLabel.text = @"enter your 3 digit passcode";
+	titleLabel.text = @"enter the provided 3 digit passcode";
 	titleLabel.textAlignment = UITextAlignmentCenter;
 	[self.view addSubview:titleLabel];
 	
@@ -115,17 +112,14 @@
 	[self.view addSubview:_digit3TxtField];
 	
 	UIButton *helpButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	helpButton.frame = CGRectMake(10, 160, 200, 16);
-	[helpButton setShowsTouchWhenHighlighted:NO];
+	helpButton.frame = CGRectMake(68, 160, 187, 28);
+	helpButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+	[helpButton setBackgroundImage:[[UIImage imageNamed:@"infoButtonBG.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
+	[helpButton setBackgroundImage:[[UIImage imageNamed:@"infoButtonBG.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateHighlighted];
+	[helpButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
+	[helpButton setTitle:@"What if I don't have a passcode?" forState:UIControlStateNormal];
 	[helpButton addTarget:self action:@selector(_goInfo) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:helpButton];
-	
-	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 160, 200, 16)] autorelease];
-	infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
-	infoLabel.textColor = [UIColor colorWithWhite:0.67 alpha:1.0];
-	infoLabel.backgroundColor = [UIColor clearColor];
-	infoLabel.text = @"Don't have a passcode?";
-	[self.view addSubview:infoLabel];
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -184,7 +178,9 @@
 
 
 -(void)_goInfo {
-	
+	DIWhySignupViewController *whySignupViewController = [[[DIWhySignupViewController alloc] initWithTitle:@"why?" header:@"we will never release your info…" closeLabel:@"Done"] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:whySignupViewController] autorelease];
+	[self.navigationController presentModalViewController:navigationController animated:YES];	
 }
 
 #pragma mark - TextField Delegates

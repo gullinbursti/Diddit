@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>services/Chores.php</string>
+	<string>services/Users.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -42,65 +42,129 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>140</integer>
+				<integer>291</integer>
 				<key>line</key>
 				<integer>103</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>94</integer>
+			<integer>87</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>282</integer>
+				<key>line</key>
+				<integer>103</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>291</integer>
+				<key>line</key>
+				<integer>103</integer>
+			</dict>
 		</dict>
 		<key>services/AppStore.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>29</integer>
 				<key>line</key>
-				<integer>142</integer>
+				<integer>122</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>67</integer>
+			<integer>103</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>122</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>122</integer>
+			</dict>
 		</dict>
 		<key>services/Chores.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>449</integer>
+				<integer>207</integer>
 				<key>line</key>
-				<integer>121</integer>
+				<integer>234</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>107</integer>
+			<integer>211</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>198</integer>
+				<key>line</key>
+				<integer>234</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>207</integer>
+				<key>line</key>
+				<integer>234</integer>
+			</dict>
 		</dict>
 		<key>services/Offers.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>29</integer>
 				<key>line</key>
-				<integer>135</integer>
+				<integer>156</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>161</integer>
+			<integer>128</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>156</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>156</integer>
+			</dict>
 		</dict>
 		<key>services/Rewards.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>133</integer>
+				<integer>130</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
@@ -111,16 +175,16 @@
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>29</integer>
 				<key>line</key>
-				<integer>128</integer>
+				<integer>130</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>133</integer>
+				<integer>130</integer>
 			</dict>
 		</dict>
 		<key>services/Sponsorships.php</key>
@@ -142,28 +206,44 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>316</integer>
 				<key>line</key>
-				<integer>249</integer>
+				<integer>406</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>228</integer>
+			<integer>387</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>307</integer>
+				<key>line</key>
+				<integer>406</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>316</integer>
+				<key>line</key>
+				<integer>406</integer>
+			</dict>
 		</dict>
 		<key>services/Users.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>7</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>327</integer>
+				<integer>416</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>328</integer>
+			<integer>403</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -180,6 +260,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{953, 45}, {1557, 994}}</string>
+	<string>{{910, 352}, {1557, 994}}</string>
 </dict>
 </plist>

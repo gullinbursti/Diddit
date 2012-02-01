@@ -11,9 +11,9 @@
 #import "DINavBackBtnView.h"
 #import "DIAppDelegate.h"
 #import "DITableHeaderView.h"
-#import "DIDeviceViewCell.h"
 #import "DINavRightBtnView.h"
 #import "DIChorePriceViewController.h"
+#import "DIDeviceViewCell.h"
 
 @implementation DIAddChoreDeviceViewController
 

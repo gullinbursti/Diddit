@@ -174,7 +174,7 @@
 		// init Airship launch options
 		NSMutableDictionary *takeOffOptions = [[[NSMutableDictionary alloc] init] autorelease];
 		[takeOffOptions setValue:launchOptions forKey:UAirshipTakeOffOptionsLaunchOptionsKey];
-	
+		
 		// create Airship singleton that's used to talk to Urban Airhship servers, populate AirshipConfig.plist with your info from http://go.urbanairship.com
 		[UAirship takeOff:takeOffOptions];	
 		[[UAPush shared] resetBadge];//zero badge on startup
@@ -184,8 +184,9 @@
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	[[SKPaymentQueue defaultQueue] addTransactionObserver:[[DIStoreObserver alloc] init]];
 	
-	_choreListViewController = [[DIChoreListViewController alloc] init];
-	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease];
+	_masterListViewController = [[DIMasterListViewController alloc] init];
+	_subListViewController = [[DISubListViewController alloc] init];
+	
 	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"headerBG.png"] forBarMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:14] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"headerBackButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -194,12 +195,10 @@
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0], UITextAttributeFont, nil] forState:UIControlStateSelected];
 	
-	[self.window setRootViewController:rootNavigationController];
-	[self.window makeKeyAndVisible];
-	
 	
 	// show welcome screen
 	if (![DIAppDelegate profileForUser]) {
+		UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_masterListViewController] autorelease];
 		[self.window setRootViewController:rootNavigationController];
 		[self.window makeKeyAndVisible];
 		
@@ -207,8 +206,12 @@
 		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
 		[splashNavigation setNavigationBarHidden:NO animated:YES];
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
-	
+		
 	} else {
+		UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_masterListViewController] autorelease];
+		[self.window setRootViewController:rootNavigationController];
+		[self.window makeKeyAndVisible];
+		
 		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
@@ -220,13 +223,13 @@
 	}
 	
 	/*
-	NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
-	NSLog(@"DEVICE NAME:[%@]", [UIDevice currentDevice].name);
-	NSLog(@"DEVICE MODEL:[%@]", [UIDevice currentDevice].model);
-	NSLog(@"SYS NAME:[%@]", [UIDevice currentDevice].systemName);
-	NSLog(@"SYS VER:[%@]", [UIDevice currentDevice].systemVersion);
-	NSLog(@"UUID:[%@]", [UIDevice currentDevice].uniqueIdentifier);
-	*/
+	 NSLog(@"DEVICE ID:[%@]", [[DIAppDelegate profileForUser] objectForKey:@"device_id"]);
+	 NSLog(@"DEVICE NAME:[%@]", [UIDevice currentDevice].name);
+	 NSLog(@"DEVICE MODEL:[%@]", [UIDevice currentDevice].model);
+	 NSLog(@"SYS NAME:[%@]", [UIDevice currentDevice].systemName);
+	 NSLog(@"SYS VER:[%@]", [UIDevice currentDevice].systemVersion);
+	 NSLog(@"UUID:[%@]", [UIDevice currentDevice].uniqueIdentifier);
+	 */
 	
 	return YES;
 }
@@ -236,17 +239,17 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
 	/*
-	// Schedule a test notification
-	UILocalNotification *localNotification = [[[UILocalNotification alloc] init] autorelease];
-	localNotification.fireDate = [[NSDate alloc] initWithTimeIntervalSinceNow:5];
-	localNotification.alertBody = @"BACKGROUNDED!";
-	localNotification.soundName = UILocalNotificationDefaultSoundName;
-	localNotification.applicationIconBadgeNumber = 1;
-	
-	NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Object 1", @"Key 1", @"Object 2", @"Key 2", nil];
-	localNotification.userInfo = infoDict;
-	
-	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+	 // Schedule a test notification
+	 UILocalNotification *localNotification = [[[UILocalNotification alloc] init] autorelease];
+	 localNotification.fireDate = [[NSDate alloc] initWithTimeIntervalSinceNow:5];
+	 localNotification.alertBody = @"BACKGROUNDED!";
+	 localNotification.soundName = UILocalNotificationDefaultSoundName;
+	 localNotification.applicationIconBadgeNumber = 1;
+	 
+	 NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Object 1", @"Key 1", @"Object 2", @"Key 2", nil];
+	 localNotification.userInfo = infoDict;
+	 
+	 [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 	 */
 	
 }
@@ -283,9 +286,15 @@
 			
 			else {
 				[DIAppDelegate setUserProfile:parsedUser];
-				[self.window setRootViewController:[[[UINavigationController alloc] initWithRootViewController:_choreListViewController] autorelease]];
+				
+				if ([DIAppDelegate isParentApp])
+					[self.window setRootViewController:[[[UINavigationController alloc] initWithRootViewController:_masterListViewController] autorelease]];
+				
+				else
+					[self.window setRootViewController:[[[UINavigationController alloc] initWithRootViewController:_subListViewController] autorelease]];
+				
 				[self.window makeKeyAndVisible];
-				//[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
 			}
 		}
 	}
@@ -309,7 +318,7 @@
 	deviceID = [deviceID substringToIndex:[deviceID length] - 1];
 	deviceID = [deviceID stringByReplacingOccurrencesOfString:@" " withString:@""];
 	[DIAppDelegate setDeviceToken:deviceID];
-
+	
 	/*
 	 * Some example cases where user notifcation may be warranted
 	 *
@@ -404,28 +413,28 @@
 			break;
 	}
 	/*
-	if (type_id == 2) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:@"Visit iTunes", nil];
-		[alert show];
-		[alert release];
-		
-		NSString *redeemCode = [[DIAppDelegate md5:[NSString stringWithFormat:@"%d", arc4random()]] uppercaseString];
-		redeemCode = [redeemCode substringToIndex:[redeemCode length] - 12];
-		
-		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-		[pasteboard setValue:redeemCode forPasteboardType:@"public.utf8-plain-text"];
-	}
-	
-	UILocalNotification *localNotification = [[[UILocalNotification alloc] init] autorelease];
-	localNotification.fireDate = [[NSDate alloc] initWithTimeIntervalSinceNow:5];
-	localNotification.alertBody = [NSString stringWithFormat:@"%d", [[userInfo objectForKey:@"type"] intValue]];;
-	localNotification.soundName = UILocalNotificationDefaultSoundName;
-	localNotification.applicationIconBadgeNumber = 3;
-	
-	NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Object 1", @"Key 1", @"Object 2", @"Key 2", nil];
-	localNotification.userInfo = infoDict;
-	
-	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+	 if (type_id == 2) {
+	 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leaving diddit" message:@"Your iTunes gift card number has been copied" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:@"Visit iTunes", nil];
+	 [alert show];
+	 [alert release];
+	 
+	 NSString *redeemCode = [[DIAppDelegate md5:[NSString stringWithFormat:@"%d", arc4random()]] uppercaseString];
+	 redeemCode = [redeemCode substringToIndex:[redeemCode length] - 12];
+	 
+	 UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+	 [pasteboard setValue:redeemCode forPasteboardType:@"public.utf8-plain-text"];
+	 }
+	 
+	 UILocalNotification *localNotification = [[[UILocalNotification alloc] init] autorelease];
+	 localNotification.fireDate = [[NSDate alloc] initWithTimeIntervalSinceNow:5];
+	 localNotification.alertBody = [NSString stringWithFormat:@"%d", [[userInfo objectForKey:@"type"] intValue]];;
+	 localNotification.soundName = UILocalNotificationDefaultSoundName;
+	 localNotification.applicationIconBadgeNumber = 3;
+	 
+	 NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Object 1", @"Key 1", @"Object 2", @"Key 2", nil];
+	 localNotification.userInfo = infoDict;
+	 
+	 [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 	 */
 }
 

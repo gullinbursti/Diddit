@@ -10,7 +10,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DIChoreListViewController.h"
+#import "DIMasterListViewController.h"
+#import "DISubListViewController.h"
 #import "ASIFormDataRequest.h"
 
 #import "DILoadOverlay.h"
@@ -18,7 +19,9 @@
 
 @interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate, UAPushNotificationDelegate> {
 	
-	DIChoreListViewController *_choreListViewController;
+	DIMasterListViewController *_masterListViewController;
+	DISubListViewController *_subListViewController;
+	
 	ASIFormDataRequest *_userRequest;
 	
 	DILoadOverlay *_loadOverlay;

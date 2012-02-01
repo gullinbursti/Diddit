@@ -18,7 +18,7 @@
 #pragma mark - View lifecycle
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"get started"] autorelease];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"device setup"] autorelease];
 		
 		//DINavLeftBtnView *backBtnView = [[[DINavLeftBtnView alloc] initWithLabel:@"Back"] autorelease];
 		//[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
@@ -44,59 +44,36 @@
 	instructLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 	instructLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	instructLabel.textAlignment = UITextAlignmentCenter;
-	instructLabel.text = @"please select the account type";
+	instructLabel.text = @"please select your device type";
 	[self.view addSubview:instructLabel];
-	
-	UIImageView *butonsBGImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fue_backPlate.png"]] autorelease];
-	frame = butonsBGImgView.frame;
-	frame.origin.x = 20;
-	frame.origin.y = 65;
-	butonsBGImgView.frame = frame;
-	[self.view addSubview:butonsBGImgView];
-	
-	UILabel *parentLabel = [[[UILabel alloc] initWithFrame:CGRectMake(40, 100, 200, 20)] autorelease];
-	parentLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
-	parentLabel.textColor = [UIColor whiteColor];
-	parentLabel.backgroundColor = [UIColor clearColor];
-	parentLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-	parentLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	parentLabel.text = @"I am a parent";
-	[self.view addSubview:parentLabel];
-	
-	UIImageView *parentChevronImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueArrow.png"]] autorelease];
-	frame = parentChevronImgView.frame;
-	frame.origin.x = 265;
-	frame.origin.y = 100;
-	parentChevronImgView.frame = frame;
-	[self.view addSubview:parentChevronImgView];
-	
-	UILabel *childLabel = [[[UILabel alloc] initWithFrame:CGRectMake(40, 170, 200, 20)] autorelease];
-	childLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
-	childLabel.textColor = [UIColor whiteColor];
-	childLabel.backgroundColor = [UIColor clearColor];
-	childLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-	childLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	childLabel.text = @"I am a kid's iOS device";
-	[self.view addSubview:childLabel];
-	
-	UIImageView *childChevronImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fueArrow.png"]] autorelease];
-	frame = childChevronImgView.frame;
-	frame.origin.x = 265;
-	frame.origin.y = 180;
-	childChevronImgView.frame = frame;
-	[self.view addSubview:childChevronImgView];
 	
 	UIButton *masterSignupButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	masterSignupButton.frame = CGRectMake(20, 70, 280, 80);
-	//[masterSignupButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	//[masterSignupButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[masterSignupButton setBackgroundImage:[[UIImage imageNamed:@"fue_buttonTop_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[masterSignupButton setBackgroundImage:[[UIImage imageNamed:@"fue_buttonTop_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	masterSignupButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
+	masterSignupButton.titleLabel.textColor = [UIColor whiteColor];
+	masterSignupButton.titleLabel.shadowColor = [UIColor blackColor];
+	masterSignupButton.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	[masterSignupButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -75, 0, 75)];
+	[masterSignupButton setImageEdgeInsets:UIEdgeInsetsMake(0, 160, 0, -160)];
+	[masterSignupButton setImage:[UIImage imageNamed:@"fueArrow.png"] forState:UIControlStateNormal];
+	[masterSignupButton setTitle:@"I am a parent" forState:UIControlStateNormal];
 	[masterSignupButton addTarget:self action:@selector(_goMaster) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:masterSignupButton];
 	
 	UIButton *subSignupButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	subSignupButton.frame = CGRectMake(20, 150, 280, 80);
-	//[subSignupButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	//[subSignupButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[subSignupButton setBackgroundImage:[[UIImage imageNamed:@"fue_buttonBottom_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[subSignupButton setBackgroundImage:[[UIImage imageNamed:@"fue_buttonBottom_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	subSignupButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
+	subSignupButton.titleLabel.textColor = [UIColor whiteColor];
+	subSignupButton.titleLabel.shadowColor = [UIColor blackColor];
+	subSignupButton.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	[subSignupButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -40, 0, 40)];
+	[subSignupButton setImageEdgeInsets:UIEdgeInsetsMake(0, 195, 0, -195)];
+	[subSignupButton setImage:[UIImage imageNamed:@"fueArrow.png"] forState:UIControlStateNormal];
+	[subSignupButton setTitle:@"I am a kid's iOS device" forState:UIControlStateNormal];
 	[subSignupButton addTarget:self action:@selector(_goSub) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:subSignupButton];
 	
@@ -142,7 +119,6 @@
 -(void)_goSub {
 	[self.navigationController pushViewController:[[[DISyncSubViewController alloc] init] autorelease] animated:YES];
 }
-
 
 
 #pragma mark PeerPickerController Delegates

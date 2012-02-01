@@ -11,6 +11,7 @@
 #import "DINavTitleView.h"
 #import "DINavBackBtnView.h"
 #import "DINavRightBtnView.h"
+#import "DIWhySignupViewController.h"
 
 @implementation DISyncCodeMakerViewController
 
@@ -115,6 +116,16 @@
 	_digit3Label.shadowOffset = CGSizeMake(1.0, 1.0);
 	[self.view addSubview:_digit3Label];
 	
+	UIButton *shareButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	shareButton.frame = CGRectMake(88, 200, 147, 28);
+	shareButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+	[shareButton setBackgroundImage:[[UIImage imageNamed:@"infoButtonBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[shareButton setBackgroundImage:[[UIImage imageNamed:@"infoButtonBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[shareButton setTitleColor:[UIColor colorWithWhite:0.2588 alpha:1.0] forState:UIControlStateNormal];
+	[shareButton setTitle:@"Do you share a device?" forState:UIControlStateNormal];
+	[shareButton addTarget:self action:@selector(_goShare) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:shareButton];
+	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
 	frame.origin.y = -44;
@@ -145,6 +156,12 @@
 	[self dismissViewControllerAnimated:YES completion:^(void) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
 	}];
+}
+
+-(void)_goShare {
+	DIWhySignupViewController *whySignupViewController = [[[DIWhySignupViewController alloc] initWithTitle:@"why?" header:@"we will never release your info…" closeLabel:@"Done"] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:whySignupViewController] autorelease];
+	[self.navigationController presentModalViewController:navigationController animated:YES];	
 }
 
 
