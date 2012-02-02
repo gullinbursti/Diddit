@@ -22,6 +22,7 @@
 #import "DISubDeviceViewController.h"
 #import "DISponsorship.h"
 #import "DIDevice.h"
+#import "DINavLockBtnView.h"
 
 #import "DIAddNewRewardViewController.h"
 
@@ -33,7 +34,7 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"DISMISS_WELCOME_SCREEN" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goAddChore:) name:@"PRESENT_ADD_CHORE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goAddChore:) name:@"PRESENT_ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"REFRESH_CHORE_LIST" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
@@ -70,8 +71,11 @@
 		[ltBtnView addSubview:_activityToggleButton];
 		
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:ltBtnView] autorelease];
-		//self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rtBtnView] autorelease];
 		
+		DINavLockBtnView *lockBtnView = [[[DINavLockBtnView alloc] init] autorelease];
+		[[lockBtnView btn] addTarget:self action:@selector(_goLock) forControlEvents:UIControlEventTouchUpInside];
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:lockBtnView] autorelease];
+				
 		_loadOverlay = [[DILoadOverlay alloc] init];
 		_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 		[_devicesRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
@@ -129,7 +133,7 @@
 	UIButton *guideBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
 	guideBtn.frame = CGRectMake(15, 357, 79, 54);
 	[guideBtn setBackgroundImage:[[UIImage imageNamed:@"guide_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[guideBtn setBackgroundImage:[[UIImage imageNamed:@"guide_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[guideBtn setBackgroundImage:[[UIImage imageNamed:@"guide_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[guideBtn addTarget:self action:@selector(_goGuide) forControlEvents:UIControlEventTouchUpInside];
 	
 	[self.view addSubview:guideBtn];
@@ -180,6 +184,10 @@
 }
 
 #pragma mark - Button Handlers
+-(void)_goLock {
+	
+}
+
 -(void)_goDevices {
 	[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
 	[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
@@ -257,7 +265,8 @@
 	//[_achievementsRequest startAsynchronous];
 }
 
--(void)goAddChore:(NSNotification *)notification {
+-(void)_goAddChore:(NSNotification *)notification {
+	//NSLog(@"GO ADD CHORE:[%@]", (DIDevice *)[notification object]);
 	
 	/*
 	 [UIView animateWithDuration:0.15 animations:^{
@@ -272,7 +281,7 @@
 	 }];
 	 */
 	
-	DIAddNewRewardViewController *addChoreViewController = [[[DIAddNewRewardViewController alloc] init] autorelease];
+	DIAddNewRewardViewController *addChoreViewController = [[[DIAddNewRewardViewController alloc] initWithDevice:(DIDevice *)[notification object]] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:addChoreViewController] autorelease];
 	[self.navigationController presentModalViewController:navigationController animated:YES];
 }
@@ -445,7 +454,7 @@
 					page++;
 				}
 				
-				_paginationView = [[DIPaginationView alloc] initWithTotal:[_devices count] coords:CGPointMake(160, 330)];
+				_paginationView = [[DIPaginationView alloc] initWithTotal:[_devices count] coords:CGPointMake(160, 340)];
 				[self.view addSubview:_paginationView];
 			}			
 		}

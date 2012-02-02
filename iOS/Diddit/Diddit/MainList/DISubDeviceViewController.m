@@ -27,12 +27,12 @@
 	
 	_deviceImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"subdevice_BG.png"]];
 	CGRect frame = _deviceImgView.frame;
-	frame.origin.x = 90;
-	frame.origin.y = 50;
+	frame.origin.x = 85;
+	frame.origin.y = 30;
 	_deviceImgView.frame = frame;
 	[self.view addSubview:_deviceImgView];
 	
-	_deviceNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 210, 280, 52)];
+	_deviceNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 198, 280, 52)];
 	_deviceNameLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:32];
 	_deviceNameLabel.textColor = [UIColor colorWithRed:0.243 green:0.259 blue:0.247 alpha:1.0];
 	_deviceNameLabel.backgroundColor = [UIColor clearColor];
@@ -43,9 +43,9 @@
 	[self.view addSubview:_deviceNameLabel];
 	
 	
-	_infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 250, 280, 50)];
-	_infoLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:20];
-	_infoLabel.textColor = [UIColor colorWithRed:0.243 green:0.259 blue:0.247 alpha:1.0];
+	_infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 236, 280, 50)];
+	_infoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14];
+	_infoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 	_infoLabel.backgroundColor = [UIColor clearColor];
 	_infoLabel.textAlignment = UITextAlignmentCenter;
 	_infoLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
@@ -55,10 +55,10 @@
 	[self.view addSubview:_infoLabel];
 	
 	_rewardButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_rewardButton.frame = CGRectMake(110, 300, 100, 34);
+	_rewardButton.frame = CGRectMake(83, 286, 154, 34);
 	_rewardButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	[_rewardButton setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[_rewardButton setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[_rewardButton setBackgroundImage:[[UIImage imageNamed:@"greenCommonButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_rewardButton setBackgroundImage:[[UIImage imageNamed:@"greenCommonButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_rewardButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	_rewardButton.titleLabel.shadowColor = [UIColor blackColor];
 	_rewardButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
@@ -85,7 +85,7 @@
 
 #pragma mark - Navigation
 -(void)_goAddReward {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"PRESENT_ADD_CHORE" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"PRESENT_ADD_CHORE" object:_device];
 }
 
 @end

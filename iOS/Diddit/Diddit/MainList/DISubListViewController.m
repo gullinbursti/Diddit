@@ -307,14 +307,6 @@
 	[_activeChoresRequest setDelegate:self];
 	[_activeChoresRequest startAsynchronous];
 	
-	UILabel *appTypeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 300, 320, 26)] autorelease];
-	appTypeLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14];
-	appTypeLabel.textColor = [UIColor colorWithRed:0.243 green:0.259 blue:0.247 alpha:1.0];
-	appTypeLabel.backgroundColor = [UIColor clearColor];
-	appTypeLabel.textAlignment = UITextAlignmentCenter;
-	appTypeLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-	appTypeLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-	
 	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
 	//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
