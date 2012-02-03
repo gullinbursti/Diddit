@@ -11,7 +11,6 @@
 
 @interface DIDeviceViewCell : UITableViewCell {
 	UILabel *_titleLabel;
-	UILabel *_lockedLabel;
 	
 	DIDevice *_device;
 	BOOL _isSelected;

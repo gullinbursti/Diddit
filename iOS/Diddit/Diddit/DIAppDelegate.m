@@ -125,7 +125,7 @@
 }
 
 +(BOOL)isParentApp {
-	return ([[[DIAppDelegate profileForUser] objectForKey:@"app_type"] isEqualToString:@"master"]);
+	return ([[[DIAppDelegate profileForUser] objectForKey:@"type_id"] isEqualToString:@"1"]);
 }
 
 +(NSArray *)childDevices {
@@ -398,11 +398,11 @@
 	
 	switch (type_id) {
 		case 1:
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_REWARDS_LIST" object:nil];
 			break;
 			
 		case 2:
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_REWARDS_LIST" object:nil];
 			break;
 	}
 	/*

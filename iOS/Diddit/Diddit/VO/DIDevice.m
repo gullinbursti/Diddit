@@ -11,7 +11,7 @@
 @implementation DIDevice
 
 @synthesize dictionary;
-@synthesize device_id, device_name, os, type_id, isLocked, isMaster, ua_id, uuid;
+@synthesize device_id, device_name, os, type_id, ua_id, uuid;
 
 +(DIDevice *)deviceWithDictionary:(NSDictionary *)dictionary {
 	DIDevice *device = [[DIDevice alloc] init];
@@ -24,15 +24,10 @@
 	device.type_id = [[dictionary objectForKey:@"type_id"] intValue];
 	device.os = [dictionary objectForKey:@"os"];
 	device.device_name = [dictionary objectForKey:@"name"];
-	device.isMaster = (BOOL)([[dictionary objectForKey:@"master"] isEqual:@"Y"]);
-	device.isLocked = (BOOL)([[dictionary objectForKey:@"locked"] isEqual:@"Y"]);
 	
 	return (device);
 }
 
--(NSString *)locked {
-	return ((self.isLocked) ? @"LOCKED" : @"UNLOCKED");
-}
 
 -(void)dealloc {
 	

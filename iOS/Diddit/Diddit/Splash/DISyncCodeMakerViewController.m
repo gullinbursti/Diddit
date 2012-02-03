@@ -41,6 +41,7 @@
 		[_signupDataRequest setPostValue:[UIDevice currentDevice].name forKey:@"deviceName"];
 		[_signupDataRequest setPostValue:@"" forKey:@"username"];
 		[_signupDataRequest setPostValue:@"000" forKey:@"pin"];
+		[_signupDataRequest setPostValue:@"Y" forKey:@"master"];
 		[_signupDataRequest setDelegate:self];
 		[_signupDataRequest startAsynchronous];
 	}

@@ -90,57 +90,29 @@
 	
 		
 		
-		function activeByUserID($user_id, $sub_id) {
-            
-			if ($sub_id == "0") {
+		function activeByUserID($user_id) {
 
-				$query = 'SELECT `tblRewards`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost`, `tblChores`.`type_id` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` INNER JOIN `tblUsersChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
-				$res = mysql_query($query);
+			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblRewards`.`img_path`, `tblRewards`.`expires`, `tblIAPTypes`.`points`, `tblIAPTypes`.`cost`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblRewards`.`iap_id` = `tblIAPTypes`.`id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` ="'. $user_id .'" AND `tblRewards`.`status_id` =2 ORDER BY `tblRewards`.`added` DESC';
+			$res = mysql_query($query);
+		
+			// Return data, as JSON
+			$result = array();
 			
-				// Return data, as JSON
-				$result = array();
-				
-				// error performing query
-				if (mysql_num_rows($res) > 0) {
-				
-					while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-						array_push($result, array(
-							"id" => $row[0], 
-							"title" => $row[1], 
-							"info" => $row[2], 
-							"icoPath" => $row[3], 
-							"imgPath" => $row[4],
-							"expires" => $row[5], 
-							"points" => $row[6], 
-							"cost" => $row[7], 
-							"type_id" => $row[8]
-						));
-					}
-				}
+			// error performing query
+			if (mysql_num_rows($res) > 0) {
 			
-			} else {
-				$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost`, `tblChores`.`type_id` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` INNER JOIN `tblUsersChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`sub_id` = "'. $sub_id .'" AND `tblUsersChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
-				$res = mysql_query($query);
-			
-				// Return data, as JSON
-				$result = array();
-				
-				// error performing query
-				if (mysql_num_rows($res) > 0) {
-				
-					while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-						array_push($result, array(
-							"id" => $row[0], 
-							"title" => $row[1], 
-							"info" => $row[2], 
-							"icoPath" => $row[3], 
-							"imgPath" => $row[4],
-							"expires" => $row[5], 
-							"points" => $row[6], 
-							"cost" => $row[7], 
-							"type_id" => $row[8]
-						));
-					}
+				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					array_push($result, array(
+						"id" => $row[0], 
+						"title" => $row[1], 
+						"info" => $row[2], 
+						"icoPath" => $row[3], 
+						"imgPath" => $row[4],
+						"expires" => $row[5], 
+						"points" => $row[6], 
+						"cost" => $row[7], 
+						"type_id" => $row[8]
+					));
 				}
 			}
 			
@@ -204,7 +176,7 @@
 		function addNew($user_id, $subs_id, $iap_id, $chore_title, $chore_info, $cost, $expires, $image, $type_id) {
 			//echo ("user_id:[". $user_id ."] subs_ID:[". $subs_ID ."] iap_id:[". $iap_id ."] chore_title:[". $chore_title ." chore_info:[". $chore_info ."] cost:[". $cost ."] expires:[". $expires ."] image:[". $image ."] type_id:[". $type_id ."]");
 			
-			$query = 'SELECT `id`, `points` FROM `tblRewardTypes` WHERE `cost` = "'. $cost .'";';
+			$query = 'SELECT `id`, `points` FROM `tblIAPTypes` WHERE `cost` = "'. $cost .'";';
 			$row = mysql_fetch_row(mysql_query($query));
 
 			// has entry
@@ -218,21 +190,22 @@
 			}
 			
 			
-			$query = 'INSERT INTO `tblChores` (';
-			$query .= '`id`, `iap_id`, `title`, `info`, `ico_path`, `img_path`, `type_id`, `status_id`, `expires`, `added`, `modified`) ';
-			$query .= 'VALUES (NULL, "'. $iap_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "'. $type_id .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
+			$query = 'INSERT INTO `tblRewards` (';
+			$query .= '`id`, `title`, `info`, `ico_path`, `img_path`, `iap_id`, `type_id`, `status_id`, `expires`, `added`, `modified`) ';
+			$query .= 'VALUES (NULL, "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "'. $iap_id .'", "'. $type_id .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
 			$result = mysql_query($query); 
 			$chore_id = mysql_insert_id();
-			
+		   
 			$device_tokens = '[';
 			foreach (explode("|", $subs_id) as $sub_id) {
 				
-				$query = 'INSERT INTO `tblUsersChores` (';
-				$query .= '`user_id`, `sub_id`, `chore_id`) ';
+				$query = 'INSERT INTO `tblUsersRewards` (';
+				$query .= '`giver_id`, `reciever_id`, `reward_id`) ';
 				$query .= 'VALUES ("'. $user_id .'", "'. $sub_id .'", "'. $chore_id .'");';
 				$result = mysql_query($query);
 				
-				$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`master` = "N" AND `tblUsersDevices`.`user_id` ='. $user_id .' AND `tblDevices`.`id` ='. $sub_id .';';
+				//$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` ='. $user_id .' AND `tblDevices`.`id` ='. $sub_id .';';
+				$query = 'SELECT `ua_id` FROM `tblDevices` WHERE `tblDevices`.`id` ='. $sub_id .';';
 				$dev_row = mysql_fetch_row(mysql_query($query));
 				$device_tokens .= '"'. $dev_row[0] .'", ';
 			}
@@ -288,8 +261,8 @@
 	if (isset($_POST["action"])) {
 		switch ($_POST["action"]) {
 			case "1":
-				if (isset($_POST["userID"]) && isset($_POST['subID']))
-					 $json = $rewards->activeByUserID($_POST["userID"], $_POST['subID']);
+				if (isset($_POST["userID"]))
+					 $json = $rewards->activeByUserID($_POST["userID"]);
 				break;
 				
 			case "2":

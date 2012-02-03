@@ -91,7 +91,7 @@
 		}
 	
 		
-		function addNew($ua_id, $username, $pin, $uu_id, $os, $model, $device_name) {
+		function addNew($ua_id, $username, $pin, $uu_id, $os, $model, $device_name, $master) {
             
 			$query = 'SELECT `ua_id` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'";';
 			$device_res = mysql_fetch_row(mysql_query($query));
@@ -99,7 +99,13 @@
 
 			//$query = 'SELECT `id`, `device_id`, `username`, `email`, `pin`, `points` FROM `tblUsers` WHERE `device_id` = "'. $ua_id .'";';
 			//$res = mysql_fetch_row(mysql_query($query));
-
+            
+			if ($master == "Y")
+				$userType_id = 1;
+					
+			else
+				$userType_id = 3;
+					
 			// doesn't exists
 			if (!$device_res) {
 				
@@ -107,24 +113,39 @@
 				$type_res = mysql_fetch_row(mysql_query($query));
 				$type_id = $type_res[0];
 				
-				
 				$query = 'INSERT INTO `tblUsers` (';
-				$query .= '`id`, `username`, `email`, `pin`, `points`, `added`, `modified`) ';
-				$query .= 'VALUES (NULL, "", "'. $username .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
+				$query .= '`id`, `type_id`, `username`, `email`, `pin`, `points`, `added`, `modified`) ';
+				$query .= 'VALUES (NULL, "'. $userType_id .'", "", "'. $username .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
 				$result = mysql_query($query);
 			    $user_id = mysql_insert_id();
-			    
 
 				$query = 'INSERT INTO `tblDevices` (';
-				$query .= '`id`, `uuid`, `ua_id`, `type_id`, `os`, `name`, `master`, `added`, `modified`) ';
-				$query .= 'VALUES (NULL, "'. $uu_id .'", "'. $ua_id .'", "'. $type_id .'", "'. $os .'", "'. $device_name .'", "Y", NOW(), CURRENT_TIMESTAMP);';
+				$query .= '`id`, `uuid`, `ua_id`, `type_id`, `os`, `name`, `added`, `modified`) ';
+				$query .= 'VALUES (NULL, "'. $uu_id .'", "'. $ua_id .'", "'. $type_id .'", "'. $os .'", "'. $device_name .'", NOW(), CURRENT_TIMESTAMP);';
 				$result = mysql_query($query);
 			    $device_id = mysql_insert_id();
 			
 				$query = 'INSERT INTO `tblUsersDevices` (';
 				$query .= '`user_id`, `device_id`) ';
-				$query .= 'VALUES ('. $user_id .', '. $device_id .';';
+				$query .= 'VALUES ("'. $user_id .'", "'. $device_id .'");';
 				$result = mysql_query($query);
+				
+				
+				if ($master == "N") {
+					$query = 'SELECT `user_id` FROM `tblSyncCodes` WHERE `value` = "'. $pin .'"';
+					$sync_row = mysql_fetch_row(mysql_query($query));
+					
+					if ($sync_row) {				
+						$master_id = $sync_row[0];
+						$query = 'UPDATE `tblSyncCodes` SET `user_id` =0 WHERE `value` ="'. $pin .'";';
+			    		$result = mysql_query($query);
+			
+						$query = 'INSERT INTO `tblGiversRecievers` (';
+						$query .= '`giver_id`, `reciever_id`) ';
+						$query .= 'VALUES ('. $master_id .', '. $user_id .');';
+						$result = mysql_query($query);
+					}	
+				}
 				
 				
 				//$query = 'INSERT INTO `tblUsers` (';
@@ -141,13 +162,13 @@
 					"email" => "", 
 					"pin" => $pin,
 					"points" => 0, 
-					"app_type" => "master" 
+					"type_id" => $userType_id 
 				);
 
 				$this->sendResponse(200, json_encode($result));
 
 			} else {
-				$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
+				$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points`, `tblUsers`.`type_id` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
 				$user_res = mysql_fetch_row(mysql_query($query));
 			
 				//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
@@ -161,91 +182,13 @@
 					"email" => $user_res[2],
 					"pin" => $user_res[3],
 					"points" => $user_res[4], 
-					"app_type" => "master"
+					"type_id" => $user_res[5]
 				)));
 			}
 			
 			return (true);
 		}
 		
-		
-		function addNewDevice($uuid, $ua_id, $device_name, $model, $os, $hex) {
-			
-			$query = 'SELECT `id` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'"';
-			$dev_row = mysql_fetch_row(mysql_query($query));
-			
-			if (!$dev_row) {
-				$query = 'SELECT `user_id` FROM `tblSyncCodes` WHERE `value` = "'. $hex .'"';
-				$hex_row = mysql_fetch_row(mysql_query($query));
-				
-				if ($hex_row) {				
-					$user_id = $hex_row[0];
-				    
-					$query = 'SELECT `id` FROM `tblDeviceTypes` WHERE `title` = "'. $model .'";';
-					$type_res = mysql_fetch_row(mysql_query($query));
-					$type_id = $type_res[0];
-				    
-					$query = 'INSERT INTO `tblDevices` (';
-					$query .= '`id`, `uuid`, `ua_id`, `type_id`, `os`, `name`, `master`, `added`, `modified`) ';
-					$query .= 'VALUES (NULL, "'. $uu_id .'", "'. $ua_id .'", "'. $type_id .'", "'. $os .'", "'. $device_name .'", "N", NOW(), CURRENT_TIMESTAMP);';
-					$result = mysql_query($query);
-				    $device_id = mysql_insert_id();
-			
-					$query = 'INSERT INTO `tblUsersDevices` (';
-					$query .= '`user_id`, `device_id`) ';
-					$query .= 'VALUES ('. $user_id .', '. $device_id .');';
-					$result = mysql_query($query);
-					
-					$query = 'UPDATE `tblSyncCodes` SET `user_id` =0 WHERE `value` ="'. $hex .'";';
-			    	$result = mysql_query($query);
-			
-					$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
-					$user_res = mysql_fetch_row(mysql_query($query));
-					
-					//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
-					//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
-					//$tot_res = mysql_query($query);				
-					//$tot = mysql_num_rows($tot_res);
-					
-					$this->sendResponse(200, json_encode(array(
-						"id" => $user_res[0], 
-						"device_id" => $ua_id, 
-						"username" => $user_res[1],
-						"email" => $user_res[2],
-						"pin" => $user_res[3],
-						"points" => $user_res[4], 
-						"app_type" => "sub"
-					)));
-				
-				} else {
-					$this->sendResponse(200, json_encode(array(
-						"result" => "code not found"
-					)));	
-				}
-			
-			} else {
-				$query = 'UPDATE `tblSyncCodes` SET `user_id` =0 WHERE `value` ="'. $hex .'";';
-			    $result = mysql_query($query);
-			
-			 	$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
-				$user_res = mysql_fetch_row(mysql_query($query));
-				
-				//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
-				//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
-				//$tot_res = mysql_query($query);				
-				//$tot = mysql_num_rows($tot_res);
-				
-				$this->sendResponse(200, json_encode(array(
-					"id" => $user_res[0], 
-					"device_id" => $ua_id, 
-					"username" => $user_res[1],
-					"email" => $user_res[2],
-					"pin" => $user_res[3],
-					"points" => $user_res[4], 
-					"app_type" => "sub"
-				)));	
-			}
-		}
 		
 		function nextSyncCode($user_id) {
 			/*
@@ -287,13 +230,7 @@
                 
 				//$query = 'SELECT `id`, `master` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'";';
                 //$dev_row = mysql_fetch_row(mysql_query($query));
-
-				//if ($dev_row[1] == "Y")
-					$app_type = "master";
-					
-				//else
-			    //    $app_type = "sub";
-                
+				$type_id = $row[1];
                 
 				$dev_arr = array();
 				if ($app_type == "master") {
@@ -321,7 +258,7 @@
 						"email" => $row[3], 
 						"pin" => $row[4], 
 						"points" => $row[5], 
-						"app_type" => $app_type,
+						"type_id" => $type_id,
 						"devices" => $dev_arr
 					);
 				
@@ -335,12 +272,12 @@
 					$result = array(
 						"id" => $row[0], 
 						"device_id" => $ua_id, 
-						"sub_id" => $dev_row[0], 
+						"sub_id" => "", 
 						"username" => $row[2], 
 						"email" => $row[3], 
 						"pin" => $row[4], 
 						"points" => $row[5], 
-						"app_type" => $app_type,
+						"type_id" => $type_id,
 						"devices" => $dev_arr
 					);
 				}
@@ -414,20 +351,21 @@
 		
 		function getDevices($user_id) {
 			
-			$query = 'SELECT * FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $user_id .'";';
-			$dev_res = mysql_query($query);
+			$query = 'SELECT `reciever_id` FROM `tblGiversRecievers` WHERE `giver_id` ="'. $user_id .'"';
+			$reciever_res = mysql_query($query);
 			$dev_arr = array();
-				
-			while ($dev_row = mysql_fetch_array($dev_res, MYSQL_BOTH)) {
+			
+			while ($reciever_row = mysql_fetch_array($reciever_res, MYSQL_BOTH)) {
+				$query = 'SELECT * FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $reciever_row[0] .'";';
+				$dev_row = mysql_fetch_row(mysql_query($query));
+
 				array_push($dev_arr, array(
-					"id" => $dev_row['id'],
-					"uuid" => $dev_row['uuid'], 
-					"ua_id" => $dev_row['ua_id'], 
-					"type_id" => $dev_row['type_id'], 
-					"os" => $dev_row['os'], 
-					"name" => $dev_row['name'], 
-					"master" => $dev_row['master'], 
-					"locked" => $dev_row['locked']
+					"id" => $dev_row[0],
+					"uuid" => $dev_row[1], 
+					"ua_id" => $dev_row[2], 
+					"type_id" => $dev_row[3], 
+					"os" => $dev_row[4], 
+					"name" => $dev_row[5]
 				));
 			}
 			$this->sendResponse(200, json_encode($dev_arr));
@@ -447,8 +385,8 @@
 	if (isset($_POST['action'])) {
 		switch ($_POST['action']) {
 			case "0":
-				if (isset($_POST["uaID"]) && isset($_POST['username']) && isset($_POST['pin']) && isset($_POST['uuID']) && isset($_POST['os']) && isset($_POST['model']) && isset($_POST['deviceName']))
-					$users->addNew($_POST['uaID'], $_POST['username'], $_POST['pin'], $_POST['uuID'], $_POST['os'], $_POST['model'], $_POST['deviceName']);
+				if (isset($_POST["uaID"]) && isset($_POST['username']) && isset($_POST['pin']) && isset($_POST['uuID']) && isset($_POST['os']) && isset($_POST['model']) && isset($_POST['deviceName']) && isset($_POST['master']))
+					$users->addNew($_POST['uaID'], $_POST['username'], $_POST['pin'], $_POST['uuID'], $_POST['os'], $_POST['model'], $_POST['deviceName'], $_POST['master']);
 				break;
 				
 			case "1":
@@ -476,11 +414,6 @@
 					$users->nextSyncCode($_POST['userID']);
 				break;
 				
-		   case "6":
-				if (isset($_POST['uuID']) && isset($_POST['uaID']) && isset($_POST['deviceName']) && isset($_POST['model']) && isset($_POST['os']) && isset($_POST['pinCode']))
-					$users->addNewDevice($_POST['uuID'], $_POST['uaID'], $_POST['deviceName'], $_POST['model'], $_POST['os'], $_POST['pinCode']);
-				break;
-		   
 		   case "7":
 				if (isset($_POST['userID']))
 					$users->getDevices($_POST['userID']);

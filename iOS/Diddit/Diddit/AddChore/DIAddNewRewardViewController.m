@@ -244,7 +244,7 @@
 	NSLog(@"iapID:[%d]", _pricePak.iap_id);
 
 	
-	_addChoreDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	_addChoreDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
 	[_addChoreDataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
 	[_addChoreDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_addChoreDataRequest setPostValue:_titleTxtField.text forKey:@"choreTitle"];

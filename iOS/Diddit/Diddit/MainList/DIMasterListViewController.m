@@ -150,8 +150,8 @@
 	rewardButton.frame = CGRectMake(125, 357.0, 79, 54);
 	[rewardButton setBackgroundImage:[[UIImage imageNamed:@"reward_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[rewardButton setBackgroundImage:[[UIImage imageNamed:@"reward_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[rewardButton addTarget:self action:@selector(_goFooterAnimation) forControlEvents:UIControlEventTouchDown];
-	[rewardButton addTarget:self action:@selector(goRewards) forControlEvents:UIControlEventTouchUpInside];
+	//[rewardButton addTarget:self action:@selector(_goFooterAnimation) forControlEvents:UIControlEventTouchDown];
+	//[rewardButton addTarget:self action:@selector(goRewards) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:rewardButton];
 	
 	_devicesScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height - 100.0)];
@@ -209,10 +209,10 @@
 	
 	[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	_activityTableView.hidden = NO;
-	[_activityTableView reloadData];
+	//_activityTableView.hidden = NO;
+	//[_activityTableView reloadData];
 	
-	[_activityTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_activityTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 

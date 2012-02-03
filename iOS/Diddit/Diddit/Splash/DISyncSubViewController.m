@@ -165,13 +165,15 @@
 		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];
 	
 	ASIFormDataRequest *syncDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
-	[syncDataRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
+	[syncDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	[syncDataRequest setPostValue:[DIAppDelegate deviceUUID] forKey:@"uuID"];
 	[syncDataRequest setPostValue:[UIDevice currentDevice].model forKey:@"model"];
 	[syncDataRequest setPostValue:[UIDevice currentDevice].systemVersion forKey:@"os"];
 	[syncDataRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"uaID"];
 	[syncDataRequest setPostValue:[UIDevice currentDevice].name forKey:@"deviceName"];
-	[syncDataRequest setPostValue:[_enteredCode uppercaseString] forKey:@"pinCode"];
+	[syncDataRequest setPostValue:[_enteredCode uppercaseString] forKey:@"pin"];
+	[syncDataRequest setPostValue:@"N" forKey:@"master"];
+	[syncDataRequest setPostValue:@"" forKey:@"username"];
 	[syncDataRequest setDelegate:self];
 	[syncDataRequest startAsynchronous];
 }
@@ -256,9 +258,8 @@
 			NSLog(@"NEW USER: %@", parsedUser);
 			[DIAppDelegate setUserProfile:parsedUser];
 			
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"CONCEAL_WELCOME_SCREEN" object:nil];
 			[self dismissViewControllerAnimated:YES completion:^(void) {
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"PRESENT_SUB_LIST" object:nil];
 			}];
 		}
 	}

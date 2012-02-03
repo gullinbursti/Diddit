@@ -20,12 +20,9 @@
 @property (nonatomic, retain) NSString *ua_id;
 @property (nonatomic) int type_id;
 @property (nonatomic, retain) NSString *os;
-@property (nonatomic) BOOL isMaster;
-@property (nonatomic) BOOL isLocked;
 
 
 
 +(DIDevice *)deviceWithDictionary:(NSDictionary *)dictionary;
--(NSString *)locked;
 
 @end

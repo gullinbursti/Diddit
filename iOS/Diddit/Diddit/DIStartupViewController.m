@@ -9,6 +9,7 @@
 #import "DIStartupViewController.h"
 
 #import "DIMasterListViewController.h"
+#import "DISubListViewController.h"
 
 @implementation DIStartupViewController
 
@@ -16,6 +17,7 @@
 -(id)init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goMasterList:) name:@"PRESENT_MASTER_LIST" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goSubList:) name:@"PRESENT_SUB_LIST" object:nil];
 	}
 	
 	return (self);
@@ -51,6 +53,13 @@
 -(void)_goMasterList:(NSNotification *)notification {
 	DIMasterListViewController *masterListViewController = [[[DIMasterListViewController alloc] init] autorelease];
 	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:masterListViewController] autorelease];
+	[self.navigationController presentViewController:navigationController animated:NO completion:nil];	
+}
+
+-(void)_goSubList:(NSNotification *)notification {
+	DISubListViewController *subListViewController = [[[DISubListViewController alloc] init] autorelease];
+	UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:subListViewController] autorelease];
+	[self.navigationController setNavigationBarHidden:NO];
 	[self.navigationController presentViewController:navigationController animated:NO completion:nil];	
 }
 @end

@@ -33,15 +33,7 @@
 		_titleLabel.shadowColor = [UIColor whiteColor];
 		_titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		[self addSubview:_titleLabel];
-		
-		_lockedLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 58, 185.0, 22)];
-		_lockedLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
-		_lockedLabel.backgroundColor = [UIColor clearColor];
-		_lockedLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_lockedLabel.shadowColor = [UIColor whiteColor];
-		_lockedLabel.shadowOffset = CGSizeMake(1.0, 1.0);
-		[self addSubview:_lockedLabel];
-		
+				
 		_overlayImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tablerow-l_BG.png"]];
 		_overlayImgView.hidden = YES;
 		[self addSubview:_overlayImgView];
@@ -55,7 +47,6 @@
 	_device = device;
 	
 	_titleLabel.text = _device.device_name;		
-	_lockedLabel.text = _device.locked;
 	
 	self.isSelected = NO;
 }
