@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "DIStartupViewController.h"
 #import "DIMasterListViewController.h"
 #import "DISubListViewController.h"
 #import "ASIFormDataRequest.h"
@@ -19,6 +20,7 @@
 
 @interface DIAppDelegate : UIResponder <UIApplicationDelegate, ASIHTTPRequestDelegate, UAPushNotificationDelegate> {
 	
+	DIStartupViewController *_startupViewController;
 	DIMasterListViewController *_masterListViewController;
 	DISubListViewController *_subListViewController;
 	

@@ -1,6 +1,6 @@
 <?php
 
-	class AppStore {	
+	class InAppPurchases {	
 		private $db_conn;
 		
 		function __construct() {
@@ -90,7 +90,7 @@
 	
 		
 		
-		function activeIAP() {
+		function allTypes() {
 
 			$query = 'SELECT * FROM `tblIAPTypes` WHERE `active` = "Y";';
 			$res = mysql_query($query);
@@ -118,12 +118,20 @@
 			return (true);  
 		}
 		
-		function addReceipt($user_id, $trans_id, $trans_data, $trans_date) {
+		function addReceipt($user_id, $subs_id, $trans_id, $trans_data, $trans_date) {
+			
 			$query = 'INSERT INTO `tblReceipts` (';
-			$query .= '`id`, `user_id`, `trans_id`, `trans_date`, `trans_data`, `added`) ';
-			$query .= 'VALUES (NULL, "'. $user_id .'", "'. $trans_id .'", "'. $trans_date .'", "'. $trans_data .'", CURRENT_TIMESTAMP);';
+			$query .= '`id`, `trans_id`, `trans_date`, `trans_data`, `added`) ';
+			$query .= 'VALUES (NULL, "'. $trans_id .'", "'. $trans_date .'", "'. $trans_data .'", CURRENT_TIMESTAMP);';
 			$result = mysql_query($query);
 			$receipt_id = mysql_insert_id();
+			
+			foreach (explode("|", $subs_id) as $sub_id) {
+				$query = 'INSERT INTO `tblUsersReceipts` (';
+				$query .= '`receipt_id`, `user_id`, `sub_id`) ';
+				$query .= 'VALUES (NULL, "'. $receipt_id .'", "'. $user_id .'", "'. $sub_id .'");';
+				$result = mysql_query($query);
+			}
 			
 			$this->sendResponse(200, json_encode(array(
 				"id" => $receipt_id
@@ -131,17 +139,17 @@
 		}
 	}
 	
-	$appStore = new AppStore;
+	$inAppPurchases = new InAppPurchases;
 	
 	if (isset($_POST["action"])) {
 		switch ($_POST["action"]) {
 			case "1":
-				$appStore_json = $appStore->activeIAP();
+				$json = $inAppPurchases->allTypes();
 				break;
 			
 			case "2":
-			 	if (isset($_POST['userID']) && isset($_POST['transID']) && isset($_POST['data']) && isset($_POST['transDate']))
-					$appStore_json = $appStore->addReceipt($_POST['userID'], $_POST['transID'], $_POST['data'], $_POST['transDate']);
+			 	if (isset($_POST['userID']) && isset($_POST['subIDs']) && isset($_POST['transID']) && isset($_POST['data']) && isset($_POST['transDate']))
+					$json = $inAppPurchases->addReceipt($_POST['userID'], $_POST['subIDs'], $_POST['transID'], $_POST['data'], $_POST['transDate']);
 				break;
 		}
 	}   

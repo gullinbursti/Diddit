@@ -90,27 +90,57 @@
 	
 		
 		
-		function allTypes() {
+		function activeByUserID($user_id, $sub_id) {
+            
+			if ($sub_id == "0") {
 
-			$query = 'SELECT * FROM `tblRewardTypes` WHERE `active` = "Y";';
-			$res = mysql_query($query);
+				$query = 'SELECT `tblRewards`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost`, `tblChores`.`type_id` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` INNER JOIN `tblUsersChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
+				$res = mysql_query($query);
 			
-			// Return data, as JSON
-			$result = array();
+				// Return data, as JSON
+				$result = array();
 				
-			// error performing query
-			if (mysql_num_rows($res) > 0) {
+				// error performing query
+				if (mysql_num_rows($res) > 0) {
 				
-				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
-					array_push($result, array(
-						"id" => $row['id'], 
-						"name" => $row['name'], 
-						"info" => $row['info'], 
-						"itunes_id" => $row['itunes_id'], 
-						"points" => $row['points'],
-						"price" => $row['cost'], 
-						"ico_url" => $row['ico_url']
-					));
+					while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+						array_push($result, array(
+							"id" => $row[0], 
+							"title" => $row[1], 
+							"info" => $row[2], 
+							"icoPath" => $row[3], 
+							"imgPath" => $row[4],
+							"expires" => $row[5], 
+							"points" => $row[6], 
+							"cost" => $row[7], 
+							"type_id" => $row[8]
+						));
+					}
+				}
+			
+			} else {
+				$query = 'SELECT `tblChores`.`id`, `tblChores`.`title`, `tblChores`.`info`, `tblChores`.`ico_path`, `tblChores`.`img_path`, `tblChores`.`expires`, `tblRewardTypes`.`points`, `tblRewardTypes`.`cost`, `tblChores`.`type_id` FROM `tblChores` INNER JOIN `tblRewardTypes` ON `tblChores`.`iap_id` = `tblRewardTypes`.`id` INNER JOIN `tblUsersChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`sub_id` = "'. $sub_id .'" AND `tblUsersChores`.`user_id` ='. $user_id .' AND `tblChores`.`status_id` =2 ORDER BY `tblChores`.`added` DESC;';
+				$res = mysql_query($query);
+			
+				// Return data, as JSON
+				$result = array();
+				
+				// error performing query
+				if (mysql_num_rows($res) > 0) {
+				
+					while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+						array_push($result, array(
+							"id" => $row[0], 
+							"title" => $row[1], 
+							"info" => $row[2], 
+							"icoPath" => $row[3], 
+							"imgPath" => $row[4],
+							"expires" => $row[5], 
+							"points" => $row[6], 
+							"cost" => $row[7], 
+							"type_id" => $row[8]
+						));
+					}
 				}
 			}
 			
@@ -118,39 +148,184 @@
 			return (true);  
 		}
 		
-		function addReceipt($user_id, $subs_id, $trans_id, $trans_data, $trans_date) {
+		
+		
+		function finishedByUserID($user_id) {
+
+			$query = 'SELECT * FROM `tblChores` INNER JOIN `tblUsersChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblUsersChores`.`status_id` = "4" ORDER BY `tblUsersChores`.`added`;';
+			$res = mysql_query($query);
 			
-			$query = 'INSERT INTO `tblReceipts` (';
-			$query .= '`id`, `trans_id`, `trans_date`, `trans_data`, `added`) ';
-			$query .= 'VALUES (NULL, "'. $trans_id .'", "'. $trans_date .'", "'. $trans_data .'", CURRENT_TIMESTAMP);';
-			$result = mysql_query($query);
-			$receipt_id = mysql_insert_id();
-			
-			foreach (explode("|", $subs_id) as $sub_id) {
-				$query = 'INSERT INTO `tblUsersReceipts` (';
-				$query .= '`receipt_id`, `user_id`, `sub_id`) ';
-				$query .= 'VALUES (NULL, "'. $receipt_id .'", "'. $user_id .'", "'. $sub_id .'");';
-				$result = mysql_query($query);
+			// Return data, as JSON
+			$result = array(); 
+				
+			// error performing query
+			if (mysql_num_rows($res) > 0) {
+			    while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					array_push($result, array(
+						"id" => $row['id'], 
+						"title" => $row['title'], 
+						"info" => $row['info'], 
+						"icoPath" => $row['ico_path'], 
+						"imgPath" => $row['img_path'], 
+						"finished" => "Y"
+					));
+				} 
 			}
 			
+			$this->sendResponse(200, json_encode($result));
+			return (true);   
+		}
+		
+		function updStatusByUserID($user_id, $chore_id, $status_id) {
+			
+			$query = 'UPDATE `tblChores` SET `status_id` ='. $status_id .' WHERE `id` = "'. $chore_id .'";';
+			$result = mysql_query($query);
+			
+			
+			if ($status_id == 4) {
+				$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`master` = "Y" AND `tblUsersDevices`.`user_id`='. $user_id .'';
+				$row = mysql_fetch_row(mysql_query($query));
+				
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+				curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+				curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $row[0] .'"], "type": "2", "aps": {"alert": { "body": "Chore Added ('. $chore_title .')"}, "badge": "+1"}}');				
+			}
+			
+			
+			return (true);
+		}
+		
+		
+		function addNew($user_id, $subs_id, $iap_id, $chore_title, $chore_info, $cost, $expires, $image, $type_id) {
+			//echo ("user_id:[". $user_id ."] subs_ID:[". $subs_ID ."] iap_id:[". $iap_id ."] chore_title:[". $chore_title ." chore_info:[". $chore_info ."] cost:[". $cost ."] expires:[". $expires ."] image:[". $image ."] type_id:[". $type_id ."]");
+			
+			$query = 'SELECT `id`, `points` FROM `tblRewardTypes` WHERE `cost` = "'. $cost .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+
+			// has entry
+			if ($row) {
+                $iap_id = $row[0];
+				$points = $row[1];
+			
+			} else {
+				$iap_id = 0;
+				$points = 0;
+			}
+			
+			
+			$query = 'INSERT INTO `tblChores` (';
+			$query .= '`id`, `iap_id`, `title`, `info`, `ico_path`, `img_path`, `type_id`, `status_id`, `expires`, `added`, `modified`) ';
+			$query .= 'VALUES (NULL, "'. $iap_id .'", "'. $chore_title .'", "'. $chore_info .'", "", "'. $image .'", "'. $type_id .'", "2", "'. $expires .'", NOW(), CURRENT_TIMESTAMP);';
+			$result = mysql_query($query); 
+			$chore_id = mysql_insert_id();
+			
+			$device_tokens = '[';
+			foreach (explode("|", $subs_id) as $sub_id) {
+				
+				$query = 'INSERT INTO `tblUsersChores` (';
+				$query .= '`user_id`, `sub_id`, `chore_id`) ';
+				$query .= 'VALUES ("'. $user_id .'", "'. $sub_id .'", "'. $chore_id .'");';
+				$result = mysql_query($query);
+				
+				$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`master` = "N" AND `tblUsersDevices`.`user_id` ='. $user_id .' AND `tblDevices`.`id` ='. $sub_id .';';
+				$dev_row = mysql_fetch_row(mysql_query($query));
+				$device_tokens .= '"'. $dev_row[0] .'", ';
+			}
+				
+			$device_tokens = substr($device_tokens, 0, -2) .']';
+			
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+			curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": '. $device_tokens .', "type": "1", "aps": {"alert": { "body": "Chore Added ('. $chore_title .')"}, "badge": "+1"}}');
+			
+			//$ch = curl_init();
+			//curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+			//curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+			//curl_setopt($ch, CURLOPT_POST, 1);
+			//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+			//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'"}, "badge": "+1"}}');
+		                                               
+			$res = curl_exec($ch);
+			$err_no = curl_errno($ch);
+			$err_msg = curl_error($ch);
+			$header = curl_getinfo($ch);
+			curl_close($ch);
+			
+			
 			$this->sendResponse(200, json_encode(array(
-				"id" => $receipt_id
-			)));  
+				"id" => $chore_id, 
+				"title" => $chore_title, 
+				"info" => $chore_info, 
+				"icoPath" => "", 
+				"imgPath" => $image,
+				"expires" => $expires, 
+				"points" => $points, 
+				"cost" => $cost, 
+				"type_id" => $type_id
+			)));
+			
+			return (true);
 		}
 	}
 	
 	$rewards = new Rewards;
 	
+	//$user_id= "2";
+	//$chores->availByUserID($user_id);
+	
 	if (isset($_POST["action"])) {
 		switch ($_POST["action"]) {
 			case "1":
-				$rewards_json = $rewards->allTypes();
+				if (isset($_POST["userID"]) && isset($_POST['subID']))
+					 $json = $rewards->activeByUserID($_POST["userID"], $_POST['subID']);
 				break;
-			
+				
 			case "2":
-			 	if (isset($_POST['userID']) && isset($_POST['subIDs']) && isset($_POST['transID']) && isset($_POST['data']) && isset($_POST['transDate']))
-					$rewards_json = $rewards->addReceipt($_POST['userID'], $_POST['subIDs'], $_POST['transID'], $_POST['data'], $_POST['transDate']);
+				if (isset($_POST["userID"]))
+					 $json = $rewards->finishedByUserID($_POST["userID"]);
+				break;
+				
+			case "3":
+				if (isset($_POST["userID"]) && isset($_POST['choreID']))
+					 $json = $rewards->updStatusByUserID($_POST["userID"], $_POST['choreID'], 1);
+				break;
+				
+			case "4":
+				if (isset($_POST["userID"]) && isset($_POST['choreID']))
+					 $json = $rewards->updStatusByUserID($_POST["userID"], $_POST['choreID'], 2);
+				break;
+				
+			case "5":
+				if (isset($_POST["userID"]) && isset($_POST['choreID']))
+					 $json = $rewards->updStatusByUserID($_POST["userID"], $_POST['choreID'], 3);
+				break;
+				
+			case "6":
+				if (isset($_POST["userID"]) && isset($_POST['choreID']))
+					 $json = $rewards->updStatusByUserID($_POST["userID"], $_POST['choreID'], 4);
+				break;
+				
+		   case "7":
+				if (isset($_POST["userID"]) && isset($_POST['subIDs']) && isset($_POST['iapID']) && isset($_POST['choreTitle']) && isset($_POST['choreInfo']) && isset($_POST['cost']) && isset($_POST['expires']) && isset($_POST['image']) && isset($_POST['type_id']))
+					 $json = $rewards->addNew($_POST['userID'], $_POST['subIDs'], $_POST['iapID'], $_POST['choreTitle'], $_POST['choreInfo'], $_POST['cost'], $_POST['expires'], $_POST['image'], $_POST['type_id']);
 				break;
 		}
 	}   
+	
+	//if (isset($_POST["fbid"])) {
+	//    $fb_id = $_POST["fbid"];
+	//	$userInfo_arr = $jobs->jobSearch($fb_id);
+	//}
 ?>

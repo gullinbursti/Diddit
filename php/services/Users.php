@@ -141,7 +141,6 @@
 					"email" => "", 
 					"pin" => $pin,
 					"points" => 0, 
-					"finished" => 0,
 					"app_type" => "master" 
 				);
 
@@ -151,9 +150,9 @@
 				$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
 				$user_res = mysql_fetch_row(mysql_query($query));
 			
-				$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
-				$tot_res = mysql_query($query);				
-				$tot = mysql_num_rows($tot_res);
+				//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
+				//$tot_res = mysql_query($query);				
+				//$tot = mysql_num_rows($tot_res);
 				
 				$this->sendResponse(200, json_encode(array(
 					"id" => $user_res[0], 
@@ -162,7 +161,6 @@
 					"email" => $user_res[2],
 					"pin" => $user_res[3],
 					"points" => $user_res[4], 
-					"finished" => $tot, 
 					"app_type" => "master"
 				)));
 			}
@@ -204,10 +202,10 @@
 					$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblDevices`.`ua_id` = "'. $ua_id .'";';
 					$user_res = mysql_fetch_row(mysql_query($query));
 					
-					$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
+					//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
 					//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
-					$tot_res = mysql_query($query);				
-					$tot = mysql_num_rows($tot_res);
+					//$tot_res = mysql_query($query);				
+					//$tot = mysql_num_rows($tot_res);
 					
 					$this->sendResponse(200, json_encode(array(
 						"id" => $user_res[0], 
@@ -216,7 +214,6 @@
 						"email" => $user_res[2],
 						"pin" => $user_res[3],
 						"points" => $user_res[4], 
-						"finished" => $tot, 
 						"app_type" => "sub"
 					)));
 				
@@ -234,9 +231,9 @@
 				$user_res = mysql_fetch_row(mysql_query($query));
 				
 				//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_res[0] .'" AND `status_id` = "4" ORDER BY `added`;';
-				$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
-				$tot_res = mysql_query($query);				
-				$tot = mysql_num_rows($tot_res);
+				//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_res[0] .'" AND `tblChores`.`status_id` =4;';
+				//$tot_res = mysql_query($query);				
+				//$tot = mysql_num_rows($tot_res);
 				
 				$this->sendResponse(200, json_encode(array(
 					"id" => $user_res[0], 
@@ -245,7 +242,6 @@
 					"email" => $user_res[2],
 					"pin" => $user_res[3],
 					"points" => $user_res[4], 
-					"finished" => $tot,
 					"app_type" => "sub"
 				)));	
 			}
@@ -264,7 +260,7 @@
 				)));
 			
 			} else {*/
-				$query = 'SELECT `value` FROM `tblSyncCodes` WHERE `user_id` =0 ORDER BY RAND() LIMIT 1;';
+				$query = 'SELECT `value` FROM `tblSyncCodes` WHERE `user_id` =0 ORDER BY RAND() LIMIT 0,1;';
 				$row = mysql_fetch_row(mysql_query($query));
 			
 				if ($row) {
@@ -289,14 +285,14 @@
 			// has user
 			if ($row) {
                 
-				$query = 'SELECT `id`, `master` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'";';
-                $dev_row = mysql_fetch_row(mysql_query($query));
+				//$query = 'SELECT `id`, `master` FROM `tblDevices` WHERE `ua_id` = "'. $ua_id .'";';
+                //$dev_row = mysql_fetch_row(mysql_query($query));
 
-				if ($dev_row[1] == "Y")
+				//if ($dev_row[1] == "Y")
 					$app_type = "master";
 					
-				else
-			    	$app_type = "sub";
+				//else
+			    //    $app_type = "sub";
                 
                 
 				$dev_arr = array();
@@ -311,10 +307,10 @@
 						));
 			    	}
 			
-					$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` =4;';
+					//$query = 'SELECT * FROM `tblUsersRewards` INNER JOIN `tblRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE (`tblUsersRewards`.`giver_id` = "'. $id .'" OR `tblUsersRewards`.`reciever`.`id` = "'. $id .'") AND `tblRewards`.`status_id` =4;';
 					//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
-					$tot_res = mysql_query($query);				
-					$tot = mysql_num_rows($tot_res);
+					//$tot_res = mysql_query($query);				
+					//$tot mysql_num_rows($tot_res);
 
 					// Return data, as JSON
 					$result = array(
@@ -325,16 +321,15 @@
 						"email" => $row[3], 
 						"pin" => $row[4], 
 						"points" => $row[5], 
-						"finished" => $tot, 
 						"app_type" => $app_type,
 						"devices" => $dev_arr
 					);
 				
 				} else {
                     
-					$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`sub_id` = "'. $dev_row[0] .'" AND `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` = "4" ORDER BY `tblChores`.`added`;';
-					$tot_res = mysql_query($query);				
-					$tot = mysql_num_rows($tot_res);
+					//$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblChores`.`id` = `tblUsersChores`.`chore_id` WHERE `tblUsersChores`.`sub_id` = "'. $dev_row[0] .'" AND `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` = "4" ORDER BY `tblChores`.`added`;';
+					//$tot_res = mysql_query($query);				
+					//$tot = mysql_num_rows($tot_res);
 
 					// Return data, as JSON
 					$result = array(
@@ -345,7 +340,6 @@
 						"email" => $row[3], 
 						"pin" => $row[4], 
 						"points" => $row[5], 
-						"finished" => $tot, 
 						"app_type" => $app_type,
 						"devices" => $dev_arr
 					);
@@ -420,7 +414,7 @@
 		
 		function getDevices($user_id) {
 			
-			$query = 'SELECT * FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $user_id .'" AND `tblDevices`.`master` = "N"';
+			$query = 'SELECT * FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $user_id .'";';
 			$dev_res = mysql_query($query);
 			$dev_arr = array();
 				

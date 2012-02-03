@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C03CBE814DB6EE600B2139E /* DIStartupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBE714DB6EE600B2139E /* DIStartupViewController.m */; };
 		4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
@@ -471,6 +472,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C03CBE614DB6EE600B2139E /* DIStartupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStartupViewController.h; sourceTree = "<group>"; };
+		4C03CBE714DB6EE600B2139E /* DIStartupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIStartupViewController.m; sourceTree = "<group>"; };
 		4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChorePriceViewController.h; sourceTree = "<group>"; };
 		4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChorePriceViewController.m; sourceTree = "<group>"; };
 		4C09649C1499B1CE005723AD /* DIApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIApp.h; sourceTree = "<group>"; };
@@ -2239,6 +2242,8 @@
 			children = (
 				4CFE83A01497D87D0032F12D /* DIAppDelegate.h */,
 				4CFE83A11497D87D0032F12D /* DIAppDelegate.m */,
+				4C03CBE614DB6EE600B2139E /* DIStartupViewController.h */,
+				4C03CBE714DB6EE600B2139E /* DIStartupViewController.m */,
 				4C0DDB2F14D893C5003A004D /* MainList */,
 				4C0964891499B1CE005723AD /* AddChore */,
 				4CD02D8714B94A1800309AC0 /* Redeem */,
@@ -2870,6 +2875,7 @@
 				4C4DD9A114D9143200429CDB /* DIAddNewRewardViewController.m in Sources */,
 				4C4DD9B014D9D19F00429CDB /* DINavLockBtnView.m in Sources */,
 				4C4DD9B714D9D55E00429CDB /* DIDiddsPakView.m in Sources */,
+				4C03CBE814DB6EE600B2139E /* DIStartupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

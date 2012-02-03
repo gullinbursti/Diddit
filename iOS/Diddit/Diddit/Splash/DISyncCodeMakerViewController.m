@@ -152,9 +152,8 @@
 }
 
 -(void)_goNext {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"CONCEAL_WELCOME_SCREEN" object:nil];
 	[self dismissViewControllerAnimated:YES completion:^(void) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_WELCOME_SCREEN" object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"PRESENT_MASTER_LIST" object:nil];
 	}];
 }
 

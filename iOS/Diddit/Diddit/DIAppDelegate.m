@@ -10,7 +10,7 @@
 
 #import "DIAppDelegate.h"
 #import "DIChore.h"
-#import "DISettingsViewController.h"
+#import "DIMasterListViewController.h"
 #import "DIAppTypeViewController.h"
 
 #import "DIStoreObserver.h"
@@ -184,8 +184,7 @@
 	self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	[[SKPaymentQueue defaultQueue] addTransactionObserver:[[DIStoreObserver alloc] init]];
 	
-	_masterListViewController = [[DIMasterListViewController alloc] init];
-	_subListViewController = [[DISubListViewController alloc] init];
+	_startupViewController = [[DIStartupViewController alloc] init];
 	
 	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"headerBG.png"] forBarMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[[UIImage imageNamed:@"headerButton_nonActive.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:14] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -195,23 +194,20 @@
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0], UITextAttributeFont, nil] forState:UIControlStateNormal];
 	[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0], UITextAttributeFont, nil] forState:UIControlStateSelected];
 	
+	UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_startupViewController] autorelease];
+	[rootNavigationController setNavigationBarHidden:YES];
+	
+	[self.window setRootViewController:rootNavigationController];
+	[self.window makeKeyAndVisible];
 	
 	// show welcome screen
 	if (![DIAppDelegate profileForUser]) {
-		UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_masterListViewController] autorelease];
-		[self.window setRootViewController:rootNavigationController];
-		[self.window makeKeyAndVisible];
-		
 		DIAppTypeViewController *splash = [[[DIAppTypeViewController alloc] init] autorelease];
 		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
 		[splashNavigation setNavigationBarHidden:NO animated:YES];
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
 		
 	} else {
-		UINavigationController *rootNavigationController = [[[UINavigationController alloc] initWithRootViewController:_masterListViewController] autorelease];
-		[self.window setRootViewController:rootNavigationController];
-		[self.window makeKeyAndVisible];
-		
 		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
@@ -269,8 +265,6 @@
 }
 
 
-
-
 #pragma mark - ASI Delegates
 - (void)requestFinished:(ASIHTTPRequest *)request { 
 	
@@ -286,15 +280,14 @@
 			
 			else {
 				[DIAppDelegate setUserProfile:parsedUser];
+				[_startupViewController.navigationController setNavigationBarHidden:NO];
 				
 				if ([DIAppDelegate isParentApp])
-					[self.window setRootViewController:[[[UINavigationController alloc] initWithRootViewController:_masterListViewController] autorelease]];
+					[_startupViewController.navigationController pushViewController:[[[DIMasterListViewController alloc] init] autorelease] animated:NO];
 				
 				else
-					[self.window setRootViewController:[[[UINavigationController alloc] initWithRootViewController:_subListViewController] autorelease]];
-				
-				[self.window makeKeyAndVisible];
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
+					[_startupViewController.navigationController pushViewController:[[[DISubListViewController alloc] init] autorelease] animated:NO];
+				//[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_CHORE_LIST" object:nil];
 			}
 		}
 	}
