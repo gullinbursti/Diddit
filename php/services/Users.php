@@ -144,6 +144,19 @@
 						$query .= '`giver_id`, `reciever_id`) ';
 						$query .= 'VALUES ('. $master_id .', '. $user_id .');';
 						$result = mysql_query($query);
+						
+						$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $master_id .'";';
+						$master_row = mysql_fetch_row(mysql_query($query));
+						
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+						curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+						curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+						curl_setopt($ch, CURLOPT_POST, 1);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+						//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
+						curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ['. $mater_row[0] .'], "type": "3", "aps": {"alert": { "body": "Chore Added ('. $chore_title .')"}, "badge": "+1"}}');
+			
 					}	
 				}
 				
@@ -318,30 +331,30 @@
 			$query = 'UPDATE `tblUsers` SET `points` ='. $points .' WHERE `id` ='. $id .';';
 			$result = mysql_query($query);
 			
-			
 			$query = 'SELECT * FROM `tblUsers` WHERE `id` = "'. $id .'";';
 			$row = mysql_fetch_row(mysql_query($query));
 
 			// has user
 			if ($row) {
-                
-				$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $id .'" AND `tblChores`.`status_id` =4;';
-				//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $id .'" AND `status_id` = "4" ORDER BY `added`;';
-				$tot_res = mysql_query($query);				
-				$tot = mysql_num_rows($tot_res);
-
-				// Return data, as JSON
+				
+				$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsersDevices`.`user_id` = "'. $id .'";';
+				$dev_row = mysql_fetch_row(mysql_query($query));
+				
+				
+				
 				$result = array(
 					"id" => $row[0], 
-					"device_id" => $row[1], 
+					"device_id" => $dev_row[0], 
+					"sub_id" => "", 
 					"username" => $row[2], 
 					"email" => $row[3], 
 					"pin" => $row[4], 
 					"points" => $row[5], 
-					"finished" => $tot + 1
+					"type_id" => $row[1],
+					"devices" => array()
 				);
 
-				$this->sendResponse(200, json_encode($result));
+                $this->sendResponse(200, json_encode($result));
 
 			} else
 				$this->sendResponse(200, json_encode(array()));

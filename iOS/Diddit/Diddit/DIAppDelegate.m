@@ -404,6 +404,10 @@
 		case 2:
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_REWARDS_LIST" object:nil];
 			break;
+			
+		case 3:
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_DEVICES_LIST" object:nil];
+			break;
 	}
 	/*
 	 if (type_id == 2) {

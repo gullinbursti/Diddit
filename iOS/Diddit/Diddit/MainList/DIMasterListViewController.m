@@ -36,6 +36,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"DISMISS_WELCOME_SCREEN" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goAddChore:) name:@"PRESENT_ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"REFRESH_CHORE_LIST" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"REFRESH_MASTER_LIST" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
 		
@@ -263,6 +264,12 @@
 	//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	//[_achievementsRequest setDelegate:self];
 	//[_achievementsRequest startAsynchronous];
+	
+	_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	[_devicesRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
+	[_devicesRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_devicesRequest setDelegate:self];
+	[_devicesRequest startAsynchronous];
 }
 
 -(void)_goAddChore:(NSNotification *)notification {
