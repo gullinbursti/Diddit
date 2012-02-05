@@ -16,12 +16,12 @@
 		UIView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tableheaderBG.png"]] autorelease];
 		[self addSubview:bgImgView];
 		
-		_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300.0, 22)];
-		_label.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14.0];
+		_label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300.0, 16)];
+		_label.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 		_label.backgroundColor = [UIColor clearColor];
 		_label.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_label.shadowColor = [UIColor whiteColor];
-		_label.shadowOffset = CGSizeMake(1.0, 1.0);
+		//_label.shadowColor = [UIColor whiteColor];
+		//_label.shadowOffset = CGSizeMake(1.0, 1.0);
 		_label.text = title;
 		[self addSubview:_label];
 	}

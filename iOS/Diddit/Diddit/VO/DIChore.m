@@ -24,6 +24,7 @@
 @synthesize type_id;
 @synthesize subIDs;
 @synthesize iap_id;
+@synthesize status_id;
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
 	
@@ -39,6 +40,7 @@
 	chore.imgPath = [dictionary objectForKey:@"imgPath"];
 	chore.isFinished = (BOOL)([[dictionary objectForKey:@"finished"] isEqual:@"Y"]);
 	chore.type_id = [[dictionary objectForKey:@"type_id"] intValue];
+	chore.status_id = [[dictionary objectForKey:@"status_id"] intValue];
 	
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

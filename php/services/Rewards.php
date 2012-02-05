@@ -252,11 +252,11 @@
 			return (true);
 		}
 		
-		function getAllByUserID($user_id) {
+		function sentByUserID($user_id) {
 			
 			$result = array();
 			
-			$query = 'SELECT * FROM `tblRewards` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`user_id` = "'. $user_id .'"';
+			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblRewards`.`img_path`, `tblRewards`.`status_id`, `tblRewards`.`added`, `tblIAPTypes`.`points`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblIAPTypes`.`id` = `tblRewards`.`iap_id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`giver_id` = "'. $user_id .'";';
 			$res = mysql_query($query);
 			
 			if (mysql_num_rows($res) > 0) {
@@ -267,9 +267,38 @@
 						"info" => $row[2], 
 						"icoPath" => $row[3], 
 						"imgPath" => $row[4],
-						"expires" => $row[5], 
-						"points" => $row[6], 
-						"cost" => $row[7], 
+						"status_id" => $row[5],
+						"expires" => $row[6], 
+						"points" => $row[7], 
+						"cost" => 0, 
+						"type_id" => $row[8]
+					));
+				} 
+			}
+			
+			$this->sendResponse(200, json_encode($result));			
+			return (true);
+		}
+		
+		function receivedByUserID($user_id) {
+			
+			$result = array();
+			
+			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblRewards`.`img_path`, `tblRewards`.`status_id`, `tblRewards`.`added`, `tblIAPTypes`.`points`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblIAPTypes`.`id` = `tblRewards`.`iap_id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` = "'. $user_id .'";';
+			$res = mysql_query($query);
+			
+			if (mysql_num_rows($res) > 0) {
+			    while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					array_push($result, array(
+						"id" => $row[0], 
+						"title" => $row[1], 
+						"info" => $row[2], 
+						"icoPath" => $row[3], 
+						"imgPath" => $row[4],
+						"status_id" => $row[5],
+						"expires" => $row[6], 
+						"points" => $row[7], 
+						"cost" => 0, 
 						"type_id" => $row[8]
 					));
 				} 
@@ -324,7 +353,12 @@
 		   
 			case "8":
 				if (isset($_POST['userID']))
-					$json = $rewards->getAllByUserID($_POST['userID']);
+					$json = $rewards->sentByUserID($_POST['userID']);
+				break;
+				
+			case "9":
+				if (isset($_POST['userID']))
+					$json = $rewards->receivedByUserID($_POST['userID']);
 				break;
 		}
 	}   

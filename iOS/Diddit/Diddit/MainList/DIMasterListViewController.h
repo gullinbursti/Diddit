@@ -29,9 +29,12 @@
 	NSMutableArray *_activity;
 	NSMutableArray *_devices;
 	NSMutableArray *_viewControllers;
+	NSMutableArray *_sectionTitles;
+	
 	UIScrollView *_devicesScrollView;
 	
-	UIImageView *_footerImgView;	
+	UIImageView *_footerImgView;
+	UIView *_activityHolderView;
 	
 	DIPaginationView *_paginationView;
 }

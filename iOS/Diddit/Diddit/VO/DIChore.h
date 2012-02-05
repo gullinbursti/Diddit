@@ -29,5 +29,6 @@
 @property (nonatomic) BOOL isFinished;
 @property (nonatomic, retain) NSDate *expires;
 @property (nonatomic, retain) NSString *subIDs;
+@property (nonatomic) int status_id;
 
 @end

@@ -19,6 +19,7 @@
 #import "DIOfferDetailsViewController.h"
 #import "DISettingsViewController.h"
 #import "DIMyChoresViewCell.h"
+#import "DIMyWalletViewController.h"
 #import "DISponsorshipItemButton.h"
 #import "DISponsorship.h"
 
@@ -181,27 +182,26 @@
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
 	
-	UIButton *leftBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
-	leftBtn.frame = CGRectMake(15, 357, 79, 54);
-	[leftBtn setBackgroundImage:[[UIImage imageNamed:@"rewardsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[leftBtn setBackgroundImage:[[UIImage imageNamed:@"rewardsIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[leftBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:leftBtn];
+	UIButton *shopBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain]; 
+	shopBtn.frame = CGRectMake(15, 357, 79, 54);
+	[shopBtn setBackgroundImage:[[UIImage imageNamed:@"rewardsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[shopBtn setBackgroundImage:[[UIImage imageNamed:@"rewardsIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[shopBtn addTarget:self action:@selector(_goApps) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:shopBtn];
 	
-	UIButton *settingsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	settingsButton.frame = CGRectMake(220, 357, 79, 54);
-	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"settingsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[settingsButton setBackgroundImage:[[UIImage imageNamed:@"settingsIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[settingsButton addTarget:self action:@selector(_goSettings) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:settingsButton];
+	UIButton *offersButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	offersButton.frame = CGRectMake(120, 357, 79, 54);
+	[offersButton setBackgroundImage:[[UIImage imageNamed:@"achivementsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[offersButton setBackgroundImage:[[UIImage imageNamed:@"achivementsIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[offersButton addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:offersButton];
 	
-	
-	UIButton *achievementsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	achievementsButton.frame = CGRectMake(120, 357, 79, 54);
-	[achievementsButton setBackgroundImage:[[UIImage imageNamed:@"achivementsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[achievementsButton setBackgroundImage:[[UIImage imageNamed:@"achivementsIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[achievementsButton addTarget:self action:@selector(_goAchievements) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:achievementsButton];
+	UIButton *walletButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	walletButton.frame = CGRectMake(220, 357, 79, 54);
+	[walletButton setBackgroundImage:[[UIImage imageNamed:@"walletIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[walletButton setBackgroundImage:[[UIImage imageNamed:@"walletIcon_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[walletButton addTarget:self action:@selector(_goWallet) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:walletButton];
 }
 
 -(void)viewDidUnload {
@@ -260,6 +260,9 @@
 	[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
+-(void)_goWallet {
+	[self.navigationController pushViewController:[[[DIMyWalletViewController alloc] init] autorelease] animated:YES];
+}
 
 -(void)_goSettings {
 	[self.navigationController pushViewController:[[[DISettingsViewController alloc] init] autorelease] animated:YES];
@@ -357,7 +360,6 @@
 	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
 	[_choreUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.chore_id] forKey:@"choreID"];
-	[_choreUpdRequest startAsynchronous];
 	
 	[_finishedChores addObject:chore];
 	

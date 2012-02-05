@@ -141,14 +141,9 @@
 			$row = mysql_fetch_row(mysql_query($query));
 			$offer_points = $row[0];
             
-			$query = 'SELECT `device_id`, `email`, `pin`, `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
+			$query = 'SELECT `points` FROM `tblUsers` WHERE `id` = "'. $user_id .'";';
 			$row = mysql_fetch_row(mysql_query($query));
-			$user_points = $row[3] + $offer_points;
-			
-			$query = 'SELECT * FROM `tblUsersChores` INNER JOIN `tblChores` ON `tblUsersChores`.`chore_id` = `tblChores`.`id` WHERE `tblUsersChores`.`user_id` = "'. $user_id .'" AND `tblChores`.`status_id` =4;';
-			//$query = 'SELECT * FROM `tblChores` WHERE `user_id` = "'. $user_id .'" AND `status_id` =4;';
-			$tot_res = mysql_query($query);				
-			$tot = mysql_num_rows($tot_res);
+			$user_points = $row[0] + $offer_points;
 			
 			$query = 'UPDATE `tblUsers` SET `points` ='. $user_points .' WHERE `id` ='. $user_id .';';
 			$result = mysql_query($query);
@@ -159,15 +154,20 @@
 			$result = mysql_query($query);
 			$chore_id = mysql_insert_id();
 			
-			// Return data, as JSON
+			$query = 'SELECT `tblUsers`.`id`, `tblUsers`.`type_id`, `tblUsers`.`username`, `tblUsers`.`email`, `tblUsers`.`pin`, `tblUsers`.`points`, `tblDevices`.`ua_id` FROM `tblUsers` INNER JOIN `tblUsersDevices` ON `tblUsers`.`id` = `tblUsersDevices`.`user_id` INNER JOIN `tblDevices` ON `tblUsersDevices`.`device_id` = `tblDevices`.`id` WHERE `tblUsers`.`id` = "'. $user_id .'";';
+			$row = mysql_fetch_row(mysql_query($query));
+		
+		
 			$result = array(
-				"id" => $user_id, 
-				"device_id" => $row[0], 
-				"username" => "", 
-				"email" => $row[1], 
-				"pin" => $row[2],
-				"points" => $user_points, 
-				"finished" => $tot 
+				"id" => $row[0], 
+				"device_id" => $row[6], 
+				"sub_id" => "0", 
+				"username" => $row[2], 
+				"email" => $row[3], 
+				"pin" => $row[4], 
+				"points" => $row[5], 
+				"type_id" => $row[1],
+				"devices" => array()
 			);
 
 			$this->sendResponse(200, json_encode($result));

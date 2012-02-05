@@ -71,7 +71,7 @@
 }
 
 
-#pragma mark - navigation
+#pragma mark - Navigation
 -(void)_goBack {
 	[self.navigationController popViewControllerAnimated:YES];
 }

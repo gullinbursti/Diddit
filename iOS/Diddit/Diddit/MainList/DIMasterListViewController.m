@@ -18,11 +18,12 @@
 #import "DIOfferListViewController.h"
 #import "DIOfferDetailsViewController.h"
 #import "DISettingsViewController.h"
-#import "DIMyChoresViewCell.h"
+#import "DIActivityViewCell.h"
 #import "DISubDeviceViewController.h"
 #import "DISponsorship.h"
 #import "DIDevice.h"
 #import "DINavLockBtnView.h"
+#import "DITableHeaderView.h"
 
 #import "DIAddNewRewardViewController.h"
 
@@ -42,6 +43,9 @@
 		
 		_activity = [[NSMutableArray alloc] init];
 		_devices = [[NSMutableArray alloc] init];
+		_sectionTitles = [[NSMutableArray alloc] init];
+		[_sectionTitles addObject:@"Needs Approval"];
+		[_sectionTitles addObject:@"Submitted"];
 		
 		_devicesToggleButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		_devicesToggleButton.frame = CGRectMake(0.0, 3.0, 69.0, 39.0);
@@ -84,14 +88,11 @@
 		[_devicesRequest setDelegate:self];
 		[_devicesRequest startAsynchronous];
 		
-		/*
-		 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-		[_activityRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+		 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+		[_activityRequest setPostValue:[NSString stringWithFormat:@"%d", 8] forKey:@"action"];
 		[_activityRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-		[_activityRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
 		[_activityRequest setDelegate:self];
 		[_activityRequest startAsynchronous];
-		 */
 	}
 	
 	return (self);
@@ -109,7 +110,11 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	_activityTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+	_activityHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, 320, 370)];
+	_activityHolderView.hidden = YES;
+	[self.view addSubview:_activityHolderView];
+	
+	_activityTableView = [[UITableView alloc] initWithFrame:_activityHolderView.bounds style:UITableViewStylePlain];
 	_activityTableView.rowHeight = 290;
 	_activityTableView.backgroundColor = [UIColor clearColor];
 	_activityTableView.separatorColor = [UIColor clearColor];
@@ -117,7 +122,6 @@
 	_activityTableView.delegate = self;
 	_activityTableView.layer.borderColor = [[UIColor clearColor] CGColor];
 	_activityTableView.layer.borderWidth = 1.0;
-	_activityTableView.hidden = YES;
 	
 	_footerImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"footerBG.png"]];
 	frame = _footerImgView.frame;
@@ -195,7 +199,9 @@
 	
 	[_activityToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleRight_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	_activityTableView.hidden = YES;	
+	_activityHolderView.hidden = YES;
+	_devicesScrollView.hidden = NO;
+	_paginationView.hidden = NO;
 	
 	_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
 	[_devicesRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
@@ -210,8 +216,11 @@
 	
 	[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	//_activityTableView.hidden = NO;
-	//[_activityTableView reloadData];
+	_activityHolderView.hidden = NO;
+	[_activityHolderView addSubview:_activityTableView];
+	_devicesScrollView.hidden = YES;
+	_paginationView.hidden = YES;
+	[_activityTableView reloadData];
 	
 	//[_activityTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
@@ -249,15 +258,13 @@
 
 #pragma mark - Notification Handlers
 -(void)_loadData:(NSNotification *)notification {
-	/*
+
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
-	[_activityRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+	[_activityRequest setPostValue:[NSString stringWithFormat:@"%d", 8] forKey:@"action"];
 	[_activityRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_activityRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
 	[_activityRequest setDelegate:self];
 	[_activityRequest startAsynchronous];
-	*/
 	
 	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
 	//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
@@ -347,32 +354,30 @@
 
 
 #pragma mark - TableView Data Source Delegates
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return (2);
+}
+
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//	return ([_sectionTitles objectAtIndex:section]);
+//}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	return ([[[DITableHeaderView alloc] initWithTitle:[_sectionTitles objectAtIndex:section]] autorelease]);
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	//return ((_isRewardList) ? [_rewards count] + 1 : [_chores count] + 1);
-	return ([_activity count]);
+	return ([[_activity objectAtIndex:section] count]);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-//	if (indexPath.row == 0) {
-//		UITableViewCell *cell = nil;
-//		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-//		
-//		if (cell == nil) {			
-//			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
-//			[cell addSubview:_sponsorshipHolderView];
-//			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//		}
-//		
-//		return (cell);
-//		
-//	} else 
-	DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
+	DIActivityViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIActivityViewCell cellReuseIdentifier]];
 		
 	if (cell == nil)
-		cell = [[[DIMyChoresViewCell alloc] init] autorelease];
+		cell = [[[DIActivityViewCell alloc] init] autorelease];
 	
-	cell.chore = [_activity objectAtIndex:indexPath.row];
+	NSArray *array = [_activity objectAtIndex:indexPath.section];	
+	cell.chore = [array objectAtIndex:indexPath.row];
 	[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		
 	return (cell);
@@ -381,22 +386,9 @@
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	DIMyChoresViewCell *cell = (DIMyChoresViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+	DIActivityViewCell *cell = (DIActivityViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 	[cell toggleSelected];
-	
-//	if (_isRewardList) {
-//		[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:cell.chore];
-//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reward Redeemed" message:@"Added your didds" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//		[alert show];
-//		[alert release];
-//		
-//		//[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-//	
-//	} else {
-//		//[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-//	}
-//	
-	
+
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
 	/*
@@ -413,8 +405,16 @@
 	 */
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return (35);
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return (90);
+	if (indexPath.section == 0)
+		return (80);
+	
+	else
+		return (70);
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
@@ -476,16 +476,24 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
-				NSMutableArray *activityList = [NSMutableArray array];
+				NSMutableArray *chores = [NSMutableArray array];
+				NSMutableArray *rewards = [NSMutableArray array];
 				
 				for (NSDictionary *dict in parsedList) {
 					DIChore *chore = [DIChore choreWithDictionary:dict];
 					
 					NSLog(@"CHORE \"%@\" (%d)", chore.title, chore.type_id);
-					[activityList addObject:chore];
+					
+					
+					if (chore.type_id == 1)
+						[chores addObject:chore];
+					
+					else
+						[rewards addObject:chore];
 				}
 				
-				_activity = [activityList retain];
+				[_activity addObject:[chores retain]];
+				[_activity addObject:[rewards retain]];
 				
 				[_activityTableView reloadData];
 			}			

@@ -60,7 +60,7 @@
 	[_titleLabel release];
 	[_infoLabel release];
 	[_pointsLabel release];
-	[_app release];
+	//[_app release];
 	[_overlayView release];
 	
 	[super dealloc];

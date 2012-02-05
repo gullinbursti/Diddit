@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		4C03CBE814DB6EE600B2139E /* DIStartupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBE714DB6EE600B2139E /* DIStartupViewController.m */; };
+		4C03CBEC14DDC13700B2139E /* DIActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBEB14DDC13600B2139E /* DIActivityViewCell.m */; };
+		4C03CBEF14DDCD7800B2139E /* smallRewardBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CBED14DDCD7800B2139E /* smallRewardBG.png */; };
+		4C03CBF014DDCD7800B2139E /* smallRewardBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CBEE14DDCD7800B2139E /* smallRewardBG@2x.png */; };
+		4C03CBF314DDD01D00B2139E /* DIMyWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBF214DDD01D00B2139E /* DIMyWalletViewController.m */; };
+		4C03CBF614DDD47F00B2139E /* DIHistoryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBF514DDD47F00B2139E /* DIHistoryViewCell.m */; };
+		4C03CBF914DE461700B2139E /* DIWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBF814DE461700B2139E /* DIWallet.m */; };
 		4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
@@ -474,6 +480,16 @@
 /* Begin PBXFileReference section */
 		4C03CBE614DB6EE600B2139E /* DIStartupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStartupViewController.h; sourceTree = "<group>"; };
 		4C03CBE714DB6EE600B2139E /* DIStartupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIStartupViewController.m; sourceTree = "<group>"; };
+		4C03CBEA14DDC13600B2139E /* DIActivityViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIActivityViewCell.h; sourceTree = "<group>"; };
+		4C03CBEB14DDC13600B2139E /* DIActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIActivityViewCell.m; sourceTree = "<group>"; };
+		4C03CBED14DDCD7800B2139E /* smallRewardBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallRewardBG.png; sourceTree = "<group>"; };
+		4C03CBEE14DDCD7800B2139E /* smallRewardBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "smallRewardBG@2x.png"; sourceTree = "<group>"; };
+		4C03CBF114DDD01C00B2139E /* DIMyWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMyWalletViewController.h; sourceTree = "<group>"; };
+		4C03CBF214DDD01D00B2139E /* DIMyWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMyWalletViewController.m; sourceTree = "<group>"; };
+		4C03CBF414DDD47E00B2139E /* DIHistoryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIHistoryViewCell.h; sourceTree = "<group>"; };
+		4C03CBF514DDD47F00B2139E /* DIHistoryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIHistoryViewCell.m; sourceTree = "<group>"; };
+		4C03CBF714DE461700B2139E /* DIWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIWallet.h; sourceTree = "<group>"; };
+		4C03CBF814DE461700B2139E /* DIWallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIWallet.m; sourceTree = "<group>"; };
 		4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChorePriceViewController.h; sourceTree = "<group>"; };
 		4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChorePriceViewController.m; sourceTree = "<group>"; };
 		4C09649C1499B1CE005723AD /* DIApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIApp.h; sourceTree = "<group>"; };
@@ -1262,6 +1278,8 @@
 				4CD3FEEB14C9032300C17F90 /* DISponsorship.m */,
 				4C0B54B414D4940B008DD94B /* DIDevice.h */,
 				4C0B54B514D4940B008DD94B /* DIDevice.m */,
+				4C03CBF714DE461700B2139E /* DIWallet.h */,
+				4C03CBF814DE461700B2139E /* DIWallet.m */,
 			);
 			path = VO;
 			sourceTree = "<group>";
@@ -1271,12 +1289,18 @@
 			children = (
 				4C0DDB4514D89492003A004D /* DIMasterListViewController.h */,
 				4C0DDB4614D89492003A004D /* DIMasterListViewController.m */,
+				4C03CBEA14DDC13600B2139E /* DIActivityViewCell.h */,
+				4C03CBEB14DDC13600B2139E /* DIActivityViewCell.m */,
 				4C0DDB4F14D8BFB3003A004D /* DISubDeviceViewController.h */,
 				4C0DDB5014D8BFB3003A004D /* DISubDeviceViewController.m */,
 				4C0DDB4214D89458003A004D /* DISubListViewController.h */,
 				4C0DDB4314D89458003A004D /* DISubListViewController.m */,
 				4C0DDB3814D893C5003A004D /* DIMyChoresViewCell.h */,
 				4C0DDB3914D893C5003A004D /* DIMyChoresViewCell.m */,
+				4C03CBF114DDD01C00B2139E /* DIMyWalletViewController.h */,
+				4C03CBF214DDD01D00B2139E /* DIMyWalletViewController.m */,
+				4C03CBF414DDD47E00B2139E /* DIHistoryViewCell.h */,
+				4C03CBF514DDD47F00B2139E /* DIHistoryViewCell.m */,
 			);
 			path = MainList;
 			sourceTree = "<group>";
@@ -1567,6 +1591,8 @@
 		4CD02D9314B94AFD00309AC0 /* BGs */ = {
 			isa = PBXGroup;
 			children = (
+				4C03CBED14DDCD7800B2139E /* smallRewardBG.png */,
+				4C03CBEE14DDCD7800B2139E /* smallRewardBG@2x.png */,
 				4C4DD9C814D9F14700429CDB /* commentField_BG.png */,
 				4C4DD9C914D9F14800429CDB /* commentField_BG@2x.png */,
 				4C4DD9B114D9D4BC00429CDB /* diddsBG.png */,
@@ -2740,6 +2766,8 @@
 				4C4DD9FF14DA483300429CDB /* locateButton_d_nonActive@2x.png in Resources */,
 				4C4DDA0214DA4CAF00429CDB /* footerMenuHighlightState.png in Resources */,
 				4C4DDA0314DA4CAF00429CDB /* footerMenuHighlightState@2x.png in Resources */,
+				4C03CBEF14DDCD7800B2139E /* smallRewardBG.png in Resources */,
+				4C03CBF014DDCD7800B2139E /* smallRewardBG@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2876,6 +2904,10 @@
 				4C4DD9B014D9D19F00429CDB /* DINavLockBtnView.m in Sources */,
 				4C4DD9B714D9D55E00429CDB /* DIDiddsPakView.m in Sources */,
 				4C03CBE814DB6EE600B2139E /* DIStartupViewController.m in Sources */,
+				4C03CBEC14DDC13700B2139E /* DIActivityViewCell.m in Sources */,
+				4C03CBF314DDD01D00B2139E /* DIMyWalletViewController.m in Sources */,
+				4C03CBF614DDD47F00B2139E /* DIHistoryViewCell.m in Sources */,
+				4C03CBF914DE461700B2139E /* DIWallet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
