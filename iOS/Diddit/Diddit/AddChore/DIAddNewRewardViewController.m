@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Sparkle Mountain. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "DIAddNewRewardViewController.h"
 #import "DIPricePak.h"
 
@@ -55,12 +57,15 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
+	_holderView = [[UIView alloc] initWithFrame:self.view.bounds];
+	[self.view addSubview:_holderView];
+	
 	UIImageView *avatarImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"parentAvatarBG.png"]] autorelease];
 	frame = avatarImgView.frame;
 	frame.origin.x = 25;
 	frame.origin.y = 30;
 	avatarImgView.frame = frame;
-	[self.view addSubview:avatarImgView];
+	[_holderView addSubview:avatarImgView];
 	
 	UIImageView *sillouteImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"parentAvatar.png"]] autorelease];
 	frame = sillouteImgView.frame;
@@ -69,12 +74,12 @@
 	sillouteImgView.frame = frame;
 	[avatarImgView addSubview:sillouteImgView];
 	
-	UIImageView *commentsImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"commentField_BG.png"]] autorelease];
-	frame = commentsImgView.frame;
-	frame.origin.x = 73;
-	frame.origin.y = 30;
-	commentsImgView.frame = frame;
-	[self.view addSubview:commentsImgView];
+	UIButton *txtInputButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	txtInputButton.frame = CGRectMake(73, 30, 224, 124);
+	[txtInputButton setBackgroundImage:[[UIImage imageNamed:@"commentField_BG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[txtInputButton setBackgroundImage:[[UIImage imageNamed:@"commentField_BG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[txtInputButton addTarget:self action:@selector(_goTextFields) forControlEvents:UIControlEventTouchUpInside];
+	[_holderView addSubview:txtInputButton];
 	
 	_titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(95, 36, 300, 18)] autorelease];
 	_titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
@@ -83,43 +88,20 @@
 	_titleLabel.shadowColor = [UIColor whiteColor];
 	_titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	_titleLabel.text = @"give a title…";
-	[self.view addSubview:_titleLabel];
-	
-	_titleTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(95, 36, 200, 64)] autorelease];
-	[_titleTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_titleTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_titleTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_titleTxtField setBackgroundColor:[UIColor clearColor]];
-	_titleTxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
-	_titleTxtField.keyboardType = UIKeyboardTypeDefault;
-	_titleTxtField.delegate = self;
-	_titleTxtField.text = @"";
-	[self.view addSubview:_titleTxtField];
+	[_holderView addSubview:_titleLabel];
 	
 	_commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(95, 66, 160, 20)];
 	_commentLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
 	_commentLabel.textColor = [UIColor lightGrayColor];
 	_commentLabel.backgroundColor = [UIColor clearColor];
 	_commentLabel.text = @"Leave a note…";
-	[self.view addSubview:_commentLabel];
-	
-	_commentTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(90, 60, 300, 160)] autorelease];
-	[_commentTxtView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[_commentTxtView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-	[_commentTxtView setAutocorrectionType:UITextAutocorrectionTypeNo];
-	[_commentTxtView setBackgroundColor:[UIColor clearColor]];
-	[_commentTxtView setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
-	_commentTxtView.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
-	_commentTxtView.keyboardType = UIKeyboardTypeDefault;
-	_commentTxtView.delegate = self;
-	[self.view addSubview:_commentTxtView];
-	
+	[_holderView addSubview:_commentLabel];
 	
 	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
 	frame = dividerImgView.frame;
 	frame.origin.y = 173;
 	dividerImgView.frame = frame;
-	[self.view addSubview:dividerImgView];
+	[_holderView addSubview:dividerImgView];
 	
 	UIButton *rewardButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	rewardButton.frame = CGRectMake(35, 196, 124, 34);
@@ -131,7 +113,7 @@
 	rewardButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 	[rewardButton setTitle:@"Reward" forState:UIControlStateNormal];
 	[rewardButton addTarget:self action:@selector(_goRewardType) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:rewardButton];
+	[_holderView addSubview:rewardButton];
 	
 	UIButton *choreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	choreButton.frame = CGRectMake(165, 196, 124, 34);
@@ -143,7 +125,7 @@
 	choreButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 	[choreButton setTitle:@"Chore" forState:UIControlStateNormal];
 	[choreButton addTarget:self action:@selector(_goChoreType) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:choreButton];
+	[_holderView addSubview:choreButton];
 	
 	UIButton *sendButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	sendButton.frame = CGRectMake(25, 337, 279, 59);
@@ -155,8 +137,59 @@
 	sendButton.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	[sendButton setTitle:@"send" forState:UIControlStateNormal];
 	[sendButton addTarget:self action:@selector(_goSend) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:sendButton];
+	[_holderView addSubview:sendButton];
 	
+	
+	_txtInputView = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 280, 150)];
+	_txtInputView.backgroundColor = [UIColor whiteColor];
+	_txtInputView.layer.cornerRadius = 8.0;
+	_txtInputView.clipsToBounds = YES;
+	_txtInputView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+	_txtInputView.layer.borderWidth = 1.0;
+	_txtInputView.hidden = YES;
+	[self.view addSubview:_txtInputView];
+	
+	_titleInputLabel = [[[UILabel alloc] initWithFrame:CGRectMake(95, 36, 300, 18)] autorelease];
+	_titleInputLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_titleInputLabel.textColor = [UIColor colorWithWhite:0.33 alpha:1.0];
+	_titleInputLabel.backgroundColor = [UIColor clearColor];
+	_titleInputLabel.shadowColor = [UIColor whiteColor];
+	_titleInputLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	_titleInputLabel.text = @"give a title…";
+	[_txtInputView addSubview:_titleInputLabel];
+	
+	_titleInputTxtField = [[[UITextField alloc] initWithFrame:CGRectMake(95, 36, 200, 64)] autorelease];
+	[_titleInputTxtField setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_titleInputTxtField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_titleInputTxtField setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_titleInputTxtField setBackgroundColor:[UIColor clearColor]];
+	[_titleInputTxtField setReturnKeyType:UIReturnKeyDone];
+	[_titleInputTxtField addTarget:self action:@selector(onTxtDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+	_titleInputTxtField.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_titleInputTxtField.keyboardType = UIKeyboardTypeDefault;
+	_titleInputTxtField.delegate = self;
+	_titleInputTxtField.text = @"";
+	[_txtInputView addSubview:_titleInputTxtField];
+	
+	_commentInputLabel = [[UILabel alloc] initWithFrame:CGRectMake(95, 66, 160, 20)];
+	_commentInputLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_commentInputLabel.textColor = [UIColor lightGrayColor];
+	_commentInputLabel.backgroundColor = [UIColor clearColor];
+	_commentInputLabel.text = @"Leave a note…";
+	[_txtInputView addSubview:_commentInputLabel];
+	
+	_commentInputTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(90, 60, 300, 160)] autorelease];
+	[_commentInputTxtView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_commentInputTxtView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_commentInputTxtView setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_commentInputTxtView setBackgroundColor:[UIColor clearColor]];
+	[_commentInputTxtView setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
+	_commentInputTxtView.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_commentInputTxtView.keyboardType = UIKeyboardTypeDefault;
+	_commentInputTxtView.delegate = self;
+	[_commentInputTxtView setReturnKeyType:UIReturnKeyDone];
+	[_txtInputView addSubview:_commentInputTxtView];
+
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -215,6 +248,23 @@
 	}
 }
 
+-(void)_goTextFields {
+	_holderView.hidden = YES;
+	_txtInputView.hidden = NO;
+	
+	[_titleInputTxtField becomeFirstResponder];
+}
+
+-(void)onTxtDoneEditing:(id)sender {
+	[sender resignFirstResponder];
+	
+	_titleLabel.text = _titleInputTxtField.text;
+	_commentLabel.text = _commentInputTxtView.text;
+	
+	_holderView.hidden = NO;
+	_txtInputView.hidden = YES;
+}
+
 #pragma mark - Notifications
 -(void)_onPricePakSelected:(NSNotification *)notification {
 	DIPricePak *pricePak = (DIPricePak *)[notification object];
@@ -234,8 +284,8 @@
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
 	NSLog(@"-----------> SUMBIT CHORE <------------");
-	NSLog(@"choreTitle:[%@]", _titleTxtField.text);
-	NSLog(@"choreInfo:[%@]", _commentTxtView.text);
+	NSLog(@"choreTitle:[%@]", _titleLabel.text);
+	NSLog(@"choreInfo:[%@]", _commentLabel.text);
 	NSLog(@"cost:[%f]", _pricePak.cost);
 	NSLog(@"expires:[%@]", @"0000-00-00 00:00:00");
 	NSLog(@"image:[%@]", @"");
@@ -247,8 +297,8 @@
 	_addChoreDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
 	[_addChoreDataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
 	[_addChoreDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_addChoreDataRequest setPostValue:_titleTxtField.text forKey:@"choreTitle"];
-	[_addChoreDataRequest setPostValue:_commentTxtView.text forKey:@"choreInfo"];
+	[_addChoreDataRequest setPostValue:_titleLabel.text forKey:@"choreTitle"];
+	[_addChoreDataRequest setPostValue:_commentLabel.text forKey:@"choreInfo"];
 	[_addChoreDataRequest setPostValue:[NSNumber numberWithFloat:_pricePak.cost] forKey:@"cost"];
 	//[_addChoreDataRequest setPostValue:[dateFormat stringFromDate:_chore.expires] forKey:@"expires"];
 	[_addChoreDataRequest setPostValue:@"0000-00-00 00:00:00" forKey:@"expires"];
@@ -284,7 +334,7 @@
 #pragma mark - TextField Delegate
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	if ([textField.text length] == 0)
-		_titleLabel.hidden = YES;
+		_titleInputLabel.hidden = YES;
 	
 	return (YES);
 }
@@ -292,22 +342,34 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField {
 	
 	if ([textField.text length] == 0)
-		_titleLabel.hidden = NO;
+		_titleInputLabel.hidden = NO;
 	
-	[_titleTxtField resignFirstResponder];
+	[_titleInputTxtField resignFirstResponder];
 }
 
 #pragma mark - TextView Delegates
 -(void)textViewDidBeginEditing:(UITextView *)textView {
-	_commentLabel.hidden = YES;
+	_commentInputLabel.hidden = YES;
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView {
 	
 	if ([textView.text length] == 0)
-		_commentLabel.hidden = NO;
+		_commentInputLabel.hidden = NO;
 	
-	[_commentTxtView resignFirstResponder];
+	[_commentInputTxtView resignFirstResponder];
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+	
+	if ([text isEqualToString:@"\n"]) {
+		[textView resignFirstResponder];
+		_holderView.hidden = NO;
+		_txtInputView.hidden = YES;
+		return (NO);
+	}
+	
+	return (YES);
 }
 
 #pragma mark - ProductsRequest Delegates
@@ -370,7 +432,7 @@
 				iapScrollView.showsHorizontalScrollIndicator = NO;
 				iapScrollView.showsVerticalScrollIndicator = NO;
 				iapScrollView.alwaysBounceVertical = NO;
-				[self.view addSubview:iapScrollView];
+				[_holderView addSubview:iapScrollView];
 				
 				int cnt = 0;
 				for (DIPricePak *pricePak in _iapPaks) {

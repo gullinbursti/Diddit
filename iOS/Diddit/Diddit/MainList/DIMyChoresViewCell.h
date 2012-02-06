@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "DIChore.h"
+#import "EGOImageView.h"
 
-@interface DIMyChoresViewCell : UITableViewCell {
+@interface DIMyChoresViewCell : UITableViewCell <UITextFieldDelegate, UITextViewDelegate> {
 	
 	UIView *_overlayView;
 	
@@ -21,6 +22,9 @@
 	UILabel *_infoLabel;
 	
 	DIChore *_chore;
+	EGOImageView *_pricePakImgView;
+	
+	UITextField *_messageTxtField;
 }
 
 +(NSString *)cellReuseIdentifier;

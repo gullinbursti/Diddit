@@ -27,8 +27,8 @@
 		holderView.backgroundColor = [UIColor clearColor];
 		[self addSubview:holderView];
 		
-		UIImageView *icoView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 64, 64)] autorelease];
-		icoView.image = [UIImage imageNamed:@"smallRewardBG.png"];
+		UIImageView *icoView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 44, 44)] autorelease];
+		icoView.image = [UIImage imageNamed:@"avatarBG.png"];
 		[holderView addSubview:icoView];
 		
 		_ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 23, 54, 16)];
@@ -36,7 +36,7 @@
 		_ptsLabel.backgroundColor = [UIColor clearColor];
 		_ptsLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 		_ptsLabel.textAlignment = UITextAlignmentCenter;
-		[icoView addSubview:_ptsLabel];
+		//[icoView addSubview:_ptsLabel];
 		
 		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 20, 150, 16)];
 		_typeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];

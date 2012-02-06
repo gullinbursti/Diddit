@@ -14,6 +14,20 @@
 		4C03CBF314DDD01D00B2139E /* DIMyWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBF214DDD01D00B2139E /* DIMyWalletViewController.m */; };
 		4C03CBF614DDD47F00B2139E /* DIHistoryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBF514DDD47F00B2139E /* DIHistoryViewCell.m */; };
 		4C03CBF914DE461700B2139E /* DIWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CBF814DE461700B2139E /* DIWallet.m */; };
+		4C03CBFC14DF38FC00B2139E /* avatarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CBFA14DF38FC00B2139E /* avatarBG.png */; };
+		4C03CBFD14DF38FC00B2139E /* avatarBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CBFB14DF38FC00B2139E /* avatarBG@2x.png */; };
+		4C03CC0014DF3C8200B2139E /* walletBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CBFE14DF3C8200B2139E /* walletBG.png */; };
+		4C03CC0114DF3C8200B2139E /* walletBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CBFF14DF3C8200B2139E /* walletBG@2x.png */; };
+		4C03CC0614DF4D1600B2139E /* rowBG_5percent.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0214DF4D1500B2139E /* rowBG_5percent.png */; };
+		4C03CC0714DF4D1600B2139E /* rowBG_5percent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0314DF4D1500B2139E /* rowBG_5percent@2x.png */; };
+		4C03CC0814DF4D1600B2139E /* rowBG_10percent.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0414DF4D1500B2139E /* rowBG_10percent.png */; };
+		4C03CC0914DF4D1600B2139E /* rowBG_10percent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0514DF4D1500B2139E /* rowBG_10percent@2x.png */; };
+		4C03CC0C14DF877C00B2139E /* rewardBG_Top.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0A14DF877C00B2139E /* rewardBG_Top.png */; };
+		4C03CC0D14DF877C00B2139E /* rewardBG_Top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0B14DF877C00B2139E /* rewardBG_Top@2x.png */; };
+		4C03CC1014DFA02500B2139E /* rewardBG_Bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0E14DFA02500B2139E /* rewardBG_Bottom.png */; };
+		4C03CC1114DFA02500B2139E /* rewardBG_Bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0F14DFA02500B2139E /* rewardBG_Bottom@2x.png */; };
+		4C03CC1414DFC36300B2139E /* commentsBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC1214DFC36300B2139E /* commentsBG.png */; };
+		4C03CC1514DFC36300B2139E /* commentsBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC1314DFC36300B2139E /* commentsBG@2x.png */; };
 		4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
@@ -490,6 +504,20 @@
 		4C03CBF514DDD47F00B2139E /* DIHistoryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIHistoryViewCell.m; sourceTree = "<group>"; };
 		4C03CBF714DE461700B2139E /* DIWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIWallet.h; sourceTree = "<group>"; };
 		4C03CBF814DE461700B2139E /* DIWallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIWallet.m; sourceTree = "<group>"; };
+		4C03CBFA14DF38FC00B2139E /* avatarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarBG.png; sourceTree = "<group>"; };
+		4C03CBFB14DF38FC00B2139E /* avatarBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatarBG@2x.png"; sourceTree = "<group>"; };
+		4C03CBFE14DF3C8200B2139E /* walletBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walletBG.png; sourceTree = "<group>"; };
+		4C03CBFF14DF3C8200B2139E /* walletBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walletBG@2x.png"; sourceTree = "<group>"; };
+		4C03CC0214DF4D1500B2139E /* rowBG_5percent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rowBG_5percent.png; sourceTree = "<group>"; };
+		4C03CC0314DF4D1500B2139E /* rowBG_5percent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rowBG_5percent@2x.png"; sourceTree = "<group>"; };
+		4C03CC0414DF4D1500B2139E /* rowBG_10percent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rowBG_10percent.png; sourceTree = "<group>"; };
+		4C03CC0514DF4D1500B2139E /* rowBG_10percent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rowBG_10percent@2x.png"; sourceTree = "<group>"; };
+		4C03CC0A14DF877C00B2139E /* rewardBG_Top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rewardBG_Top.png; sourceTree = "<group>"; };
+		4C03CC0B14DF877C00B2139E /* rewardBG_Top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rewardBG_Top@2x.png"; sourceTree = "<group>"; };
+		4C03CC0E14DFA02500B2139E /* rewardBG_Bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rewardBG_Bottom.png; sourceTree = "<group>"; };
+		4C03CC0F14DFA02500B2139E /* rewardBG_Bottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rewardBG_Bottom@2x.png"; sourceTree = "<group>"; };
+		4C03CC1214DFC36300B2139E /* commentsBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commentsBG.png; sourceTree = "<group>"; };
+		4C03CC1314DFC36300B2139E /* commentsBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commentsBG@2x.png"; sourceTree = "<group>"; };
 		4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChorePriceViewController.h; sourceTree = "<group>"; };
 		4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChorePriceViewController.m; sourceTree = "<group>"; };
 		4C09649C1499B1CE005723AD /* DIApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIApp.h; sourceTree = "<group>"; };
@@ -1526,6 +1554,8 @@
 		4CD02D9214B94AC200309AC0 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				4C03CBFA14DF38FC00B2139E /* avatarBG.png */,
+				4C03CBFB14DF38FC00B2139E /* avatarBG@2x.png */,
 				4C4DDA0014DA4CAF00429CDB /* footerMenuHighlightState.png */,
 				4C4DDA0114DA4CAF00429CDB /* footerMenuHighlightState@2x.png */,
 				4C4DD9E014DA47E300429CDB /* icon_iPad.png */,
@@ -1591,6 +1621,18 @@
 		4CD02D9314B94AFD00309AC0 /* BGs */ = {
 			isa = PBXGroup;
 			children = (
+				4C03CC1214DFC36300B2139E /* commentsBG.png */,
+				4C03CC1314DFC36300B2139E /* commentsBG@2x.png */,
+				4C03CC0E14DFA02500B2139E /* rewardBG_Bottom.png */,
+				4C03CC0F14DFA02500B2139E /* rewardBG_Bottom@2x.png */,
+				4C03CC0A14DF877C00B2139E /* rewardBG_Top.png */,
+				4C03CC0B14DF877C00B2139E /* rewardBG_Top@2x.png */,
+				4C03CC0214DF4D1500B2139E /* rowBG_5percent.png */,
+				4C03CC0314DF4D1500B2139E /* rowBG_5percent@2x.png */,
+				4C03CC0414DF4D1500B2139E /* rowBG_10percent.png */,
+				4C03CC0514DF4D1500B2139E /* rowBG_10percent@2x.png */,
+				4C03CBFE14DF3C8200B2139E /* walletBG.png */,
+				4C03CBFF14DF3C8200B2139E /* walletBG@2x.png */,
 				4C03CBED14DDCD7800B2139E /* smallRewardBG.png */,
 				4C03CBEE14DDCD7800B2139E /* smallRewardBG@2x.png */,
 				4C4DD9C814D9F14700429CDB /* commentField_BG.png */,
@@ -2768,6 +2810,20 @@
 				4C4DDA0314DA4CAF00429CDB /* footerMenuHighlightState@2x.png in Resources */,
 				4C03CBEF14DDCD7800B2139E /* smallRewardBG.png in Resources */,
 				4C03CBF014DDCD7800B2139E /* smallRewardBG@2x.png in Resources */,
+				4C03CBFC14DF38FC00B2139E /* avatarBG.png in Resources */,
+				4C03CBFD14DF38FC00B2139E /* avatarBG@2x.png in Resources */,
+				4C03CC0014DF3C8200B2139E /* walletBG.png in Resources */,
+				4C03CC0114DF3C8200B2139E /* walletBG@2x.png in Resources */,
+				4C03CC0614DF4D1600B2139E /* rowBG_5percent.png in Resources */,
+				4C03CC0714DF4D1600B2139E /* rowBG_5percent@2x.png in Resources */,
+				4C03CC0814DF4D1600B2139E /* rowBG_10percent.png in Resources */,
+				4C03CC0914DF4D1600B2139E /* rowBG_10percent@2x.png in Resources */,
+				4C03CC0C14DF877C00B2139E /* rewardBG_Top.png in Resources */,
+				4C03CC0D14DF877C00B2139E /* rewardBG_Top@2x.png in Resources */,
+				4C03CC1014DFA02500B2139E /* rewardBG_Bottom.png in Resources */,
+				4C03CC1114DFA02500B2139E /* rewardBG_Bottom@2x.png in Resources */,
+				4C03CC1414DFC36300B2139E /* commentsBG.png in Resources */,
+				4C03CC1514DFC36300B2139E /* commentsBG@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

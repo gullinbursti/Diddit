@@ -15,6 +15,8 @@
 #import "DINavTitleView.h"
 #import "DINavBackBtnView.h"
 
+#import "DITableHeaderView.h"
+
 @implementation DIMyWalletViewController
 
 #pragma mark - View lifecycle
@@ -106,8 +108,13 @@
 		ptsLabel.text = [NSString stringWithFormat:@"%d", [DIAppDelegate userPoints]];
 		[cell addSubview:ptsLabel];
 		
+		UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"walletBG.png"]] autorelease];
+		CGRect frame = CGRectMake(32, 112, 264, 84);
+		dividerImgView.frame = frame;
+		[cell addSubview:dividerImgView];
 		
-		UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 100, 260, 40)];
+		
+		UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 145, 260, 40)];
 		infoLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:12];
 		infoLabel.backgroundColor = [UIColor clearColor];
 		infoLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
@@ -116,6 +123,17 @@
 		infoLabel.text = [NSString stringWithFormat:@"you have %d didds available to redeem for gidt cards and apps", [DIAppDelegate userPoints]];
 		[cell addSubview:infoLabel];
 		
+		UIView *historyHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 280, 320, 35)] autorelease];
+		historyHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
+		[cell addSubview:historyHeaderView];
+		
+		UILabel *historyLabel = [[UILabel alloc] initWithFrame:CGRectMake(6, 10, 300.0, 16)];
+		historyLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		historyLabel.backgroundColor = [UIColor clearColor];
+		historyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		historyLabel.text = @"History";
+		[historyHeaderView addSubview:historyLabel];
+		
 		
 		return (cell);
 	
@@ -123,7 +141,7 @@
 		DIHistoryViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIHistoryViewCell cellReuseIdentifier]];
 		
 		if (cell == nil)
-			cell = [[[DIHistoryViewCell alloc] init] autorelease];
+			cell = [[[DIHistoryViewCell alloc] initWithIndex:indexPath.row - 1] autorelease];
 		
 		cell.chore = [_history objectAtIndex:indexPath.row - 1];
 		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -156,7 +174,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0)
-		return (300);
+		return (310);
 	
 	else
 		return (70);
@@ -191,7 +209,7 @@
 				
 				_history = [historyList retain];
 				[_historyTableView reloadData];
-				[_storeDataRequest startAsynchronous];
+				//[_storeDataRequest startAsynchronous];
 			}			
 		}
 	

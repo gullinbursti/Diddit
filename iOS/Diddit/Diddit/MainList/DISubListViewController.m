@@ -191,8 +191,8 @@
 	
 	UIButton *offersButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	offersButton.frame = CGRectMake(120, 357, 79, 54);
-	[offersButton setBackgroundImage:[[UIImage imageNamed:@"achivementsIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[offersButton setBackgroundImage:[[UIImage imageNamed:@"achivementsIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[offersButton setBackgroundImage:[[UIImage imageNamed:@"earnIcon_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[offersButton setBackgroundImage:[[UIImage imageNamed:@"earnIcon_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[offersButton addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:offersButton];
 	
@@ -455,6 +455,7 @@
 
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	return;
 	
 	if (indexPath.row >= [_activeDisplay count])
 		return;
@@ -463,7 +464,7 @@
 	[cell toggleSelected];
 	
 	if (_isRewardList) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:cell.chore];
+		//[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:cell.chore];
 		//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reward Redeemed" message:@"Added your didds" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 		//[alert show];
 		//[alert release];

@@ -92,7 +92,7 @@
 		
 		function activeByUserID($user_id) {
 
-			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblRewards`.`img_path`, `tblRewards`.`expires`, `tblIAPTypes`.`points`, `tblIAPTypes`.`cost`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblRewards`.`iap_id` = `tblIAPTypes`.`id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` ="'. $user_id .'" AND `tblRewards`.`status_id` =2 ORDER BY `tblRewards`.`added` DESC';
+			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblIAPTypes`.`ico_url`, `tblRewards`.`expires`, `tblIAPTypes`.`points`, `tblIAPTypes`.`cost`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblRewards`.`iap_id` = `tblIAPTypes`.`id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` ="'. $user_id .'" AND `tblRewards`.`status_id` =2 ORDER BY `tblRewards`.`added` DESC';
 			$res = mysql_query($query);
 		
 			// Return data, as JSON

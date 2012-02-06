@@ -34,10 +34,16 @@
 	int _cost;
 	
 	UILabel *_titleLabel;
-	UITextField *_titleTxtField;
-	
 	UILabel *_commentLabel;
-	UITextView *_commentTxtView;
+	
+	UILabel *_titleInputLabel;
+	UITextField *_titleInputTxtField;
+	
+	UILabel *_commentInputLabel;
+	UITextView *_commentInputTxtView;
+	
+	UIView *_holderView;
+	UIView *_txtInputView;
 }
 
 -(id)initWithDevice:(DIDevice *)device;
