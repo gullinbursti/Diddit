@@ -22,6 +22,7 @@
 #import "DIMyWalletViewController.h"
 #import "DISponsorshipItemButton.h"
 #import "DISponsorship.h"
+#import "DIRewardItemViewController.h"
 
 #import "MBProgressHUD.h"
 
@@ -33,8 +34,9 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_loadData:) name:@"REFRESH_REWARDS_LIST" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addChore:) name:@"ADD_CHORE" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_finishChore:) name:@"FINISH_CHORE" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addComment:) name:@"ADD_CHORE_COMMENT" object:nil];
 		
-		_activeDisplay = [[NSMutableArray alloc] init];
+		//_activeDisplay = [[NSMutableArray alloc] init];
 		_chores = [[NSMutableArray alloc] init];
 		_rewards = [[NSMutableArray alloc] init];
 		
@@ -143,25 +145,27 @@
 	[self.view addSubview:_holderView];
 	[_holderView addSubview:_emptyScrollView];
 	
-	_myChoresTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-	_myChoresTableView.rowHeight = 290;
-	_myChoresTableView.backgroundColor = [UIColor clearColor];
-	_myChoresTableView.separatorColor = [UIColor clearColor];
-	_myChoresTableView.dataSource = self;
-	_myChoresTableView.delegate = self;
-	_myChoresTableView.layer.borderColor = [[UIColor clearColor] CGColor];
-	_myChoresTableView.layer.borderWidth = 1.0;
-	_myChoresTableView.hidden = _isRewardList;
+	_rewardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 361.0)];
+	_rewardsScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_rewardsScrollView.contentSize = CGSizeMake(320, 362.0);
+	_rewardsScrollView.opaque = NO;
+	_rewardsScrollView.scrollsToTop = NO;
+	_rewardsScrollView.showsHorizontalScrollIndicator = NO;
+	_rewardsScrollView.showsVerticalScrollIndicator = NO;
+	_rewardsScrollView.alwaysBounceVertical = NO;
+	_rewardsScrollView.hidden = !_isRewardList;
+	[_holderView addSubview:_rewardsScrollView];
 	
-	_myRewardsTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-	_myRewardsTableView.rowHeight = 290;
-	_myRewardsTableView.backgroundColor = [UIColor clearColor];
-	_myRewardsTableView.separatorColor = [UIColor clearColor];
-	_myRewardsTableView.dataSource = self;
-	_myRewardsTableView.delegate = self;
-	_myRewardsTableView.layer.borderColor = [[UIColor clearColor] CGColor];
-	_myRewardsTableView.layer.borderWidth = 1.0;
-	_myRewardsTableView.hidden = !_isRewardList;
+	_choresScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 361.0)];
+	_choresScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_choresScrollView.contentSize = CGSizeMake(320, 362.0);
+	_choresScrollView.opaque = NO;
+	_choresScrollView.scrollsToTop = NO;
+	_choresScrollView.showsHorizontalScrollIndicator = NO;
+	_choresScrollView.showsVerticalScrollIndicator = NO;
+	_choresScrollView.alwaysBounceVertical = NO;
+	_choresScrollView.hidden = _isRewardList;
+	[_holderView addSubview:_choresScrollView];
 	
 	_emptyListImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emptyChoreListBG.jpg"]];
 	frame = _emptyListImgView.frame;
@@ -175,6 +179,27 @@
 	frame.origin.y = 420 - (frame.size.height + 4);
 	_footerImgView.frame = frame;
 	[self.view addSubview:_footerImgView];
+	
+	_addCommentView = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 280, 150)];
+	_addCommentView.backgroundColor = [UIColor whiteColor];
+	_addCommentView.layer.cornerRadius = 8.0;
+	_addCommentView.clipsToBounds = YES;
+	_addCommentView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+	_addCommentView.layer.borderWidth = 1.0;
+	_addCommentView.hidden = YES;
+	[self.view addSubview:_addCommentView];
+	
+	_addCommentTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(90, 60, 300, 160)] autorelease];
+	[_addCommentTxtView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+	[_addCommentTxtView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+	[_addCommentTxtView setAutocorrectionType:UITextAutocorrectionTypeNo];
+	[_addCommentTxtView setBackgroundColor:[UIColor clearColor]];
+	[_addCommentTxtView setTextColor:[UIColor colorWithWhite:0.67 alpha:1.0]];
+	_addCommentTxtView.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12];
+	_addCommentTxtView.keyboardType = UIKeyboardTypeDefault;
+	_addCommentTxtView.delegate = self;
+	[_addCommentTxtView setReturnKeyType:UIReturnKeyDone];
+	[_addCommentView addSubview:_addCommentTxtView];
 			
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -212,8 +237,8 @@
 -(void)dealloc {
 	[_activeChoresRequest release];
 	[_loadOverlay release];
-	[_myChoresTableView release];
-	[_myRewardsTableView release];
+	[_rewardsScrollView release];
+	[_choresScrollView release];
 	[_chores release];
 	[_finishedChores release];
 	[_emptyListImgView release];
@@ -232,14 +257,14 @@
 	
 	[_choresToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleRight_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	_myChoresTableView.hidden = _isRewardList;
-	_myRewardsTableView.hidden = !_isRewardList;
+	_choresScrollView.hidden = _isRewardList;
+	_rewardsScrollView.hidden = !_isRewardList;
 	
-	_activeDisplay = [_rewards retain];
-	[_myRewardsTableView reloadData];
+	//_activeDisplay = [_rewards retain];
+	//[_myRewardsTableView reloadData];
 	
-	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 -(void)_goChores {
@@ -250,14 +275,14 @@
 	
 	[_rewardsToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	_myChoresTableView.hidden = _isRewardList;
-	_myRewardsTableView.hidden = !_isRewardList;
+	_choresScrollView.hidden = _isRewardList;
+	_rewardsScrollView.hidden = !_isRewardList;
 	
-	_activeDisplay = [_chores retain];
-	[_myChoresTableView reloadData];
+	//_activeDisplay = [_chores retain];
+	//[_myChoresTableView reloadData];
 	
-	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 -(void)_goWallet {
@@ -318,25 +343,25 @@
 	
 	if (_isRewardList) {
 		[_rewards insertObject:(DIChore *)[notification object] atIndex:0];	
-		[_myRewardsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+		//[_myRewardsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
 		
 	} else {
 		[_chores insertObject:(DIChore *)[notification object] atIndex:0];	
-		[_myChoresTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+		//[_myChoresTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
 	}
 	
-	[_activeDisplay insertObject:(DIChore *)[notification object] atIndex:0];
+	//[_activeDisplay insertObject:(DIChore *)[notification object] atIndex:0];
 	
 	NSLog(@"ChoreListViewController - addChore:[]");
 	
-	[_emptyScrollView removeFromSuperview];
-	[_holderView addSubview:_myChoresTableView];
-	[_holderView addSubview:_myRewardsTableView];
+	//[_emptyScrollView removeFromSuperview];
+	//[_holderView addSubview:_myChoresTableView];
+	//[_holderView addSubview:_myRewardsTableView];
 	
 	//_emptyListImgView.hidden = YES;
 	//_myChoresTableView.hidden = NO;
-	[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-	[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+	//[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
 	//[_myChoresTableView reloadData];
 	//[_myRewardsTableView reloadData];
@@ -376,22 +401,31 @@
 		//[_myChoresTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
 	}
 	
-	[_activeDisplay removeObjectIdenticalTo:chore];
+	//[_activeDisplay removeObjectIdenticalTo:chore];
 	
 	//[_myChoresTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	//[_myRewardsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 	
-	[_myChoresTableView reloadData];
-	[_myRewardsTableView reloadData];
+	//[_myChoresTableView reloadData];
+	//[_myRewardsTableView reloadData];
 	
-	if ([_activeDisplay count] == 0) {
-		[_myChoresTableView removeFromSuperview];
-		[_holderView addSubview:_emptyScrollView];
-	}
+	//if ([_activeDisplay count] == 0) {
+		//[_myChoresTableView removeFromSuperview];
+		//[_holderView addSubview:_emptyScrollView];
+		//}
 	
 	//DIChoreCompleteViewController *choreCompleteViewController = [[[DIChoreCompleteViewController alloc] initWithChore:chore] autorelease];
 	//UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:choreCompleteViewController] autorelease];
 	//[self.navigationController presentModalViewController:navigationController animated:YES];
+}
+
+
+-(void)_addComment:(NSNotification *)notification {
+	_rewardsScrollView.hidden = YES;
+	_addCommentView.hidden = NO;
+	
+	_addCommentTxtView.text = @"";
+	[_addCommentTxtView becomeFirstResponder];
 }
 
 #pragma mark - ScrollView Delegates
@@ -403,107 +437,24 @@
 }
 
 
-#pragma mark - TableView Data Source Delegates
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	//return ((_isRewardList) ? [_rewards count] + 1 : [_chores count] + 1);
-	return ([_activeDisplay count] + 1);
+#pragma mark - TextView Delegates
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+	
+	if([text isEqualToString:@"\n"]){
+		[textView resignFirstResponder];
+		_addCommentView.hidden = YES;
+		_rewardsScrollView.hidden = NO;
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"ADDED_CHORE_COMMENT" object:textView.text];
+		return (NO);
+	
+	} else
+		return (YES);
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-//	if (indexPath.row == 0) {
-//		UITableViewCell *cell = nil;
-//		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-//		
-//		if (cell == nil) {			
-//			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
-//			[cell addSubview:_sponsorshipHolderView];
-//			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//		}
-//		
-//		return (cell);
-//		
-//	} else 
-	if (indexPath.row < [_activeDisplay count]) {
-		DIMyChoresViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIMyChoresViewCell cellReuseIdentifier]];
-		
-		if (cell == nil)
-			cell = [[[DIMyChoresViewCell alloc] init] autorelease];
-		
-		if (_isRewardList)
-			cell.chore = [_rewards objectAtIndex:indexPath.row];
-		
-		else
-			cell.chore = [_chores objectAtIndex:indexPath.row];
-		
-		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-		
-		return (cell);
-	
-	} else {
-		UITableViewCell *cell = nil;
-		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-		
-		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
-			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-		}
-		
-		return (cell);
-	}
-}
-
-#pragma mark - TableView Delegates
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	return;
-	
-	if (indexPath.row >= [_activeDisplay count])
-		return;
-	
-	DIMyChoresViewCell *cell = (DIMyChoresViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-	[cell toggleSelected];
-	
-	if (_isRewardList) {
-		//[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:cell.chore];
-		//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reward Redeemed" message:@"Added your didds" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-		//[alert show];
-		//[alert release];
-		
-		//[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-	
-	} else {
-		//[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-	}
-	
-	
-	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-	
-	/*
-	[UIView animateWithDuration:0.2 animations:^(void) {
-		cell.alpha = 0.5;
-	} completion:^(BOOL finished) {
-		[UIView animateWithDuration:0.15 animations:^(void) {
-			cell.alpha = 1.0;
-			
-			[self.navigationController pushViewController:[[[DIChoreDetailsViewController alloc] initWithChore:[_chores objectAtIndex:indexPath.row]] autorelease] animated:YES];	
-			[tableView deselectRowAtIndexPath:indexPath animated:YES];
-		}];
-	}];
-	 */
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	if (indexPath.row < [_activeDisplay count])
-		return (290);
-	
-	else
-		return (150);
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
-	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
-	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+-(void)textViewDidEndEditing:(UITextView *)textView {
+	//if ([textView.text length] == 0)
+		//_commentInputLabel.hidden = NO;
 }
 
 
@@ -519,39 +470,37 @@
 				NSLog(@"Failed to parse job list JSON: %@", [error localizedFailureReason]);
 			
 			else {
-				NSMutableArray *choreList = [NSMutableArray array];
-				NSMutableArray *rewardList = [NSMutableArray array];
+				NSMutableArray *list = [NSMutableArray array];
+				_viewControllers = [NSMutableArray new];
 				
 				for (NSDictionary *dict in parsedList) {
 					DIChore *chore = [DIChore choreWithDictionary:dict];
-					
-					NSLog(@"CHORE \"%@\" (%d)", chore.title, chore.type_id);
-					
 					if (chore != nil) {
-						if (chore.type_id == 1)
-							[choreList addObject:chore];
+						NSLog(@"CHORE \"%@\" (%d)", chore.title, chore.type_id);
 						
-						else
-							[rewardList addObject:chore];
+						[list addObject:chore];
+						
+						DIRewardItemViewController *rewardItemViewController = [[[DIRewardItemViewController alloc] initWithChore:chore] autorelease];
+						[_viewControllers addObject:rewardItemViewController];
 					}
 				}
 				
-				_chores = [choreList retain];
-				_rewards = [rewardList retain];
+				int page = 0;
+				if (_isRewardList) {
+					for (DIRewardItemViewController *rewardViewController in _viewControllers) {
+						rewardViewController.view.frame = CGRectMake(0.0, page * 290, 320, 290);
+						[_rewardsScrollView addSubview:rewardViewController.view];
+						page++;
+					}
+					
+					_rewardsScrollView.contentSize = CGSizeMake(320, page * 490);
 				
-				if (_isRewardList)
-					_activeDisplay = [_rewards retain];
-				
-				else
-					_activeDisplay = [_chores retain];
-				
-				if ([_activeDisplay count] > 0) {
-					[_emptyScrollView removeFromSuperview];
-					[_holderView addSubview:_myChoresTableView];
-					[_holderView addSubview:_myRewardsTableView];
+				} else {
 				}
-				[_myChoresTableView reloadData];
-				[_myRewardsTableView reloadData];
+				
+				if ([_viewControllers count] > 0) {
+					[_emptyScrollView removeFromSuperview];
+				}
 			}			
 		}
 		

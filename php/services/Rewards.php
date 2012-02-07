@@ -102,6 +102,10 @@
 			if (mysql_num_rows($res) > 0) {
 			
 				while ($row = mysql_fetch_array($res, MYSQL_BOTH)) {
+					
+					$query = 'SELECT `tblMessages`.`text` FROM `tblMessages` INNER JOIN `tblUsersMessages` ON `tblUsersMessages`.`message_id` = `tblMessages`.`id` WHERE `tblUsersMessages`.`reciever_id` = "'. $user_id .'"';
+					
+					
 					array_push($result, array(
 						"id" => $row[0], 
 						"title" => $row[1], 

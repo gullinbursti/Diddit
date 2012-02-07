@@ -11,7 +11,7 @@
 
 @class DILoadOverlay;
 
-@interface DISubListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate, UIScrollViewDelegate> {
+@interface DISubListViewController : UIViewController <ASIHTTPRequestDelegate, UIScrollViewDelegate, UITextViewDelegate> {
 	
 	ASIFormDataRequest *_activeChoresRequest;
 	ASIFormDataRequest *_choreUpdRequest;
@@ -19,10 +19,7 @@
 	
 	DILoadOverlay *_loadOverlay;
 	
-	UITableView *_myChoresTableView;
-	UITableView *_myRewardsTableView;
-	
-	NSMutableArray *_activeDisplay;
+	NSMutableArray *_viewControllers;
 	NSMutableArray *_chores;
 	NSMutableArray *_rewards;
 	NSMutableArray *_finishedChores;
@@ -32,6 +29,8 @@
 	
 	UIView *_holderView;
 	UIScrollView *_emptyScrollView;
+	UIScrollView *_rewardsScrollView;
+	UIScrollView *_choresScrollView;
 	
 	UIButton *_ptsButton;
 	UIButton *_rewardsToggleButton;
@@ -39,6 +38,9 @@
 	
 	UILabel *_pts1Label;
 	UILabel *_pts2Label;
+	
+	UIView *_addCommentView;
+	UITextView *_addCommentTxtView;
 	
 	BOOL _isRewardList;
 }

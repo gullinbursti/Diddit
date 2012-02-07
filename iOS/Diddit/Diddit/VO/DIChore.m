@@ -25,6 +25,7 @@
 @synthesize subIDs;
 @synthesize iap_id;
 @synthesize status_id;
+@synthesize messages;
 
 +(DIChore *)choreWithDictionary:(NSDictionary *)dictionary {
 	
@@ -41,6 +42,7 @@
 	chore.isFinished = (BOOL)([[dictionary objectForKey:@"finished"] isEqual:@"Y"]);
 	chore.type_id = [[dictionary objectForKey:@"type_id"] intValue];
 	chore.status_id = [[dictionary objectForKey:@"status_id"] intValue];
+	chore.messages = [dictionary objectForKey:@"messages"];
 	
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -77,6 +79,7 @@
 	self.imgPath = nil;
 	self.itunes_id = nil;
 	self.subIDs = nil;
+	self.messages = nil;
 	
 	[super dealloc];
 }

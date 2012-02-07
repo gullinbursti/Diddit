@@ -30,5 +30,6 @@
 @property (nonatomic, retain) NSDate *expires;
 @property (nonatomic, retain) NSString *subIDs;
 @property (nonatomic) int status_id;
+@property (nonatomic, retain) NSMutableDictionary *messages;
 
 @end

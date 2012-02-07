@@ -98,6 +98,7 @@
 		[_messageTxtField becomeFirstResponder];
 		
 		_pricePakImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(90, 100, 189, 119)];
+		
 		[holderView addSubview:_pricePakImgView];
 		
 		

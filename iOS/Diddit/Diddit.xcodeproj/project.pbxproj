@@ -28,6 +28,8 @@
 		4C03CC1114DFA02500B2139E /* rewardBG_Bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC0F14DFA02500B2139E /* rewardBG_Bottom@2x.png */; };
 		4C03CC1414DFC36300B2139E /* commentsBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC1214DFC36300B2139E /* commentsBG.png */; };
 		4C03CC1514DFC36300B2139E /* commentsBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C03CC1314DFC36300B2139E /* commentsBG@2x.png */; };
+		4C03CC1814E0464E00B2139E /* DIRewardItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CC1714E0464100B2139E /* DIRewardItemViewController.m */; };
+		4C03CC1B14E0ECC200B2139E /* DIRewardCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CC1A14E0ECC200B2139E /* DIRewardCommentView.m */; };
 		4C0964A31499B1CE005723AD /* DIChorePriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */; };
 		4C0964AA1499B1CE005723AD /* DIApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649D1499B1CE005723AD /* DIApp.m */; };
 		4C0964AB1499B1CE005723AD /* DIChore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C09649F1499B1CE005723AD /* DIChore.m */; };
@@ -518,6 +520,10 @@
 		4C03CC0F14DFA02500B2139E /* rewardBG_Bottom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rewardBG_Bottom@2x.png"; sourceTree = "<group>"; };
 		4C03CC1214DFC36300B2139E /* commentsBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commentsBG.png; sourceTree = "<group>"; };
 		4C03CC1314DFC36300B2139E /* commentsBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commentsBG@2x.png"; sourceTree = "<group>"; };
+		4C03CC1614E0463500B2139E /* DIRewardItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIRewardItemViewController.h; sourceTree = "<group>"; };
+		4C03CC1714E0464100B2139E /* DIRewardItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIRewardItemViewController.m; sourceTree = "<group>"; };
+		4C03CC1914E0ECC100B2139E /* DIRewardCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIRewardCommentView.h; sourceTree = "<group>"; };
+		4C03CC1A14E0ECC200B2139E /* DIRewardCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIRewardCommentView.m; sourceTree = "<group>"; };
 		4C09648C1499B1CE005723AD /* DIChorePriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIChorePriceViewController.h; sourceTree = "<group>"; };
 		4C09648D1499B1CE005723AD /* DIChorePriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIChorePriceViewController.m; sourceTree = "<group>"; };
 		4C09649C1499B1CE005723AD /* DIApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIApp.h; sourceTree = "<group>"; };
@@ -1285,6 +1291,8 @@
 				4C0B54BF14D4CB01008DD94B /* DITableHeaderView.m */,
 				4C4DD9B514D9D55E00429CDB /* DIDiddsPakView.h */,
 				4C4DD9B614D9D55E00429CDB /* DIDiddsPakView.m */,
+				4C03CC1914E0ECC100B2139E /* DIRewardCommentView.h */,
+				4C03CC1A14E0ECC200B2139E /* DIRewardCommentView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1323,6 +1331,8 @@
 				4C0DDB5014D8BFB3003A004D /* DISubDeviceViewController.m */,
 				4C0DDB4214D89458003A004D /* DISubListViewController.h */,
 				4C0DDB4314D89458003A004D /* DISubListViewController.m */,
+				4C03CC1614E0463500B2139E /* DIRewardItemViewController.h */,
+				4C03CC1714E0464100B2139E /* DIRewardItemViewController.m */,
 				4C0DDB3814D893C5003A004D /* DIMyChoresViewCell.h */,
 				4C0DDB3914D893C5003A004D /* DIMyChoresViewCell.m */,
 				4C03CBF114DDD01C00B2139E /* DIMyWalletViewController.h */,
@@ -2964,6 +2974,8 @@
 				4C03CBF314DDD01D00B2139E /* DIMyWalletViewController.m in Sources */,
 				4C03CBF614DDD47F00B2139E /* DIHistoryViewCell.m in Sources */,
 				4C03CBF914DE461700B2139E /* DIWallet.m in Sources */,
+				4C03CC1814E0464E00B2139E /* DIRewardItemViewController.m in Sources */,
+				4C03CC1B14E0ECC200B2139E /* DIRewardCommentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
