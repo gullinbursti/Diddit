@@ -204,10 +204,11 @@
 	if (![DIAppDelegate profileForUser]) {
 		DIAppTypeViewController *splash = [[[DIAppTypeViewController alloc] init] autorelease];
 		UINavigationController *splashNavigation = [[[UINavigationController alloc] initWithRootViewController:splash] autorelease];
-		[splashNavigation setNavigationBarHidden:NO animated:YES];
+		[splashNavigation setNavigationBarHidden:YES];
 		[rootNavigationController presentModalViewController:splashNavigation animated:NO];
 		
 	} else {
+		
 		_loadOverlay = [[DILoadOverlay alloc] init];
 		
 		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];

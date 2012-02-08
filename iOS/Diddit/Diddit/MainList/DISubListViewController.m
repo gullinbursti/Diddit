@@ -42,6 +42,8 @@
 		
 		_finishedChores = [[NSMutableArray alloc] init];
 		_isRewardList = YES;
+		_itemOffset = 0;
+		_viewControllerOffset = -1;
 		
 		_rewardsToggleButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		_rewardsToggleButton.frame = CGRectMake(0.0, 3.0, 69.0, 39.0);
@@ -189,7 +191,7 @@
 	_addCommentView.hidden = YES;
 	[self.view addSubview:_addCommentView];
 	
-	_addCommentTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(90, 60, 300, 160)] autorelease];
+	_addCommentTxtView = [[[UITextView alloc] initWithFrame:CGRectMake(10, 10, 300, 160)] autorelease];
 	[_addCommentTxtView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[_addCommentTxtView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 	[_addCommentTxtView setAutocorrectionType:UITextAutocorrectionTypeNo];
@@ -421,6 +423,19 @@
 
 
 -(void)_addComment:(NSNotification *)notification {
+	
+	//DIChore *chore = ;
+	
+	int ind = 0;
+	for (DIRewardItemViewController *viewController in _viewControllers) {
+		if ([viewController.chore isEqual:(DIChore *)[notification object]]) {
+			_viewControllerOffset = ind;
+		}
+		ind++;
+	}
+	
+	NSLog(@"FOUND INDEX:[%d]", _viewControllerOffset);
+	
 	_rewardsScrollView.hidden = YES;
 	_addCommentView.hidden = NO;
 	
@@ -445,7 +460,24 @@
 		_addCommentView.hidden = YES;
 		_rewardsScrollView.hidden = NO;
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"ADDED_CHORE_COMMENT" object:textView.text];
+		
+		if ([textView.text length] > 0) {
+			_itemOffset += 50;
+			
+			for (int i=_viewControllerOffset + 1; i<[_viewControllers count]; i++) {
+				DIRewardItemViewController *viewController = [_viewControllers objectAtIndex:i];
+				
+				[UIView animateWithDuration:0.33 animations:^(void) {
+					CGRect frame = viewController.view.frame;
+					frame.origin.y += 50;
+					viewController.view.frame = frame;	
+				}];
+			}
+			
+			_rewardsScrollView.contentSize = CGSizeMake(320, ([_viewControllers count] * 290) + _itemOffset);
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"ADDED_CHORE_COMMENT" object:textView.text];
+		}
 		return (NO);
 	
 	} else
@@ -493,7 +525,7 @@
 						page++;
 					}
 					
-					_rewardsScrollView.contentSize = CGSizeMake(320, page * 490);
+					_rewardsScrollView.contentSize = CGSizeMake(320, page * 290);
 				
 				} else {
 				}

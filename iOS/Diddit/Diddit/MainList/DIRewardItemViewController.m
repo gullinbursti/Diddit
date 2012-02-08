@@ -8,14 +8,17 @@
 
 #import "DIRewardItemViewController.h"
 #import "DIAppDelegate.h"
+#import "DIRewardCommentView.h"
 
 @implementation DIRewardItemViewController
+
+@synthesize chore = _chore;
 
 #pragma mark - View lifecycle
 -(id)initWithChore:(DIChore *)chore {
 	if ((self = [super init])) {
 		_chore = chore;
-		
+		_commentOffset = 0;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addedComment:) name:@"ADDED_CHORE_COMMENT" object:nil];
 	}
 	
@@ -84,12 +87,12 @@
 	[self.view addSubview:_enterMessageButton];
 	
 		
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"list_separator.png"]] autorelease];
-	frame = dividerImgView.frame;
+	_dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"list_separator.png"]] autorelease];
+	frame = _dividerImgView.frame;
 	frame.origin.x = 30;
 	frame.origin.y = 295;
-	dividerImgView.frame = frame;
-	[self.view addSubview:dividerImgView];
+	_dividerImgView.frame = frame;
+	[self.view addSubview:_dividerImgView];
 }
 
 -(void)viewDidLoad {
@@ -117,14 +120,16 @@
 	
 	if (_isSelected) {
 		NSLog(@"ADDED COMMENT:[%@]", [notification object]);
-		UILabel *lbl = [[[UILabel alloc] initWithFrame:CGRectMake(100, _bubbleFooterImgView.frame.origin.y + 30, 170, 16)] autorelease];
-		lbl.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:14.0];
-		lbl.backgroundColor = [UIColor clearColor];
-		lbl.textColor = [UIColor colorWithWhite:0.398 alpha:1.0];
-		lbl.numberOfLines = 0;
-		lbl.textAlignment = UITextAlignmentCenter;
-		lbl.text = [notification object];
-		[self.view addSubview:lbl];
+		DIRewardCommentView *commentView = [[[DIRewardCommentView alloc] initWithMessage:[notification object]] autorelease];
+		CGRect frame = CGRectMake(96, _bubbleFooterImgView.frame.origin.y + _commentOffset + 55, 170, 16);
+		commentView.frame = frame;
+		[self.view addSubview:commentView];
+				
+		_commentOffset += 50;
+		
+		frame = _dividerImgView.frame;
+		frame.origin.y += _commentOffset;
+		_dividerImgView.frame = frame;
 	}
 	_isSelected = NO;
 }

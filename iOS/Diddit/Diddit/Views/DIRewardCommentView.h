@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DIRewardCommentView : UIView
+@interface DIRewardCommentView : UIView {
+	UIImageView *_bgImgView;
+	UIImageView *_avatarImgView;
+	UILabel *_messageLabel;
+}
+
+-(id)initWithMessage:(NSString *)msg;
 
 @end

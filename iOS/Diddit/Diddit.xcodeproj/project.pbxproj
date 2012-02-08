@@ -195,6 +195,13 @@
 		4C7F5FFC14CF9AFA00825D6C /* DIAppTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5FFB14CF9AFA00825D6C /* DIAppTypeViewController.m */; };
 		4C7F5FFF14CFABAF00825D6C /* DISyncCodeMakerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5FFE14CFABAF00825D6C /* DISyncCodeMakerViewController.m */; };
 		4C7F600214CFD81600825D6C /* DISyncSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F600114CFD81500825D6C /* DISyncSubViewController.m */; };
+		4C9F21F714E1A31B000956D7 /* defaultCommentImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21F514E1A31B000956D7 /* defaultCommentImage.png */; };
+		4C9F21F814E1A31B000956D7 /* defaultCommentImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21F614E1A31B000956D7 /* defaultCommentImage@2x.png */; };
+		4C9F21FC14E1FC75000956D7 /* DIUsernameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F21FB14E1FC75000956D7 /* DIUsernameViewController.m */; };
+		4C9F220114E210FB000956D7 /* submitUserButton_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21FD14E210FB000956D7 /* submitUserButton_active.png */; };
+		4C9F220214E210FB000956D7 /* submitUserButton_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21FE14E210FB000956D7 /* submitUserButton_active@2x.png */; };
+		4C9F220314E210FB000956D7 /* submitUserButton_nonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21FF14E210FB000956D7 /* submitUserButton_nonActive.png */; };
+		4C9F220414E210FB000956D7 /* submitUserButton_nonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F220014E210FB000956D7 /* submitUserButton_nonActive@2x.png */; };
 		4CB8358C14BCFCF000A3EE60 /* pagination_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB8358A14BCFCF000A3EE60 /* pagination_off.png */; };
 		4CB8358D14BCFCF000A3EE60 /* pagination_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB8358B14BCFCF000A3EE60 /* pagination_off@2x.png */; };
 		4CB8359914BD522A00A3EE60 /* DIFooterBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8359814BD522A00A3EE60 /* DIFooterBtnView.m */; };
@@ -719,6 +726,14 @@
 		4C7F5FFE14CFABAF00825D6C /* DISyncCodeMakerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISyncCodeMakerViewController.m; sourceTree = "<group>"; };
 		4C7F600014CFD81500825D6C /* DISyncSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DISyncSubViewController.h; sourceTree = "<group>"; };
 		4C7F600114CFD81500825D6C /* DISyncSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DISyncSubViewController.m; sourceTree = "<group>"; };
+		4C9F21F514E1A31B000956D7 /* defaultCommentImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCommentImage.png; sourceTree = "<group>"; };
+		4C9F21F614E1A31B000956D7 /* defaultCommentImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defaultCommentImage@2x.png"; sourceTree = "<group>"; };
+		4C9F21FA14E1FC75000956D7 /* DIUsernameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIUsernameViewController.h; sourceTree = "<group>"; };
+		4C9F21FB14E1FC75000956D7 /* DIUsernameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIUsernameViewController.m; sourceTree = "<group>"; };
+		4C9F21FD14E210FB000956D7 /* submitUserButton_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = submitUserButton_active.png; sourceTree = "<group>"; };
+		4C9F21FE14E210FB000956D7 /* submitUserButton_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submitUserButton_active@2x.png"; sourceTree = "<group>"; };
+		4C9F21FF14E210FB000956D7 /* submitUserButton_nonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = submitUserButton_nonActive.png; sourceTree = "<group>"; };
+		4C9F220014E210FB000956D7 /* submitUserButton_nonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submitUserButton_nonActive@2x.png"; sourceTree = "<group>"; };
 		4CB8358A14BCFCF000A3EE60 /* pagination_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pagination_off.png; sourceTree = "<group>"; };
 		4CB8358B14BCFCF000A3EE60 /* pagination_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pagination_off@2x.png"; sourceTree = "<group>"; };
 		4CB8359714BD522900A3EE60 /* DIFooterBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIFooterBtnView.h; sourceTree = "<group>"; };
@@ -1378,6 +1393,8 @@
 				4C1DA829149C342D0075B19D /* DIWelcomeViewController.m */,
 				4C7F5FFA14CF9AFA00825D6C /* DIAppTypeViewController.h */,
 				4C7F5FFB14CF9AFA00825D6C /* DIAppTypeViewController.m */,
+				4C9F21FA14E1FC75000956D7 /* DIUsernameViewController.h */,
+				4C9F21FB14E1FC75000956D7 /* DIUsernameViewController.m */,
 				4C7F5FFD14CFABAF00825D6C /* DISyncCodeMakerViewController.h */,
 				4C7F5FFE14CFABAF00825D6C /* DISyncCodeMakerViewController.m */,
 				4C7F600014CFD81500825D6C /* DISyncSubViewController.h */,
@@ -1433,6 +1450,10 @@
 		4CD02D9114B94A8700309AC0 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				4C9F21FD14E210FB000956D7 /* submitUserButton_active.png */,
+				4C9F21FE14E210FB000956D7 /* submitUserButton_active@2x.png */,
+				4C9F21FF14E210FB000956D7 /* submitUserButton_nonActive.png */,
+				4C9F220014E210FB000956D7 /* submitUserButton_nonActive@2x.png */,
 				4C4DD9E814DA483000429CDB /* locateButton_a_active.png */,
 				4C4DD9E914DA483100429CDB /* locateButton_a_active@2x.png */,
 				4C4DD9EA14DA483100429CDB /* locateButton_a_activeOverlay.png */,
@@ -1564,6 +1585,8 @@
 		4CD02D9214B94AC200309AC0 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				4C9F21F514E1A31B000956D7 /* defaultCommentImage.png */,
+				4C9F21F614E1A31B000956D7 /* defaultCommentImage@2x.png */,
 				4C03CBFA14DF38FC00B2139E /* avatarBG.png */,
 				4C03CBFB14DF38FC00B2139E /* avatarBG@2x.png */,
 				4C4DDA0014DA4CAF00429CDB /* footerMenuHighlightState.png */,
@@ -2834,6 +2857,12 @@
 				4C03CC1114DFA02500B2139E /* rewardBG_Bottom@2x.png in Resources */,
 				4C03CC1414DFC36300B2139E /* commentsBG.png in Resources */,
 				4C03CC1514DFC36300B2139E /* commentsBG@2x.png in Resources */,
+				4C9F21F714E1A31B000956D7 /* defaultCommentImage.png in Resources */,
+				4C9F21F814E1A31B000956D7 /* defaultCommentImage@2x.png in Resources */,
+				4C9F220114E210FB000956D7 /* submitUserButton_active.png in Resources */,
+				4C9F220214E210FB000956D7 /* submitUserButton_active@2x.png in Resources */,
+				4C9F220314E210FB000956D7 /* submitUserButton_nonActive.png in Resources */,
+				4C9F220414E210FB000956D7 /* submitUserButton_nonActive@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2976,6 +3005,7 @@
 				4C03CBF914DE461700B2139E /* DIWallet.m in Sources */,
 				4C03CC1814E0464E00B2139E /* DIRewardItemViewController.m in Sources */,
 				4C03CC1B14E0ECC200B2139E /* DIRewardCommentView.m in Sources */,
+				4C9F21FC14E1FC75000956D7 /* DIUsernameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

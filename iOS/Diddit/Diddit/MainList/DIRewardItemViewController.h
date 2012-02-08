@@ -20,8 +20,12 @@
 	BOOL _isSelected;
 	
 	UIImageView *_bubbleFooterImgView;
+	int _commentOffset;
+	UIImageView *_dividerImgView;
 	
 }
+
+@property (nonatomic, retain) DIChore *chore;
 
 -(id)initWithChore:(DIChore *)chore;
 

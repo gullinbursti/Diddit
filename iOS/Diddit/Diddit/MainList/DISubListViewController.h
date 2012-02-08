@@ -43,6 +43,8 @@
 	UITextView *_addCommentTxtView;
 	
 	BOOL _isRewardList;
+	int _itemOffset;
+	int _viewControllerOffset;
 }
 
 @end

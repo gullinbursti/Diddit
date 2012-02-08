@@ -115,7 +115,7 @@
 				
 				$query = 'INSERT INTO `tblUsers` (';
 				$query .= '`id`, `type_id`, `username`, `email`, `pin`, `points`, `added`, `modified`) ';
-				$query .= 'VALUES (NULL, "'. $userType_id .'", "", "'. $username .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
+				$query .= 'VALUES (NULL, "'. $userType_id .'", "'. $username .'", "", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
 				$result = mysql_query($query);
 			    $user_id = mysql_insert_id();
 
@@ -131,6 +131,7 @@
 				$result = mysql_query($query);
 				
 				
+				/*
 				if ($master == "N") {
 					$query = 'SELECT `user_id` FROM `tblSyncCodes` WHERE `value` = "'. $pin .'"';
 					$sync_row = mysql_fetch_row(mysql_query($query));
@@ -157,15 +158,21 @@
 						//curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ["'. $device_id .'"], "type": "'. $type_id .'", "aps": {"alert": { "body": "'. $msg .'", "action-loc-key": "UA_PUSH"}, "badge": "+1"}}');
 						curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": ['. $mater_row[0] .'], "type": "3", "aps": {"alert": { "body": "Chore Added ('. $chore_title .')"}, "badge": "+1"}}');
 			
-					}	
+					}
 				}
-				
-				
-				//$query = 'INSERT INTO `tblUsers` (';
-				//$query .= '`id`, `device_id`, `username`, `email`, `pin`, `points`, `added`, `modified`) ';
-				//$query .= 'VALUES (NULL, "'. $ua_id .'", "", "'. $username .'", "'. $pin .'", 0, NOW(), CURRENT_TIMESTAMP);';
-				//$result = mysql_query($query);
-			    //$user_id = mysql_insert_id();
+				*/
+					
+				if ($master == "Y") {
+					$query = 'SELECT `id` FROM `tblUsers` WHERE `username` = "'. $username .'";';
+					$user_row = mysql_fetch_row(mysql_query($query));
+					
+					if ($user_row) {
+						$query = 'INSERT INTO `tblGiversRecievers` (';
+						$query .= '`giver_id`, `reciever_id`) ';
+						$query .= 'VALUES ('. $user_id .', '. $user_row[0] .');';
+						$result = mysql_query($query);
+					}
+				}
 				
 				// Return data, as JSON
 				$result = array(
@@ -190,7 +197,7 @@
 				
 				$this->sendResponse(200, json_encode(array(
 					"id" => $user_res[0], 
-					"device_id" => $device_res[0], 
+					"device_id" => $ua_id, 
 					"username" => $user_res[1],
 					"email" => $user_res[2],
 					"pin" => $user_res[3],
