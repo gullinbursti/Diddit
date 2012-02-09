@@ -12,11 +12,10 @@
 #import "DIPaginationView.h"
 #import "DIChoreStatsView.h"
 #import "DIFeaturedItemButton.h"
-#import "DIOffersHelpViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIAppListViewController.h"
-#import "DIOfferListViewController.h"
 #import "DIAppViewCell.h"
+#import "DIStoreItemButton.h"
 
 @implementation DIAppListViewController
 
@@ -25,7 +24,7 @@
 	if ((self = [super init])) {
 		_features = [[NSMutableArray alloc] init];
 		_apps = [[NSMutableArray alloc] init];
-		_cells =[[NSMutableArray alloc] init];
+		_giftCards = [[NSMutableArray alloc] init];
 		
 		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"store"] autorelease];
 		
@@ -34,7 +33,8 @@
 		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtnView] autorelease];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goFeatured:) name:@"PUSH_FEATURED" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goStatsUpdate:) name:@"UPDATE_STATS" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goApp:) name:@"PUSH_STORE_APP" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_goCard:) name:@"PUSH_STORE_CARD" object:nil];
 	}
 	
 	return (self);
@@ -52,38 +52,28 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)] autorelease];
-	[self.view addSubview:_choreStatsView];
+	_appsScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	_appsScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_appsScrollView.opaque = NO;
+	_appsScrollView.scrollsToTop = NO;
+	_appsScrollView.showsHorizontalScrollIndicator = NO;
+	_appsScrollView.showsVerticalScrollIndicator = NO;
+	_appsScrollView.alwaysBounceVertical = NO;
+	_appsScrollView.contentSize = self.view.bounds.size;
+	[self.view addSubview:_appsScrollView];
 	
-	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	offersBtn.frame = CGRectMake(228, 15, 84, 34);
-	offersBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[offersBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	offersBtn.titleLabel.shadowColor = [UIColor blackColor];
-	offersBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[offersBtn setTitle:@"Earn Didds" forState:UIControlStateNormal];
-	[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:offersBtn];
-	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
-	frame = dividerImgView.frame;
-	frame.origin.y = 61;
-	dividerImgView.frame = frame;
-	[self.view addSubview:dividerImgView];
-	
-	_featuredView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 230)];
-	
-	_appsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 62, self.view.bounds.size.width, self.view.bounds.size.height - 56) style:UITableViewStylePlain];
-	_appsTableView.rowHeight = 80;
-	_appsTableView.backgroundColor = [UIColor clearColor];
-	_appsTableView.separatorColor = [UIColor clearColor];
-	_appsTableView.delegate = self;
-	_appsTableView.dataSource = self;
-	[self.view addSubview:_appsTableView];
-	_appsTableView.hidden = YES;
-	
+	_featuredScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 25, 320, 160)];
+	_featuredScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_featuredScrollView.opaque = NO;
+	_featuredScrollView.scrollsToTop = NO;
+	_featuredScrollView.pagingEnabled = YES;
+	_featuredScrollView.delegate = self;
+	_featuredScrollView.showsHorizontalScrollIndicator = NO;
+	_featuredScrollView.showsVerticalScrollIndicator = NO;
+	_featuredScrollView.alwaysBounceVertical = NO;
+	_featuredScrollView.bounces = NO;
+	_featuredScrollView.contentSize = CGSizeMake(320, 160);
+	[_appsScrollView addSubview:_featuredScrollView];
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -111,15 +101,14 @@
 
 
 -(void)dealloc {
-	[_featuredView release];
+	[_appsScrollView release];
 	[_featuredScrollView release];
 	[_paginationView release];
-	[_appsTableView release];
 	[_featuredDataRequest release];
 	[_appsDataRequest release];
 	[_features release];
-	//[_apps release];
-	[_cells release];
+	[_apps release];
+	[_giftCards release];
 	[_loadOverlay release];
 	
 	[super dealloc];
@@ -131,117 +120,28 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)_goOffers {
-	//[self.navigationController popViewControllerAnimated:NO];
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
-	
-	//	[self.navigationController dismissViewControllerAnimated:YES completion:^(void) {
-	//		[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_OFFERS_SCREEN" object:nil];
-	//	}];
-	
-	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
-}
-
 -(void)_goFeatured:(NSNotification *)notification {
 	NSLog(@"GO FEATURE!!! [%d]", [(NSNumber *)[notification object] intValue]);
 	[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_features objectAtIndex:[(NSNumber *)[notification object] intValue]]] autorelease] animated:YES];
 }
 
+-(void)_goApp:(NSNotification *)notification {
+	[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_apps objectAtIndex:[(NSNumber *)[notification object] intValue]]] autorelease] animated:YES];
+}
+
+-(void)_goCard:(NSNotification *)notification {
+	[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_giftCards objectAtIndex:[(NSNumber *)[notification object] intValue]]] autorelease] animated:YES];
+}
+
 
 #pragma mark - Notifications
 -(void)_goStatsUpdate:(NSNotification *)notification {
-	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
+	//[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 }
-
-#pragma mark - TableView Data Source Delegates
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_apps count] + 1);
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	if (indexPath.row == 0) {
-		UITableViewCell *cell = nil;
-		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-		
-		if (cell == nil) {			
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
-			[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-			[cell addSubview:_featuredView];
-		}
-		
-		[_cells addObject:cell];
-		return (cell);
-		
-	} else {
-		DIAppViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIAppViewCell cellReuseIdentifier]];
-		
-		if (cell == nil)
-			cell = [[[DIAppViewCell alloc] init] autorelease];
-		
-		cell.app = [_apps objectAtIndex:indexPath.row - 1];
-		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-		
-		[_cells addObject:cell];
-		return (cell);		
-	}
-}
-
-
-
-/*
-#pragma mark - TableView Delegates
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return (136);
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	return (_featuredView);
-}
-*/
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"SELECTED [%d]", indexPath.row);
-	
-	if (indexPath.row > 0) {
-		DIAppViewCell *cell = (DIAppViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-		[cell toggleSelected];
-		
-		[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:(DIApp *)[_apps objectAtIndex:indexPath.row - 1]] autorelease] animated:YES];
-	}	
-}
-
-/*
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"DESELECTED [%d]", indexPath.row);
-	
-	UITableViewCell *cell = (UITableViewCell *)[_cells objectAtIndex:indexPath.row];
-	cell.alpha = 1.0;
-	
-	DIApp *app = (DIApp *)[_apps objectAtIndex:indexPath.row];
-	
-	[self.navigationController pushViewController:[[[DIAppDetailsViewController alloc] initWithApp:app] autorelease] animated:YES];
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-*/
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	if (indexPath.row == 0)
-		return (230);
-	else
-		return (80);
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	
-	//	cell.textLabel.font = [[OJAppDelegate ojApplicationFontSemibold] fontWithSize:12.0];
-	cell.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-}
-
 
 #pragma mark - ScrollView Delegates
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	int page = _featuredScrollView.contentOffset.x / 160;
+	int page = _featuredScrollView.contentOffset.x / 320;
 	
 	[_paginationView updToPage:page];
 	NSLog(@"SCROLL PAGE:[%d]", page);
@@ -261,22 +161,46 @@
 			
 			else {
 				NSMutableArray *appList = [NSMutableArray array];
+				NSMutableArray *cardList = [NSMutableArray array];
 				
 				for (NSDictionary *serverApp in parsedApps) {
 					DIApp *app = [DIApp appWithDictionary:serverApp];
 					
-					//NSLog(@"APP \"%@\"", app.title);
+					NSLog(@"APP \"%@\" (%d)", app.title, app.type_id);
 					
-					if (app != nil)
-						[appList addObject:app];
+					if (app != nil) {
+						
+						if (app.type_id == 1)
+							[appList addObject:app];
+						
+						else
+							[cardList addObject:app];
+					}
 				}
 				
 				_apps = [appList retain];
-				[_appsTableView reloadData];
+				_giftCards = [cardList retain];
 				
-				if ([_apps count] > 0) {
-					_appsTableView.hidden = NO;
-					//_emptyLabel.hidden = YES;
+				int i = 0;
+				for (DIApp *app in _giftCards) {
+					DIStoreItemButton *storeItemButton = [[[DIStoreItemButton alloc] initWithApp:app AtIndex:i] autorelease];
+					CGRect frame = storeItemButton.frame;
+					frame.origin.x = 20 + (i * 80);
+					frame.origin.y = 233;
+					storeItemButton.frame = frame;
+					[_appsScrollView addSubview:storeItemButton];
+					i++;
+				}
+				
+				i = 0;
+				for (DIApp *app in _apps) {
+					DIStoreItemButton *storeItemButton = [[[DIStoreItemButton alloc] initWithApp:app AtIndex:i] autorelease];
+					CGRect frame = storeItemButton.frame;
+					frame.origin.x = 20 + (i * 80);
+					frame.origin.y = 382;
+					storeItemButton.frame = frame;
+					[_appsScrollView addSubview:storeItemButton];
+					i++;
 				}
 				
 				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
@@ -312,31 +236,17 @@
 			}
 			
 			for (int i=0; i<[_features count]; i++) {
-				int col = i % 2;
-				int row = i / 2;
-				
-				//DIFeaturedItemButton *featuredItemButton = [[[DIFeaturedItemButton alloc] initWithImage:[UIImage imageNamed:@"storeFeature.png"]] retain];
 				DIFeaturedItemButton *featuredItemButton = [[DIFeaturedItemButton alloc] initWithApp:(DIApp *)[_features objectAtIndex:i] AtIndex:i];
 				CGRect frame = featuredItemButton.frame;
-				frame.origin.x = col * 154;
-				frame.origin.y = row * 114;
+				frame.origin.x = 25 + (i * 320);
 				featuredItemButton.frame = frame;
-				[_featuredView addSubview:featuredItemButton];
+				[_featuredScrollView addSubview:featuredItemButton];
 			}
 			
-			UIImageView *divider1ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
-			CGRect frame = divider1ImgView.frame;
-			frame.origin.x = -10;
-			frame.origin.y = 104;
-			divider1ImgView.frame = frame;
-			[_featuredView addSubview:divider1ImgView];
+			_featuredScrollView.contentSize = CGSizeMake(320 * [_features count], 160);
+			_paginationView = [[DIPaginationView alloc] initWithTotal:[_features count] coords:CGPointMake(160, 165)];
+			[_appsScrollView addSubview:_paginationView];
 			
-			UIImageView *divider2ImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
-			frame = divider2ImgView.frame;
-			frame.origin.x = -10;
-			frame.origin.y = 220;
-			divider2ImgView.frame = frame;
-			[_featuredView addSubview:divider2ImgView];
 		}
 		
 		[_loadOverlay remove];	

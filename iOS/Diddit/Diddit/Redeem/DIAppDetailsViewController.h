@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #import "DIApp.h"
-#import "DIChoreStatsView.h"
 #import "DIPaginationView.h"
 #import "DILoadOverlay.h"
-#import "DIAppStatsView.h"
 
 #import "ASIFormDataRequest.h"
 
@@ -21,11 +19,7 @@
 	DIPaginationView *_paginationView;
 	UIScrollView *_imgScrollView;
 	DILoadOverlay *_loadOverlay;
-	DIChoreStatsView *_choreStatsView;
-	DIAppStatsView *_appStatsView;
 	
-	
-	UIView *_footerView;
 	UIButton *_footerBtn;
 	BOOL _isStoreAlert;
 }

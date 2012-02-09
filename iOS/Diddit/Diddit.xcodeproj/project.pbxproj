@@ -202,6 +202,7 @@
 		4C9F220214E210FB000956D7 /* submitUserButton_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21FE14E210FB000956D7 /* submitUserButton_active@2x.png */; };
 		4C9F220314E210FB000956D7 /* submitUserButton_nonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F21FF14E210FB000956D7 /* submitUserButton_nonActive.png */; };
 		4C9F220414E210FB000956D7 /* submitUserButton_nonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F220014E210FB000956D7 /* submitUserButton_nonActive@2x.png */; };
+		4C9F221114E392B3000956D7 /* DIStoreItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F221014E392B3000956D7 /* DIStoreItemButton.m */; };
 		4CB8358C14BCFCF000A3EE60 /* pagination_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB8358A14BCFCF000A3EE60 /* pagination_off.png */; };
 		4CB8358D14BCFCF000A3EE60 /* pagination_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CB8358B14BCFCF000A3EE60 /* pagination_off@2x.png */; };
 		4CB8359914BD522A00A3EE60 /* DIFooterBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8359814BD522A00A3EE60 /* DIFooterBtnView.m */; };
@@ -734,6 +735,8 @@
 		4C9F21FE14E210FB000956D7 /* submitUserButton_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submitUserButton_active@2x.png"; sourceTree = "<group>"; };
 		4C9F21FF14E210FB000956D7 /* submitUserButton_nonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = submitUserButton_nonActive.png; sourceTree = "<group>"; };
 		4C9F220014E210FB000956D7 /* submitUserButton_nonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submitUserButton_nonActive@2x.png"; sourceTree = "<group>"; };
+		4C9F220F14E392B3000956D7 /* DIStoreItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIStoreItemButton.h; sourceTree = "<group>"; };
+		4C9F221014E392B3000956D7 /* DIStoreItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIStoreItemButton.m; sourceTree = "<group>"; };
 		4CB8358A14BCFCF000A3EE60 /* pagination_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pagination_off.png; sourceTree = "<group>"; };
 		4CB8358B14BCFCF000A3EE60 /* pagination_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pagination_off@2x.png"; sourceTree = "<group>"; };
 		4CB8359714BD522900A3EE60 /* DIFooterBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIFooterBtnView.h; sourceTree = "<group>"; };
@@ -1294,6 +1297,8 @@
 				4CBC4A8A14BF855400043556 /* DILoadOverlay.m */,
 				4CBC4A7814BF537600043556 /* DIFeaturedItemButton.h */,
 				4CBC4A7914BF537600043556 /* DIFeaturedItemButton.m */,
+				4C9F220F14E392B3000956D7 /* DIStoreItemButton.h */,
+				4C9F221014E392B3000956D7 /* DIStoreItemButton.m */,
 				4C0B54AE14D2499B008DD94B /* DISponsorshipItemButton.h */,
 				4C0B54AF14D2499B008DD94B /* DISponsorshipItemButton.m */,
 				4CBC4A7B14BF53C300043556 /* DIAppRatingStarsView.h */,
@@ -3006,6 +3011,7 @@
 				4C03CC1814E0464E00B2139E /* DIRewardItemViewController.m in Sources */,
 				4C03CC1B14E0ECC200B2139E /* DIRewardCommentView.m in Sources */,
 				4C9F21FC14E1FC75000956D7 /* DIUsernameViewController.m in Sources */,
+				4C9F221114E392B3000956D7 /* DIStoreItemButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

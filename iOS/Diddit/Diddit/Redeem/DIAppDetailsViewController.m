@@ -52,54 +52,37 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	CGSize textSize = [_app.app_info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
+	//CGSize textSize = [_app.app_info sizeWithFont:[[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12] constrainedToSize:CGSizeMake(300.0, CGFLOAT_MAX) lineBreakMode:UILineBreakModeClip];
+	CGRect frame;
 	
 	UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0, self.view.bounds.size.width, 396)] autorelease];
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	scrollView.opaque = NO;
-	scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, textSize.height + 400);
+	scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, 480);
 	scrollView.scrollsToTop = NO;
 	scrollView.showsHorizontalScrollIndicator = NO;
 	scrollView.showsVerticalScrollIndicator = YES;
 	scrollView.alwaysBounceVertical = NO;
 	[self.view addSubview:scrollView];
 	
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 40, 280, 30)] autorelease];
+	titleLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:24.0];
+	titleLabel.backgroundColor = [UIColor clearColor];
+	titleLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	titleLabel.textAlignment = UITextAlignmentCenter;
+	titleLabel.text = _app.title;
+	[scrollView addSubview:titleLabel];
 	
-	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 15, 300, 34)] autorelease];
-	[scrollView addSubview:_choreStatsView];
-	
-	UIButton *offersBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	offersBtn.frame = CGRectMake(228, 17, 84, 34);
-	offersBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[offersBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[offersBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	offersBtn.titleLabel.shadowColor = [UIColor blackColor];
-	offersBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[offersBtn setTitle:@"Earn Didds" forState:UIControlStateNormal];
-	[offersBtn addTarget:self action:@selector(_goOffers) forControlEvents:UIControlEventTouchUpInside];
-	[scrollView addSubview:offersBtn];
-	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
-	CGRect frame = dividerImgView.frame;
-	frame.origin.y = 61;
-	dividerImgView.frame = frame;
-	[scrollView addSubview:dividerImgView];
-	
-	_appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 77.0) appVO:_app] autorelease];
-	[scrollView addSubview:_appStatsView];
-		
-	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 150, 300, textSize.height)] autorelease];
+	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 80, 300, 30)] autorelease];
 	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	storeInfoLabel.backgroundColor = [UIColor clearColor];
 	storeInfoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-	storeInfoLabel.numberOfLines = 0;
+	storeInfoLabel.numberOfLines = 2;
+	storeInfoLabel.textAlignment = UITextAlignmentCenter;
 	storeInfoLabel.text = _app.app_info;
 	[scrollView addSubview:storeInfoLabel];
 	
-	NSLog(@"INFO:[%@]", _app.info);
-	
-	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160 + textSize.height, 320, 300)];
+	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 126, 320, 300)];
 	_imgScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_imgScrollView.opaque = NO;
 	_imgScrollView.contentSize = CGSizeMake(320 * [_app.images count], 240);
@@ -120,7 +103,7 @@
 		NSString *url = [dict objectForKey:@"url"];
 		
 		
-		CGSize size = CGSizeMake(300, 200);
+		CGSize size = CGSizeMake(280, 190);
 		
 		UIView *holderView = [[[UIView alloc] initWithFrame:CGRectMake(xOffset, 0, size.width, size.height)] autorelease];
 		EGOImageView *appImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)] autorelease];
@@ -146,8 +129,8 @@
 		xOffset += 320;
 	}
 	
-	_paginationView = [[DIPaginationView alloc] initWithTotal:[_app.images count] coords:CGPointMake(160, 370 + textSize.height)];
-	[scrollView addSubview:_paginationView];
+	_paginationView = [[DIPaginationView alloc] initWithTotal:[_app.images count] coords:CGPointMake(160, 320)];
+	//[scrollView addSubview:_paginationView];
 	
 	/*
 	appImgView.imageURL = [NSURL URLWithString:_app.img_url];
@@ -165,11 +148,7 @@
 	
 	//[scrollView addSubview:appImgView];
 	
-	_footerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 344, 320, 72)] autorelease];
-	_footerView.backgroundColor = [UIColor colorWithRed:0.2706 green:0.7804 blue:0.4549 alpha:1.0];
-	[self.view addSubview:_footerView];
-	
-	
+		
 	NSString *buttonLbl;
 	
 	if (_app.type_id == 1)
@@ -257,14 +236,9 @@
 	[purchaseRequest setDelegate:self];
 	[purchaseRequest startAsynchronous];
 	
-	[_appStatsView makePuchased];
 	[UIView animateWithDuration:0.33 animations:^(void) {
-		CGRect footerFrame = _footerView.frame;
-		footerFrame.origin.y += footerFrame.size.height;
-		_footerView.frame = footerFrame;
-		
 		CGRect btnFrame = _footerBtn.frame;
-		btnFrame.origin.y += footerFrame.size.height;
+		//btnFrame.origin.y += footerFrame.size.height;
 		_footerBtn.frame = btnFrame;
 	}];
 	
@@ -327,7 +301,6 @@
 			
 		else {
 			[DIAppDelegate setUserProfile:parsedUser];
-			[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"UPDATE_STATS" object:nil];
 			
 			if (_app.type_id == 2) {

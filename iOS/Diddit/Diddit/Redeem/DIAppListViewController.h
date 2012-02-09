@@ -10,27 +10,23 @@
 
 #import "ASIFormDataRequest.h"
 #import "DIPaginationView.h"
-#import "DIChoreStatsView.h"
 #import "DILoadOverlay.h"
 
-@interface DIAppListViewController : UIViewController <ASIHTTPRequestDelegate, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface DIAppListViewController : UIViewController <ASIHTTPRequestDelegate, UIScrollViewDelegate> {
 	
-	UIView *_featuredView;
 	UIScrollView *_featuredScrollView;
+	UIScrollView *_appsScrollView;
 	DIPaginationView *_paginationView;
-	
-	UITableView *_appsTableView;
 	
 	ASIFormDataRequest *_featuredDataRequest;
 	ASIFormDataRequest *_appsDataRequest;
 	
 	NSMutableArray *_features;
 	NSMutableArray *_apps;
+	NSMutableArray *_giftCards;
 	
-	NSMutableArray *_cells;
 	
 	DILoadOverlay *_loadOverlay;
-	DIChoreStatsView *_choreStatsView;
 }
 
 @end

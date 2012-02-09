@@ -16,7 +16,7 @@
 @implementation DIFeaturedItemButton
 
 -(id)initWithApp:(DIApp *)app AtIndex:(int)ind {
-	if ((self = [super initWithFrame:CGRectMake(0, 0, 149.0, 94.0)])) {
+	if ((self = [super initWithFrame:CGRectMake(0, 0, 270.0, 130.0)])) {
 		_app = app;
 		_ind = ind;
 		
@@ -31,7 +31,7 @@
 		bgView.layer.borderWidth = 0.0;
 		[self addSubview:bgView];
 		*/
-		_imgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 149.0, 94.0)] autorelease];
+		_imgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 270.0, 130.0)] autorelease];
 		_imgView.imageURL = [NSURL URLWithString:app.img_url];
 		[self addSubview:_imgView];
 		
@@ -50,7 +50,7 @@
 
 -(void)_goTouchUp {
 	[UIView animateWithDuration:0.15 animations:^(void) {
-		_imgView.alpha = 0.0;
+		_imgView.alpha = 1.0;
 	}];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"PUSH_FEATURED" object:[NSNumber numberWithInt:_ind]];
