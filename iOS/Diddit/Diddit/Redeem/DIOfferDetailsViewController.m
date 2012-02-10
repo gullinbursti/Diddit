@@ -13,7 +13,6 @@
 #import "DIAppDelegate.h"
 #import "DINavBackBtnView.h"
 #import "DINavTitleView.h"
-#import "DIChoreStatsView.h"
 #import "DIOffersHelpViewController.h"
 #import "DIOfferVideoViewController.h"
 #import "DIOfferStatsView.h"
@@ -66,9 +65,6 @@
 	scrollView.showsVerticalScrollIndicator = YES;
 	scrollView.alwaysBounceVertical = NO;
 	[self.view addSubview:scrollView];
-	
-	DIChoreStatsView *choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)]autorelease];
-	[scrollView addSubview:choreStatsView];
 	
 	UIButton *helpBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	helpBtn.frame = CGRectMake(228, 15, 84, 34);

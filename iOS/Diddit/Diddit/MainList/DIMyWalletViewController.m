@@ -84,6 +84,10 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)_goEarn {
+	
+}
+
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return ([_history count] + 1);
@@ -100,7 +104,7 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
 		
 		
-		UILabel *ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 300, 80)];
+		UILabel *ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 34, 300, 80)];
 		ptsLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:64];
 		ptsLabel.backgroundColor = [UIColor clearColor];
 		ptsLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.0];
@@ -109,12 +113,12 @@
 		[cell addSubview:ptsLabel];
 		
 		UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"walletBG.png"]] autorelease];
-		CGRect frame = CGRectMake(32, 112, 264, 84);
+		CGRect frame = CGRectMake(32, 116, 264, 84);
 		dividerImgView.frame = frame;
 		[cell addSubview:dividerImgView];
 		
 		
-		UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 145, 260, 40)];
+		UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 141, 260, 40)];
 		infoLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:12];
 		infoLabel.backgroundColor = [UIColor clearColor];
 		infoLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
@@ -123,7 +127,19 @@
 		infoLabel.text = [NSString stringWithFormat:@"you have %d didds available to redeem for gidt cards and apps", [DIAppDelegate userPoints]];
 		[cell addSubview:infoLabel];
 		
-		UIView *historyHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 280, 320, 35)] autorelease];
+		UIButton *_earnMoreButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		_earnMoreButton.frame = CGRectMake(85, 217, 154, 34);
+		[_earnMoreButton setBackgroundImage:[[UIImage imageNamed:@"greenCommonButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		[_earnMoreButton setBackgroundImage:[[UIImage imageNamed:@"greenCommonButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+		_earnMoreButton.titleLabel.font = [[DIAppDelegate diOpenSansFontSemibold] fontWithSize:11];
+		_earnMoreButton.titleLabel.shadowColor = [UIColor blackColor];
+		_earnMoreButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		_earnMoreButton.titleEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
+		[_earnMoreButton setTitle:@"Tap here to earn more" forState:UIControlStateNormal];
+		[_earnMoreButton addTarget:self action:@selector(_goEarn) forControlEvents:UIControlEventTouchUpInside];
+		[cell addSubview:_earnMoreButton];
+		
+		UIView *historyHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 275, 320, 35)] autorelease];
 		historyHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
 		[cell addSubview:historyHeaderView];
 		

@@ -30,9 +30,6 @@
 		_icoImgView.imageURL = [NSURL URLWithString:app.ico_url];
 		[self addSubview:_icoImgView];
 		
-		//[self setBackgroundImage:[_icoImgView.image stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		//[self setBackgroundImage:[_icoImgView.image stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
-		
 		UILabel *pointsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 65, 57, 16)] autorelease];
 		pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 		pointsLabel.backgroundColor = [UIColor clearColor];

@@ -29,7 +29,7 @@
 		int bgAlpha;
 		
 		if (index % 2 == 0)
-			bgAlpha = 10;
+			bgAlpha = 5;//10;
 		
 		else
 			bgAlpha = 5;
@@ -45,14 +45,14 @@
 		
 		_avatarImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)] autorelease];
 		
-		_ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 54, 16)];
+		_ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 54, 16)];
 		_ptsLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:12];
 		_ptsLabel.backgroundColor = [UIColor clearColor];
 		_ptsLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
 		_ptsLabel.textAlignment = UITextAlignmentCenter;
 		[holderView addSubview:_ptsLabel];
 		
-		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 150, 16)];
+		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 150, 16)];
 		_typeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
 		_typeLabel.backgroundColor = [UIColor clearColor];
 		_typeLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];

@@ -10,7 +10,6 @@
 
 #import "DIAppViewCell.h"
 #import "DIAppDelegate.h"
-#import "DIAppStatsView.h"
 
 @implementation DIAppViewCell
 
@@ -69,9 +68,6 @@
 #pragma mark - Accessors
 - (void)setApp:(DIApp *)app {
 	_app = app;
-	
-	DIAppStatsView *appStatsView = [[[DIAppStatsView alloc] initWithCoords:CGPointMake(10.0, 10.0) appVO:_app] autorelease];
-	[_holderView addSubview:appStatsView];
 }
 
 

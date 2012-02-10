@@ -132,7 +132,6 @@
 	[sendButton setBackgroundImage:[[UIImage imageNamed:@"largeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 	[sendButton setBackgroundImage:[[UIImage imageNamed:@"largeButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	sendButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:16];
-	sendButton.titleLabel.textColor = [UIColor whiteColor];
 	sendButton.titleLabel.shadowColor = [UIColor blackColor];
 	sendButton.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	[sendButton setTitle:@"send" forState:UIControlStateNormal];

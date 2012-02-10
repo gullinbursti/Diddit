@@ -11,16 +11,12 @@
 #import "DISubListViewController.h"
 
 #import "DIAppDelegate.h"
-#import "DIChoreStatsView.h"
-#import "DIAddChoreTypeViewController.h"
 #import "DIAppListViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIOfferListViewController.h"
 #import "DIOfferDetailsViewController.h"
 #import "DISettingsViewController.h"
-#import "DIMyChoresViewCell.h"
 #import "DIMyWalletViewController.h"
-#import "DISponsorshipItemButton.h"
 #import "DISponsorship.h"
 #import "DIRewardItemViewController.h"
 

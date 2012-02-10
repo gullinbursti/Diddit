@@ -9,7 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DIStoreCreditsViewCell.h"
 #import "DIAppDelegate.h"
-#import "DIAppRatingStarsView.h"
 
 @implementation DIStoreCreditsViewCell
 
@@ -98,9 +97,6 @@
 	_icoImgView.imageURL = [NSURL URLWithString:_app.ico_url];
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _app.title];		
 	_infoLabel.text = _app.info;
-	
-	DIAppRatingStarsView *appRatingStarsView = [[[DIAppRatingStarsView alloc] initWithCoords:CGPointMake(66.0, 38.0) appScore:_app.score] autorelease];
-	[_holderView addSubview:appRatingStarsView];
 }
 
 

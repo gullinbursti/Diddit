@@ -66,4 +66,14 @@
 +(UIFont *)diAdelleFontBoldItalic;
 +(UIFont *)diHelveticaNeueFontBold;
 
++(UIFont *)diOpenSansFontRegular;
++(UIFont *)diOpenSansFontSemibold;
++(UIFont *)diOpenSansFontBold;
+
+
++(UIColor *)diColor333333;
++(UIColor *)diColor5D5D5D;
++(UIColor *)diColor666666;
++(UIColor *)diColor40AC61;
+
 @end

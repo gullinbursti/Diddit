@@ -11,7 +11,6 @@
 #import "DIAppDelegate.h"
 #import "DINavTitleView.h"
 #import "DINavBackBtnView.h"
-#import "DIChoreStatsView.h"
 #import "DIOffer.h"
 #import "DIOfferViewCell.h"
 
@@ -42,22 +41,7 @@
 	UIImageView *bgImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]];
 	[self.view addSubview:bgImgView];
 	
-	_choreStatsView = [[[DIChoreStatsView alloc] initWithFrame:CGRectMake(10, 13, 300, 34)]autorelease];
-	[self.view addSubview:_choreStatsView];
-	
-	UIButton *helpBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	helpBtn.frame = CGRectMake(228, 15, 84, 34);
-	helpBtn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	[helpBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[helpBtn setBackgroundImage:[[UIImage imageNamed:@"earnDiddsButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
-	[helpBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	helpBtn.titleLabel.shadowColor = [UIColor blackColor];
-	helpBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[helpBtn setTitle:@"Need Help" forState:UIControlStateNormal];
-	[helpBtn addTarget:self action:@selector(_goHelp) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:helpBtn];
-	
-	_offersTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 56, self.view.bounds.size.width, self.view.bounds.size.height - 56) style:UITableViewStylePlain];
+	_offersTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
 	_offersTableView.rowHeight = 80;
 	_offersTableView.backgroundColor = [UIColor clearColor];
 	_offersTableView.separatorColor = [UIColor clearColor];
@@ -138,7 +122,6 @@
 	DIOffer *offer = (DIOffer *)[notification object];
 	
 	NSLog(@"OFFER COMPLETE [%@]", offer.title);
-	[[_choreStatsView ptsBtn] setTitle:[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:[DIAppDelegate userPoints]] numberStyle:NSNumberFormatterDecimalStyle] forState:UIControlStateNormal];
 	
 	[_offers removeObjectIdenticalTo:offer];
 	//[_offersTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];

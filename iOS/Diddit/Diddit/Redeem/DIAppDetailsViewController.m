@@ -13,8 +13,6 @@
 #import "DIAppDelegate.h"
 #import "DINavBackBtnView.h"
 #import "DINavTitleView.h"
-#import "DIAppRatingStarsView.h"
-#import "DIAppStatsView.h"
 #import "DIOfferListViewController.h"
 #import "DIRedeemCodeViewController.h"
 

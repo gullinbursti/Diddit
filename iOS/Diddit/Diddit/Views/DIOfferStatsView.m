@@ -11,8 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "EGOImageView.h"
-#import "DIAppRatingStarsView.h"
-#import "DIAppStatsView.h"
 #import "DIAppDelegate.h"
 
 @implementation DIOfferStatsView
@@ -42,9 +40,6 @@
 		infoLabel.backgroundColor = [UIColor clearColor];
 		infoLabel.text = _offer.title;
 		[self addSubview:infoLabel];
-		
-		DIAppRatingStarsView *appRatingStarsView = [[[DIAppRatingStarsView alloc] initWithCoords:CGPointMake(66.0, 38.0) appScore:_offer.score] autorelease];
-		[self addSubview:appRatingStarsView];
 		
 		_ptsView = [[[UIView alloc] initWithFrame:CGRectMake(247.0, 16.0, 52, 30)] autorelease];
 		_ptsView.backgroundColor = [UIColor colorWithRed:0.976 green:0.976 blue:0.929 alpha:1.0];

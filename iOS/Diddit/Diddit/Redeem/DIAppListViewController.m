@@ -10,7 +10,6 @@
 #import "DINavTitleView.h"
 #import "DINavBackBtnView.h"
 #import "DIPaginationView.h"
-#import "DIChoreStatsView.h"
 #import "DIFeaturedItemButton.h"
 #import "DIAppDetailsViewController.h"
 #import "DIAppListViewController.h"

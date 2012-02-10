@@ -11,8 +11,6 @@
 #import "DIMasterListViewController.h"
 
 #import "DIAppDelegate.h"
-#import "DIChoreStatsView.h"
-#import "DIAddChoreTypeViewController.h"
 #import "DIAppListViewController.h"
 #import "DIAppDetailsViewController.h"
 #import "DIOfferListViewController.h"

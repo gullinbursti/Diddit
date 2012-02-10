@@ -80,7 +80,8 @@
 	[_enterMessageButton setBackgroundImage:[[UIImage imageNamed:@"inputBG.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	[_enterMessageButton setBackgroundImage:[[UIImage imageNamed:@"inputBG.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateSelected];
 	_enterMessageButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-	_enterMessageButton.titleLabel.textColor = [UIColor blackColor];
+	[_enterMessageButton setTitleColor:[DIAppDelegate diColor333333] forState:UIControlStateNormal];
+	[_enterMessageButton setTitleColor:[DIAppDelegate diColor333333] forState:UIControlStateSelected];
 	//_enterMessageButton.titleEdgeInsets = UIEdgeInsetsMake(0, 2, 0, -2);
 	[_enterMessageButton setTitle:@"Enter comments here" forState:UIControlStateNormal];
 	[_enterMessageButton addTarget:self action:@selector(_goComments) forControlEvents:UIControlEventTouchUpInside];

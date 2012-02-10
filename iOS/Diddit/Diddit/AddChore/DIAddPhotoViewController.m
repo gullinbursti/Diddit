@@ -9,7 +9,6 @@
 #import "DIAddPhotoViewController.h"
 
 #import "DINavRightBtnView.h"
-#import "DIChorePriceViewController.h"
 
 @implementation DIAddPhotoViewController
 
@@ -109,7 +108,7 @@
 }
 
 -(void)_goNext {
-	[self.navigationController pushViewController:[[[DIChorePriceViewController alloc] initWithChore:_chore] autorelease] animated:YES];
+	//[self.navigationController pushViewController:[[[DIChorePriceViewController alloc] initWithChore:_chore] autorelease] animated:YES];
 }
 
 -(void)_goCamera {

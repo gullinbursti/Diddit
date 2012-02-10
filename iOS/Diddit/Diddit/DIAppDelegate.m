@@ -157,6 +157,33 @@
 	return [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0];
 }
 
++(UIFont *)diOpenSansFontRegular {
+	return [UIFont fontWithName:@"OpenSans" size:12.0];
+}
+
++(UIFont *)diOpenSansFontBold {
+	return [UIFont fontWithName:@"OpenSans-Bold" size:12.0];
+}
+
++(UIFont *)diOpenSansFontSemibold {
+	return [UIFont fontWithName:@"OpenSans-Semibold" size:12.0];
+}
+
++(UIColor *)diColor333333 {
+	return ([UIColor colorWithWhite:0.200 alpha:1.0]);
+}
+
++(UIColor *)diColor5D5D5D {
+	return ([UIColor colorWithWhite:0.365 alpha:1.0]);
+}
+
++(UIColor *)diColor666666 {
+	return ([UIColor colorWithWhite:0.400 alpha:1.0]);
+}
+
++(UIColor *)diColor40AC61 {
+	return ([UIColor colorWithRed:0.251 green:0.675 blue:0.380 alpha:1.0]);
+}
 
 //+(NSString *)userPinCode {
 //	return ([[DIAppDelegate profileForUser] objectForKey:@"pin"]);
