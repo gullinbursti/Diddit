@@ -207,7 +207,7 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	_iapPakRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/AppStore.php"]] retain];
+	_iapPakRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"InAppPurchases.php"]]] retain];
 	[_iapPakRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[_iapPakRequest setDelegate:self];
 	[_iapPakRequest startAsynchronous];
@@ -293,7 +293,7 @@
 	NSLog(@"iapID:[%d]", _pricePak.iap_id);
 
 	
-	_addChoreDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+	_addChoreDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 	[_addChoreDataRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
 	[_addChoreDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_addChoreDataRequest setPostValue:_titleLabel.text forKey:@"choreTitle"];

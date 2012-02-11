@@ -59,9 +59,31 @@
 	_appsScrollView.showsVerticalScrollIndicator = NO;
 	_appsScrollView.alwaysBounceVertical = NO;
 	_appsScrollView.contentSize = self.view.bounds.size;
+	
+	UIView *cardsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 178, 320, 35)] autorelease];
+	cardsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
+	[_appsScrollView addSubview:cardsHeaderView];
+	
+	UILabel *cardsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
+	cardsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+	cardsLabel.backgroundColor = [UIColor clearColor];
+	cardsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	cardsLabel.text = @"Gift cards and credits";
+	[cardsHeaderView addSubview:cardsLabel];
+	
+	UIView *appsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 327, 320, 35)] autorelease];
+	appsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
+	[_appsScrollView addSubview:appsHeaderView];
+	
+	UILabel *appsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
+	appsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+	appsLabel.backgroundColor = [UIColor clearColor];
+	appsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	appsLabel.text = @"Paid Applications";
+	[appsHeaderView addSubview:appsLabel];
 	[self.view addSubview:_appsScrollView];
 	
-	_featuredScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 25, 320, 160)];
+	_featuredScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 22, 320, 170)];
 	_featuredScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_featuredScrollView.opaque = NO;
 	_featuredScrollView.scrollsToTop = NO;
@@ -82,7 +104,7 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
 	[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
@@ -165,7 +187,7 @@
 				for (NSDictionary *serverApp in parsedApps) {
 					DIApp *app = [DIApp appWithDictionary:serverApp];
 					
-					NSLog(@"APP \"%@\" (%d)", app.title, app.type_id);
+					//NSLog(@"APP \"%@\" (%d)", app.title, app.type_id);
 					
 					if (app != nil) {
 						
@@ -185,7 +207,7 @@
 					DIStoreItemButton *storeItemButton = [[[DIStoreItemButton alloc] initWithApp:app AtIndex:i] autorelease];
 					CGRect frame = storeItemButton.frame;
 					frame.origin.x = 20 + (i * 80);
-					frame.origin.y = 233;
+					frame.origin.y = 232;
 					storeItemButton.frame = frame;
 					[_appsScrollView addSubview:storeItemButton];
 					i++;
@@ -196,7 +218,7 @@
 					DIStoreItemButton *storeItemButton = [[[DIStoreItemButton alloc] initWithApp:app AtIndex:i] autorelease];
 					CGRect frame = storeItemButton.frame;
 					frame.origin.x = 20 + (i * 80);
-					frame.origin.y = 382;
+					frame.origin.y = 383;
 					storeItemButton.frame = frame;
 					[_appsScrollView addSubview:storeItemButton];
 					i++;
@@ -205,7 +227,7 @@
 				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 			}
 			
-			_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+			_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
 			[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 			[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 			[_featuredDataRequest setDelegate:self];
@@ -225,7 +247,7 @@
 				for (NSDictionary *serverApp in parsedApps) {
 					DIApp *app = [DIApp appWithDictionary:serverApp];
 					
-					//NSLog(@"APP \"%@\"", app.title);
+					NSLog(@"APP \"%@\" (%@)", app.title, app.img_url);
 					
 					if (app != nil)
 						[appList addObject:app];

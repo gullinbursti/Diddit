@@ -31,6 +31,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+#define kServerPath @"http://dev.gullinbursti.cc/projs/diddit/services"
+
 +(DIAppDelegate *)sharedInstance;
 
 +(BOOL)validateEmail:(NSString *)address;

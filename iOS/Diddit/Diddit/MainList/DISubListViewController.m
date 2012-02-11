@@ -77,7 +77,7 @@
 		[_ptsButton setBackgroundImage:[[UIImage imageNamed:@"diddBG_nonActive.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:10.0] forState:UIControlStateNormal];
 		[_ptsButton setBackgroundImage:[[UIImage imageNamed:@"diddBG_Active.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:10.0] forState:UIControlStateHighlighted];
 		_ptsButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
-		[_ptsButton addTarget:self action:@selector(_goChores) forControlEvents:UIControlEventTouchUpInside];
+		[_ptsButton addTarget:self action:@selector(_goWallet) forControlEvents:UIControlEventTouchUpInside];
 		
 		UIView *ptsHolderView = [[[UIView alloc] initWithFrame:CGRectMake(-5, 8, 40, 30)] autorelease];
 		ptsHolderView.backgroundColor = [UIColor clearColor];
@@ -105,7 +105,7 @@
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rtBtnView] autorelease];
 		
 		_loadOverlay = [[DILoadOverlay alloc] init];
-		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+		_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 		[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 		[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_activeChoresRequest setDelegate:self];
@@ -324,13 +324,13 @@
 -(void)_loadData:(NSNotification *)notification {
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+	_activeChoresRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 	[_activeChoresRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[_activeChoresRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_activeChoresRequest setDelegate:self];
 	[_activeChoresRequest startAsynchronous];
 	
-	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
+	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Achievements.php"]]] retain];
 	//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	//[_achievementsRequest setDelegate:self];
@@ -372,14 +372,14 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 	[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
 	[_userUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.points] forKey:@"points"];
 	[_userUpdRequest setDelegate:self];
 	[_userUpdRequest startAsynchronous];
 	
-	_choreUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+	_choreUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
 	[_choreUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.chore_id] forKey:@"choreID"];

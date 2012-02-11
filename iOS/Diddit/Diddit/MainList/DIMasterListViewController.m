@@ -78,15 +78,15 @@
 		DINavLockBtnView *lockBtnView = [[[DINavLockBtnView alloc] init] autorelease];
 		[[lockBtnView btn] addTarget:self action:@selector(_goLock) forControlEvents:UIControlEventTouchUpInside];
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:lockBtnView] autorelease];
-				
+
 		_loadOverlay = [[DILoadOverlay alloc] init];
-		_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+		_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 		[_devicesRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
 		[_devicesRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_devicesRequest setDelegate:self];
 		[_devicesRequest startAsynchronous];
 		
-		 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+		 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 		[_activityRequest setPostValue:[NSString stringWithFormat:@"%d", 8] forKey:@"action"];
 		[_activityRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_activityRequest setDelegate:self];
@@ -201,7 +201,7 @@
 	_devicesScrollView.hidden = NO;
 	_paginationView.hidden = NO;
 	
-	_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 	[_devicesRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
 	[_devicesRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_devicesRequest setDelegate:self];
@@ -258,19 +258,19 @@
 -(void)_loadData:(NSNotification *)notification {
 
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+	 _activityRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 	[_activityRequest setPostValue:[NSString stringWithFormat:@"%d", 8] forKey:@"action"];
 	[_activityRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_activityRequest setDelegate:self];
 	[_activityRequest startAsynchronous];
 	
-	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Achievements.php"]] retain];
+	//_achievementsRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Achievements.php"]]] retain];
 	//[_achievementsRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	//[_achievementsRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	//[_achievementsRequest setDelegate:self];
 	//[_achievementsRequest startAsynchronous];
 	
-	_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	_devicesRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 	[_devicesRequest setPostValue:[NSString stringWithFormat:@"%d", 7] forKey:@"action"];
 	[_devicesRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_devicesRequest setDelegate:self];
@@ -322,14 +322,14 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	_userUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 	[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
 	[_userUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_userUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.points] forKey:@"points"];
 	[_userUpdRequest setDelegate:self];
 	[_userUpdRequest startAsynchronous];
 	
-	_choreUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Chores.php"]] retain];
+	_choreUpdRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", 6] forKey:@"action"];
 	[_choreUpdRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_choreUpdRequest setPostValue:[NSString stringWithFormat:@"%d", chore.chore_id] forKey:@"choreID"];

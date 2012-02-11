@@ -23,10 +23,10 @@
 		[self addTarget:self action:@selector(_goTouchUp) forControlEvents:UIControlEventTouchUpInside];
 		
 		_icoImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 57, 57.0)] autorelease];
-		_icoImgView.layer.cornerRadius = 8.0;
-		_icoImgView.clipsToBounds = YES;
-		_icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
-		_icoImgView.layer.borderWidth = 0.0;
+		//_icoImgView.layer.cornerRadius = 8.0;
+		//_icoImgView.clipsToBounds = YES;
+		//_icoImgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+		//_icoImgView.layer.borderWidth = 0.0;
 		_icoImgView.imageURL = [NSURL URLWithString:app.ico_url];
 		[self addSubview:_icoImgView];
 		

@@ -9,6 +9,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "DIAppDelegate.h"
 #import "DIOfferViewCell.h"
+#import "DIAppRatingStarsView.h"
+
 
 @implementation DIOfferViewCell
 
@@ -20,26 +22,37 @@
 }
 
 #pragma mark - View lifecycle
--(id)init {
+-(id)initWithIndex:(int)index {
 	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[[self class] cellReuseIdentifier]])) {
 		
-		UIView *holderView = [[[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)] autorelease];
-		holderView.backgroundColor = [UIColor colorWithRed:0.98034 green:0.9922 blue:0.7843 alpha:1.0];
-		holderView.layer.cornerRadius = 8.0;
-		holderView.clipsToBounds = YES;
-		holderView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
-		holderView.layer.borderWidth = 1.0;
+		if (index % 2 == 0) {
+			UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tablerow-l_BG.png"]] autorelease];
+			[self addSubview:bgImgView];
+		}
+		
+		UIView *holderView = [[[UIView alloc] initWithFrame:CGRectMake(17, 17, 300, 80)] autorelease];
+		holderView.backgroundColor = [UIColor clearColor];
 		[self addSubview:holderView];
 		
-		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+		_imgView = [[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, 57, 57)];
 		_imgView.layer.cornerRadius = 8.0;
 		_imgView.clipsToBounds = YES;
 		_imgView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
 		_imgView.layer.borderWidth = 1.0;
 		[holderView addSubview:_imgView];
 		
-		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(76, 20, 185.0, 22)];
-		_titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:14.0];
+		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(86, 5, 185.0, 22)];
+		_typeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		_typeLabel.backgroundColor = [UIColor clearColor];
+		_typeLabel.textColor = [DIAppDelegate diColor666666];
+		_typeLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+		_typeLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+		_typeLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		_typeLabel.text = @"TRAILER";
+		[holderView addSubview:_typeLabel];
+		
+		_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(86, 18, 150.0, 22)];
+		_titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:14.0];
 		_titleLabel.backgroundColor = [UIColor clearColor];
 		_titleLabel.textColor = [UIColor blackColor];
 		_titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
@@ -47,35 +60,30 @@
 		_titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
 		[holderView addSubview:_titleLabel];
 		
-		UIImageView *icoView = [[[UIImageView alloc] initWithFrame:CGRectMake(76, 43.0, 17, 17)] autorelease];
-		icoView.image = [UIImage imageNamed:@"piggyIcon.png"];
-		[holderView addSubview:icoView];
+		_starsView = [[[DIAppRatingStarsView alloc] initWithCoords:CGPointMake(86, 36) appScore:4] autorelease];
+		[holderView addSubview:_starsView];
 		
-		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(96, 45, 120.0, 16)];
+		UIView *ptsView = [[[UIView alloc] initWithFrame:CGRectMake(238, 16, 50, 25)] autorelease];
+		ptsView.backgroundColor = [UIColor whiteColor];
+		ptsView.layer.cornerRadius = 8.0;
+		ptsView.clipsToBounds = YES;
+		ptsView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
+		ptsView.layer.borderWidth = 1.0;
+		[holderView addSubview:ptsView];
+		
+		_pointsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 50.0, 16)];
 		_pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
 		_pointsLabel.backgroundColor = [UIColor clearColor];
-		_pointsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-		_pointsLabel.lineBreakMode = UILineBreakModeTailTruncation;
-		[holderView addSubview:_pointsLabel];
-		
-		UIImageView *chevronView = [[[UIImageView alloc] initWithFrame:CGRectMake(270.0, 33.0, 14, 14)] autorelease];
-		chevronView.image = [UIImage imageNamed:@"mainListChevron.png"];
-		[holderView addSubview:chevronView];
-		
-		_overlayView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 300, 80)];
-		_overlayView.backgroundColor = [UIColor blackColor];
-		_overlayView.layer.cornerRadius = 8.0;
-		_overlayView.clipsToBounds = YES;
-		_overlayView.layer.borderColor = [[UIColor colorWithWhite:0.67 alpha:1.0] CGColor];
-		_overlayView.layer.borderWidth = 1.0;
-		_overlayView.alpha = 0.0;
-		[self addSubview:_overlayView];
+		_pointsLabel.textColor = [DIAppDelegate diColor333333];
+		_pointsLabel.textAlignment = UITextAlignmentCenter;
+		[ptsView addSubview:_pointsLabel];
 	}
 	
 	return (self);
 }
 
 -(void)toggleSelected {
+	/*
 	[UIView animateWithDuration:0.25 animations:^(void) {
 		_overlayView.alpha = 0.5;
 		
@@ -84,6 +92,7 @@
 			_overlayView.alpha = 0.0;
 		}];		
 	}];
+	*/
 }
 
 -(void)dealloc {
@@ -91,7 +100,6 @@
 	[_titleLabel release];
 	[_pointsLabel release];
 	[_offer release];
-	[_overlayView release];
 	
 	[super dealloc];
 }
@@ -103,7 +111,7 @@
 	_titleLabel.text = [NSString stringWithFormat:@"%@", _offer.title];		
 	_imgView.imageURL = [NSURL URLWithString:_offer.ico_url];
 	
-	_pointsLabel.text = [NSString stringWithFormat:@"%@ didds", _offer.disp_points];
+	_pointsLabel.text = [NSString stringWithFormat:@"%@ D", _offer.disp_points];
 }
 
 

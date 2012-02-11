@@ -70,7 +70,7 @@
 	[dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/AppStore.php"]] retain];
+	ASIFormDataRequest *dataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"InAppPurchases.php"]]] retain];
 	[dataRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"action"];
 	[dataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[dataRequest setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"devices"] forKey:@"subIDs"];

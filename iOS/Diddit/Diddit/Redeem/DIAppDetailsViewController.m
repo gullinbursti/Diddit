@@ -63,7 +63,7 @@
 	scrollView.alwaysBounceVertical = NO;
 	[self.view addSubview:scrollView];
 	
-	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 40, 280, 30)] autorelease];
+	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 38, 280, 30)] autorelease];
 	titleLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:24.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
 	titleLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
@@ -71,7 +71,7 @@
 	titleLabel.text = _app.title;
 	[scrollView addSubview:titleLabel];
 	
-	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 80, 300, 30)] autorelease];
+	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 75, 300, 30)] autorelease];
 	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 	storeInfoLabel.backgroundColor = [UIColor clearColor];
 	storeInfoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
@@ -80,7 +80,7 @@
 	storeInfoLabel.text = _app.app_info;
 	[scrollView addSubview:storeInfoLabel];
 	
-	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 126, 320, 300)];
+	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 119, 320, 300)];
 	_imgScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_imgScrollView.opaque = NO;
 	_imgScrollView.contentSize = CGSizeMake(320 * [_app.images count], 240);
@@ -227,7 +227,7 @@
 	}
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+	ASIFormDataRequest *purchaseRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
 	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", 3] forKey:@"action"];
 	[purchaseRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[purchaseRequest setPostValue:[NSString stringWithFormat:@"%d", _app.app_id] forKey:@"appID"];

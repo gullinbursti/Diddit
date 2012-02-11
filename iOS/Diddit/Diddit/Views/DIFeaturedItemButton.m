@@ -16,7 +16,7 @@
 @implementation DIFeaturedItemButton
 
 -(id)initWithApp:(DIApp *)app AtIndex:(int)ind {
-	if ((self = [super initWithFrame:CGRectMake(0, 0, 270.0, 130.0)])) {
+	if ((self = [super initWithFrame:CGRectMake(0, 0, 274.0, 134.0)])) {
 		_app = app;
 		_ind = ind;
 		
@@ -31,12 +31,14 @@
 		bgView.layer.borderWidth = 0.0;
 		[self addSubview:bgView];
 		*/
-		_imgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 270.0, 130.0)] autorelease];
+		_imgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 274.0, 134.0)] autorelease];
 		_imgView.imageURL = [NSURL URLWithString:app.img_url];
 		[self addSubview:_imgView];
 		
-		[self setBackgroundImage:[_imgView.image stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-		[self setBackgroundImage:[_imgView.image stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
+		
+		
+		//[self setBackgroundImage:[_imgView.image stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+		//[self setBackgroundImage:[_imgView.image stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateSelected];
 	}
 	
 	return (self);

@@ -36,7 +36,7 @@
 		
 		_credits = [[NSMutableArray alloc] init];
 		
-		ASIFormDataRequest *appRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+		ASIFormDataRequest *appRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
 		[appRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
 		[appRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[appRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
@@ -59,7 +59,7 @@
 		
 		_credits = [[NSMutableArray alloc] init];
 		
-		ASIFormDataRequest *appRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+		ASIFormDataRequest *appRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
 		[appRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
 		[appRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[appRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];

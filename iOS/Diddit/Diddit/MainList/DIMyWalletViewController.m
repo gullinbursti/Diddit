@@ -31,18 +31,18 @@
 		
 		
 		_loadOverlay = [[DILoadOverlay alloc] init];
-		_historyDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+		_historyDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 		[_historyDataRequest setPostValue:[NSString stringWithFormat:@"%d", 9] forKey:@"action"];
 		[_historyDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_historyDataRequest setDelegate:self];
 		[_historyDataRequest startAsynchronous];
 		
-		_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Rewards.php"]] retain];
+		_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Rewards.php"]]] retain];
 		[_offersDataRequest setPostValue:[NSString stringWithFormat:@"%d", 9] forKey:@"action"];
 		[_offersDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_offersDataRequest setDelegate:self];
 		
-		_storeDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Store.php"]] retain];
+		_storeDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
 		[_storeDataRequest setPostValue:[NSString stringWithFormat:@"%d", 4] forKey:@"action"];
 		[_storeDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_storeDataRequest setDelegate:self];

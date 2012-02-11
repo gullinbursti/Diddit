@@ -31,9 +31,6 @@
 	[self.view addSubview:bgImgView];
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
-	CGRect frame = overlayImgView.frame;
-	frame.origin.y = -44;
-	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
 }
 

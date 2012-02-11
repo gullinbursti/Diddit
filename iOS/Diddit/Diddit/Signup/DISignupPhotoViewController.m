@@ -124,7 +124,7 @@
 		[DIAppDelegate setDeviceToken:[NSString stringWithFormat:@"%064d", 0]];
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	ASIFormDataRequest *signupDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	ASIFormDataRequest *signupDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 	[signupDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
 	[signupDataRequest setPostValue:[DIAppDelegate deviceUUID] forKey:@"uuID"];
 	[signupDataRequest setPostValue:[UIDevice currentDevice].model forKey:@"model"];
@@ -250,7 +250,7 @@
 	[_loadOverlay remove];
 	[self dismissViewControllerAnimated:YES completion:^(void) {
 		
-		if (_type == 1)
+		if (_type == 1 || _type == 2)
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"PRESENT_MASTER_LIST" object:nil];
 		
 		else

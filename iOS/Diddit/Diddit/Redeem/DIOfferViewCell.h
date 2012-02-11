@@ -10,10 +10,13 @@
 
 #import "DIOffer.h"
 #import "EGOImageView.h"
+#import "DIAppRatingStarsView.h"
 
 @interface DIOfferViewCell : UITableViewCell {
 	
 	EGOImageView *_imgView;
+	DIAppRatingStarsView *_starsView;
+	UILabel *_typeLabel;
 	UILabel *_titleLabel;
 	UILabel *_pointsLabel;
 	UIView *_overlayView;
@@ -22,6 +25,7 @@
 }
 
 +(NSString *)cellReuseIdentifier;
+-(id)initWithIndex:(int)index;
 -(void)toggleSelected;
 
 @property(nonatomic, retain) DIOffer *offer;

@@ -80,7 +80,7 @@
 	[_playerController autorelease];
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
-	ASIFormDataRequest *offerRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Offers.php"]] retain];
+	ASIFormDataRequest *offerRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Offers.php"]]] retain];
 	[offerRequest setPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"action"];
 	[offerRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[offerRequest setPostValue:[NSString stringWithFormat:@"%d", _offer.offer_id] forKey:@"offerID"];

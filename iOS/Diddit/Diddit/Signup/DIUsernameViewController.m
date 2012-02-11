@@ -115,7 +115,7 @@
 -(void)_goNext {
 	[_usernameTxtField resignFirstResponder];
 	
-	[self.navigationController pushViewController:[[[DISignupPhotoViewController alloc] initWithType:1 withUsername:_usernameTxtField.text] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DISignupPhotoViewController alloc] initWithType:_type withUsername:_usernameTxtField.text] autorelease] animated:YES];
 }
 
 -(void)onTxtDoneEditing:(id)sender {

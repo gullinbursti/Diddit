@@ -9,6 +9,7 @@
 #import "DIRewardItemViewController.h"
 #import "DIAppDelegate.h"
 #import "DIRewardCommentView.h"
+#import "EGOImageView.h"
 
 @implementation DIRewardItemViewController
 
@@ -54,26 +55,35 @@
 	titleLabel.text = _chore.title;
 	[self.view addSubview:titleLabel];
 	
-	UILabel *commentsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20, 245, 280.0, 16)] autorelease];
+	UILabel *commentsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(95, 80, 200.0, 16)] autorelease];
 	commentsLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:14.0];
 	commentsLabel.backgroundColor = [UIColor clearColor];
 	commentsLabel.textColor = [UIColor colorWithWhite:0.398 alpha:1.0];
-	commentsLabel.numberOfLines = 0;
-	commentsLabel.textAlignment = UITextAlignmentCenter;
 	commentsLabel.text = _chore.info;
 	[self.view addSubview:commentsLabel];
 	
-	_pricePakImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(90, 100, 189, 119)];
-	_pricePakImgView.imageURL = [NSURL URLWithString:_chore.imgPath];
-	
-	[self.view addSubview:_pricePakImgView];
-	
+	EGOImageView *pricePakImgView = [[EGOImageView alloc] initWithFrame:CGRectMake(90, 100, 189, 119)];
+	pricePakImgView.imageURL = [NSURL URLWithString:_chore.imgPath];
+		
+	_pricePakButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	_pricePakButton.frame = CGRectMake(90, 100, 189.0, 119.0);
+	[_pricePakButton setBackgroundImage:[pricePakImgView.image stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
+	[_pricePakButton setBackgroundImage:[pricePakImgView.image stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateSelected];
+	[self.view addSubview:_pricePakButton];
+		
 	_bubbleFooterImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rewardBG_Bottom.png"]] autorelease];
 	frame = _bubbleFooterImgView.frame;
 	frame.origin.x = 67;
 	frame.origin.y = 20 + bubbleBGImgView.bounds.size.height;
 	_bubbleFooterImgView.frame = frame;
 	[self.view addSubview:_bubbleFooterImgView];
+	
+	if (_chore.status_id != 2) {
+		_pricePakButton.alpha = 0.25;
+	
+	} else {
+		[_pricePakButton addTarget:self action:@selector(_goFinishChore) forControlEvents:UIControlEventTouchUpInside];
+	}
 	
 	_enterMessageButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	_enterMessageButton.frame = CGRectMake(_bubbleFooterImgView.frame.origin.x + 15, _bubbleFooterImgView.frame.origin.y + 7, 209.0, 29.0);
@@ -82,7 +92,7 @@
 	_enterMessageButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 	[_enterMessageButton setTitleColor:[DIAppDelegate diColor333333] forState:UIControlStateNormal];
 	[_enterMessageButton setTitleColor:[DIAppDelegate diColor333333] forState:UIControlStateSelected];
-	//_enterMessageButton.titleEdgeInsets = UIEdgeInsetsMake(0, 2, 0, -2);
+	_enterMessageButton.titleEdgeInsets = UIEdgeInsetsMake(0, -35, 0, 35);
 	[_enterMessageButton setTitle:@"Enter comments here" forState:UIControlStateNormal];
 	[_enterMessageButton addTarget:self action:@selector(_goComments) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_enterMessageButton];
@@ -114,6 +124,14 @@
 	_isSelected = YES;
 }
 
+-(void)_goFinishChore {
+	[UIView animateWithDuration:0.25 animations:^(void) { 
+		_pricePakButton.alpha = 0.0;
+	
+	} completion:^(BOOL finished) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:_chore];
+	}];
+}
 
 #pragma mark - Notifications
 -(void)_addedComment:(NSNotification *)notification {

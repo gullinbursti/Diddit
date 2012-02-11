@@ -16,6 +16,7 @@
 
 #import "DIOfferDetailsViewController.h"
 #import "DIOffersHelpViewController.h"
+#import "DITableHeaderView.h"
 
 @implementation DIOfferListViewController
 
@@ -50,12 +51,6 @@
 	[self.view addSubview:_offersTableView];
 	_offersTableView.hidden = YES;
 	
-	UIImageView *dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainListDivider.png"]] autorelease];
-	CGRect frame = dividerImgView.frame;
-	frame.origin.y = 54;
-	dividerImgView.frame = frame;
-	[self.view addSubview:dividerImgView];
-	
 	/*
 	_emptyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 22, 260, 20)];
 	_emptyLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:12];
@@ -67,7 +62,7 @@
 	*/
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
-	frame = overlayImgView.frame;
+	CGRect frame = overlayImgView.frame;
 	frame.origin.y = -44;
 	overlayImgView.frame = frame;
 	[self.view addSubview:overlayImgView];
@@ -78,7 +73,7 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Offers.php"]] retain];
+	_offersDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Offers.php"]]] retain];
 	[_offersDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 	[_offersDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 	[_offersDataRequest setDelegate:self];
@@ -130,19 +125,43 @@
 
 #pragma mark - TableView Data Source Delegates
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ([_offers count]);
+	return ([_offers count] + 1);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	DIOfferViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIOfferViewCell cellReuseIdentifier]];
+	
+	if (indexPath.row == 0) {
+		UITableViewCell *cell = nil;
 		
-	if (cell == nil)
-		cell = [[[DIOfferViewCell alloc] init] autorelease];
+		cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+		if (cell == nil)
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
 		
-	cell.offer = [_offers objectAtIndex:indexPath.row];
-	[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+		UIView *appsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)] autorelease];
+		appsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
 		
-	return (cell);
+		UILabel *appsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
+		appsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		appsLabel.backgroundColor = [UIColor clearColor];
+		appsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		appsLabel.text = @"Watch Trailers";
+		[appsHeaderView addSubview:appsLabel];
+		
+		[cell addSubview:appsHeaderView];
+		return (cell);
+	
+	} else {
+	
+		DIOfferViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[DIOfferViewCell cellReuseIdentifier]];
+		
+		if (cell == nil)
+			cell = [[[DIOfferViewCell alloc] initWithIndex:indexPath.row - 1] autorelease];
+			
+		cell.offer = [_offers objectAtIndex:indexPath.row - 1];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+			
+		return (cell);
+	}
 }
 
 #pragma mark - TableView Delegates
@@ -151,12 +170,16 @@
 	DIOfferViewCell *cell = (DIOfferViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 	[cell toggleSelected];
 	
-	[self.navigationController pushViewController:[[[DIOfferDetailsViewController alloc] initWithOffer:(DIOffer *)[_offers objectAtIndex:indexPath.row]] autorelease] animated:YES];
+	[self.navigationController pushViewController:[[[DIOfferDetailsViewController alloc] initWithOffer:(DIOffer *)[_offers objectAtIndex:indexPath.row - 1]] autorelease] animated:YES];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return (95);
+	if (indexPath.row == 0)
+		return (35);
+	
+	else
+		return (90);
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {	

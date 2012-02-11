@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "DIChore.h"
-#import "EGOImageView.h"
 
 @interface DIRewardItemViewController : UIViewController {
 	DIChore *_chore;
-	EGOImageView *_pricePakImgView;
 	
 	UIImageView *_avatarImgView;
+	UIButton *_pricePakButton;
 	UIButton *_enterMessageButton;
 	
 	BOOL _isSelected;

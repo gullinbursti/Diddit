@@ -237,8 +237,8 @@
 	} else {
 		
 		_loadOverlay = [[DILoadOverlay alloc] init];
-		
-		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://dev.gullinbursti.cc/projs/diddit/services/Users.php"]] retain];
+	
+		_userRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Users.php"]]] retain];
 		[_userRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
 		[_userRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
 		[_userRequest setPostValue:[DIAppDelegate deviceToken] forKey:@"uaID"];
