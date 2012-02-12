@@ -14,7 +14,9 @@
 
 @interface DIAppListViewController : UIViewController <ASIHTTPRequestDelegate, UIScrollViewDelegate> {
 	
+	UIScrollView *_mainScrollView;
 	UIScrollView *_featuredScrollView;
+	UIScrollView *_cardsScrollView;
 	UIScrollView *_appsScrollView;
 	DIPaginationView *_paginationView;
 	

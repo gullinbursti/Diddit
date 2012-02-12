@@ -20,7 +20,7 @@
 
 -(id)init {
 	if ((self = [super init])) {
-		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:_app.title] autorelease];
+		self.navigationItem.titleView = [[[DINavTitleView alloc] initWithTitle:@"details"] autorelease];
 		
 		DINavBackBtnView *backBtnView = [[[DINavBackBtnView alloc] init] autorelease];
 		[[backBtnView btn] addTarget:self action:@selector(_goBack) forControlEvents:UIControlEventTouchUpInside];
@@ -61,29 +61,33 @@
 	scrollView.showsHorizontalScrollIndicator = NO;
 	scrollView.showsVerticalScrollIndicator = YES;
 	scrollView.alwaysBounceVertical = NO;
-	[self.view addSubview:scrollView];
+	//[self.view addSubview:scrollView];
 	
 	UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 38, 280, 30)] autorelease];
 	titleLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:24.0];
 	titleLabel.backgroundColor = [UIColor clearColor];
-	titleLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	titleLabel.textColor = [DIAppDelegate diColor333333];
 	titleLabel.textAlignment = UITextAlignmentCenter;
+	titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	titleLabel.text = _app.title;
-	[scrollView addSubview:titleLabel];
+	[self.view addSubview:titleLabel];
 	
-	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 75, 300, 30)] autorelease];
-	storeInfoLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+	UILabel *storeInfoLabel = [[[UILabel alloc] initWithFrame:CGRectMake(15, 75, 290, 30)] autorelease];
+	storeInfoLabel.font = [[DIAppDelegate diOpenSansFontSemibold] fontWithSize:12.0];
 	storeInfoLabel.backgroundColor = [UIColor clearColor];
-	storeInfoLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+	storeInfoLabel.textColor = [DIAppDelegate diColor666666];
 	storeInfoLabel.numberOfLines = 2;
 	storeInfoLabel.textAlignment = UITextAlignmentCenter;
+	storeInfoLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	storeInfoLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 	storeInfoLabel.text = _app.app_info;
-	[scrollView addSubview:storeInfoLabel];
+	[self.view addSubview:storeInfoLabel];
 	
-	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 119, 320, 300)];
+	_imgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(17, 119, 320, 300)];
 	_imgScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_imgScrollView.opaque = NO;
-	_imgScrollView.contentSize = CGSizeMake(320 * [_app.images count], 240);
+	_imgScrollView.contentSize = CGSizeMake(320, 240);
 	_imgScrollView.scrollsToTop = NO;
 	_imgScrollView.pagingEnabled = YES;
 	_imgScrollView.delegate = self;
@@ -91,7 +95,7 @@
 	_imgScrollView.showsVerticalScrollIndicator = NO;
 	_imgScrollView.alwaysBounceVertical = NO;
 	_imgScrollView.bounces = NO;
-	[scrollView addSubview:_imgScrollView];
+	[self.view addSubview:_imgScrollView];
 	
 	int xOffset = 10;
 	for (NSDictionary *dict in _app.images) {
@@ -150,22 +154,22 @@
 	NSString *buttonLbl;
 	
 	if (_app.type_id == 1)
-		buttonLbl = @"purchase good now";
+		buttonLbl = @"Purchase Now";
 	
 	else
 		buttonLbl = @"purchase card now";
 	
 	
 	_footerBtn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	_footerBtn.frame = CGRectMake(0, 351, 320, 59);
-	_footerBtn.titleLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:20.0];
-	_footerBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, -0, 0);
-	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	_footerBtn.frame = CGRectMake(23, 338, 279, 59);
+	_footerBtn.titleLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:20.0];
+	_footerBtn.titleEdgeInsets = UIEdgeInsetsMake(-2, 0, 2, 0);
+	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"largeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[_footerBtn setBackgroundImage:[[UIImage imageNamed:@"largeButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[_footerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	_footerBtn.titleLabel.shadowColor = [UIColor blackColor];
 	_footerBtn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-	[_footerBtn setTitle:buttonLbl forState:UIControlStateNormal];
+	[_footerBtn setTitle:@"Purchase Now" forState:UIControlStateNormal];
 	[_footerBtn addTarget:self action:@selector(_goPurchase) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_footerBtn];
 	

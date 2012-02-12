@@ -17,6 +17,8 @@
 
 #import "DITableHeaderView.h"
 
+#import "DIOfferListViewController.h"
+
 @implementation DIMyWalletViewController
 
 #pragma mark - View lifecycle
@@ -85,7 +87,7 @@
 }
 
 -(void)_goEarn {
-	
+	[self.navigationController pushViewController:[[[DIOfferListViewController alloc] init] autorelease] animated:YES];
 }
 
 #pragma mark - TableView Data Source Delegates
@@ -103,7 +105,7 @@
 		if (cell == nil)
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
 		
-		
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		UILabel *ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 34, 300, 80)];
 		ptsLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:64];
 		ptsLabel.backgroundColor = [UIColor clearColor];
@@ -144,9 +146,9 @@
 		[cell addSubview:historyHeaderView];
 		
 		UILabel *historyLabel = [[UILabel alloc] initWithFrame:CGRectMake(6, 10, 300.0, 16)];
-		historyLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
+		historyLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:10.0];
 		historyLabel.backgroundColor = [UIColor clearColor];
-		historyLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
+		historyLabel.textColor = [DIAppDelegate diColor5D5D5D];
 		historyLabel.text = @"History";
 		[historyHeaderView addSubview:historyLabel];
 		
@@ -168,6 +170,9 @@
 
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if (indexPath.row == 0)
+		return;
 	
 	DIHistoryViewCell *cell = (DIHistoryViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 	[cell toggleSelected];
@@ -219,13 +224,13 @@
 				for (NSDictionary *dict in parsedList) {
 					DIChore *chore = [DIChore choreWithDictionary:dict];
 					
-					NSLog(@"CHORE \"%@\" (%d)", chore.title, chore.type_id);
+					NSLog(@"HISTORY \"%@\" (%d)", chore.title, chore.type_id);
 					[historyList addObject:chore];
 				}
 				
 				_history = [historyList retain];
 				[_historyTableView reloadData];
-				//[_storeDataRequest startAsynchronous];
+				[_storeDataRequest startAsynchronous];
 			}			
 		}
 	
@@ -242,11 +247,12 @@
 				for (NSDictionary *dict in parsedList) {
 					DIChore *chore = [DIChore choreWithDictionary:dict];
 					
-					NSLog(@"CHORE \"%@\" (%d)", chore.title, chore.type_id);
+					NSLog(@"STORE \"%@\" (%d)", chore.title, chore.type_id);
 					[storeList addObject:chore];
 				}
 				
-				_history = [storeList retain];
+				[_history addObjectsFromArray:storeList];
+				//_history = [storeList retain];
 				[_historyTableView reloadData];
 			}			
 		}

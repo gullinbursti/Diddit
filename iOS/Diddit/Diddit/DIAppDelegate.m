@@ -436,6 +436,11 @@
 		case 3:
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"REFRESH_DEVICES_LIST" object:nil];
 			break;
+			
+		case 4:
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"THANK_YOU_RECIEVED" object:nil];
+			break;
+			
 	}
 	/*
 	 if (type_id == 2) {

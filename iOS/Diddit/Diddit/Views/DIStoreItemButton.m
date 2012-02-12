@@ -33,9 +33,9 @@
 		UILabel *pointsLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 65, 57, 16)] autorelease];
 		pointsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
 		pointsLabel.backgroundColor = [UIColor clearColor];
-		pointsLabel.textColor = [UIColor colorWithWhite:0.398 alpha:1.0];
+		pointsLabel.textColor = [UIColor blackColor];
 		pointsLabel.textAlignment = UITextAlignmentCenter;
-		pointsLabel.shadowColor = [UIColor whiteColor];
+		pointsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
 		pointsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		pointsLabel.text = _app.disp_points;
 		[self addSubview:pointsLabel];

@@ -137,6 +137,7 @@
 		if (cell == nil)
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"] autorelease];
 		
+		[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 		UIView *appsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 35)] autorelease];
 		appsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
 		
@@ -166,6 +167,9 @@
 
 #pragma mark - TableView Delegates
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if (indexPath.row == 0)
+		return;
 	
 	DIOfferViewCell *cell = (DIOfferViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 	[cell toggleSelected];

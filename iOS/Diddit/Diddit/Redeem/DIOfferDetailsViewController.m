@@ -175,11 +175,11 @@
 	[self.view addSubview:footerView];
 	
 	UIButton *watchButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	watchButton.frame = CGRectMake(0, 352, 320, 59);
+	watchButton.frame = CGRectMake(23, 352, 279, 59);
 	watchButton.titleLabel.font = [[DIAppDelegate diAdelleFontBold] fontWithSize:22.0];
 	//watchButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-	[watchButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
-	[watchButton setBackgroundImage:[[UIImage imageNamed:@"subSectionButton_Active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
+	[watchButton setBackgroundImage:[[UIImage imageNamed:@"largeButton_nonActive.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
+	[watchButton setBackgroundImage:[[UIImage imageNamed:@"largeButton_active.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 	[watchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[watchButton setTitle:@"watch trailer now" forState:UIControlStateNormal];
 	[watchButton addTarget:self action:@selector(_goWatch) forControlEvents:UIControlEventTouchUpInside];

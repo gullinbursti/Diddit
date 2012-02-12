@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>services/Users.php</string>
+	<string>services/Rewards.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -67,20 +67,6 @@
 				<integer>103</integer>
 			</dict>
 		</dict>
-		<key>services/AppStore.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>34</integer>
-				<key>line</key>
-				<integer>94</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>100</integer>
-		</dict>
 		<key>services/Chores.php</key>
 		<dict>
 			<key>caret</key>
@@ -123,7 +109,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>115</integer>
+			<integer>118</integer>
 		</dict>
 		<key>services/Offers.php</key>
 		<dict>
@@ -144,14 +130,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>129</integer>
+				<integer>6</integer>
 				<key>line</key>
-				<integer>94</integer>
+				<integer>343</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>227</integer>
+			<integer>337</integer>
 		</dict>
 		<key>services/Sponsorships.php</key>
 		<dict>
@@ -206,7 +192,6 @@
 		<string>services/Users.php</string>
 		<string>services/InAppPurchases.php</string>
 		<string>services/Rewards.php</string>
-		<string>services/AppStore.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>

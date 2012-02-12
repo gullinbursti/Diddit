@@ -39,7 +39,7 @@
 		//[icoView addSubview:_ptsLabel];
 		
 		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 20, 150, 16)];
-		_typeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+		_typeLabel.font = [[DIAppDelegate diOpenSansFontRegular] fontWithSize:10];
 		_typeLabel.backgroundColor = [UIColor clearColor];
 		_typeLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
 		[holderView addSubview:_typeLabel];

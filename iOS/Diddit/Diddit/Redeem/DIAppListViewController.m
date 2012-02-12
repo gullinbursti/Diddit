@@ -51,37 +51,15 @@
 	UIImageView *bgImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.jpg"]] autorelease];
 	[self.view addSubview:bgImgView];
 	
-	_appsScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	_appsScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_appsScrollView.opaque = NO;
-	_appsScrollView.scrollsToTop = NO;
-	_appsScrollView.showsHorizontalScrollIndicator = NO;
-	_appsScrollView.showsVerticalScrollIndicator = NO;
-	_appsScrollView.alwaysBounceVertical = NO;
-	_appsScrollView.contentSize = self.view.bounds.size;
-	
-	UIView *cardsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 178, 320, 35)] autorelease];
-	cardsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
-	[_appsScrollView addSubview:cardsHeaderView];
-	
-	UILabel *cardsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
-	cardsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-	cardsLabel.backgroundColor = [UIColor clearColor];
-	cardsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-	cardsLabel.text = @"Gift cards and credits";
-	[cardsHeaderView addSubview:cardsLabel];
-	
-	UIView *appsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 327, 320, 35)] autorelease];
-	appsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
-	[_appsScrollView addSubview:appsHeaderView];
-	
-	UILabel *appsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
-	appsLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10.0];
-	appsLabel.backgroundColor = [UIColor clearColor];
-	appsLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
-	appsLabel.text = @"Paid Applications";
-	[appsHeaderView addSubview:appsLabel];
-	[self.view addSubview:_appsScrollView];
+	_mainScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	_mainScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_mainScrollView.opaque = NO;
+	_mainScrollView.scrollsToTop = NO;
+	_mainScrollView.showsHorizontalScrollIndicator = NO;
+	_mainScrollView.showsVerticalScrollIndicator = NO;
+	_mainScrollView.alwaysBounceVertical = NO;
+	_mainScrollView.contentSize = self.view.bounds.size;
+	[self.view addSubview:_mainScrollView];
 	
 	_featuredScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 22, 320, 170)];
 	_featuredScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -93,8 +71,60 @@
 	_featuredScrollView.showsVerticalScrollIndicator = NO;
 	_featuredScrollView.alwaysBounceVertical = NO;
 	_featuredScrollView.bounces = NO;
-	_featuredScrollView.contentSize = CGSizeMake(320, 160);
-	[_appsScrollView addSubview:_featuredScrollView];
+	_featuredScrollView.contentSize = CGSizeMake(320, 100);
+	[_mainScrollView addSubview:_featuredScrollView];
+	
+	_cardsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 178, 320, 192)];
+	_cardsScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_cardsScrollView.opaque = NO;
+	_cardsScrollView.scrollsToTop = NO;
+	_cardsScrollView.pagingEnabled = NO;
+	_cardsScrollView.delegate = self;
+	_cardsScrollView.showsHorizontalScrollIndicator = NO;
+	_cardsScrollView.showsVerticalScrollIndicator = NO;
+	_cardsScrollView.alwaysBounceVertical = NO;
+	_cardsScrollView.contentSize = CGSizeMake(320, 145);
+	[_mainScrollView addSubview:_cardsScrollView];
+	
+	
+	UIView *cardsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 178, 320, 35)] autorelease];
+	cardsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
+	[_mainScrollView addSubview:cardsHeaderView];
+	
+	UILabel *cardsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
+	cardsLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:10.0];
+	cardsLabel.backgroundColor = [UIColor clearColor];
+	cardsLabel.textColor = [DIAppDelegate diColor5D5D5D];
+	cardsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	cardsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	cardsLabel.text = @"Gift cards and credits";
+	[cardsHeaderView addSubview:cardsLabel];
+	
+	_appsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 327, 320, 192)];
+	_appsScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_appsScrollView.opaque = NO;
+	_appsScrollView.scrollsToTop = NO;
+	_appsScrollView.pagingEnabled = NO;
+	_appsScrollView.delegate = self;
+	_appsScrollView.showsHorizontalScrollIndicator = NO;
+	_appsScrollView.showsVerticalScrollIndicator = NO;
+	_appsScrollView.alwaysBounceVertical = NO;
+	_appsScrollView.contentSize = CGSizeMake(320, 145);
+	[_mainScrollView addSubview:_appsScrollView];
+	
+	UIView *appsHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 327, 320, 35)] autorelease];
+	appsHeaderView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.05];
+	[_mainScrollView addSubview:appsHeaderView];
+	
+	UILabel *appsLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 10, 300.0, 16)];
+	appsLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:10.0];
+	appsLabel.backgroundColor = [UIColor clearColor];
+	appsLabel.textColor = [DIAppDelegate diColor5D5D5D];
+	appsLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+	appsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+	appsLabel.text = @"Paid Applications";
+	[appsHeaderView addSubview:appsLabel];
+	
 	
 	UIImageView *overlayImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay.png"]] autorelease];
 	frame = overlayImgView.frame;
@@ -104,12 +134,11 @@
 	
 	_loadOverlay = [[DILoadOverlay alloc] init];
 	
-	_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
-	[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
-	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-	[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
-	[_appsDataRequest setDelegate:self];
-	[_appsDataRequest startAsynchronous];
+	_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
+	[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
+	[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+	[_featuredDataRequest setDelegate:self];
+	[_featuredDataRequest startAsynchronous];
 }
 
 -(void)viewDidLoad {
@@ -122,7 +151,7 @@
 
 
 -(void)dealloc {
-	[_appsScrollView release];
+	[_mainScrollView release];
 	[_featuredScrollView release];
 	[_paginationView release];
 	[_featuredDataRequest release];
@@ -206,32 +235,28 @@
 				for (DIApp *app in _giftCards) {
 					DIStoreItemButton *storeItemButton = [[[DIStoreItemButton alloc] initWithApp:app AtIndex:i] autorelease];
 					CGRect frame = storeItemButton.frame;
-					frame.origin.x = 20 + (i * 80);
-					frame.origin.y = 232;
+					frame.origin.x = 20 + (i * 90);
+					frame.origin.y = 52;
 					storeItemButton.frame = frame;
-					[_appsScrollView addSubview:storeItemButton];
+					[_cardsScrollView addSubview:storeItemButton];
 					i++;
 				}
+				_cardsScrollView.contentSize = CGSizeMake(20 + ([_giftCards count] * 90), 145);
 				
 				i = 0;
 				for (DIApp *app in _apps) {
 					DIStoreItemButton *storeItemButton = [[[DIStoreItemButton alloc] initWithApp:app AtIndex:i] autorelease];
 					CGRect frame = storeItemButton.frame;
-					frame.origin.x = 20 + (i * 80);
-					frame.origin.y = 383;
+					frame.origin.x = 20 + (i * 90);
+					frame.origin.y = 52;
 					storeItemButton.frame = frame;
 					[_appsScrollView addSubview:storeItemButton];
 					i++;
 				}
+				_appsScrollView.contentSize = CGSizeMake(20 + ([_apps count] * 90), 145);
 				
 				//[choreList sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 			}
-			
-			_featuredDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
-			[_featuredDataRequest setPostValue:[NSString stringWithFormat:@"%d", 1] forKey:@"action"];
-			[_featuredDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
-			[_featuredDataRequest setDelegate:self];
-			[_featuredDataRequest startAsynchronous];
 		}
 	
 	} else {
@@ -264,9 +289,16 @@
 				[_featuredScrollView addSubview:featuredItemButton];
 			}
 			
-			_featuredScrollView.contentSize = CGSizeMake(320 * [_features count], 160);
+			_featuredScrollView.contentSize = CGSizeMake(320 * [_features count], 100);
 			_paginationView = [[DIPaginationView alloc] initWithTotal:[_features count] coords:CGPointMake(160, 165)];
-			[_appsScrollView addSubview:_paginationView];
+			[_mainScrollView addSubview:_paginationView];
+			
+			_appsDataRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kServerPath, @"Store.php"]]] retain];
+			[_appsDataRequest setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"action"];
+			[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"id"] forKey:@"userID"];
+			[_appsDataRequest setPostValue:[[DIAppDelegate profileForUser] objectForKey:@"sub_id"] forKey:@"subID"];
+			[_appsDataRequest setDelegate:self];
+			[_appsDataRequest startAsynchronous];
 			
 		}
 		

@@ -29,7 +29,7 @@
 		int bgAlpha;
 		
 		if (index % 2 == 0)
-			bgAlpha = 5;//10;
+			bgAlpha = 10;
 		
 		else
 			bgAlpha = 5;
@@ -45,21 +45,24 @@
 		
 		_avatarImgView = [[[EGOImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)] autorelease];
 		
-		_ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 54, 16)];
-		_ptsLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:12];
+		_ptsLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 150, 16)];
+		_ptsLabel.font = [[DIAppDelegate diAdelleFontSemibold] fontWithSize:14];
 		_ptsLabel.backgroundColor = [UIColor clearColor];
-		_ptsLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-		_ptsLabel.textAlignment = UITextAlignmentCenter;
+		_ptsLabel.textColor = [DIAppDelegate diColor333333];
+		_ptsLabel.shadowColor = [UIColor whiteColor];
+		_ptsLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		[holderView addSubview:_ptsLabel];
 		
-		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 150, 16)];
-		_typeLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+		_typeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 40, 150, 16)];
+		_typeLabel.font = [[DIAppDelegate diOpenSansFontRegular] fontWithSize:10];
 		_typeLabel.backgroundColor = [UIColor clearColor];
 		_typeLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
+		_typeLabel.shadowColor = [UIColor whiteColor];
+		_typeLabel.shadowOffset = CGSizeMake(1.0, 1.0);
 		[holderView addSubview:_typeLabel];
 		
 		_dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(245, 30, 80.0, 14)];
-		_dateLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:10];
+		_dateLabel.font = [[DIAppDelegate diOpenSansFontSemibold] fontWithSize:10];
 		_dateLabel.backgroundColor = [UIColor clearColor];
 		_dateLabel.textColor = [UIColor colorWithWhite:0.201 alpha:1.0];
 		[holderView addSubview:_dateLabel];
@@ -119,17 +122,24 @@
 	_chore = chore;
 	
 	//_avatarImgView.imageURL = [NSURL URLWithString:_chore.icoPath];
-	_ptsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
 	
-	if (_chore.type_id == 1)
-		_typeLabel.text = @"CHORE";
+	switch (_chore.type_id) {
+		case 0:
+			_typeLabel.text = @"APP";
+			_ptsLabel.text = [NSString stringWithFormat:@"-%@ didds", _chore.disp_points];
+			break;
 		
-	else if (_chore.type_id == 2)
-		_typeLabel.text = @"REWARD";
-	
-	else
-		_typeLabel.text = @"APP";
-	
+		case 1:
+			_typeLabel.text = @"CHORE";
+			_ptsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
+			break;
+			
+		case 2:
+			_typeLabel.text = @"REWARD";
+			_ptsLabel.text = [NSString stringWithFormat:@"%@ didds", _chore.disp_points];
+			break;
+	}
+		
 	_dateLabel.text = _chore.disp_expires;
 }
 @end

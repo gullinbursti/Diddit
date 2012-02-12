@@ -290,7 +290,7 @@ class Store {
 	
 	function allPurchases($user_id) {
         
-		$query = 'SELECT `tblStore`.`id`, `tblStore`.`title`, `tblStore`.`info`, `tblStore`.`dev_id`, `tblStore`.`points`, `tblStore`.`ico_url`, `tblStore`.`score`, `tblStore`.`itunes_id` FROM `tblStore` INNER JOIN `tblStorePurchases` ON `tblStore`.`id` = `tblStorePurchases`.`store_id` WHERE `tblStorePurchases`.`user_id` = "'. $user_id .'";';
+		$query = 'SELECT `tblStore`.`id`, `tblStore`.`title`, `tblStore`.`info`, `tblStore`.`dev_id`, `tblStore`.`points`, `tblStore`.`ico_url`, `tblStore`.`score`, `tblStore`.`itunes_id`, `tblStorePurchases`.`added` FROM `tblStore` INNER JOIN `tblStorePurchases` ON `tblStore`.`id` = `tblStorePurchases`.`store_id` WHERE `tblStorePurchases`.`user_id` = "'. $user_id .'" ORDER BY `tblStorePurchases`.`added` DESC;';
 		$res = mysql_query($query);
 	
 		// error performing query
@@ -310,6 +310,7 @@ class Store {
 					"score" => $row[6], 
 					"itunes_id" => $row[7], 
 					"description" => "",
+					"expires" => $row[8],
 					"images" => array()
 				));
 			}
@@ -386,8 +387,8 @@ if (isset($_POST["action"])) {
 			break;
 			
 		case 4:   
-			if (isset($_POST['userID']) && isset($_POST['subID']))
-				$store_json = $store->allPurchases($_POST['userID'], $_POST['subID']);
+			if (isset($_POST['userID']))
+				$store_json = $store->allPurchases($_POST['userID']);
 			break;
 			
 		case 5:

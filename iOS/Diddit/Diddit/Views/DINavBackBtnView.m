@@ -22,10 +22,10 @@
 		_btn.frame = CGRectMake(-1.0, 3.0, size.width, size.height);
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"headerBackButton_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"headerBackButton_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
-		_btn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		_btn.titleLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:11.0];
 		_btn.titleLabel.shadowColor = [UIColor blackColor];
 		_btn.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		_btn.titleEdgeInsets = UIEdgeInsetsMake(-1, 4, 1, -4);
+		_btn.titleEdgeInsets = UIEdgeInsetsMake(-2, 4, 2, -4);
 		[_btn setTitle:@"Back" forState:UIControlStateNormal];
 
 		[self addSubview:_btn];

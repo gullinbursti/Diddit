@@ -92,7 +92,7 @@
 		
 		function activeByUserID($user_id) {
 
-			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblIAPTypes`.`ico_url`, `tblRewards`.`expires`, `tblIAPTypes`.`points`, `tblIAPTypes`.`cost`, `tblRewards`.`type_id`, `tblRewards`.`status_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblRewards`.`iap_id` = `tblIAPTypes`.`id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` ="'. $user_id .'" AND (`tblRewards`.`status_id` =2 OR `tblRewards`.`status_id` =4) ORDER BY `tblRewards`.`added` DESC';
+			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblIAPTypes`.`ico_url`, `tblRewards`.`expires`, `tblIAPTypes`.`points`, `tblIAPTypes`.`cost`, `tblRewards`.`type_id`, `tblRewards`.`status_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblRewards`.`iap_id` = `tblIAPTypes`.`id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` ="'. $user_id .'" AND (`tblRewards`.`status_id` =2) ORDER BY `tblRewards`.`added` DESC';
 			$res = mysql_query($query);
 		
 			// Return data, as JSON
@@ -289,7 +289,7 @@
 			
 			$result = array();
 			
-			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblRewards`.`img_path`, `tblRewards`.`status_id`, `tblRewards`.`added`, `tblIAPTypes`.`points`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblIAPTypes`.`id` = `tblRewards`.`iap_id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` = "'. $user_id .'";';
+			$query = 'SELECT `tblRewards`.`id`, `tblRewards`.`title`, `tblRewards`.`info`, `tblRewards`.`ico_path`, `tblRewards`.`img_path`, `tblRewards`.`status_id`, `tblRewards`.`added`, `tblIAPTypes`.`points`, `tblRewards`.`type_id` FROM `tblRewards` INNER JOIN `tblIAPTypes` ON `tblIAPTypes`.`id` = `tblRewards`.`iap_id` INNER JOIN `tblUsersRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsersRewards`.`reciever_id` = "'. $user_id .'" ORDER BY `tblRewards`.`added` DESC;';
 			$res = mysql_query($query);
 			
 			if (mysql_num_rows($res) > 0) {
@@ -312,6 +312,31 @@
 			$this->sendResponse(200, json_encode($result));			
 			return (true);
 		}
+	}
+	
+	function sendGiverMessage($user_id, $chore_id) {
+		$query = 'SELECT `tblUsers`.`username`, `tblRewards`.`title` FROM `tblUsers` INNER JOIN `tblUsersRewards` ON `tblUsers`.`id` = `tblUsersRewards`.`reciever_id` INNER JOIN `tblRewards` ON `tblUsersRewards`.`reward_id` = `tblRewards`.`id` WHERE `tblUsers`.`id` = "'. $user_id .'" AND `tblRewards`.`id` = "'. $chore_id .'";';
+		$row = mysql_fetch_row(mysql_query($query));
+		
+		$query = 'SELECT `tblDevices`.`ua_id` FROM `tblDevices` INNER JOIN `tblUsersDevices` ON `tblDevices`.`id` = `tblUsersDevices`.`device_id` INNER JOIN `tblUsersRewards` ON `tblUsersDevices`.`user_id` = `tblUsersRewards`.`giver_id` WHERE `tblUsersRewards`.`reciever_id` ="'. $user_id .'" AND `reward_id` ="'. $chore_id .'";';
+		$dev_row = mysql_fetch_row(mysql_query($query));
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'https://go.urbanairship.com/api/push/');
+		curl_setopt($ch, CURLOPT_USERPWD, "s12VbppFR2yIXDrIFAZegg:lC1GUQYQTxG141PZ1L4f6A");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, '{"device_tokens": '. $dev_row[0] .', "type": "4", "aps": {"alert": { "body": "'. $row[0] .' thanks you for '. $row[1] .'"}, "badge": "+1"}}');
+			                                               
+		$res = curl_exec($ch);
+		$err_no = curl_errno($ch);
+		$err_msg = curl_error($ch);
+		$header = curl_getinfo($ch);
+		curl_close($ch);  
+		
+		$this->sendResponse(200, json_encode(array()));	
+		return (true);
 	}
 	
 	$rewards = new Rewards;
@@ -365,6 +390,12 @@
 				if (isset($_POST['userID']))
 					$json = $rewards->receivedByUserID($_POST['userID']);
 				break;
+			
+			case "10":
+				if (isset($_POST['userID']) && isset($_POST['choreID']))
+					$json = $rewards->sendMessage($_POST['userID'], $_POST['choreID']);
+				break;
+			
 		}
 	}   
 	

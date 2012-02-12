@@ -24,7 +24,6 @@
 
 +(NSString *)cellReuseIdentifier;
 -(id)initWithIndex:(int)index;
-
 -(void)toggleSelected;
 
 @property(nonatomic, retain) DIChore *chore;

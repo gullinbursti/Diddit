@@ -21,7 +21,7 @@
 	if ((self = [super init])) {
 		_btn = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		_btn.frame = CGRectMake(0, 0, 49, 49);
-		_btn.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		_btn.titleLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:11.0];
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"diddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal];
 		[_btn setBackgroundImage:[[UIImage imageNamed:@"diddsBG.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateHighlighted];
 		[_btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -31,7 +31,7 @@
 		[self addSubview:_btn];
 		
 		_priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 50, 50, 16)];
-		_priceLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		_priceLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:12.0];
 		_priceLabel.backgroundColor = [UIColor clearColor];
 		_priceLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
 		_priceLabel.textAlignment = UITextAlignmentCenter;

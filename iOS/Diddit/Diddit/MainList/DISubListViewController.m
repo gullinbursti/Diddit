@@ -74,8 +74,8 @@
 		_ptsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		//_ptsButton.frame = CGRectMake(-4.0, 3.0, 69.0, 40.0);
 		_ptsButton.frame = CGRectMake(-14.0, 3.0, 85.0, 40.0);
-		[_ptsButton setBackgroundImage:[[UIImage imageNamed:@"diddBG_nonActive.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:10.0] forState:UIControlStateNormal];
-		[_ptsButton setBackgroundImage:[[UIImage imageNamed:@"diddBG_Active.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:10.0] forState:UIControlStateHighlighted];
+		[_ptsButton setBackgroundImage:[[UIImage imageNamed:@"diddBG.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:10.0] forState:UIControlStateNormal];
+		[_ptsButton setBackgroundImage:[[UIImage imageNamed:@"diddBG_nonActive.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:10.0] forState:UIControlStateHighlighted];
 		_ptsButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
 		[_ptsButton addTarget:self action:@selector(_goWallet) forControlEvents:UIControlEventTouchUpInside];
 		
@@ -255,8 +255,29 @@
 	
 	[_choresToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleRight_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	_choresScrollView.hidden = _isRewardList;
-	_rewardsScrollView.hidden = !_isRewardList;
+	CGRect frame = _rewardsScrollView.frame;
+	frame.origin.x = 10;
+	_rewardsScrollView.frame = frame;
+	
+	[UIView animateWithDuration:0.15 animations:^(void) {
+		CGRect frame = _choresScrollView.frame;
+		frame.origin.x = -10;
+		_choresScrollView.frame = frame;
+		
+	} completion:^(BOOL finished) {
+		_choresScrollView.hidden = _isRewardList;
+		CGRect frame = _choresScrollView.frame;
+		frame.origin.x = 10;
+		_choresScrollView.frame = frame;
+		
+		_rewardsScrollView.hidden = !_isRewardList;		
+		[UIView animateWithDuration:0.15 animations:^(void) {
+			CGRect frame = _rewardsScrollView.frame;
+			frame.origin.x = 0;
+			_rewardsScrollView.frame = frame;
+		}];
+	}];
+	
 	
 	//_activeDisplay = [_rewards retain];
 	//[_myRewardsTableView reloadData];
@@ -273,8 +294,32 @@
 	
 	[_rewardsToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 	
-	_choresScrollView.hidden = _isRewardList;
-	_rewardsScrollView.hidden = !_isRewardList;
+	CGRect frame = _choresScrollView.frame;
+	frame.origin.x = 10;
+	_choresScrollView.frame = frame;
+	
+	[UIView animateWithDuration:0.15 animations:^(void) {
+		CGRect frame = _rewardsScrollView.frame;
+		frame.origin.x = -10;
+		_rewardsScrollView.frame = frame;
+		
+	} completion:^(BOOL finished) {
+		_rewardsScrollView.hidden = !_isRewardList;
+		CGRect frame = _rewardsScrollView.frame;
+		frame.origin.x = 10;
+		_rewardsScrollView.frame = frame;
+		
+		_choresScrollView.hidden = _isRewardList;
+		[UIView animateWithDuration:0.15 animations:^(void) {
+			CGRect frame = _choresScrollView.frame;
+			frame.origin.x = 0;
+			_choresScrollView.frame = frame;
+		}];
+	}];
+	
+	
+	
+	
 	
 	//_activeDisplay = [_chores retain];
 	//[_myChoresTableView reloadData];

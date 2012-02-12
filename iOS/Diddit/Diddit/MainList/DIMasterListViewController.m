@@ -50,7 +50,7 @@
 		[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
 		[_devicesToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleLeft_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateSelected];
-		_devicesToggleButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		_devicesToggleButton.titleLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:11.0];
 		_devicesToggleButton.titleLabel.shadowColor = [UIColor blackColor];
 		_devicesToggleButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 		_devicesToggleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 2, 0, -2);
@@ -62,7 +62,7 @@
 		[_activityToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleRight_nonActive.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
 		[_activityToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleRight_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateHighlighted];
 		[_activityToggleButton setBackgroundImage:[[UIImage imageNamed:@"toggleRight_Active.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateSelected];
-		_activityToggleButton.titleLabel.font = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:11.0];
+		_activityToggleButton.titleLabel.font = [[DIAppDelegate diOpenSansFontBold] fontWithSize:11.0];
 		_activityToggleButton.titleLabel.shadowColor = [UIColor blackColor];
 		_activityToggleButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 		_activityToggleButton.titleEdgeInsets = UIEdgeInsetsMake(0, -3, 0, 3);

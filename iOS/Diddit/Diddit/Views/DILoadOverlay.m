@@ -21,7 +21,7 @@
 		[((DIAppDelegate *)[UIApplication sharedApplication].delegate).window addSubview:_bgImgView];
 		
 		_hud = [MBProgressHUD showHUDAddedTo:((DIAppDelegate *)[UIApplication sharedApplication].delegate).window animated:YES];
-		_hud.labelFont = [[DIAppDelegate diHelveticaNeueFontBold] fontWithSize:12.0];
+		_hud.labelFont = [[DIAppDelegate diOpenSansFontBold] fontWithSize:12.0];
 		_hud.labelText = @"Loading…";
 		_hud.dimBackground = NO;
 		

@@ -97,7 +97,15 @@
 	[_enterMessageButton addTarget:self action:@selector(_goComments) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_enterMessageButton];
 	
-		
+	/*
+	_emoticonView = [[DIEmoticonView alloc] init];
+	frame = _emoticonView.frame;
+	frame.origin.x = 250;
+	frame.origin.y = _bubbleFooterImgView.frame.origin.y;
+	_emoticonView.frame = frame;
+	[self.view addSubview:_emoticonView];
+	*/
+	
 	_dividerImgView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"list_separator.png"]] autorelease];
 	frame = _dividerImgView.frame;
 	frame.origin.x = 30;
@@ -120,13 +128,15 @@
 
 #pragma mark - Navigation
 -(void)_goComments {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE_COMMENT" object:_chore];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"ADD_CHORE_COMMENT" object:_chore];
 	_isSelected = YES;
+	[_enterMessageButton removeTarget:self action:@selector(_goComments) forControlEvents:UIControlEventTouchUpInside];
+	_enterMessageButton.alpha = 0.33;
 }
 
 -(void)_goFinishChore {
-	[UIView animateWithDuration:0.25 animations:^(void) { 
-		_pricePakButton.alpha = 0.0;
+	[UIView animateWithDuration:1.25 animations:^(void) { 
+		self.view.alpha = 0.0;
 	
 	} completion:^(BOOL finished) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"FINISH_CHORE" object:_chore];

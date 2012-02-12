@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DIChore.h"
+#import "DIEmoticonView.h"
 
 @interface DIRewardItemViewController : UIViewController {
 	DIChore *_chore;
@@ -21,6 +22,8 @@
 	UIImageView *_bubbleFooterImgView;
 	int _commentOffset;
 	UIImageView *_dividerImgView;
+	
+	DIEmoticonView *_emoticonView;
 	
 }
 
